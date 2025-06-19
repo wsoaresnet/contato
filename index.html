@@ -36,6 +36,9 @@
       font-size: 1.4em;
       color: #b0bec5;
       margin-top: 15px;
+      letter-spacing: 1px;
+      word-spacing: 3px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     }
 
     section {
@@ -62,9 +65,14 @@
       font-size: 1.8em;
     }
 
-    p, li {
-      font-size: 1.1em;
-      line-height: 1.6;
+    section p, section li {
+      font-size: 1.2em;
+      line-height: 1.8;
+      color: #e0e0e0;
+    }
+
+    section strong {
+      color: #00eaff;
     }
 
     ul {
@@ -172,12 +180,12 @@
 
 <section>
   <h2>🎓 Formação Acadêmica</h2>
-  <p>Graduado em <strong> Gestão de TI</strong> e <strong> Redes de Computadores </strong> pela <strong> UniCesumar</strong>.</p>
-  <p>Técnico em <strong> Web Designer </strong> e <strong> Designer Gráfico </strong> pela <strong> Info Brasil </strong>.</p>
-  <p>Técnico em <strong> Edição de Vídeos </strong>, <strong> Montagem e Manutenção de Computadores </strong> pela <strong> Dreamschool Brasil </strong>.</p>
-  <p>Técnico em <strong> Suporte ao Usuário </strong> pela <strong> Coursera </strong>.</p>
-  <p>Certificado em <strong> Comunicação e Oratória </strong>,<strong> PNL </strong>, <strong> Negociação & Influência </strong>, <strong> Apresentação de Alto Impacto </strong>, <strong> Formação em Liderança </strong> e <strong> Inteligência Emocional </strong> pela <strong> Escola Conquer </strong>.</p>
-  <p>Certificado em <strong> LGPD </strong> pela <strong> Intuix Academy </strong>.</p>
+  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
+  <p>Técnico em <strong>Web Designer</strong> e <strong>Designer Gráfico</strong> pela <strong>Info Brasil</strong>.</p>
+  <p>Técnico em <strong>Edição de Vídeos</strong>, <strong>Montagem e Manutenção de Computadores</strong> pela <strong>Dreamschool Brasil</strong>.</p>
+  <p>Técnico em <strong>Suporte ao Usuário</strong> pela <strong>Coursera</strong>.</p>
+  <p>Certificado em <strong>Comunicação e Oratória</strong>, <strong>PNL</strong>, <strong>Negociação & Influência</strong>, <strong>Apresentação de Alto Impacto</strong>, <strong>Formação em Liderança</strong> e <strong>Inteligência Emocional</strong> pela <strong>Escola Conquer</strong>.</p>
+  <p>Certificado em <strong>LGPD</strong> pela <strong>Intuix Academy</strong>.</p>
 </section>
 
 <section>
@@ -260,13 +268,13 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const target = document.getElementById('animated-subtitle');
-    const words = target.innerText.split(' ');
+    const words = target.innerText.trim().split(' ');
     target.innerHTML = '';
     words.forEach((word, i) => {
       const span = document.createElement('span');
       span.innerText = word + ' ';
       span.style.display = 'inline-block';
-      span.style.filter = 'blur(10px)';
+      span.style.filter = 'blur(8px)';
       span.style.opacity = 0;
       span.style.transform = 'translateY(20px)';
       target.appendChild(span);
@@ -275,7 +283,7 @@
         span.style.filter = 'blur(0px)';
         span.style.opacity = 1;
         span.style.transform = 'translateY(0)';
-      }, 300 + i * 150);
+      }, 400 + i * 200);
     });
   });
 </script>
