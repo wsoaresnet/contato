@@ -8,7 +8,6 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Estilo base -->
   <style>
     body {
       margin: 0;
@@ -21,37 +20,34 @@
 
     header {
       text-align: center;
-      padding: 80px 20px 40px;
+      padding: 100px 20px 50px;
       position: relative;
       z-index: 2;
     }
 
-    header h1, header p {
-      margin: 0;
-      line-height: 1.4;
-    }
-
     header h1 {
-      font-size: 3em;
+      font-size: 3.5em;
       font-weight: 700;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+      text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+      color: #00c3ff;
     }
 
     header p {
-      font-size: 1.2em;
+      font-size: 1.4em;
       color: #b0bec5;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     section {
       max-width: 900px;
       margin: 40px auto;
-      padding: 20px;
-      background-color: rgba(0,0,0,0.5);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      padding: 25px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease;
     }
 
@@ -62,27 +58,38 @@
 
     h2 {
       color: #00c3ff;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 1.8em;
     }
 
-    ul li {
-      margin-bottom: 8px;
+    p, li {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li::before {
+      content: "✔️ ";
+      color: #00c3ff;
     }
 
     a {
-      color: #00c3ff;
+      color: #00eaff;
       text-decoration: none;
-      transition: color 0.3s ease;
+      font-weight: bold;
     }
 
     a:hover {
-      color: #00f0ff;
+      color: #00ffff;
       text-decoration: underline;
     }
 
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 25px 10px;
       font-size: 0.9em;
       color: #b0bec5;
       position: relative;
@@ -90,16 +97,17 @@
     }
 
     .social img {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
-      border-radius: 8px;
-      margin: 10px;
-      transition: transform 0.3s ease;
+      border-radius: 10px;
+      margin: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .social img:hover {
       transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     }
 
     .particles-container {
@@ -112,21 +120,30 @@
       pointer-events: none;
     }
 
-    /* SplitText animation fix */
-    .split-parent {
-      display: inline-block;
+    .cta {
+      text-align: center;
+      margin-top: 30px;
     }
 
-    .split-parent span {
+    .cta a {
       display: inline-block;
-      white-space: pre;
+      padding: 12px 25px;
+      background-color: #00c3ff;
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta a:hover {
+      background-color: #00eaff;
+      transform: scale(1.05);
     }
   </style>
-
 </head>
 <body>
 
-<!-- Partículas -->
+<!-- Fundo de partículas -->
 <div id="particles-background" class="particles-container"></div>
 
 <header>
@@ -136,10 +153,9 @@
 
 <section>
   <h2>👨‍💻 Sobre Mim</h2>
-  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI, e atuando no setor desde os 17 anos de idade.</p>
-  <p>Amante de viagens, gosto de conhecer novos lugares e gente nova. Bem resolvido e independente, estou aberto a novas possibilidades.</p>
-  <p>Estou aberto para novos aprendizados, e preparado para o desafio de exercer novas funções e atividades. Procuro estar sempre atualizado, tendo como intuito o aprimoramento pessoal e profissional, com algo que possa me instruir de forma crescente e contínua, visando sempre o crescimento entre minha pessoa e a empresa.</p>
-  <p>Quer saber mais? Entre em contato comigo através das formas de contato a baixo.</p>
+  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI e atuando no setor desde os 17 anos.</p>
+  <p>Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
+  <p>Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
 </section>
 
 <section>
@@ -154,22 +170,22 @@
 <section>
   <h2>🎓 Formação Acadêmica</h2>
   <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
-  <p>Técnico em <strong>Web Designer </strong> pela <strong>Info Brasil</strong>.</p>
-  <p>Técnico em <strong>Edição de Vídeos  </strong> e <strong>Montagem e Manutenção de Computadores  </strong> pela <strong>Dreamschool Brasil</strong>.</p>
-  <p>Cretificado em <strong>Comunicação e Oratória   </strong>, <strong>Negociação & Influência    </strong> e <strong>Inteligência Emocional     </strong> pela <strong>Escola Conquer</strong>.</p>
-  </section>
+  <p>Técnico em <strong>Web Designer</strong> pela <strong>Info Brasil</strong>.</p>
+  <p>Técnico em <strong>Edição de Vídeos</strong> e <strong>Montagem e Manutenção de Computadores</strong> pela <strong>Dreamschool Brasil</strong>.</p>
+  <p>Certificado em <strong>Comunicação e Oratória</strong>, <strong>Negociação & Influência</strong> e <strong>Inteligência Emocional</strong> pela <strong>Escola Conquer</strong>.</p>
+</section>
 
-  <section>
+<section>
   <h2>🖥️ Experiência Profissional</h2>
-  <p>Dreamschool Brasil  <strong>Educador  </strong> .</p>
-  <p>Mundial Informática   <strong>Instrutor  </strong> .</p>
-  <p>Academia Artforma   <strong>Mídias Sociais  </strong> .</p>
-  <p>Junitex   <strong>Analista de TI  </strong> .</p>
-  </section>
-  
+  <p><strong>Dreamschool Brasil:</strong> Educador.</p>
+  <p><strong>Mundial Informática:</strong> Instrutor.</p>
+  <p><strong>Academia Artforma:</strong> Mídias Sociais.</p>
+  <p><strong>Junitex:</strong> Analista de TI.</p>
+</section>
+
 <section>
   <h2>🏢 Atuação Atual</h2>
-  <p>Atualmente, integro a equipe de Tecnologia da Informação da <strong>Junitex</strong>, sendo responsável pelo suporte e pela infraestrutura de <strong>16 filiais espalhadas nos estados de SP e PR</strong>. Minha rotina envolve garantir que todas as operações de TI funcionem sem interrupções, além de planejar melhorias e implementações de novos projetos tecnológicos.</p>
+  <p>Atualmente integro a equipe de TI da <strong>Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
 </section>
 
 <section>
@@ -177,17 +193,21 @@
   <p><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br">falecomigo@williansoares.net.br</a></p>
   <p><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank">@wsoares_</a></p>
   <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank">williansoares0610</a></p>
+
+  <div class="cta">
+    <a href="mailto:falecomigo@williansoares.net.br">👉 Quero falar com você!</a>
+  </div>
 </section>
 
 <section>
   <h2>📸 Meu Dia a Dia</h2>
   <div class="social">
-    <img src="img/foto1.jpg" alt="Imagem do Instagram">
-    <img src="img/foto2.jpg" alt="Imagem do Instagram">
-    <img src="img/foto3.jpg" alt="Imagem do Instagram">
-    <img src="img/foto4.jpg" alt="Imagem do Instagram">
-    <img src="img/foto5.jpg" alt="Imagem do Instagram">
-    <img src="img/foto6.jpg" alt="Imagem do Instagram">
+    <img src="img/foto1.jpg" alt="Foto 1">
+    <img src="img/foto2.jpg" alt="Foto 2">
+    <img src="img/foto3.jpg" alt="Foto 3">
+    <img src="img/foto4.jpg" alt="Foto 4">
+    <img src="img/foto5.jpg" alt="Foto 5">
+    <img src="img/foto6.jpg" alt="Foto 6">
   </div>
 </section>
 
@@ -199,43 +219,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.umd.js"></script>
 
-<!-- Animação Scroll nas sections -->
+<!-- Animações Scroll -->
 <script>
   const sections = document.querySelectorAll('section');
-  window.addEventListener('scroll', () => {
+  function showSections() {
     const trigger = window.innerHeight / 1.2;
     sections.forEach(section => {
       const top = section.getBoundingClientRect().top;
       if (top < trigger) section.classList.add('visible');
     });
-  });
-  window.addEventListener('load', () => {
-    const trigger = window.innerHeight / 1.2;
-    sections.forEach(section => {
-      const top = section.getBoundingClientRect().top;
-      if (top < trigger) section.classList.add('visible');
-    });
-  });
+  }
+  window.addEventListener('scroll', showSections);
+  window.addEventListener('load', showSections);
 </script>
 
-<!-- Animação do título com GSAP SplitText -->
+<!-- Animação do título -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const target = document.getElementById('animated-title');
     const split = new SplitText(target, { type: 'chars' });
     gsap.from(split.chars, {
-      y: 50,
+      y: 60,
       opacity: 0,
-      stagger: 0.05,
+      stagger: 0.06,
       ease: 'power3.out',
       duration: 1
     });
   });
 </script>
 
-<!-- Animação do subtítulo com Framer Motion-like (manual) -->
+<!-- Animação do subtítulo -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const target = document.getElementById('animated-subtitle');
@@ -259,7 +273,7 @@
   });
 </script>
 
-<!-- Partículas simples de fundo (sem dependência de frameworks pesados) -->
+<!-- Partículas -->
 <script>
   const canvas = document.createElement('canvas');
   canvas.width = window.innerWidth;
