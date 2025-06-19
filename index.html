@@ -1,351 +1,435 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Willian Soares | Seu Próximo TI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willian Soares | Seu Próximo TI</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Inter para modernidade e Montserrat para destaque -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      color: #ffffff;
-      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-      overflow-x: hidden;
-      position: relative;
-    }
+    <style>
+        /* Configuração de cores e fontes customizadas para Tailwind */
+        :root {
+            --color-primary: #00c3ff; /* Azul Ciano */
+            --color-secondary: #00eaff; /* Azul Ciano Mais Claro */
+            --color-background-dark: #0f2027; /* Azul Escuro Quase Preto */
+            --color-background-medium: #203a43; /* Azul Médio */
+            --color-background-light: #2c5364; /* Azul Claro-Escuro */
+            --color-text-light: #e0e0e0; /* Cinza Claro */
+            --color-text-muted: #b0bec5; /* Cinza Médio */
+            --color-glass-bg: rgba(255, 255, 255, 0.08); /* Fundo translúcido para seções */
+            --color-glass-shadow: rgba(0, 0, 0, 0.6); /* Sombra para seções */
+        }
 
-    header {
-      text-align: center;
-      padding: 100px 20px 50px;
-      position: relative;
-      z-index: 2;
-    }
+        body {
+            font-family: 'Inter', sans-serif; /* Fonte principal */
+            color: var(--color-text-light);
+            background: linear-gradient(180deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-light));
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh; /* Garante que o fundo cubra a tela inteira */
+        }
 
-    header h1 {
-      font-size: 3.5em;
-      font-weight: 700;
-      text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
-      color: #00c3ff;
-    }
+        /* Classes Tailwind para customização */
+        .montserrat-bold { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .montserrat-extrabold { font-family: 'Montserrat', sans-serif; font-weight: 800; }
+        .text-primary { color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .bg-glass {
+            background: var(--color-glass-bg);
+            box-shadow: 0 10px 40px var(--color-glass-shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+        }
 
-    header p {
-      font-size: 1.4em;
-      color: #b0bec5;
-      margin-top: 15px;
-      letter-spacing: 1px;
-      word-spacing: 3px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
+        /* Animação de entrada para as seções */
+        .section-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .section-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    section {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 25px 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
+        /* Estilo para links dentro do conteúdo */
+        .content-link {
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .content-link:hover {
+            color: #00ffff;
+            text-decoration: underline;
+        }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        /* Estilo para as partículas */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.2; /* Suaviza as partículas */
+        }
 
-    h2 {
-      color: #00c3ff;
-      margin-bottom: 12px;
-      font-size: 1.8em;
-    }
+        /* Estilo específico para depoimentos */
+        .testimonial {
+            background-color: rgba(255, 255, 255, 0.03); /* Fundo mais claro para depoimentos */
+            border-left: 4px solid var(--color-primary);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .testimonial span {
+            font-weight: 500;
+            color: var(--color-text-muted);
+            display: block;
+            text-align: right;
+            font-size: 0.9rem;
+        }
 
-    section p, section li {
-      font-size: 1.2em;
-      line-height: 1.8;
-      color: #e0e0e0;
-    }
+        /* Ajustes para a lista de atuação */
+        ul.styled-list li::before {
+            content: "✔️ ";
+            color: var(--color-primary);
+            font-size: 1.1em;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
 
-    section strong {
-      color: #00eaff;
-    }
+        /* Grid para imagens sociais */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ajusta automaticamente */
+            gap: 1rem; /* Espaçamento entre as imagens */
+            justify-items: center;
+        }
 
-    ul {
-      padding-left: 20px;
-    }
+        .social-grid img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
 
-    ul li::before {
-      content: "✔️ ";
-      color: #00c3ff;
-    }
-
-    a {
-      color: #00eaff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a:hover {
-      color: #00ffff;
-      text-decoration: underline;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px 10px;
-      font-size: 0.9em;
-      color: #b0bec5;
-      position: relative;
-      z-index: 2;
-    }
-
-    .social img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin: 8px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .social img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-    }
-
-    .particles-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .cta {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .cta a {
-      display: inline-block;
-      padding: 12px 25px;
-      background-color: #00c3ff;
-      color: #fff;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .cta a:hover {
-      background-color: #00eaff;
-      transform: scale(1.05);
-    }
-  </style>
+        .social-grid img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+            border-color: var(--color-primary);
+        }
+        
+        /* Ajuste para telas pequenas */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.8em;
+            }
+            header p {
+                font-size: 1.2em;
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            section p, section li {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+            .social-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Imagens menores em mobile */
+            }
+            .social-grid img {
+                width: 80px;
+                height: 80px;
+            }
+            .cta a {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased">
 
 <!-- Fundo de partículas -->
 <div id="particles-background" class="particles-container"></div>
 
-<header>
-  <h1 id="animated-title">Willian Soares</h1>
-  <p id="animated-subtitle">Seu Próximo TI</p>
+<header class="relative text-center py-24 px-4 sm:px-6 z-10 overflow-hidden">
+    <h1 id="animated-title" class="montserrat-extrabold text-5xl sm:text-6xl lg:text-7xl text-primary leading-tight drop-shadow-lg mb-4">
+        Willian Soares
+    </h1>
+    <p id="animated-subtitle" class="text-xl sm:text-2xl text-text-muted mt-4 tracking-wide leading-relaxed drop-shadow-md">
+        Seu Próximo <span class="text-secondary font-bold">TI</span>
+    </p>
 </header>
 
-<section>
-  <h2>👨‍💻 Sobre Mim</h2>
-  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI e atuando no setor desde os 17 anos.</p>
-  <p>Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
-  <p>Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
-</section>
+<main class="container mx-auto px-4 py-8">
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            👨‍💻 <span class="ml-2">Sobre Mim</span>
+        </h2>
+        <p class="text-lg leading-relaxed mb-4">Sou um profissional apaixonado por tecnologia, com mais de <strong>3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
+        <p class="text-lg leading-relaxed mb-4">Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
+        <p class="text-lg leading-relaxed">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
+    </section>
 
-<section>
-  <h2>🛠️ Áreas de Atuação</h2>
-  <ul>
-    <li>Suporte a Usuários (Helpdesk)</li>
-    <li>Manutenção e Criação de Redes de Computadores</li>
-    <li>Gestão de Projetos de Tecnologia</li>
-    <li>CFTV e Monitoramento</li>
-    <li>Montagem e manutenção de computadores</li>
-    <li>Instalação de sistemas e programas</li>
-  </ul>
-</section>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            🛠️ <span class="ml-2">Áreas de Atuação</span>
+        </h2>
+        <ul class="list-none pl-0 styled-list text-lg leading-relaxed">
+            <li class="mb-2">Suporte a Usuários (Helpdesk)</li>
+            <li class="mb-2">Manutenção e Criação de Redes de Computadores</li>
+            <li class="mb-2">Gestão de Projetos de Tecnologia</li>
+            <li class="mb-2">CFTV e Monitoramento</li>
+            <li class="mb-2">Montagem e manutenção de computadores</li>
+            <li class="mb-2">Instalação de sistemas e programas</li>
+        </ul>
+    </section>
 
-<section>
-  <h2>🎓 Formação Acadêmica</h2>
-  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
-  <p>Técnico em <strong>Web Designer</strong> e <strong>Designer Gráfico</strong> pela <strong>Info Brasil</strong>.</p>
-  <p>Técnico em <strong>Edição de Vídeos</strong>, <strong>Montagem e Manutenção de Computadores</strong> pela <strong>Dreamschool Brasil</strong>.</p>
-  <p>Técnico em <strong>Suporte ao Usuário</strong> pela <strong>Coursera</strong>.</p>
-  <p>Certificado em <strong>Comunicação e Oratória</strong>, <strong>PNL</strong>, <strong>Negociação & Influência</strong>, <strong>Apresentação de Alto Impacto</strong>, <strong>Formação em Liderança</strong> e <strong>Inteligência Emocional</strong> pela <strong>Escola Conquer</strong>.</p>
-  <p>Certificado em <strong>LGPD</strong> pela <strong>Intuix Academy</strong>.</p>
-</section>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            🎓 <span class="ml-2">Formação Acadêmica</span>
+        </h2>
+        <p class="text-lg leading-relaxed mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-secondary">UniCesumar</strong>.</p>
+        <p class="text-lg leading-relaxed mb-2">Técnico em <strong>Web Designer</strong> e <strong>Designer Gráfico</strong> pela <strong class="text-secondary">Info Brasil</strong>.</p>
+        <p class="text-lg leading-relaxed mb-2">Técnico em <strong>Edição de Vídeos</strong>, <strong>Montagem e Manutenção de Computadores</strong> pela <strong class="text-secondary">Dreamschool Brasil</strong>.</p>
+        <p class="text-lg leading-relaxed mb-2">Técnico em <strong>Suporte ao Usuário</strong> pela <strong class="text-secondary">Coursera</strong>.</p>
+        <p class="text-lg leading-relaxed mb-2">Certificado em <strong>Comunicação e Oratória</strong>, <strong>PNL</strong>, <strong>Negociação & Influência</strong>, <strong>Apresentação de Alto Impacto</strong>, <strong>Formação em Liderança</strong> e <strong>Inteligência Emocional</strong> pela <strong class="text-secondary">Escola Conquer</strong>.</p>
+        <p class="text-lg leading-relaxed">Certificado em <strong>LGPD</strong> pela <strong class="text-secondary">Intuix Academy</strong>.</p>
+    </section>
 
-<section>
-  <h2>🖥️ Experiência Profissional</h2>
-  <p><strong>Junitex:</strong> Analista de TI.</p>
-  <p><strong>Dreamschool Brasil:</strong> Educador.</p>
-  <p><strong>Mundial Informática:</strong> Instrutor.</p>
-  <p><strong>Academia Artforma:</strong> Mídias Sociais.</p>
-</section>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            🖥️ <span class="ml-2">Experiência Profissional</span>
+        </h2>
+        <p class="text-lg leading-relaxed mb-2"><strong class="text-secondary">Junitex:</strong> Analista de TI.</p>
+        <p class="text-lg leading-relaxed mb-2"><strong class="text-secondary">Dreamschool Brasil:</strong> Educador.</p>
+        <p class="text-lg leading-relaxed mb-2"><strong class="text-secondary">Mundial Informática:</strong> Instrutor.</p>
+        <p class="text-lg leading-relaxed"> <strong class="text-secondary">Academia Artforma:</strong> Mídias Sociais.</p>
+    </section>
 
-<section>
-  <h2>🏢 Atuação Atual</h2>
-  <p>Atualmente integro a equipe de TI da <strong>Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
-</section>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            🏢 <span class="ml-2">Atuação Atual</span>
+        </h2>
+        <p class="text-lg leading-relaxed">Atualmente integro a equipe de TI da <strong class="text-secondary">Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
+    </section>
 
-<section>
-  <h2>📞 Fale Comigo</h2>
-  <p><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br">falecomigo@williansoares.net.br</a></p>
-  <p><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank">@wsoares_</a></p>
-  <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank">williansoares0610</a></p>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            📞 <span class="ml-2">Fale Comigo</span>
+        </h2>
+        <p class="text-lg leading-relaxed mb-2"><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br" class="content-link">falecomigo@williansoares.net.br</a></p>
+        <p class="text-lg leading-relaxed mb-2"><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank" class="content-link">@wsoares_</a></p>
+        <p class="text-lg leading-relaxed mb-4"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" class="content-link">williansoares0610</a></p>
 
-  <div class="cta">
-    <a href="mailto:falecomigo@williansoares.net.br">👉 Quero falar com você!</a>
-  </div>
-</section>
+        <div class="text-center mt-8">
+            <a href="mailto:falecomigo@williansoares.net.br" class="inline-block px-8 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-secondary transition-all duration-300 transform hover:scale-105">
+                👉 Quero falar com você!
+            </a>
+        </div>
+    </section>
 
-<section>
-  <h2>📸 Meu Dia a Dia</h2>
-  <div class="social">
-    <img src="img/foto1.jpg" alt="Foto 1">
-    <img src="img/foto2.jpg" alt="Foto 2">
-    <img src="img/foto3.jpg" alt="Foto 3">
-    <img src="img/foto4.jpg" alt="Foto 4">
-    <img src="img/foto5.jpg" alt="Foto 5">
-    <img src="img/foto6.jpg" alt="Foto 6">
-    <img src="img/foto7.jpg" alt="Foto 7">
-    <img src="img/foto8.jpg" alt="Foto 8">  
-    <img src="img/foto10.jpg" alt="Foto 10">
-    <img src="img/foto11.jpg" alt="Foto 11">
-    <img src="img/foto12.jpg" alt="Foto 12">
-    <img src="img/foto13.jpg" alt="Foto 13">
-  </div>
-</section>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            📸 <span class="ml-2">Meu Dia a Dia</span>
+        </h2>
+        <div class="social-grid">
+            <!-- As imagens devem estar no caminho 'img/' -->
+            <img src="img/foto1.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+1';" alt="Foto 1 do dia a dia">
+            <img src="img/foto2.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+2';" alt="Foto 2 do dia a dia">
+            <img src="img/foto3.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+3';" alt="Foto 3 do dia a dia">
+            <img src="img/foto4.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+4';" alt="Foto 4 do dia a dia">
+            <img src="img/foto5.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+5';" alt="Foto 5 do dia a dia">
+            <img src="img/foto6.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+6';" alt="Foto 6 do dia a dia">
+            <img src="img/foto7.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+7';" alt="Foto 7 do dia a dia">
+            <img src="img/foto8.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+8';" alt="Foto 8 do dia a dia">
+            <img src="img/foto10.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+10';" alt="Foto 10 do dia a dia">
+            <img src="img/foto11.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+11';" alt="Foto 11 do dia a dia">
+            <img src="img/foto12.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+12';" alt="Foto 12 do dia a dia">
+            <img src="img/foto13.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f2027/00c3ff?text=Foto+13';" alt="Foto 13 do dia a dia">
+        </div>
+        <p class="text-sm text-text-muted mt-4 text-center">
+            *As imagens são placeholders. Por favor, substitua por suas próprias fotos em 'img/'.
+        </p>
+    </section>
 
-  <section>
-  <h2>💬 Depoimentos</h2>
-  <div class="testimonial">
-    <p>"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
-    <span>- João Silva, Gerente de TIx</span>
-  </div>
+    <section class="mb-12 p-6 sm:p-8 bg-glass section-animate">
+        <h2 class="text-3xl font-bold text-primary mb-4 flex items-center">
+            💬 <span class="ml-2">Depoimentos</span>
+        </h2>
+        <div class="testimonial">
+            <p>"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
+            <span>- João Silva, Gerente de TI</span>
+        </div>
 
-  <div class="testimonial">
-    <p>"Já trabalhei com muitos profissionais de tecnologia, mas poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
-    <span>- Ana Costa, Coordenadora de Projetos</span>
-  </div>
+        <div class="testimonial">
+            <p>"Já trabalhei com muitos profissionais de tecnologia, mas poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
+            <span>- Ana Costa, Coordenadora de Projetos</span>
+        </div>
 
-  <div class="testimonial">
-    <p>"Se você procura alguém que entregue resultados com qualidade, pontualidade e sempre com um sorriso no rosto, o Willian é a pessoa certa."</p>
-    <span>- Marcos Pereira, CEO Educacional</span>
-  </div>
-</section>
-  
-<footer>
-  &copy; 2025 Willian Soares - Todos os direitos reservados.
+        <div class="testimonial">
+            <p>"Se você procura alguém que entregue resultados com qualidade, pontualidade e sempre com um sorriso no rosto, o Willian é a pessoa certa."</p>
+            <span>- Marcos Pereira, CEO Educacional</span>
+        </div>
+    </section>
+</main>
+
+<footer class="text-center py-6 px-4 text-text-muted text-sm relative z-10">
+    &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
-<!-- Bibliotecas externas -->
+
+<!-- Bibliotecas externas (GSAP) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- SplitText é um plugin pago da GreenSock, incluído se você tiver licença -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
-<!-- Animações Scroll -->
+<!-- Animações de Scroll (GSAP) -->
 <script>
-  const sections = document.querySelectorAll('section');
-  function showSections() {
-    const trigger = window.innerHeight / 1.2;
-    sections.forEach(section => {
-      const top = section.getBoundingClientRect().top;
-      if (top < trigger) section.classList.add('visible');
+    // Registra o plugin ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animação de entrada para seções
+    document.querySelectorAll('section').forEach(section => {
+        gsap.from(section, {
+            opacity: 0,
+            y: 50,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: section,
+                start: "top 85%", // Começa a animação quando a seção está 85% visível
+                end: "bottom center",
+                toggleActions: "play none none none", // Play on enter, reverse on leave, etc.
+                once: true // Anima apenas uma vez
+            }
+        });
     });
-  }
-  window.addEventListener('scroll', showSections);
-  window.addEventListener('load', showSections);
 </script>
 
-<!-- Animação do título -->
+<!-- Animação do título (GSAP com SplitText) -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const target = document.getElementById('animated-title');
-    const split = new SplitText(target, { type: 'chars' });
-    gsap.from(split.chars, {
-      y: 60,
-      opacity: 0,
-      stagger: 0.06,
-      ease: 'power3.out',
-      duration: 1
+    document.addEventListener('DOMContentLoaded', () => {
+        const targetTitle = document.getElementById('animated-title');
+        if (typeof SplitText !== 'undefined' && targetTitle) { // Verifica se SplitText está disponível
+            const splitTitle = new SplitText(targetTitle, { type: 'chars' });
+            gsap.from(splitTitle.chars, {
+                y: 60,
+                opacity: 0,
+                stagger: 0.05,
+                ease: 'power3.out',
+                duration: 1.2,
+                delay: 0.3 // Pequeno atraso para a animação do título
+            });
+        } else if (targetTitle) {
+            // Fallback animation if SplitText is not loaded
+            gsap.from(targetTitle, {
+                opacity: 0,
+                y: -50,
+                duration: 1,
+                ease: "power2.out",
+                delay: 0.5
+            });
+        }
     });
-  });
 </script>
 
-<!-- Animação do subtítulo -->
+<!-- Animação do subtítulo (JS puro com setTimeout) -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const target = document.getElementById('animated-subtitle');
-    const words = target.innerText.trim().split(' ');
-    target.innerHTML = '';
-    words.forEach((word, i) => {
-      const span = document.createElement('span');
-      span.innerText = word + ' ';
-      span.style.display = 'inline-block';
-      span.style.filter = 'blur(8px)';
-      span.style.opacity = 0;
-      span.style.transform = 'translateY(20px)';
-      target.appendChild(span);
-      setTimeout(() => {
-        span.style.transition = 'all 0.6s ease';
-        span.style.filter = 'blur(0px)';
-        span.style.opacity = 1;
-        span.style.transform = 'translateY(0)';
-      }, 400 + i * 200);
+    document.addEventListener('DOMContentLoaded', () => {
+        const targetSubtitle = document.getElementById('animated-subtitle');
+        if (targetSubtitle) {
+            const words = targetSubtitle.innerText.trim().split(' ');
+            targetSubtitle.innerHTML = ''; // Limpa o conteúdo original
+
+            words.forEach((word, i) => {
+                const span = document.createElement('span');
+                span.innerText = word + ' '; // Adiciona espaço após cada palavra
+                span.style.display = 'inline-block'; // Permite transformações em linha
+                span.style.filter = 'blur(8px)';
+                span.style.opacity = 0;
+                span.style.transform = 'translateY(20px)';
+                targetSubtitle.appendChild(span);
+
+                // Animação com setTimeout para efeito escalonado
+                setTimeout(() => {
+                    span.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    span.style.filter = 'blur(0px)';
+                    span.style.opacity = 1;
+                    span.style.transform = 'translateY(0)';
+                }, 600 + i * 150); // Atraso para cada palavra
+            });
+        }
     });
-  });
 </script>
 
-
-<!-- Partículas -->
+<!-- Script de Partículas -->
 <script>
-  const canvas = document.createElement('canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  document.getElementById('particles-background').appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-  const particles = Array.from({ length: 120 }).map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2 + 1,
-    dx: (Math.random() - 0.5) * 0.5,
-    dy: (Math.random() - 0.5) * 0.5
-  }));
+    const particlesContainer = document.getElementById('particles-background');
+    if (particlesContainer) {
+        const canvas = document.createElement('canvas');
+        particlesContainer.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
 
-  function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = ['#ffffff', '#00c3ff', '#b0bec5'][Math.floor(Math.random() * 3)];
-      ctx.fill();
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-    });
-    requestAnimationFrame(animateParticles);
-  }
+        let particles = [];
+        const numParticles = 80; // Reduzido para melhor performance em mobile
 
-  animateParticles();
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = Array.from({ length: numParticles }).map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 0.8, // Raio menor para sutileza
+                dx: (Math.random() - 0.5) * 0.3, // Velocidade menor
+                dy: (Math.random() - 0.5) * 0.3,
+                color: ['#ffffff', '#00c3ff', '#b0bec5'][Math.floor(Math.random() * 3)] // Cores da paleta
+            }));
+        }
 
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+
+                p.x += p.dx;
+                p.y += p.dy;
+
+                // Mantém as partículas dentro da tela
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('load', initParticles); // Inicializa as partículas ao carregar a página
+        window.addEventListener('load', animateParticles); // Inicia a animação
+
+        window.addEventListener('resize', () => {
+            initParticles(); // Reinicia as partículas no redimensionamento
+        });
+    }
 </script>
 
 </body>
