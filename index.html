@@ -1,107 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Willian Soares | Seu Próximo TI</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Estilo base -->
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       color: #ffffff;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
       overflow-x: hidden;
+      position: relative;
     }
+
     header {
       text-align: center;
-      padding: 60px 20px;
-      background-color: rgba(0, 0, 0, 0.6);
+      padding: 80px 20px 40px;
+      position: relative;
+      z-index: 2;
     }
-    .letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: letterFade 0.6s ease forwards;
+
+    header h1, header p {
+      margin: 0;
+      line-height: 1.4;
     }
-    @keyframes letterFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+
+    header h1 {
+      font-size: 3em;
+      font-weight: 700;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
     }
-    .blur-text span {
-      display: inline-block;
-      opacity: 0;
-      filter: blur(10px);
-      transform: translateY(30px);
-      animation: blurUp 0.6s ease forwards;
+
+    header p {
+      font-size: 1.2em;
+      color: #b0bec5;
+      margin-top: 10px;
     }
-    @keyframes blurUp {
-      to {
-        opacity: 1;
-        filter: blur(0);
-        transform: translateY(0);
-      }
-    }
+
     section {
       max-width: 900px;
       margin: 40px auto;
       padding: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
+      background-color: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease, transform 1s ease;
     }
+
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
     h2 {
       color: #00c3ff;
+      margin-bottom: 10px;
     }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
     a {
       color: #00c3ff;
       text-decoration: none;
+      transition: color 0.3s ease;
     }
+
     a:hover {
+      color: #00f0ff;
       text-decoration: underline;
     }
+
     footer {
       text-align: center;
       padding: 20px;
       font-size: 0.9em;
       color: #b0bec5;
+      position: relative;
+      z-index: 2;
     }
+
     .social img {
       width: 120px;
       height: 120px;
       object-fit: cover;
       border-radius: 8px;
       margin: 10px;
+      transition: transform 0.3s ease;
     }
-    #particles-bg {
+
+    .social img:hover {
+      transform: scale(1.1);
+    }
+
+    .particles-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* SplitText animation fix */
+    .split-parent {
+      display: inline-block;
+    }
+
+    .split-parent span {
+      display: inline-block;
+      white-space: pre;
     }
   </style>
+
 </head>
 <body>
 
-<canvas id="particles-bg"></canvas>
+<!-- Partículas -->
+<div id="particles-background" class="particles-container"></div>
 
 <header>
-  <h1 id="animated-name">Willian Soares</h1>
-  <p class="blur-text">Seu Próximo TI</p>
+  <h1 id="animated-title">Willian Soares</h1>
+  <p id="animated-subtitle">Seu Próximo TI</p>
 </header>
 
 <section>
   <h2>👨‍💻 Sobre Mim</h2>
-  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI, e atuando no setor desde os 17 anos de idade. Minha trajetória sempre foi focada em resolver problemas, otimizar processos e entregar resultados rápidos e eficientes.</p>
+  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI, e atuando no setor desde os 17 anos de idade.</p>
 </section>
 
 <section>
@@ -132,9 +167,9 @@
 <section>
   <h2>📸 Meu Dia a Dia na TI</h2>
   <div class="social">
-    <img src="img/foto1.jpg" alt="Imagem do Instagram" />
-    <img src="img/foto2.jpg" alt="Imagem do Instagram" />
-    <img src="img/foto3.jpg" alt="Imagem do Instagram" />
+    <img src="img/foto1.jpg" alt="Imagem do Instagram">
+    <img src="img/foto2.jpg" alt="Imagem do Instagram">
+    <img src="img/foto3.jpg" alt="Imagem do Instagram">
   </div>
 </section>
 
@@ -142,109 +177,106 @@
   &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
 
+<!-- Bibliotecas externas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.umd.js"></script>
+
+<!-- Animação Scroll nas sections -->
 <script>
-  // Animação Letra por Letra (Nome)
-  const nameElement = document.getElementById('animated-name');
-  const nameText = nameElement.textContent;
-  nameElement.textContent = '';
-
-  nameText.split('').forEach((letter, index) => {
-    const span = document.createElement('span');
-    span.textContent = letter === ' ' ? '\u00A0' : letter; // Corrigindo o espaço
-    span.classList.add('letter');
-    span.style.animationDelay = \`\${index * 0.05}s\`;
-    nameElement.appendChild(span);
-  });
-
-  // Animação Blur por Palavra (Subtítulo)
-  document.addEventListener('DOMContentLoaded', () => {
-    const blurText = document.querySelector('.blur-text');
-    const words = blurText.textContent.split(' ');
-    blurText.textContent = '';
-    words.forEach((word, index) => {
-      const span = document.createElement('span');
-      span.textContent = word + ' ';
-      span.style.animationDelay = \`\${index * 0.1}s\`;
-      blurText.appendChild(span);
-    });
-  });
-
-  // Fade-in Seções ao Scroll
   const sections = document.querySelectorAll('section');
   window.addEventListener('scroll', () => {
     const trigger = window.innerHeight / 1.2;
     sections.forEach(section => {
-      const sectionTop = section.getBoundingClientRect().top;
-      if (sectionTop < trigger) {
-        section.classList.add('visible');
-      }
+      const top = section.getBoundingClientRect().top;
+      if (top < trigger) section.classList.add('visible');
     });
   });
   window.addEventListener('load', () => {
     const trigger = window.innerHeight / 1.2;
     sections.forEach(section => {
-      const sectionTop = section.getBoundingClientRect().top;
-      if (sectionTop < trigger) {
-        section.classList.add('visible');
-      }
+      const top = section.getBoundingClientRect().top;
+      if (top < trigger) section.classList.add('visible');
     });
   });
+</script>
 
-  // Partículas de Fundo
-  const canvas = document.getElementById('particles-bg');
+<!-- Animação do título com GSAP SplitText -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const target = document.getElementById('animated-title');
+    const split = new SplitText(target, { type: 'chars' });
+    gsap.from(split.chars, {
+      y: 50,
+      opacity: 0,
+      stagger: 0.05,
+      ease: 'power3.out',
+      duration: 1
+    });
+  });
+</script>
+
+<!-- Animação do subtítulo com Framer Motion-like (manual) -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const target = document.getElementById('animated-subtitle');
+    const words = target.innerText.split(' ');
+    target.innerHTML = '';
+    words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.innerText = word + ' ';
+      span.style.display = 'inline-block';
+      span.style.filter = 'blur(10px)';
+      span.style.opacity = 0;
+      span.style.transform = 'translateY(20px)';
+      target.appendChild(span);
+      setTimeout(() => {
+        span.style.transition = 'all 0.6s ease';
+        span.style.filter = 'blur(0px)';
+        span.style.opacity = 1;
+        span.style.transform = 'translateY(0)';
+      }, 300 + i * 150);
+    });
+  });
+</script>
+
+<!-- Partículas simples de fundo (sem dependência de frameworks pesados) -->
+<script>
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.getElementById('particles-background').appendChild(canvas);
   const ctx = canvas.getContext('2d');
-  let particles = [];
-  const particleCount = 100;
-  const colors = ['#ffffff', '#00d4ff', '#00c3ff'];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.radius = Math.random() * 2 + 1;
-      this.color = colors[Math.floor(Math.random() * colors.length)];
-      this.speedX = (Math.random() - 0.5) * 0.5;
-      this.speedY = (Math.random() - 0.5) * 0.5;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-        this.reset();
-      }
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    }
-  }
-
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-  }
+  const particles = Array.from({ length: 120 }).map(() => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 1,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5
+  }));
 
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => {
-      p.update();
-      p.draw();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = ['#ffffff', '#00c3ff', '#b0bec5'][Math.floor(Math.random() * 3)];
+      ctx.fill();
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
     });
     requestAnimationFrame(animateParticles);
   }
 
   animateParticles();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
 </script>
 
 </body>
