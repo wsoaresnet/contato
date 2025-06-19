@@ -1,212 +1,250 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willian Soares | Seu Próximo TI</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #ffffff;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            overflow-x: hidden;
-        }
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: rgba(0,0,0,0.6);
-        }
-        .letter {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: letterFade 0.6s ease forwards;
-        }
-        @keyframes letterFade {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .blur-text span {
-            display: inline-block;
-            opacity: 0;
-            filter: blur(10px);
-            transform: translateY(30px);
-            animation: blurUp 0.6s ease forwards;
-        }
-        @keyframes blurUp {
-            to {
-                opacity: 1;
-                filter: blur(0);
-                transform: translateY(0);
-            }
-        }
-        section {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: rgba(0,0,0,0.5);
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        h2 { color: #00c3ff; }
-        a { color: #00c3ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9em;
-            color: #b0bec5;
-        }
-        .social img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin: 10px;
-        }
-        #particles-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Willian Soares | Seu Próximo TI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    .letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: letterFade 0.6s ease forwards;
+    }
+    @keyframes letterFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .blur-text span {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(30px);
+      animation: blurUp 0.6s ease forwards;
+    }
+    @keyframes blurUp {
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      color: #00c3ff;
+    }
+    a {
+      color: #00c3ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #b0bec5;
+    }
+    .social img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 10px;
+    }
+    #particles-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+  </style>
 </head>
 <body>
 
 <canvas id="particles-bg"></canvas>
 
 <header>
-    <h1 id="animated-name">Willian Soares</h1>
-    <p class="blur-text">Seu Próximo TI</p>
+  <h1 id="animated-name">Willian Soares</h1>
+  <p class="blur-text">Seu Próximo TI</p>
 </header>
 
 <section>
-    <h2>👨‍💻 Sobre Mim</h2>
-    <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI, e atuando no setor desde os 17 anos de idade...</p>
+  <h2>👨‍💻 Sobre Mim</h2>
+  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI, e atuando no setor desde os 17 anos de idade. Minha trajetória sempre foi focada em resolver problemas, otimizar processos e entregar resultados rápidos e eficientes.</p>
 </section>
 
-<!-- (Demais seções iguais ao anterior...) -->
+<section>
+  <h2>🛠️ Áreas de Atuação</h2>
+  <ul>
+    <li>Suporte a Usuários (Helpdesk)</li>
+    <li>Manutenção e Criação de Redes de Computadores</li>
+    <li>Gestão de Projetos de Tecnologia</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🎓 Formação Acadêmica</h2>
+  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
+</section>
+
+<section>
+  <h2>🏢 Atuação Atual</h2>
+  <p>Atualmente, integro a equipe de Tecnologia da Informação da <strong>Junitex</strong>, sendo responsável pelo suporte e pela infraestrutura de <strong>16 filiais espalhadas nos estados de SP e PR</strong>. Minha rotina envolve garantir que todas as operações de TI funcionem sem interrupções, além de planejar melhorias e implementações de novos projetos tecnológicos.</p>
+</section>
+
+<section>
+  <h2>📞 Fale Comigo</h2>
+  <p><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br">falecomigo@williansoares.net.br</a></p>
+  <p><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank">@wsoares_</a></p>
+</section>
+
+<section>
+  <h2>📸 Meu Dia a Dia na TI</h2>
+  <div class="social">
+    <img src="img/foto1.jpg" alt="Imagem do Instagram" />
+    <img src="img/foto2.jpg" alt="Imagem do Instagram" />
+    <img src="img/foto3.jpg" alt="Imagem do Instagram" />
+  </div>
+</section>
 
 <footer>
-    &copy; 2025 Willian Soares - Todos os direitos reservados.
+  &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
 
 <script>
-    // Animação Letra por Letra (Nome)
-    const nameElement = document.getElementById('animated-name');
-    const nameText = nameElement.textContent;
-    nameElement.textContent = '';
+  // Animação Letra por Letra (Nome)
+  const nameElement = document.getElementById('animated-name');
+  const nameText = nameElement.textContent;
+  nameElement.textContent = '';
 
-    nameText.split('').forEach((letter, index) => {
-        const span = document.createElement('span');
-        span.textContent = letter;
-        span.classList.add('letter');
-        span.style.animationDelay = `${index * 0.05}s`;
-        nameElement.appendChild(span);
+  nameText.split('').forEach((letter, index) => {
+    const span = document.createElement('span');
+    span.textContent = letter === ' ' ? '\u00A0' : letter; // Corrigindo o espaço
+    span.classList.add('letter');
+    span.style.animationDelay = \`\${index * 0.05}s\`;
+    nameElement.appendChild(span);
+  });
+
+  // Animação Blur por Palavra (Subtítulo)
+  document.addEventListener('DOMContentLoaded', () => {
+    const blurText = document.querySelector('.blur-text');
+    const words = blurText.textContent.split(' ');
+    blurText.textContent = '';
+    words.forEach((word, index) => {
+      const span = document.createElement('span');
+      span.textContent = word + ' ';
+      span.style.animationDelay = \`\${index * 0.1}s\`;
+      blurText.appendChild(span);
     });
+  });
 
-    // Animação Blur por Palavra (Subtítulo)
-    document.addEventListener('DOMContentLoaded', () => {
-        const blurText = document.querySelector('.blur-text');
-        const words = blurText.textContent.split(' ');
-        blurText.textContent = '';
-        words.forEach((word, index) => {
-            const span = document.createElement('span');
-            span.textContent = word + ' ';
-            span.style.animationDelay = `${index * 0.1}s`;
-            blurText.appendChild(span);
-        });
+  // Fade-in Seções ao Scroll
+  const sections = document.querySelectorAll('section');
+  window.addEventListener('scroll', () => {
+    const trigger = window.innerHeight / 1.2;
+    sections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if (sectionTop < trigger) {
+        section.classList.add('visible');
+      }
     });
-
-    // Fade-in Seções ao Scroll
-    const sections = document.querySelectorAll('section');
-    window.addEventListener('scroll', () => {
-        const trigger = window.innerHeight / 1.2;
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if (sectionTop < trigger) {
-                section.classList.add('visible');
-            }
-        });
+  });
+  window.addEventListener('load', () => {
+    const trigger = window.innerHeight / 1.2;
+    sections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if (sectionTop < trigger) {
+        section.classList.add('visible');
+      }
     });
-    window.addEventListener('load', () => {
-        const trigger = window.innerHeight / 1.2;
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if (sectionTop < trigger) {
-                section.classList.add('visible');
-            }
-        });
+  });
+
+  // Partículas de Fundo
+  const canvas = document.getElementById('particles-bg');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const particleCount = 100;
+  const colors = ['#ffffff', '#00d4ff', '#00c3ff'];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.radius = Math.random() * 2 + 1;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.speedY = (Math.random() - 0.5) * 0.5;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+        this.reset();
+      }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
     });
+    requestAnimationFrame(animateParticles);
+  }
 
-    // Partículas de Fundo
-    const canvas = document.getElementById('particles-bg');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    const particleCount = 100;
-    const colors = ['#ffffff', '#00d4ff', '#00c3ff'];
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-        constructor() {
-            this.reset();
-        }
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.radius = Math.random() * 2 + 1;
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                this.reset();
-            }
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        requestAnimationFrame(animateParticles);
-    }
-
-    animateParticles();
+  animateParticles();
 </script>
 
 </body>
