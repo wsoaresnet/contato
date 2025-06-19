@@ -63,9 +63,19 @@
             border-radius: 8px;
             margin: 10px;
         }
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
+
+<canvas id="particles-bg"></canvas>
 
 <header>
     <h1>Willian Soares</h1>
@@ -104,11 +114,11 @@
 
 <section>
     <h2>📸 Meu Dia a Dia na TI</h2>
-  <div class="social">
-    <img src="img/foto1.jpg" alt="Imagem do Instagram">
-    <img src="img/foto2.jpg" alt="Imagem do Instagram">
-    <img src="img/foto3.jpg" alt="Imagem do Instagram">
-</div>
+    <div class="social">
+        <img src="img/foto1.jpg" alt="Imagem do Instagram">
+        <img src="img/foto2.jpg" alt="Imagem do Instagram">
+        <img src="img/foto3.jpg" alt="Imagem do Instagram">
+    </div>
 </section>
 
 <footer>
@@ -116,9 +126,8 @@
 </footer>
 
 <script>
-    // Script simples para o efeito de fade-in ao rolar a página
+    // Efeito de fade-in das seções ao rolar a página
     const sections = document.querySelectorAll('section');
-
     window.addEventListener('scroll', () => {
         const trigger = window.innerHeight / 1.2;
         sections.forEach(section => {
@@ -128,8 +137,6 @@
             }
         });
     });
-
-    // Garante que ao carregar já apareça as seções visíveis
     window.addEventListener('load', () => {
         const trigger = window.innerHeight / 1.2;
         sections.forEach(section => {
@@ -139,6 +146,63 @@
             }
         });
     });
+
+    // Partículas de fundo (Canvas)
+    const canvas = document.getElementById('particles-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const particleCount = 100;
+    const colors = ['#ffffff', '#00d4ff', '#00c3ff'];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 2 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
 </script>
 
 </body>
