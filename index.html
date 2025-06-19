@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Willian Soares | Seu Próximo TI</title>
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -16,119 +18,132 @@
       position: relative;
     }
 
-    header, section, footer {
-      padding: 20px;
-      margin: 10px auto;
-      max-width: 95%;
+    header {
+      text-align: center;
+      padding: 100px 20px 50px;
+      position: relative;
+      z-index: 2;
     }
 
     header h1 {
-      font-size: 2em;
+      font-size: 3.5em;
+      font-weight: 700;
+      text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
       color: #00c3ff;
-      text-align: center;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
     }
 
     header p {
-      text-align: center;
+      font-size: 1.4em;
       color: #b0bec5;
-      font-size: 1em;
+      margin-top: 15px;
     }
 
     section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 25px 20px;
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h2 {
       color: #00c3ff;
-      font-size: 1.4em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 1.8em;
     }
 
-    p, li, label, input, textarea {
-      font-size: 1em;
-      line-height: 1.5;
+    p, li {
+      font-size: 1.1em;
+      line-height: 1.6;
     }
 
     ul {
-      padding-left: 18px;
+      padding-left: 20px;
     }
 
     ul li::before {
       content: "✔️ ";
+      color: #00c3ff;
     }
 
     a {
       color: #00eaff;
       text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .social img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin: 5px;
-    }
-
-    /* Formulário */
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    input, textarea {
-      padding: 10px;
-      margin-bottom: 10px;
-      border: none;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-    }
-
-    input::placeholder, textarea::placeholder {
-      color: #ccc;
-    }
-
-    button {
-      background-color: #00c3ff;
-      color: #fff;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
       font-weight: bold;
     }
 
-    button:hover {
-      background-color: #00eaff;
+    a:hover {
+      color: #00ffff;
+      text-decoration: underline;
     }
 
     footer {
       text-align: center;
-      font-size: 0.8em;
+      padding: 25px 10px;
+      font-size: 0.9em;
       color: #b0bec5;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Desktop Responsivo */
-    @media (min-width: 768px) {
-      header h1 { font-size: 3em; }
-      header p { font-size: 1.2em; }
-      section { max-width: 800px; padding: 30px; }
-      h2 { font-size: 1.8em; }
-      .social img { width: 100px; height: 100px; }
+    .social img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .social img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .cta a {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #00c3ff;
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta a:hover {
+      background-color: #00eaff;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
+<!-- Fundo de partículas -->
 <div id="particles-background" class="particles-container"></div>
 
 <header>
@@ -138,21 +153,26 @@
 
 <section>
   <h2>👨‍💻 Sobre Mim</h2>
-  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal em TI e atuando no setor desde os 17 anos.</p>
+  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI e atuando no setor desde os 17 anos.</p>
+  <p>Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
+  <p>Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
 </section>
 
 <section>
   <h2>🛠️ Áreas de Atuação</h2>
   <ul>
     <li>Suporte a Usuários (Helpdesk)</li>
-    <li>Redes de Computadores</li>
-    <li>Gestão de Projetos de TI</li>
+    <li>Manutenção e Criação de Redes de Computadores</li>
+    <li>Gestão de Projetos de Tecnologia</li>
   </ul>
 </section>
 
 <section>
   <h2>🎓 Formação Acadêmica</h2>
-  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela UniCesumar.</p>
+  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
+  <p>Técnico em <strong>Web Designer</strong> pela <strong>Info Brasil</strong>.</p>
+  <p>Técnico em <strong>Edição de Vídeos</strong> e <strong>Montagem e Manutenção de Computadores</strong> pela <strong>Dreamschool Brasil</strong>.</p>
+  <p>Certificado em <strong>Comunicação e Oratória</strong>, <strong>Negociação & Influência</strong> e <strong>Inteligência Emocional</strong> pela <strong>Escola Conquer</strong>.</p>
 </section>
 
 <section>
@@ -164,15 +184,19 @@
 </section>
 
 <section>
+  <h2>🏢 Atuação Atual</h2>
+  <p>Atualmente integro a equipe de TI da <strong>Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
+</section>
+
+<section>
   <h2>📞 Fale Comigo</h2>
-  <form action="https://formsubmit.co/falecomigo@williansoares.net.br" method="POST">
-    <input type="text" name="Nome" placeholder="Seu Nome" required>
-    <input type="email" name="Email" placeholder="Seu Email" required>
-    <textarea name="Mensagem" rows="5" placeholder="Sua Mensagem" required></textarea>
-    <!-- Proteção contra SPAM -->
-    <input type="hidden" name="_captcha" value="false">
-    <button type="submit">Enviar Mensagem</button>
-  </form>
+  <p><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br">falecomigo@williansoares.net.br</a></p>
+  <p><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank">@wsoares_</a></p>
+  <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank">williansoares0610</a></p>
+
+  <div class="cta">
+    <a href="mailto:falecomigo@williansoares.net.br">👉 Quero falar com você!</a>
+  </div>
 </section>
 
 <section>
@@ -181,6 +205,9 @@
     <img src="img/foto1.jpg" alt="Foto 1">
     <img src="img/foto2.jpg" alt="Foto 2">
     <img src="img/foto3.jpg" alt="Foto 3">
+    <img src="img/foto4.jpg" alt="Foto 4">
+    <img src="img/foto5.jpg" alt="Foto 5">
+    <img src="img/foto6.jpg" alt="Foto 6">
   </div>
 </section>
 
@@ -188,25 +215,13 @@
   &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
 
-<!-- GSAP + SplitText -->
+<!-- Bibliotecas externas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
+<!-- Animações Scroll -->
 <script>
-  // Animação título
-  document.addEventListener('DOMContentLoaded', () => {
-    const title = document.getElementById('animated-title');
-    const split = new SplitText(title, { type: 'chars' });
-    gsap.from(split.chars, {
-      y: 50,
-      opacity: 0,
-      stagger: 0.05,
-      ease: 'power3.out',
-      duration: 1
-    });
-  });
-
-  // Animação scroll sections
   const sections = document.querySelectorAll('section');
   function showSections() {
     const trigger = window.innerHeight / 1.2;
@@ -217,6 +232,45 @@
   }
   window.addEventListener('scroll', showSections);
   window.addEventListener('load', showSections);
+</script>
+
+<!-- Animação do título -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const target = document.getElementById('animated-title');
+    const split = new SplitText(target, { type: 'chars' });
+    gsap.from(split.chars, {
+      y: 60,
+      opacity: 0,
+      stagger: 0.06,
+      ease: 'power3.out',
+      duration: 1
+    });
+  });
+</script>
+
+<!-- Animação do subtítulo -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const target = document.getElementById('animated-subtitle');
+    const words = target.innerText.split(' ');
+    target.innerHTML = '';
+    words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.innerText = word + ' ';
+      span.style.display = 'inline-block';
+      span.style.filter = 'blur(10px)';
+      span.style.opacity = 0;
+      span.style.transform = 'translateY(20px)';
+      target.appendChild(span);
+      setTimeout(() => {
+        span.style.transition = 'all 0.6s ease';
+        span.style.filter = 'blur(0px)';
+        span.style.opacity = 1;
+        span.style.transform = 'translateY(0)';
+      }, 300 + i * 150);
+    });
+  });
 </script>
 
 <!-- Partículas -->
@@ -233,6 +287,7 @@
     dx: (Math.random() - 0.5) * 0.5,
     dy: (Math.random() - 0.5) * 0.5
   }));
+
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => {
@@ -247,7 +302,9 @@
     });
     requestAnimationFrame(animateParticles);
   }
+
   animateParticles();
+
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
