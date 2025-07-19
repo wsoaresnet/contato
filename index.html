@@ -5,291 +5,254 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Willian Soares | Seu Próximo TI</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts - Inter para um visual mais moderno e limpo -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN - A ferramenta mágica para um design responsivo e elegante -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+    /* Configurações básicas do corpo, usando a fonte Inter e um gradiente de fundo futurista */
     body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      color: #ffffff;
-      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-      overflow-x: hidden;
-      position: relative;
+      font-family: 'Inter', sans-serif;
+      /* Opcional: para garantir que o gradiente cubra toda a altura */
+      min-height: 100vh;
     }
 
-    header {
-      text-align: center;
-      padding: 100px 20px 50px;
-      position: relative;
-      z-index: 2;
-    }
-
-    header h1 {
-      font-size: 3.5em;
-      font-weight: 700;
-      text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
-      color: #00c3ff;
-    }
-
-    header p {
-      font-size: 1.4em;
-      color: #b0bec5;
-      margin-top: 15px;
-      letter-spacing: 1px;
-      word-spacing: 3px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
+    /* Estilo para as seções, com um fundo translúcido e efeito de desfoque */
     section {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 25px 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
+      background: rgba(255, 255, 255, 0.05); /* Fundo branco com 5% de opacidade */
+      backdrop-filter: blur(10px); /* Efeito de desfoque para o fundo */
+      -webkit-backdrop-filter: blur(10px); /* Compatibilidade com navegadores WebKit */
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra para profundidade */
+      opacity: 0; /* Começa invisível para animação */
+      transform: translateY(40px); /* Começa um pouco abaixo para animação */
+      transition: opacity 1s ease, transform 1s ease; /* Transição suave */
     }
 
+    /* Classe para tornar a seção visível e animar para a posição original */
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    h2 {
-      color: #00c3ff;
-      margin-bottom: 12px;
-      font-size: 1.8em;
-    }
-
-    section p, section li {
-      font-size: 1.2em;
-      line-height: 1.8;
-      color: #e0e0e0;
-    }
-
-    section strong {
-      color: #00eaff;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
+    /* Estilo para os itens da lista, com um ícone personalizado */
     ul li::before {
-      content: "✔️ ";
-      color: #00c3ff;
-    }
-
-    a {
-      color: #00eaff;
-      text-decoration: none;
+      content: "🚀 "; /* Ícone de foguete para dar um toque de inovação */
+      color: #00eaff; /* Cor do ícone */
       font-weight: bold;
+      display: inline-block;
+      width: 1.2em; /* Largura do ícone */
+      margin-left: -1.2em; /* Ajuste para alinhar o texto */
     }
 
-    a:hover {
-      color: #00ffff;
-      text-decoration: underline;
+    /* Estilo para os depoimentos */
+    .testimonial {
+      background: rgba(255, 255, 255, 0.08); /* Fundo ligeiramente mais claro */
+      border-left: 5px solid #00c3ff; /* Borda lateral para destaque */
     }
 
-    footer {
-      text-align: center;
-      padding: 25px 10px;
-      font-size: 0.9em;
-      color: #b0bec5;
-      position: relative;
-      z-index: 2;
-    }
-
-    .social img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin: 8px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .social img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-    }
-
+    /* Estilo para o contêiner de partículas */
     .particles-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .cta {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .cta a {
-      display: inline-block;
-      padding: 12px 25px;
-      background-color: #00c3ff;
-      color: #fff;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .cta a:hover {
-      background-color: #00eaff;
-      transform: scale(1.05);
+      z-index: 0; /* Fica no fundo */
+      pointer-events: none; /* Não interfere com cliques */
     }
   </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-gray-900 via-blue-950 to-cyan-900 text-gray-100 antialiased min-h-screen relative overflow-x-hidden">
 
-<!-- Fundo de partículas -->
+<!-- Fundo de partículas dinâmico - Dá um ar futurista e profissional -->
 <div id="particles-background" class="particles-container"></div>
 
-<header>
-  <h1 id="animated-title">Willian Soares</h1>
-  <p id="animated-subtitle">Seu Próximo TI</p>
+<header class="py-24 px-4 text-center relative z-10">
+  <h1 id="animated-title" class="text-5xl md:text-7xl font-extrabold text-cyan-400 drop-shadow-lg leading-tight">Willian Soares</h1>
+  <p id="animated-subtitle" class="text-xl md:text-2xl text-blue-200 mt-4 tracking-wide drop-shadow-md">Seu Próximo TI</p>
 </header>
 
-<section>
-  <h2>👨‍💻 Sobre Mim</h2>
-  <p>Sou um profissional apaixonado por tecnologia, com mais de 3 anos de experiência formal na área de TI e atuando no setor desde os 17 anos.</p>
-  <p>Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
-  <p>Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
-</section>
+<main class="max-w-4xl mx-auto px-4 pb-12 relative z-10">
+  <!-- Seção Sobre Mim - Com ícone e um toque de elegância -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">👨‍💻</span> Sobre Mim
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4">Sou um profissional apaixonado por tecnologia, com mais de <strong>3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4">Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
+    <p class="text-lg leading-relaxed text-gray-200">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
+  </section>
 
-<section>
-  <h2>🛠️ Áreas de Atuação</h2>
-  <ul>
-    <li>Suporte a Usuários (Helpdesk)</li>
-    <li>Manutenção e Criação de Redes de Computadores</li>
-    <li>Gestão de Projetos de Tecnologia</li>
-    <li>CFTV e Monitoramento</li>
-    <li>Montagem e manutenção de computadores</li>
-    <li>Instalação de sistemas e programas</li>
-  </ul>
-</section>
+  <!-- Seção Áreas de Atuação - Lista com ícones e destaque -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">🛠️</span> Áreas de Atuação
+    </h2>
+    <ul class="list-none pl-0 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <li class="text-lg leading-relaxed text-gray-200">Suporte a Usuários (Helpdesk)</li>
+      <li class="text-lg leading-relaxed text-gray-200">Manutenção e Criação de Redes de Computadores</li>
+      <li class="text-lg leading-relaxed text-gray-200">Gestão de Projetos de Tecnologia</li>
+      <li class="text-lg leading-relaxed text-gray-200">CFTV e Monitoramento</li>
+      <li class="text-lg leading-relaxed text-gray-200">Montagem e manutenção de computadores</li>
+      <li class="text-lg leading-relaxed text-gray-200">Instalação de sistemas e programas</li>
+    </ul>
+  </section>
 
-<section>
-  <h2>🎓 Formação Acadêmica</h2>
-  <p>Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong>UniCesumar</strong>.</p>
-  <p>Técnico em <strong>Web Designer</strong> e <strong>Designer Gráfico</strong> pela <strong>Info Brasil</strong>.</p>
-  <p>Técnico em <strong>Edição de Vídeos</strong>, <strong>Montagem e Manutenção de Computadores</strong> pela <strong>Dreamschool Brasil</strong>.</p>
-  <p>Técnico em <strong>Suporte ao Usuário</strong> pela <strong>Coursera</strong>.</p>
-  <p>Certificado em <strong>Comunicação e Oratória</strong>, <strong>PNL</strong>, <strong>Negociação & Influência</strong>, <strong>Apresentação de Alto Impacto</strong>, <strong>Formação em Liderança</strong> e <strong>Inteligência Emocional</strong> pela <strong>Escola Conquer</strong>.</p>
-  <p>Certificado em <strong>LGPD</strong> pela <strong>Intuix Academy</strong>.</p>
-  <p>Certificado em <strong>Inteligência Artificial</strong> pela <strong>Hastag Treinamentos</strong>.</p>
-  <p>Certificado em <strong>IA Revoluton</strong> pela <strong>Tetra Educação</strong>.</p>
-</section>
+  <!-- Seção Formação Acadêmica - Destaque para as instituições e áreas -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">🎓</span> Formação Acadêmica
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Técnico em <strong>Web Designer</strong> e <strong>Designer Gráfico</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Técnico em <strong>Edição de Vídeos</strong>, <strong>Montagem e Manutenção de Computadores</strong> pela <strong class="text-cyan-300">Dreamschool Brasil</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Técnico em <strong>Suporte ao Usuário</strong> pela <strong class="text-cyan-300">Coursera</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Certificado em <strong>Comunicação e Oratória</strong>, <strong>PNL</strong>, <strong>Negociação & Influência</strong>, <strong>Apresentação de Alto Impacto</strong>, <strong>Formação em Liderança</strong> e <strong>Inteligência Emocional</strong> pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag Treinamentos</strong>.</p>
+    <p class="text-lg leading-relaxed text-gray-200">Certificado em <strong>IA Revolution</strong> pela <strong class="text-cyan-300">Tetra Educação</strong>.</p>
+  </section>
 
-<section>
-  <h2>🖥️ Experiência Profissional</h2>
-  <p><strong>Junitex:</strong> Analista de TI.</p>
-  <p><strong>Dreamschool Brasil:</strong> Educador.</p>
-  <p><strong>Mundial Informática:</strong> Instrutor.</p>
-  <p><strong>Academia Artforma:</strong> Mídias Sociais.</p>
-</section>
+  <!-- Seção Experiência Profissional - Com destaque para os cargos e empresas -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">🖥️</span> Experiência Profissional
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2"><strong class="text-cyan-300">Junitex:</strong> Analista de TI.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2"><strong class="text-cyan-300">Dreamschool Brasil:</strong> Educador.</p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-2"><strong class="text-cyan-300">Mundial Informática:</strong> Instrutor.</p>
+    <p class="text-lg leading-relaxed text-gray-200"><strong class="text-cyan-300">Academia Artforma:</strong> Mídias Sociais.</p>
+  </section>
 
-<section>
-  <h2>🏢 Atuação Atual</h2>
-  <p>Atualmente integro a equipe de TI da <strong>Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
-</section>
+  <!-- Seção Atuação Atual - Detalhes da sua missão -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">🏢</span> Atuação Atual
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200">Atualmente integro a equipe de TI da <strong class="text-cyan-300">Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
+  </section>
 
-<section>
-  <h2>📞 Fale Comigo</h2>
-  <p><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br">falecomigo@williansoares.net.br</a></p>
-  <p><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank">@wsoares_</a></p>
-  <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank">williansoares0610</a></p>
+  <!-- Seção Fale Comigo - Contatos e um CTA chamativo -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl text-center">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center justify-center gap-3">
+      <span class="text-4xl">📞</span> Fale Comigo
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">falecomigo@williansoares.net.br</a></p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">@wsoares_</a></p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-8"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">williansoares0610</a></p>
 
-  <div class="cta">
-    <a href="mailto:falecomigo@williansoares.net.br">👉 Quero falar com você!</a>
-  </div>
-</section>
+    <div class="cta">
+      <a href="mailto:falecomigo@williansoares.net.br" class="inline-block px-8 py-4 bg-cyan-500 text-white font-bold rounded-full shadow-lg hover:bg-cyan-600 transform transition-transform duration-300 hover:scale-105">
+        👉 Quero falar com você!
+      </a>
+    </div>
+  </section>
 
-<section>
-  <h2>📸 Meu Dia a Dia</h2>
-  <div class="social">
-    <img src="img/foto1.jpg" alt="Foto 1">
-    <img src="img/foto2.jpg" alt="Foto 2">
-    <img src="img/foto3.jpg" alt="Foto 3">
-    <img src="img/foto4.jpg" alt="Foto 4">
-    <img src="img/foto5.jpg" alt="Foto 5">
-    <img src="img/foto6.jpg" alt="Foto 6">
-    <img src="img/foto7.jpg" alt="Foto 7">
-    <img src="img/foto8.jpg" alt="Foto 8">  
-    <img src="img/foto10.jpg" alt="Foto 10">
-    <img src="img/foto11.jpg" alt="Foto 11">
-    <img src="img/foto12.jpg" alt="Foto 12">
-    <img src="img/foto13.jpg" alt="Foto 13">
-  </div>
-</section>
+  <!-- Seção Meu Dia a Dia - Galeria de imagens responsiva e com efeito hover -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">📸</span> Meu Dia a Dia
+    </h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8">
+      <!-- Usando placehold.co para imagens de exemplo. Substitua por suas fotos reais! -->
+      <img src="https://placehold.co/400x300/0f2027/ffffff?text=Foto+1" alt="Foto 1" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/203a43/ffffff?text=Foto+2" alt="Foto 2" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/2c5364/ffffff?text=Foto+3" alt="Foto 3" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/0f2027/ffffff?text=Foto+4" alt="Foto 4" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/203a43/ffffff?text=Foto+5" alt="Foto 5" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/2c5364/ffffff?text=Foto+6" alt="Foto 6" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/0f2027/ffffff?text=Foto+7" alt="Foto 7" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/203a43/ffffff?text=Foto+8" alt="Foto 8" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/2c5364/ffffff?text=Foto+9" alt="Foto 9" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/0f2027/ffffff?text=Foto+10" alt="Foto 10" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/203a43/ffffff?text=Foto+11" alt="Foto 11" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/2c5364/ffffff?text=Foto+12" alt="Foto 12" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="https://placehold.co/400x300/0f2027/ffffff?text=Foto+13" alt="Foto 13" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+    </div>
+  </section>
 
-  <section>
-  <h2>💬 Depoimentos</h2>
-  <div class="testimonial">
-    <p>"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
-    <span>- João Silva, Gerente de TIx</span>
-  </div>
+  <!-- Seção Depoimentos - Com um design mais clean e profissional -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
+      <span class="text-4xl">💬</span> Depoimentos
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="testimonial p-6 rounded-lg shadow-lg">
+        <p class="italic text-blue-100 mb-4">"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
+        <span class="font-semibold text-cyan-300 block text-right">- João Silva, Gerente de TI</span>
+      </div>
 
-  <div class="testimonial">
-    <p>"Já trabalhei com muitos profissionais de tecnologia, mas poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
-    <span>- Ana Costa, Coordenadora de Projetos</span>
-  </div>
+      <div class="testimonial p-6 rounded-lg shadow-lg">
+        <p class="italic text-blue-100 mb-4">"Já trabalhei com muitos profissionais de tecnologia, mas poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
+        <span class="font-semibold text-cyan-300 block text-right">- Ana Costa, Coordenadora de Projetos</span>
+      </div>
 
-  <div class="testimonial">
-    <p>"Se você procura alguém que entregue resultados com qualidade, pontualidade e sempre com um sorriso no rosto, o Willian é a pessoa certa."</p>
-    <span>- Marcos Pereira, CEO Educacional</span>
-  </div>
-</section>
-  
-<footer>
+      <div class="testimonial p-6 rounded-lg shadow-lg">
+        <p class="italic text-blue-100 mb-4">"Se você procura alguém que entregue resultados com qualidade, pontualidade e sempre com um sorriso no rosto, o Willian é a pessoa certa."</p>
+        <span class="font-semibold text-cyan-300 block text-right">- Marcos Pereira, CEO Educacional</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="text-center py-8 text-sm text-blue-300 relative z-10">
   &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
-<!-- Bibliotecas externas -->
+
+<!-- Bibliotecas externas para animações -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
-<!-- Animações Scroll -->
+<!-- Animações de Scroll - As seções aparecem suavemente ao rolar a página -->
 <script>
+  // Seleciona todas as seções
   const sections = document.querySelectorAll('section');
+
+  // Função para mostrar as seções quando elas entram na viewport
   function showSections() {
+    // Define o ponto de gatilho para a animação (1.2 significa 80% da altura da janela)
     const trigger = window.innerHeight / 1.2;
     sections.forEach(section => {
+      // Pega a posição do topo da seção em relação à viewport
       const top = section.getBoundingClientRect().top;
-      if (top < trigger) section.classList.add('visible');
+      // Se o topo da seção estiver acima do gatilho, adiciona a classe 'visible'
+      if (top < trigger) {
+        section.classList.add('visible');
+      } else {
+        // Opcional: remove a classe 'visible' se a seção sair da viewport para reanimar ao rolar para cima
+        section.classList.remove('visible');
+      }
     });
   }
+
+  // Adiciona listeners para eventos de scroll e load para chamar a função
   window.addEventListener('scroll', showSections);
-  window.addEventListener('load', showSections);
-</script>
+  // A chamada inicial de showSections será feita no window.onload principal
 
-<!-- Animação do título -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
+  // Função para animar o título
+  function animateTitle() {
     const target = document.getElementById('animated-title');
-    const split = new SplitText(target, { type: 'chars' });
-    gsap.from(split.chars, {
-      y: 60,
-      opacity: 0,
-      stagger: 0.06,
-      ease: 'power3.out',
-      duration: 1
-    });
-  });
-</script>
+    // Garante que SplitText está definido antes de usar
+    if (typeof SplitText !== 'undefined') {
+      const split = new SplitText(target, { type: 'chars' });
+      gsap.from(split.chars, {
+        y: 60,
+        opacity: 0,
+        stagger: 0.06,
+        ease: 'power3.out',
+        duration: 1
+      });
+    } else {
+      console.error("SplitText não está definido. A animação do título não pode ser executada.");
+    }
+  }
 
-<!-- Animação do subtítulo -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
+  // Função para animar o subtítulo
+  function animateSubtitle() {
     const target = document.getElementById('animated-subtitle');
     const words = target.innerText.trim().split(' ');
     target.innerHTML = '';
@@ -308,17 +271,15 @@
         span.style.transform = 'translateY(0)';
       }, 400 + i * 200);
     });
-  });
-</script>
+  }
 
-
-<!-- Partículas -->
-<script>
+  // Partículas no fundo - Um toque de dinamismo e modernidade
   const canvas = document.createElement('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   document.getElementById('particles-background').appendChild(canvas);
   const ctx = canvas.getContext('2d');
+
   const particles = Array.from({ length: 120 }).map(() => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
@@ -342,12 +303,27 @@
     requestAnimationFrame(animateParticles);
   }
 
-  animateParticles();
-
+  // Atualiza o tamanho do canvas quando a janela é redimensionada
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    // Opcional: redistribuir partículas ou ajustar suas posições após o redimensionamento
   });
+
+  // Inicia todas as animações quando a página estiver completamente carregada
+  window.onload = function () {
+      // Registra o plugin SplitText com o GSAP
+      if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+          gsap.registerPlugin(SplitText);
+      } else {
+          console.error("GSAP ou SplitText não estão definidos. Plugins não registrados.");
+      }
+
+      showSections(); // Garante que as seções sejam verificadas no carregamento
+      animateTitle();
+      animateSubtitle();
+      animateParticles();
+  }
 </script>
 
 </body>
