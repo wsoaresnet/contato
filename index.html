@@ -431,7 +431,8 @@
     // Função para animar o subtítulo
     function animateSubtitle() {
       const target = document.getElementById('animated-subtitle');
-      if(target) gsap.from(target, { y: 20, opacity: 0, delay: 0.5, duration: 1, ease: 'power3.out' });
+      // AJUSTE DE PERFORMANCE: Delay reduzido de 0.5s para 0.2s para uma aparição mais rápida.
+      if(target) gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
     }
 
     // Animação de partículas no fundo
@@ -581,4 +582,4 @@
 </script>
 
 </body>
-</ht
+</html>
