@@ -5,116 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Willian Soares | Seu Próximo TI</title>
 
-  <!-- Google Fonts - Inter -->
+  <!-- Google Fonts - Inter para um visual mais moderno e limpo -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN - A ferramenta mágica para um design responsivo e elegante -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Configurações básicas do corpo */
+    /* Configurações básicas do corpo, usando a fonte Inter e um gradiente de fundo futurista */
     body {
       font-family: 'Inter', sans-serif;
+      /* Opcional: para garantir que o gradiente cubra toda a altura */
       min-height: 100vh;
     }
 
-    /* Estilo para as seções com efeito "glassmorphism" */
+    /* Estilo para as seções, com um fundo translúcido e efeito de desfoque */
     section {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
+      background: rgba(255, 255, 255, 0.05); /* Fundo branco com 5% de opacidade */
+      backdrop-filter: blur(10px); /* Efeito de desfoque para o fundo */
+      -webkit-backdrop-filter: blur(10px); /* Compatibilidade com navegadores WebKit */
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra para profundidade */
+      opacity: 0; /* Começa invisível para animação */
+      transform: translateY(40px); /* Começa um pouco abaixo para animação */
+      transition: opacity 1s ease, transform 1s ease; /* Transição suave */
     }
 
-    /* Animação de entrada das seções */
+    /* Classe para tornar a seção visível e animar para a posição original */
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Ícone personalizado para itens de lista */
+    /* Estilo para os itens da lista, com um ícone personalizado */
     ul li::before {
-      content: "🚀 ";
-      color: #00eaff;
+      content: "🚀 "; /* Ícone de foguete para dar um toque de inovação */
+      color: #00eaff; /* Cor do ícone */
       font-weight: bold;
       display: inline-block;
-      width: 1.2em;
-      margin-left: -1.2em;
+      width: 1.2em; /* Largura do ícone */
+      margin-left: -1.2em; /* Ajuste para alinhar o texto */
     }
 
     /* Estilo para os depoimentos */
     .testimonial {
-      background: rgba(255, 255, 255, 0.08);
-      border-left: 5px solid #00c3ff;
+      background: rgba(255, 255, 255, 0.08); /* Fundo ligeiramente mais claro */
+      border-left: 5px solid #00c3ff; /* Borda lateral para destaque */
     }
 
-    /* Contêiner para o fundo de partículas */
+    /* Estilo para o contêiner de partículas */
     .particles-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
-      pointer-events: none;
+      z-index: 0; /* Fica no fundo */
+      pointer-events: none; /* Não interfere com cliques */
     }
-
-    /* --- NOVOS ESTILOS PARA O LIGHTBOX (MODAL DE IMAGEM) --- */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease-in-out;
-    }
-
-    .lightbox.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 4rem rgba(0, 234, 255, 0.5);
-    }
-
-    .lightbox .close-button {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 2.5rem;
-      color: white;
-      cursor: pointer;
-      line-height: 1;
-      transition: transform 0.3s ease;
-    }
-    
-    .lightbox .close-button:hover {
-        transform: scale(1.2);
-        color: #00eaff;
-    }
-
   </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-blue-950 to-cyan-900 text-gray-100 antialiased min-h-screen relative overflow-x-hidden">
 
-<!-- Fundo de partículas dinâmico -->
+<!-- Fundo de partículas dinâmico - Dá um ar futurista e profissional -->
 <div id="particles-background" class="particles-container"></div>
 
 <header class="py-24 px-4 text-center relative z-10">
@@ -123,7 +76,7 @@
 </header>
 
 <main class="max-w-4xl mx-auto px-4 pb-12 relative z-10">
-  <!-- Seção Sobre Mim -->
+  <!-- Seção Sobre Mim - Com ícone e um toque de elegância -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">👨‍💻</span> Sobre Mim
@@ -133,7 +86,7 @@
     <p class="text-lg leading-relaxed text-gray-200">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
   </section>
 
-  <!-- Seção Áreas de Atuação -->
+  <!-- Seção Áreas de Atuação - Lista com ícones e destaque -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">🛠️</span> Áreas de Atuação
@@ -148,7 +101,7 @@
     </ul>
   </section>
 
-  <!-- Seção Formação Acadêmica -->
+  <!-- Seção Formação Acadêmica - Destaque para as instituições e áreas -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">🎓</span> Formação Acadêmica
@@ -163,7 +116,7 @@
     <p class="text-lg leading-relaxed text-gray-200">Certificado em <strong>IA Revolution</strong> pela <strong class="text-cyan-300">Tetra Educação</strong>.</p>
   </section>
 
-  <!-- Seção Experiência Profissional -->
+  <!-- Seção Experiência Profissional - Com destaque para os cargos e empresas -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">🖥️</span> Experiência Profissional
@@ -174,7 +127,7 @@
     <p class="text-lg leading-relaxed text-gray-200"><strong class="text-cyan-300">Academia Artforma:</strong> Mídias Sociais.</p>
   </section>
 
-  <!-- Seção Atuação Atual -->
+  <!-- Seção Atuação Atual - Detalhes da sua missão -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">🏢</span> Atuação Atual
@@ -182,15 +135,30 @@
     <p class="text-lg leading-relaxed text-gray-200">Atualmente integro a equipe de TI da <strong class="text-cyan-300">Junitex</strong>, sendo responsável pelo suporte e infraestrutura de <strong>16 filiais nos estados de SP e PR</strong>. Minha missão é garantir operações de TI sem interrupções, além de planejar melhorias e implementar novos projetos tecnológicos.</p>
   </section>
 
-  <!-- Seção Meu Dia a Dia -->
+  <!-- Seção Fale Comigo - Contatos e um CTA chamativo -->
+  <section class="my-12 p-8 rounded-2xl shadow-xl text-center">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center justify-center gap-3">
+      <span class="text-4xl">📞</span> Fale Comigo
+    </h2>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">falecomigo@williansoares.net.br</a></p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">@wsoares_</a></p>
+    <p class="text-lg leading-relaxed text-gray-200 mb-8"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">williansoares0610</a></p>
+
+    <div class="cta">
+      <a href="mailto:falecomigo@williansoares.net.br" class="inline-block px-8 py-4 bg-cyan-500 text-white font-bold rounded-full shadow-lg hover:bg-cyan-600 transform transition-transform duration-300 hover:scale-105">
+        👉 Quero falar com você!
+      </a>
+    </div>
+  </section>
+
+  <!-- Seção Meu Dia a Dia - Galeria de imagens responsiva e com efeito hover -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">📸</span> Meu Dia a Dia
     </h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8">
-      <!-- ATENÇÃO: Substituí os caminhos locais por placeholders. Altere para suas fotos reais! -->
-      <!-- Adicionei a classe "gallery-image" e "cursor-pointer" para o lightbox funcionar -->
-     <img src="img/foto1.jpg" alt="Foto 1" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <!-- Usando placehold.co para imagens de exemplo. Substitua por suas fotos reais! -->
+      <img src="img/foto1.jpg" alt="Foto 1" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="img/foto2.jpg" alt="Foto 2" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="img/foto3.jpg" alt="Foto 3" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="img/foto4.jpg" alt="Foto 4" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
@@ -204,34 +172,8 @@
       <img src="img/foto13.jpg" alt="Foto 12" class="w-full h-32 object-cover rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
     </div>
   </section>
-  
-  <!-- NOVA SEÇÃO DO INSTAGRAM -->
-  <section class="my-12 p-8 rounded-2xl shadow-xl">
-    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-cyan-400"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-        Siga-me no Instagram
-    </h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8">
-        <!-- ATENÇÃO: Coloque aqui suas melhores fotos do Instagram! -->
-       <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLnBHGhJdLI/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DLnBHGhJdLI/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DLnBHGhJdLI/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Uma publicação compartilhada por Willian Soares (@wsoares_)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLh3i73JQ19/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DLh3i73JQ19/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DLh3i73JQ19/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Uma publicação compartilhada por Willian Soares (@wsoares_)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Uma publicação compartilhada por Willian Soares (@wsoares_)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DLe-KiWput8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Uma publicação compartilhada por Willian Soares (@wsoares_)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/C9fmpZeJOPh/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/C9fmpZeJOPh/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/C9fmpZeJOPh/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Uma publicação compartilhada por Willian Soares (@wsoares_)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-    </div>
-    <div class="text-center mt-8">
-        <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold rounded-full shadow-lg hover:opacity-90 transform transition-transform duration-300 hover:scale-105">
-            Ver Perfil Completo
-        </a>
-    </div>
-  </section>
 
-  <!-- Seção Depoimentos -->
+  <!-- Seção Depoimentos - Com um design mais clean e profissional -->
   <section class="my-12 p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center gap-3">
       <span class="text-4xl">💬</span> Depoimentos
@@ -241,63 +183,70 @@
         <p class="italic text-blue-100 mb-4">"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
         <span class="font-semibold text-cyan-300 block text-right">- João Silva, Gerente de TI</span>
       </div>
+
       <div class="testimonial p-6 rounded-lg shadow-lg">
         <p class="italic text-blue-100 mb-4">"Já trabalhei com muitos profissionais de tecnologia, mas poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
         <span class="font-semibold text-cyan-300 block text-right">- Ana Costa, Coordenadora de Projetos</span>
       </div>
+
       <div class="testimonial p-6 rounded-lg shadow-lg">
         <p class="italic text-blue-100 mb-4">"Se você procura alguém que entregue resultados com qualidade, pontualidade e sempre com um sorriso no rosto, o Willian é a pessoa certa."</p>
         <span class="font-semibold text-cyan-300 block text-right">- Marcos Pereira, CEO Educacional</span>
       </div>
     </div>
   </section>
-  
-  <!-- Seção Fale Comigo -->
-  <section class="my-12 p-8 rounded-2xl shadow-xl text-center">
-    <h2 class="text-3xl font-bold text-cyan-400 mb-6 border-b border-cyan-700 pb-2 flex items-center justify-center gap-3">
-      <span class="text-4xl">📞</span> Fale Comigo
-    </h2>
-    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">falecomigo@williansoares.net.br</a></p>
-    <p class="text-lg leading-relaxed text-gray-200 mb-4"><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">@wsoares_</a></p>
-    <p class="text-lg leading-relaxed text-gray-200 mb-8"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 transition-colors duration-300">williansoares0610</a></p>
-    <div class="cta">
-      <a href="mailto:falecomigo@williansoares.net.br" class="inline-block px-8 py-4 bg-cyan-500 text-white font-bold rounded-full shadow-lg hover:bg-cyan-600 transform transition-transform duration-300 hover:scale-105">
-        👉 Quero falar com você!
-      </a>
-    </div>
-  </section>
-
 </main>
 
 <footer class="text-center py-8 text-sm text-blue-300 relative z-10">
   &copy; 2025 Willian Soares - Todos os direitos reservados.
 </footer>
 
-<!-- ELEMENTO DO LIGHTBOX (MODAL) - Fica escondido até ser ativado -->
-<div id="lightbox" class="lightbox">
-    <span id="close-lightbox" class="close-button">&times;</span>
-    <img id="lightbox-image" src="" alt="Imagem em tela cheia">
-</div>
-
-
 <!-- Bibliotecas externas para animações -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
+<!-- Animações de Scroll - As seções aparecem suavemente ao rolar a página -->
 <script>
-  // --- INÍCIO DO SCRIPT PRINCIPAL ---
+  // Seleciona todas as seções
+  const sections = document.querySelectorAll('section');
+
+  // Função para mostrar as seções quando elas entram na viewport
+  function showSections() {
+    // Define o ponto de gatilho para a animação (1.2 significa 80% da altura da janela)
+    const trigger = window.innerHeight / 1.2;
+    sections.forEach(section => {
+      // Pega a posição do topo da seção em relação à viewport
+      const top = section.getBoundingClientRect().top;
+      // Se o topo da seção estiver acima do gatilho, adiciona a classe 'visible'
+      if (top < trigger) {
+        section.classList.add('visible');
+      } else {
+        // Opcional: remove a classe 'visible' se a seção sair da viewport para reanimar ao rolar para cima
+        section.classList.remove('visible');
+      }
+    });
+  }
+
+  // Adiciona listeners para eventos de scroll e load para chamar a função
+  window.addEventListener('scroll', showSections);
+  // A chamada inicial de showSections será feita no window.onload principal
 
   // Função para animar o título
   function animateTitle() {
     const target = document.getElementById('animated-title');
+    // Garante que SplitText está definido antes de usar
     if (typeof SplitText !== 'undefined') {
       const split = new SplitText(target, { type: 'chars' });
       gsap.from(split.chars, {
-        y: 60, opacity: 0, stagger: 0.06, ease: 'power3.out', duration: 1
+        y: 60,
+        opacity: 0,
+        stagger: 0.06,
+        ease: 'power3.out',
+        duration: 1
       });
     } else {
-      console.error("SplitText não está definido.");
+      console.error("SplitText não está definido. A animação do título não pode ser executada.");
     }
   }
 
@@ -323,107 +272,56 @@
     });
   }
 
-  // Animação de partículas no fundo
-  const particlesCanvas = document.createElement('canvas');
-  document.getElementById('particles-background').appendChild(particlesCanvas);
-  const ctx = particlesCanvas.getContext('2d');
-  let particlesArray;
+  // Partículas no fundo - Um toque de dinamismo e modernidade
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.getElementById('particles-background').appendChild(canvas);
+  const ctx = canvas.getContext('2d');
 
-  function setupParticles() {
-      particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = window.innerHeight;
-      particlesArray = Array.from({ length: 120 }).map(() => ({
-        x: Math.random() * particlesCanvas.width,
-        y: Math.random() * particlesCanvas.height,
-        r: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5
-      }));
-  }
+  const particles = Array.from({ length: 120 }).map(() => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 1,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5
+  }));
 
   function animateParticles() {
-    ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-    particlesArray.forEach(p => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = ['#ffffff', '#00c3ff', '#b0bec5'][Math.floor(Math.random() * 3)];
       ctx.fill();
       p.x += p.dx;
       p.y += p.dy;
-      if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-      if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
     });
     requestAnimationFrame(animateParticles);
   }
 
-  // Animação de scroll para as seções
-  function setupScrollAnimations() {
-      const sections = document.querySelectorAll('section');
-      const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('visible');
-              } else {
-                  // Opcional: remover para re-animar ao rolar para cima
-                  entry.target.classList.remove('visible');
-              }
-          });
-      }, { threshold: 0.1 });
+  // Atualiza o tamanho do canvas quando a janela é redimensionada
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Opcional: redistribuir partículas ou ajustar suas posições após o redimensionamento
+  });
 
-      sections.forEach(section => observer.observe(section));
-  }
-  
-  // --- NOVO SCRIPT PARA O LIGHTBOX ---
-  function setupLightbox() {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const closeButton = document.getElementById('close-lightbox');
-      const galleryImages = document.querySelectorAll('.gallery-image');
-
-      galleryImages.forEach(image => {
-          image.addEventListener('click', () => {
-              // Pega o SRC da imagem clicada e coloca no modal
-              lightboxImage.src = image.src;
-              // Ativa o modal
-              lightbox.classList.add('active');
-          });
-      });
-
-      // Função para fechar o lightbox
-      function closeLightbox() {
-          lightbox.classList.remove('active');
-          // Opcional: remove o src para não carregar imagem desnecessariamente
-          setTimeout(() => { lightboxImage.src = ''; }, 300);
+  // Inicia todas as animações quando a página estiver completamente carregada
+  window.onload = function () {
+      // Registra o plugin SplitText com o GSAP
+      if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+          gsap.registerPlugin(SplitText);
+      } else {
+          console.error("GSAP ou SplitText não estão definidos. Plugins não registrados.");
       }
 
-      // Fecha ao clicar no botão 'X'
-      closeButton.addEventListener('click', closeLightbox);
-      // Fecha ao clicar fora da imagem (no fundo escuro)
-      lightbox.addEventListener('click', (e) => {
-          if (e.target === lightbox) {
-              closeLightbox();
-          }
-      });
-  }
-
-  // Evento de redimensionamento da janela
-  window.addEventListener('resize', setupParticles);
-
-  // Inicia tudo quando a página estiver carregada
-  window.onload = function () {
-    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-      gsap.registerPlugin(SplitText);
-    } else {
-      console.error("GSAP ou SplitText não estão definidos.");
-    }
-    
-    // Inicia as animações e funcionalidades
-    setupParticles();
-    animateParticles();
-    animateTitle();
-    animateSubtitle();
-    setupScrollAnimations();
-    setupLightbox(); // Inicia a funcionalidade do lightbox
+      showSections(); // Garante que as seções sejam verificadas no carregamento
+      animateTitle();
+      animateSubtitle();
+      animateParticles();
   }
 </script>
 
