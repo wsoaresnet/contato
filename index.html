@@ -1,30 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Willian Soares | Seu Próximo TI</title>
 
-  <!-- =================================================================== -->
-  <!-- ================ SEO E META TAGS DE COMPARTILHAMENTO ================ -->
-  <!-- =================================================================== -->
+  <!-- SEO E META TAGS DE COMPARTILHAMENTO -->
   <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
   <meta name="author" content="Willian Soares">
-  
-  <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
   <meta property="og:title" content="Willian Soares | Seu Próximo TI">
   <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
   <meta property="og:image" content="https://placehold.co/1200x630/082f49/22d3ee?text=Willian+Soares">
   <meta property="og:url" content="https://williansoares.net.br/">
   <meta property="og:type" content="website">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
   <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
   <meta name="twitter:image" content="https://placehold.co/1200x630/082f49/22d3ee?text=Willian+Soares">
-  <!-- =================================================================== -->
 
   <!-- Google Fonts - Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -39,110 +32,123 @@
   <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
   <style>
-    /* Estilos personalizados para manter a identidade visual */
-    html {
-      scroll-behavior: smooth;
+    /* =================================================================== */
+    /* =================== VARIÁVEIS DE TEMA (CSS) =================== */
+    /* =================================================================== */
+    :root {
+        --bg-gradient-start: #111827;
+        --bg-gradient-mid: #082f49;
+        --bg-gradient-end: #164e63;
+        --text-primary: #e5e7eb;
+        --text-secondary: #9ca3af;
+        --text-cyan-400: #22d3ee;
+        --text-cyan-300: #67e8f9;
+        --border-cyan-700: #0e7490;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --shadow-color: rgba(0, 0, 0, 0.37);
+        --progress-bar-bg: rgba(255, 255, 255, 0.1);
+        --form-control-bg: rgba(255, 255, 255, 0.1);
     }
+
+    [data-theme="light"] {
+        --bg-gradient-start: #f8fafc;
+        --bg-gradient-mid: #f1f5f9;
+        --bg-gradient-end: #e2e8f0;
+        --text-primary: #1e293b;
+        --text-secondary: #475569;
+        --text-cyan-400: #0891b2;
+        --text-cyan-300: #06b6d4;
+        --border-cyan-700: #155e75;
+        --glass-bg: rgba(255, 255, 255, 0.5);
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --progress-bar-bg: rgba(0, 0, 0, 0.1);
+        --form-control-bg: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Estilos gerais */
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      background: #082f49; /* Cor de fallback */
-      background: linear-gradient(to bottom right, #111827, #082f49, #164e63);
-      color: #e5e7eb;
+      background: var(--bg-gradient-end);
+      background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+      color: var(--text-primary);
       overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Estilo "glassmorphism" para as seções */
+    /* Seções */
     .glass-section {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--glass-bg);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
       opacity: 0;
       transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
+      padding-top: 80px; /* Espaçamento para a navbar fixa */
+      margin-top: -80px; /* Compensa o espaçamento */
     }
+    .glass-section.visible { opacity: 1; transform: translateY(0); }
 
-    .glass-section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* Cores */
+    .text-cyan-400 { color: var(--text-cyan-400); }
+    .text-cyan-300 { color: var(--text-cyan-300); }
+    .border-cyan-700 { border-color: var(--border-cyan-700); }
 
-    /* Cores personalizadas */
-    .text-cyan-400 { color: #22d3ee; }
-    .text-cyan-300 { color: #67e8f9; }
-    .border-cyan-700 { border-color: #0e7490; }
-
-    /* Estilo para Skill Bars */
-    .skill-bar .progress {
-        height: 1.5rem;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 0.5rem;
+    /* Navbar Fixa */
+    .navbar-glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--glass-border);
+        transition: background 0.3s ease;
     }
-    .skill-bar .progress-bar {
-        background: linear-gradient(90deg, #22d3ee, #00c3ff);
-        width: 0%; /* Inicia com 0 para animação */
+    .navbar-glass .nav-link {
+        color: var(--text-secondary);
+        font-weight: 600;
+        transition: color 0.2s ease;
     }
-
-    /* Estilo para Blog Cards */
-    .blog-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .blog-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-    .blog-card img {
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-    }
-
-    /* Estilo para Botão Voltar ao Topo */
-    #back-to-top-btn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        background-color: #22d3ee;
-        color: #111827;
-        border-radius: 50%;
-        display: none; /* Começa escondido */
-        place-items: center;
-        z-index: 1030;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    #back-to-top-btn.show {
-        display: grid;
-        opacity: 1;
-    }
-    #back-to-top-btn:hover {
-        transform: scale(1.1);
+    .navbar-glass .nav-link:hover,
+    .navbar-glass .nav-link.active {
+        color: var(--text-cyan-400);
     }
     
+    /* Botão de Tema */
+    #theme-switcher {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+    }
+    #theme-switcher:hover {
+        color: var(--text-cyan-400);
+    }
+
     /* Demais estilos... */
-    .testimonial { background: rgba(255, 255, 255, 0.08); border-left: 5px solid #00c3ff; }
+    .skill-bar .progress { background-color: var(--progress-bar-bg); }
+    .skill-bar .progress-bar { background: linear-gradient(90deg, #22d3ee, #00c3ff); width: 0%; }
+    .blog-card, .case-card { background: var(--glass-bg); border: 1px solid var(--glass-border); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .blog-card:hover, .case-card:hover { transform: translateY(-10px); box-shadow: 0 12px 40px var(--shadow-color); }
+    .blog-card img, .case-card img { aspect-ratio: 16 / 9; object-fit: cover; }
+    .testimonial { background: var(--glass-bg); border-left: 5px solid #00c3ff; }
+    .form-control-glass { background: var(--form-control-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-primary) !important; }
+    .form-control-glass::placeholder { color: var(--text-secondary); }
+    .form-control-glass:focus { border-color: var(--text-cyan-400) !important; box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important; }
+    .easter-egg-active { transition: filter 0.5s ease; filter: hue-rotate(180deg) invert(1); }
+    #back-to-top-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background-color: var(--text-cyan-400); color: var(--bg-gradient-start); border-radius: 50%; display: none; place-items: center; z-index: 1030; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; }
+    #back-to-top-btn.show { display: grid; opacity: 1; }
+    #back-to-top-btn:hover { transform: scale(1.1); }
     .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
     .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1050; display: flex; justify-content: center; align-items: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
     .lightbox.active { opacity: 1; pointer-events: all; }
     .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34, 211, 238, 0.5); }
     .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
-    .lightbox .close-button:hover { transform: scale(1.2); color: #22d3ee; }
     .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
     .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
-    .form-control-glass { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; color: #e5e7eb !important; }
-    .form-control-glass::placeholder { color: #94a3b8; }
-    .form-control-glass:focus { background: rgba(255, 255, 255, 0.15) !important; border-color: #22d3ee !important; box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important; }
-  
-    /* Estilo para o Easter Egg */
-    .easter-egg-active {
-        transition: filter 0.5s ease;
-        filter: hue-rotate(180deg) invert(1);
-    }
   </style>
 </head>
 <body>
@@ -150,9 +156,31 @@
 <!-- Fundo de partículas dinâmico -->
 <div id="particles-background" class="particles-container"></div>
 
-<header class="py-5 text-center">
+<!-- NOVA BARRA DE NAVEGAÇÃO FIXA -->
+<nav class="navbar navbar-expand-lg navbar-glass fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-cyan-300" href="#">WS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-nav">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#blog">Artigos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+        <li class="nav-item"><a class="nav-link" href="#cases">Cases de Sucesso</a></li>
+        <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+      </ul>
+      <button id="theme-switcher" class="fs-4" aria-label="Alternar tema de cores">
+        <i class="bi bi-moon-stars-fill"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="py-5 text-center" style="padding-top: 120px !important;">
   <h1 id="animated-title" class="display-2 fw-bold text-cyan-400" style="text-shadow: 0 4px 8px rgba(0,0,0,0.4);">Willian Soares</h1>
-  <p id="animated-subtitle" class="lead fs-4 text-light mt-3">Seu Próximo TI</p>
+  <p id="animated-subtitle" class="lead fs-4 mt-3">Seu Próximo TI</p>
 </header>
 
 <main class="container my-5">
@@ -168,7 +196,7 @@
                 <img src="https://placehold.co/600x400/0e7490/FFFFFF?text=Redes" class="card-img-top" alt="Homem trabalhando em um servidor de redes.">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
-                    <p class="card-text text-light">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
+                    <p class="card-text">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
                     <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre 3 Dicas para Otimizar a Rede do seu Escritório">Ler Mais</a>
                 </div>
             </div>
@@ -178,7 +206,7 @@
                 <img src="https://placehold.co/600x400/155e75/FFFFFF?text=LGPD" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados.">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
-                    <p class="card-text text-light">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
+                    <p class="card-text">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
                     <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre LGPD na Prática: Por Onde Começar?">Ler Mais</a>
                 </div>
             </div>
@@ -188,38 +216,8 @@
                 <img src="https://placehold.co/600x400/0891b2/FFFFFF?text=IA" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial.">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
-                    <p class="card-text text-light">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
+                    <p class="card-text">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
                     <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Como a IA está Revolucionando o Suporte de TI">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/164e63/FFFFFF?text=Comunidade" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador.">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
-                    <p class="card-text text-light">Um relato sobre a experiência de ministrar uma palestra sobre segurança na internet para idosos do CRAS.</p>
-                    <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Ensinando Segurança Digital para a Melhor Idade">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/065f46/FFFFFF?text=Carreira" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI.">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">Aprendizado Contínuo: A Chave para o Sucesso em TI</h5>
-                    <p class="card-text text-light">Por que a atualização constante não é mais um diferencial, e sim um requisito essencial no mercado de trabalho.</p>
-                    <a href="artigo-informatica-mercado.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Aprendizado Contínuo: A Chave para o Sucesso em TI">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/4a044e/FFFFFF?text=Automação" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor.">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">Automação Residencial: O Futuro Bate à Porta</h5>
-                    <p class="card-text text-light">Um guia prático para quem deseja começar a transformar sua casa ou escritório em um ambiente inteligente.</p>
-                    <a href="artigo-automacao.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Automação Residencial: O Futuro Bate à Porta">Ler Mais</a>
                 </div>
             </div>
         </div>
@@ -236,17 +234,33 @@
     <p class="fs-5">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
   </section>
 
-  <!-- 3. Formação Acadêmica -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
-    <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-        <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
+  <!-- 3. Cases de Sucesso -->
+  <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
+    <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <i class="bi bi-trophy-fill"></i> Cases de Sucesso
     </h2>
-    <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
-    <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
-    <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
-    <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
-    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
-    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-10 col-lg-6">
+            <div class="card case-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/047857/FFFFFF?text=Infraestrutura" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede - Junitex</h5>
+                    <p class="card-text">Redução de 40% no tempo de inatividade da rede em 16 filiais através de um projeto completo de modernização.</p>
+                    <a href="case-junitex.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-lg-6">
+            <div class="card case-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/7c2d12/FFFFFF?text=Treinamento" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional - Dreamschool</h5>
+                    <p class="card-text">Desenvolvimento e aplicação de programas de treinamento que capacitaram mais de 200 alunos em diversas áreas da tecnologia.</p>
+                    <a href="case-dreamschool.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
+                </div>
+            </div>
+        </div>
+    </div>
   </section>
 
   <!-- 4. Habilidades Técnicas -->
@@ -294,48 +308,8 @@
     </div>
   </section>
 
-  <!-- 5. Experiência Profissional -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="experiencia-heading">
-    <h2 id="experiencia-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-pc-display" aria-hidden="true"></i> Experiência Profissional
-    </h2>
-    <p class="fs-5 mb-2"><strong class="text-cyan-300">Junitex:</strong> Analista de TI.</p>
-    <p class="fs-5 mb-2"><strong class="text-cyan-300">Dreamschool Brasil:</strong> Educador.</p>
-    <p class="fs-5 mb-2"><strong class="text-cyan-300">Mundial Informática:</strong> Instrutor.</p>
-    <p class="fs-5 mb-2"><strong class="text-cyan-300">Academia Artforma:</strong> Mídias Sociais.</p>
-  </section>
-
-  <!-- 6. Depoimentos -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="depoimentos-heading">
-    <h2 id="depoimentos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-chat-quote-fill" aria-hidden="true"></i> Depoimentos
-    </h2>
-    <div class="row g-4">
-      <div class="col-lg-6">
-        <figure class="testimonial p-4 rounded-3 h-100">
-          <blockquote class="blockquote">
-            <p class="fst-italic">"O Willian é aquele tipo de profissional que resolve o problema antes mesmo de você perceber que tinha um. Extremamente comprometido e proativo!"</p>
-          </blockquote>
-          <figcaption class="blockquote-footer text-end text-cyan-300">
-            João Silva, <cite title="Cargo">Gerente de TI</cite>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="col-lg-6">
-        <figure class="testimonial p-4 rounded-3 h-100">
-          <blockquote class="blockquote">
-            <p class="fst-italic">"Poucos têm a paixão e dedicação que o Willian demonstra todos os dias."</p>
-          </blockquote>
-          <figcaption class="blockquote-footer text-end text-cyan-300">
-            Ana Costa, <cite title="Cargo">Coordenadora</cite>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-  
-  <!-- 7. Entre em Contato -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
+  <!-- 5. Contato -->
+  <section id="contato" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
     <h2 id="contato-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
       <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
     </h2>
@@ -372,38 +346,11 @@
     </div>
   </section>
 
-  <!-- 8. Meu Dia a Dia -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
-    <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
-    </h2>
-    <!--
-      DICA DE PERFORMANCE:
-      Para um carregamento ainda mais rápido, considere otimizar estas imagens.
-      1. Use um site como o TinyPNG (https://tinypng.com) para comprimir os JPEGs sem perder qualidade.
-      2. Para a melhor performance, converta as imagens para o formato WebP.
-    -->
-    <div class="row g-4">
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto4.jpg" alt="Willian viajando." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto6.jpg" alt="Willian em uma conferência." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto8.jpg" alt="Retrato de Willian." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto10.jpg" alt="Willian em um workshop." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto11.jpg" alt="Willian em um momento casual." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="text-center py-4 mt-5">
-  <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
-  <p class="text-light">Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
+  <p>&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
+  <p>Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
 </footer>
 
 <!-- ELEMENTO DO LIGHTBOX (MODAL) -->
@@ -413,7 +360,7 @@
 </div>
 
 <!-- BOTÃO VOLTAR AO TOPO -->
-<a href="#sobre" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo">
+<a href="#" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo">
     <i class="bi bi-arrow-up-short"></i>
 </a>
 
@@ -424,186 +371,170 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
 <script>
-  // --- INÍCIO DO SCRIPT PRINCIPAL ---
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- INÍCIO DO SCRIPT PRINCIPAL ---
 
-  // Função para animar o título
-  function animateTitle() {
-    const target = document.getElementById('animated-title');
-    if (typeof SplitText !== 'undefined') {
-      const split = new SplitText(target, { type: 'chars' });
-      gsap.from(split.chars, {
-        y: 60, opacity: 0, stagger: 0.05, ease: 'power3.out', duration: 1
-      });
-    } else {
-      console.error("SplitText não está definido.");
-    }
-  }
-
-  // Função para animar o subtítulo
-  function animateSubtitle() {
-    const target = document.getElementById('animated-subtitle');
-    gsap.from(target, { y: 20, opacity: 0, delay: 0.5, duration: 1, ease: 'power3.out' });
-  }
-
-  // Animação de partículas no fundo
-  const particlesCanvas = document.createElement('canvas');
-  document.getElementById('particles-background').appendChild(particlesCanvas);
-  const ctx = particlesCanvas.getContext('2d');
-  let particlesArray;
-
-  function setupParticles() {
-      particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = document.body.scrollHeight;
-      particlesArray = Array.from({ length: 150 }).map(() => ({
-        x: Math.random() * particlesCanvas.width,
-        y: Math.random() * particlesCanvas.height,
-        r: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 0.4,
-        dy: (Math.random() - 0.5) * 0.4
-      }));
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-    particlesArray.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
-      ctx.fill();
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-      if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
-    });
-    requestAnimationFrame(animateParticles);
-  }
-
-  // Animação de scroll para as seções
-  function setupScrollAnimations() {
-      const sections = document.querySelectorAll('.glass-section');
-      const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('visible');
-                  if (entry.target.id === 'habilidades') {
-                      const skillBars = entry.target.querySelectorAll('.progress-bar');
-                      skillBars.forEach(bar => {
-                          const targetWidth = bar.getAttribute('data-width');
-                          gsap.to(bar, {
-                              width: targetWidth,
-                              duration: 1.5,
-                              ease: 'power3.out'
-                          });
-                      });
-                  }
-              } else {
-                  entry.target.classList.remove('visible');
-              }
-          });
-      }, { threshold: 0.2 });
-
-      sections.forEach(section => observer.observe(section));
-  }
-  
-  // Script para o Lightbox
-  function setupLightbox() {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const closeButton = document.getElementById('close-lightbox');
-      const galleryImages = document.querySelectorAll('.gallery-image');
-
-      galleryImages.forEach(image => {
-          image.addEventListener('click', () => {
-              lightboxImage.src = image.src;
-              lightbox.classList.add('active');
-          });
-      });
-
-      function closeLightbox() {
-          lightbox.classList.remove('active');
-          setTimeout(() => { lightboxImage.src = ''; }, 300);
+    // Função para animar o título
+    function animateTitle() {
+      const target = document.getElementById('animated-title');
+      if (typeof SplitText !== 'undefined' && target) {
+        const split = new SplitText(target, { type: 'chars' });
+        gsap.from(split.chars, {
+          y: 60, opacity: 0, stagger: 0.05, ease: 'power3.out', duration: 1
+        });
       }
+    }
 
-      closeButton.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', (e) => {
-          if (e.target === lightbox) {
-              closeLightbox();
-          }
-      });
-  }
-  
-  // Script para o Contador de Visitas
-  function updateVisitorCounter() {
-      const counterElement = document.getElementById('visitor-counter');
-      if (!counterElement) return;
-      let count = localStorage.getItem('willianSoaresVisitorCount');
-      count = count ? parseInt(count, 10) + 1 : 1;
-      localStorage.setItem('willianSoaresVisitorCount', count);
-      counterElement.innerText = count.toString().padStart(5, '0');
-  }
+    // Função para animar o subtítulo
+    function animateSubtitle() {
+      const target = document.getElementById('animated-subtitle');
+      if(target) gsap.from(target, { y: 20, opacity: 0, delay: 0.5, duration: 1, ease: 'power3.out' });
+    }
 
-  // Script para o Botão Voltar ao Topo
-  function setupBackToTopButton() {
-      const btn = document.getElementById('back-to-top-btn');
-      if (!btn) return;
-      window.addEventListener('scroll', () => {
-          if (window.scrollY > 300) {
-              btn.classList.add('show');
-          } else {
-              btn.classList.remove('show');
-          }
-      });
-  }
+    // Animação de partículas no fundo
+    const particlesCanvas = document.createElement('canvas');
+    const particlesContainer = document.getElementById('particles-background');
+    if (particlesContainer) {
+        particlesContainer.appendChild(particlesCanvas);
+        const ctx = particlesCanvas.getContext('2d');
+        let particlesArray;
 
-  // =================================================================== */
-  // ======================= SCRIPT DO EASTER EGG ====================== */
-  // =================================================================== */
-  function setupEasterEgg() {
-    const konamiCode = [
-        'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 
-        'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 
-        'b', 'a'
-    ];
-    let index = 0;
-    document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
-            index++;
-            if (index === konamiCode.length) {
-                document.body.classList.add('easter-egg-active');
-                // Desativa após 5 segundos
-                setTimeout(() => {
-                    document.body.classList.remove('easter-egg-active');
-                }, 5000);
-                index = 0; // Reseta para poder ser ativado de novo
-            }
-        } else {
-            index = 0;
+        function setupParticles() {
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = document.body.scrollHeight;
+            particlesArray = Array.from({ length: 150 }).map(() => ({
+                x: Math.random() * particlesCanvas.width,
+                y: Math.random() * particlesCanvas.height,
+                r: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.4,
+                dy: (Math.random() - 0.5) * 0.4
+            }));
         }
-    });
-  }
 
-  // Evento de redimensionamento da janela
-  window.addEventListener('resize', setupParticles);
+        function animateParticles() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+            particlesArray.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        setupParticles();
+        animateParticles();
+        window.addEventListener('resize', setupParticles);
+    }
 
-  // Inicia tudo quando a página estiver carregada
-  window.onload = function () {
-    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-      gsap.registerPlugin(SplitText);
-    } else {
-      console.error("GSAP ou SplitText não estão definidos.");
+    // Animação de scroll para as seções e navbar
+    function setupScrollFeatures() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Ativa link da navbar
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                    });
+                    
+                    // Animação de entrada da seção
+                    entry.target.classList.add('visible');
+
+                    // Animação das skill bars
+                    if (entry.target.id === 'habilidades') {
+                        const skillBars = entry.target.querySelectorAll('.progress-bar');
+                        skillBars.forEach(bar => {
+                            const targetWidth = bar.getAttribute('data-width');
+                            gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
+                        });
+                    }
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: "-50% 0px -50% 0px" }); // Ativa quando o meio da seção está no meio da tela
+
+        sections.forEach(section => observer.observe(section));
     }
     
-    // Inicia as animações e funcionalidades
-    setupParticles();
-    animateParticles();
+    // Script para o Contador de Visitas
+    function updateVisitorCounter() {
+        const counterElement = document.getElementById('visitor-counter');
+        if (!counterElement) return;
+        let count = localStorage.getItem('willianSoaresVisitorCount');
+        count = count ? parseInt(count, 10) + 1 : 1;
+        localStorage.setItem('willianSoaresVisitorCount', count);
+        counterElement.innerText = count.toString().padStart(5, '0');
+    }
+
+    // Script para o Botão Voltar ao Topo
+    function setupBackToTopButton() {
+        const btn = document.getElementById('back-to-top-btn');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('show', window.scrollY > 300);
+        });
+    }
+
+    // Script do Easter Egg
+    function setupEasterEgg() {
+      const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let index = 0;
+      document.addEventListener('keydown', (e) => {
+          if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
+              index++;
+              if (index === konamiCode.length) {
+                  document.body.classList.add('easter-egg-active');
+                  setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
+                  index = 0;
+              }
+          } else {
+              index = 0;
+          }
+      });
+    }
+    
+    // Script do Tema Claro/Escuro
+    function setupThemeSwitcher() {
+        const switcher = document.getElementById('theme-switcher');
+        const icon = switcher.querySelector('i');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        
+        html.setAttribute('data-theme', savedTheme);
+        icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
+        icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
+
+        switcher.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            icon.classList.toggle('bi-sun-fill', newTheme === 'light');
+            icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
+        });
+    }
+
+    // Inicia tudo
+    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+        gsap.registerPlugin(SplitText);
+    }
     animateTitle();
     animateSubtitle();
-    setupScrollAnimations();
-    setupLightbox();
+    setupScrollFeatures();
     updateVisitorCounter();
     setupBackToTopButton();
-    setupEasterEgg(); // Ativa o Easter Egg!
-  }
+    setupEasterEgg();
+    setupThemeSwitcher();
+  });
 </script>
 
 </body>
