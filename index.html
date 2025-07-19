@@ -19,7 +19,6 @@
     body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      /* O gradiente foi movido para cá para não depender de classes de framework */
       background: #082f49; /* Cor de fallback */
       background: linear-gradient(to bottom right, #111827, #082f49, #164e63);
       color: #e5e7eb;
@@ -38,13 +37,12 @@
       transition: opacity 1s ease, transform 1s ease;
     }
 
-    /* Animação de entrada das seções */
     .glass-section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Cores personalizadas que remetem ao design original */
+    /* Cores personalizadas */
     .text-cyan-400 { color: #22d3ee; }
     .text-cyan-300 { color: #67e8f9; }
     .border-cyan-700 { border-color: #0e7490; }
@@ -55,18 +53,18 @@
       border-left: 5px solid #00c3ff;
     }
 
-    /* Contêiner para o fundo de partículas */
+    /* Contêiner de partículas */
     .particles-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1; /* Ajustado para ficar atrás de todo o conteúdo */
+      z-index: -1;
       pointer-events: none;
     }
 
-    /* Estilos para o Lightbox (Modal de Imagem) */
+    /* Estilos para o Lightbox */
     .lightbox {
       position: fixed;
       top: 0;
@@ -74,7 +72,7 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.85);
-      z-index: 1050; /* Z-index alto para ficar sobre o conteúdo do Bootstrap */
+      z-index: 1050;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -113,7 +111,7 @@
         color: #22d3ee;
     }
     
-    /* Ajuste no botão de CTA */
+    /* Botão de CTA */
     .btn-cta {
         background-color: #06b6d4;
         border-color: #06b6d4;
@@ -124,6 +122,21 @@
         background-color: #0891b2;
         border-color: #0891b2;
         transform: scale(1.05);
+    }
+    
+    /* --- NOVOS ESTILOS PARA O FORMULÁRIO --- */
+    .form-control-glass {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #e5e7eb !important;
+    }
+    .form-control-glass::placeholder {
+        color: #94a3b8;
+    }
+    .form-control-glass:focus {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: #22d3ee !important;
+        box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important;
     }
 
   </style>
@@ -194,7 +207,6 @@
       <i class="bi bi-camera-fill"></i> Meu Dia a Dia
     </h2>
     <div class="row g-4">
-      <!-- CORREÇÃO: Todas as colunas de imagem estão agora dentro do mesmo 'div.row' -->
       <div class="col-6 col-sm-4 col-md-3">
         <img src="img/foto1.jpg" alt="Foto 1" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
       </div>
@@ -255,25 +267,50 @@
     </div>
   </section>
   
-  <!-- Seção Fale Comigo -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg text-center">
-    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-inline-flex align-items-center gap-3">
-      <i class="bi bi-telephone-outbound-fill"></i> Fale Comigo
+  <!-- Seção Fale Comigo com Formulário -->
+  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+      <i class="bi bi-envelope-paper-heart-fill"></i> Entre em Contato
     </h2>
-    <div class="fs-5 my-4">
-        <p class="mb-3"><i class="bi bi-envelope-fill me-2 text-cyan-300"></i><strong>Email:</strong> <a href="mailto:falecomigo@williansoares.net.br" class="text-cyan-300 text-decoration-none">falecomigo@williansoares.net.br</a></p>
-        <p class="mb-3"><i class="bi bi-instagram me-2 text-cyan-300"></i><strong>Instagram:</strong> <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none">@wsoares_</a></p>
-        <p class="mb-3"><i class="bi bi-linkedin me-2 text-cyan-300"></i><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none">williansoares0610</a></p>
+    <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
+    
+    <!-- 
+      ATENÇÃO: Para o formulário funcionar, siga estes passos:
+      1. Crie uma conta gratuita em https://formspree.io
+      2. Crie um "New Form", dê um nome a ele e aponte para o seu e-mail: falecomigo@williansoares.net.br
+      3. Na aba "Integration" do seu formulário no Formspree, copie a URL do endpoint.
+      4. Cole essa URL no atributo 'action' abaixo, substituindo o valor "YOUR_UNIQUE_FORM_ID".
+    -->
+    <form action="https://formspree.io/f/YOUR_UNIQUE_FORM_ID" method="POST" class="col-md-8 mx-auto">
+      <div class="mb-3">
+        <label for="name" class="form-label fw-semibold">Nome</label>
+        <input type="text" class="form-control form-control-lg form-control-glass" id="name" name="name" placeholder="Seu nome completo" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+      </div>
+      <div class="mb-4">
+        <label for="message" class="form-label fw-semibold">Mensagem</label>
+        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Deixe sua mensagem aqui..." required></textarea>
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
+          <i class="bi bi-send-fill me-2"></i>Enviar Mensagem
+        </button>
+      </div>
+    </form>
+    
+    <div class="text-center mt-5">
+        <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
+        <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2"><i class="bi bi-linkedin"></i></a>
     </div>
-    <a href="mailto:falecomigo@williansoares.net.br" class="btn btn-cta btn-lg rounded-pill px-5 py-3 fw-bold">
-        <i class="bi bi-send-fill me-2"></i>Quero falar com você!
-    </a>
   </section>
 </main>
 
 <footer class="text-center py-4 mt-5">
   <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
-  <!-- NOVO CONTADOR DE VISITAS -->
   <p class="text-light-emphasis">Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
 </footer>
 
@@ -386,10 +423,10 @@
       });
   }
   
-  // --- NOVO SCRIPT PARA O CONTADOR DE VISITAS ---
+  // Script para o Contador de Visitas
   function updateVisitorCounter() {
       const counterElement = document.getElementById('visitor-counter');
-      if (!counterElement) return; // Se o elemento não existir, não faz nada
+      if (!counterElement) return;
 
       let count = localStorage.getItem('willianSoaresVisitorCount');
 
@@ -400,7 +437,6 @@
       }
 
       localStorage.setItem('willianSoaresVisitorCount', count);
-      // Formata o número para ter pelo menos 5 dígitos, preenchendo com zeros
       counterElement.innerText = count.toString().padStart(5, '0');
   }
 
@@ -423,7 +459,7 @@
     animateSubtitle();
     setupScrollAnimations();
     setupLightbox();
-    updateVisitorCounter(); // Chama a função do contador
+    updateVisitorCounter();
   }
 </script>
 
