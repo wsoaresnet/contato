@@ -131,7 +131,57 @@
 </header>
 
 <main class="container my-5">
-  <!-- Seção Sobre Mim -->
+
+  <!-- 1. Meus Artigos -->
+  <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <i class="bi bi-journal-richtext"></i> Meus Artigos
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/0e7490/FFFFFF?text=Redes" class="card-img-top" alt="Imagem de artigo sobre redes">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
+                    <p class="card-text text-light">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
+                    <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/155e75/FFFFFF?text=LGPD" class="card-img-top" alt="Imagem de artigo sobre segurança">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
+                    <p class="card-text text-light">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
+                    <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/0891b2/FFFFFF?text=IA" class="card-img-top" alt="Imagem de artigo sobre IA">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
+                    <p class="card-text text-light">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
+                    <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/164e63/FFFFFF?text=Comunidade" class="card-img-top" alt="Imagem de artigo sobre palestra">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
+                    <p class="card-text text-light">Um relato sobre a experiência de ministrar uma palestra sobre segurança na internet para idosos do CRAS.</p>
+                    <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- 2. Sobre Mim -->
   <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
       <i class="bi bi-person-workspace"></i> Sobre Mim
@@ -141,7 +191,20 @@
     <p class="fs-5">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
   </section>
 
-  <!-- Seção Habilidades (Antiga Áreas de Atuação) -->
+  <!-- 3. Formação Acadêmica -->
+  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+        <i class="bi bi-mortarboard-fill"></i> Formação Acadêmica
+    </h2>
+    <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
+    <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
+    <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
+    <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
+    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
+    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
+  </section>
+
+  <!-- 4. Habilidades Técnicas -->
   <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
       <i class="bi bi-bar-chart-line-fill"></i> Habilidades Técnicas
@@ -186,20 +249,7 @@
     </div>
   </section>
 
-  <!-- Seção Formação Acadêmica -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
-    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-        <i class="bi bi-mortarboard-fill"></i> Formação Acadêmica
-    </h2>
-    <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
-    <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
-    <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
-    <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
-    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
-    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
-  </section>
-
-  <!-- Seção Experiência Profissional -->
+  <!-- 5. Experiência Profissional -->
   <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
       <i class="bi bi-pc-display"></i> Experiência Profissional
@@ -210,78 +260,7 @@
     <p class="fs-5 mb-2"><strong class="text-cyan-300">Academia Artforma:</strong> Mídias Sociais.</p>
   </section>
 
-  <!-- Seção Meu Dia a Dia -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
-    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-camera-fill"></i> Meu Dia a Dia
-    </h2>
-    <div class="row g-4">
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto1.jpg" alt="Foto 1" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto2.jpg" alt="Foto 2" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto3.jpg" alt="Foto 3" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto4.jpg" alt="Foto 4" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto5.jpg" alt="Foto 5" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto6.jpg" alt="Foto 6" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto7.jpg" alt="Foto 7" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto8.jpg" alt="Foto 8" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto10.jpg" alt="Foto 9" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto11.jpg" alt="Foto 10" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto12.jpg" alt="Foto 11" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto13.jpg" alt="Foto 12" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DE BLOG ATUALIZADA -->
-  <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
-    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
-        <i class="bi bi-journal-richtext"></i> Meus Artigos
-    </h2>
-    <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/0e7490/FFFFFF?text=Redes" class="card-img-top" alt="Imagem de artigo sobre redes">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
-                    <p class="card-text text-light-emphasis">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
-                    <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/155e75/FFFFFF?text=LGPD" class="card-img-top" alt="Imagem de artigo sobre segurança">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
-                    <p class="card-text text-light-emphasis">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
-                    <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/0891b2/FFFFFF?text=IA" class="card-img-top" alt="Imagem de artigo sobre IA">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
-                    <p class="card-text text-light-emphasis">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
-                    <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-        <!-- NOVO ARTIGO ADICIONADO -->
-        <div class="col-md-6 col-lg-4">
-            <div class="card blog-card h-100 rounded-3 overflow-hidden">
-                <img src="https://placehold.co/600x400/164e63/FFFFFF?text=Comunidade" class="card-img-top" alt="Imagem de artigo sobre palestra">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
-                    <p class="card-text text-light-emphasis">Um relato sobre a experiência de ministrar uma palestra sobre segurança na internet para idosos do CRAS.</p>
-                    <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
-                </div>
-            </div>
-        </div>
-    </div>
-  </section>
-
-  <!-- Seção Depoimentos -->
+  <!-- 6. Depoimentos -->
   <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
       <i class="bi bi-chat-quote-fill"></i> Depoimentos
@@ -302,7 +281,7 @@
     </div>
   </section>
   
-  <!-- Seção Fale Comigo com Formulário -->
+  <!-- 7. Entre em Contato -->
   <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
       <i class="bi bi-envelope-paper-heart-fill"></i> Entre em Contato
@@ -335,11 +314,33 @@
         <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2"><i class="bi bi-linkedin"></i></a>
     </div>
   </section>
+
+  <!-- 8. Meu Dia a Dia -->
+  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+      <i class="bi bi-camera-fill"></i> Meu Dia a Dia
+    </h2>
+    <div class="row g-4">
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto1.jpg" alt="Foto 1" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto2.jpg" alt="Foto 2" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto3.jpg" alt="Foto 3" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto4.jpg" alt="Foto 4" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto5.jpg" alt="Foto 5" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto6.jpg" alt="Foto 6" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto7.jpg" alt="Foto 7" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto8.jpg" alt="Foto 8" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto10.jpg" alt="Foto 9" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto11.jpg" alt="Foto 10" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto12.jpg" alt="Foto 11" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto13.jpg" alt="Foto 12" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="text-center py-4 mt-5">
   <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
-  <p class="text-light-emphasis">Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
+  <p class="text-light">Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
 </footer>
 
 <!-- ELEMENTO DO LIGHTBOX (MODAL) -->
