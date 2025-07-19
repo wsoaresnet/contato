@@ -14,11 +14,14 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   
-  <!-- NOVO FAVICON GERADO -->
+  <!-- FAVICON GERADO -->
   <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
   <style>
     /* Estilos personalizados para manter a identidade visual */
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
@@ -50,98 +53,71 @@
     .text-cyan-300 { color: #67e8f9; }
     .border-cyan-700 { border-color: #0e7490; }
 
-    /* Estilo para os depoimentos */
-    .testimonial {
-      background: rgba(255, 255, 255, 0.08);
-      border-left: 5px solid #00c3ff;
+    /* --- NOVOS ESTILOS --- */
+
+    /* Estilo para Skill Bars */
+    .skill-bar .progress {
+        height: 1.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+    }
+    .skill-bar .progress-bar {
+        background: linear-gradient(90deg, #22d3ee, #00c3ff);
+        width: 0%; /* Inicia com 0 para animação */
     }
 
-    /* Contêiner de partículas */
-    .particles-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
+    /* Estilo para Blog Cards */
+    .blog-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .blog-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    .blog-card img {
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
     }
 
-    /* Estilos para o Lightbox */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      z-index: 1050;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease-in-out;
+    /* Estilo para Botão Voltar ao Topo */
+    #back-to-top-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: #22d3ee;
+        color: #111827;
+        border-radius: 50%;
+        display: none; /* Começa escondido */
+        place-items: center;
+        z-index: 1030;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
-    .lightbox.active {
-      opacity: 1;
-      pointer-events: all;
+    #back-to-top-btn.show {
+        display: grid;
+        opacity: 1;
     }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 4rem rgba(34, 211, 238, 0.5);
-    }
-
-    .lightbox .close-button {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 2.5rem;
-      color: white;
-      cursor: pointer;
-      line-height: 1;
-      transition: transform 0.3s ease;
+    #back-to-top-btn:hover {
+        transform: scale(1.1);
     }
     
-    .lightbox .close-button:hover {
-        transform: scale(1.2);
-        color: #22d3ee;
-    }
-    
-    /* Botão de CTA */
-    .btn-cta {
-        background-color: #06b6d4;
-        border-color: #06b6d4;
-        color: white;
-        transition: all 0.3s ease;
-    }
-    .btn-cta:hover {
-        background-color: #0891b2;
-        border-color: #0891b2;
-        transform: scale(1.05);
-    }
-    
-    /* --- NOVOS ESTILOS PARA O FORMULÁRIO --- */
-    .form-control-glass {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        color: #e5e7eb !important;
-    }
-    .form-control-glass::placeholder {
-        color: #94a3b8;
-    }
-    .form-control-glass:focus {
-        background: rgba(255, 255, 255, 0.15) !important;
-        border-color: #22d3ee !important;
-        box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important;
-    }
-
+    /* Demais estilos... */
+    .testimonial { background: rgba(255, 255, 255, 0.08); border-left: 5px solid #00c3ff; }
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1050; display: flex; justify-content: center; align-items: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34, 211, 238, 0.5); }
+    .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
+    .lightbox .close-button:hover { transform: scale(1.2); color: #22d3ee; }
+    .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
+    .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
+    .form-control-glass { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; color: #e5e7eb !important; }
+    .form-control-glass::placeholder { color: #94a3b8; }
+    .form-control-glass:focus { background: rgba(255, 255, 255, 0.15) !important; border-color: #22d3ee !important; box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important; }
   </style>
 </head>
 <body>
@@ -156,7 +132,7 @@
 
 <main class="container my-5">
   <!-- Seção Sobre Mim -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+  <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
       <i class="bi bi-person-workspace"></i> Sobre Mim
     </h2>
@@ -165,18 +141,48 @@
     <p class="fs-5">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
   </section>
 
-  <!-- Seção Áreas de Atuação -->
-  <section class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+  <!-- Seção Habilidades (Antiga Áreas de Atuação) -->
+  <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
     <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-tools"></i> Áreas de Atuação
+      <i class="bi bi-bar-chart-line-fill"></i> Habilidades Técnicas
     </h2>
-    <div class="row">
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>Suporte a Usuários (Helpdesk)</div>
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>Manutenção e Criação de Redes</div>
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>Gestão de Projetos de Tecnologia</div>
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>CFTV e Monitoramento</div>
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>Montagem e manutenção de PCs</div>
-        <div class="col-md-6 fs-5"><i class="bi bi-rocket-takeoff-fill text-cyan-300 me-2"></i>Instalação de sistemas e programas</div>
+    <div class="row g-4">
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Suporte e Helpdesk</p>
+            <div class="progress" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="95%"></div>
+            </div>
+        </div>
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Redes de Computadores</p>
+            <div class="progress" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="90%"></div>
+            </div>
+        </div>
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Gestão de Projetos de TI</p>
+            <div class="progress" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="80%"></div>
+            </div>
+        </div>
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Segurança (CFTV)</p>
+            <div class="progress" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="85%"></div>
+            </div>
+        </div>
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Hardware (Montagem e Manutenção)</p>
+            <div class="progress" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="98%"></div>
+            </div>
+        </div>
+        <div class="col-md-6 skill-bar">
+            <p class="fs-5 mb-2">Sistemas Operacionais e Software</p>
+            <div class="progress" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" data-width="90%"></div>
+            </div>
+        </div>
     </div>
   </section>
 
@@ -210,42 +216,57 @@
       <i class="bi bi-camera-fill"></i> Meu Dia a Dia
     </h2>
     <div class="row g-4">
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto1.jpg" alt="Foto 1" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto2.jpg" alt="Foto 2" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto3.jpg" alt="Foto 3" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto4.jpg" alt="Foto 4" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto5.jpg" alt="Foto 5" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto6.jpg" alt="Foto 6" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto7.jpg" alt="Foto 7" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto8.jpg" alt="Foto 8" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto10.jpg" alt="Foto 9" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto11.jpg" alt="Foto 10" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto12.jpg" alt="Foto 11" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
-      <div class="col-6 col-sm-4 col-md-3">
-        <img src="img/foto13.jpg" alt="Foto 12" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;">
-      </div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto1.jpg" alt="Foto 1" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto2.jpg" alt="Foto 2" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto3.jpg" alt="Foto 3" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto4.jpg" alt="Foto 4" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto5.jpg" alt="Foto 5" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto6.jpg" alt="Foto 6" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto7.jpg" alt="Foto 7" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto8.jpg" alt="Foto 8" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto10.jpg" alt="Foto 9" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto11.jpg" alt="Foto 10" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto12.jpg" alt="Foto 11" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+      <div class="col-6 col-sm-4 col-md-3"><img src="img/foto13.jpg" alt="Foto 12" class="gallery-image img-fluid rounded-3 shadow-sm" style="cursor:pointer;"></div>
+    </div>
+  </section>
+
+  <!-- NOVA SEÇÃO DE BLOG -->
+  <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg">
+    <h2 class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <i class="bi bi-journal-richtext"></i> Meus Artigos
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/0e7490/FFFFFF?text=Redes" class="card-img-top" alt="Imagem de artigo sobre redes">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
+                    <p class="card-text text-light-emphasis">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
+                    <a href="#" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/155e75/FFFFFF?text=Segurança" class="card-img-top" alt="Imagem de artigo sobre segurança">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
+                    <p class="card-text text-light-emphasis">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
+                    <a href="#" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+                <img src="https://placehold.co/600x400/0891b2/FFFFFF?text=IA" class="card-img-top" alt="Imagem de artigo sobre IA">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
+                    <p class="card-text text-light-emphasis">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
+                    <a href="#" class="btn btn-outline-light mt-auto align-self-start">Ler Mais</a>
+                </div>
+            </div>
+        </div>
     </div>
   </section>
 
@@ -316,6 +337,12 @@
     <img id="lightbox-image" src="" alt="Imagem em tela cheia">
 </div>
 
+<!-- BOTÃO VOLTAR AO TOPO -->
+<a href="#sobre" id="back-to-top-btn" class="fs-4">
+    <i class="bi bi-arrow-up-short"></i>
+</a>
+
+
 <!-- Bibliotecas JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -351,7 +378,7 @@
 
   function setupParticles() {
       particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = document.body.scrollHeight; // Ajusta a altura ao conteúdo
+      particlesCanvas.height = document.body.scrollHeight;
       particlesArray = Array.from({ length: 150 }).map(() => ({
         x: Math.random() * particlesCanvas.width,
         y: Math.random() * particlesCanvas.height,
@@ -383,11 +410,23 @@
           entries.forEach(entry => {
               if (entry.isIntersecting) {
                   entry.target.classList.add('visible');
+                  // Animação das skill bars quando a seção de habilidades fica visível
+                  if (entry.target.id === 'habilidades') {
+                      const skillBars = entry.target.querySelectorAll('.progress-bar');
+                      skillBars.forEach(bar => {
+                          const targetWidth = bar.getAttribute('data-width');
+                          gsap.to(bar, {
+                              width: targetWidth,
+                              duration: 1.5,
+                              ease: 'power3.out'
+                          });
+                      });
+                  }
               } else {
                   entry.target.classList.remove('visible');
               }
           });
-      }, { threshold: 0.1 });
+      }, { threshold: 0.2 });
 
       sections.forEach(section => observer.observe(section));
   }
@@ -436,6 +475,20 @@
       counterElement.innerText = count.toString().padStart(5, '0');
   }
 
+  // NOVO SCRIPT PARA O BOTÃO VOLTAR AO TOPO
+  function setupBackToTopButton() {
+      const btn = document.getElementById('back-to-top-btn');
+      if (!btn) return;
+
+      window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+              btn.classList.add('show');
+          } else {
+              btn.classList.remove('show');
+          }
+      });
+  }
+
 
   // Evento de redimensionamento da janela
   window.addEventListener('resize', setupParticles);
@@ -456,6 +509,7 @@
     setupScrollAnimations();
     setupLightbox();
     updateVisitorCounter();
+    setupBackToTopButton(); // Inicia a funcionalidade do novo botão
   }
 </script>
 
