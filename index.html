@@ -24,6 +24,12 @@
   <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
   <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
   <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
+  
+  <!-- =================================================================== -->
+  <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
+  <!-- =================================================================== -->
+  <meta name="theme-color" content="#082f49">
+  <link rel="manifest" href="manifest.json">
   <!-- =================================================================== -->
 
   <!-- Google Fonts - Inter -->
@@ -48,7 +54,7 @@
         --bg-gradient-end: #164e63;
         --text-primary: #e5e7eb;
         --text-secondary: #9ca3af;
-        --text-light: #f8fafc; /* Adicionado para controle explícito */
+        --text-light: #f8fafc;
         --text-cyan-400: #22d3ee;
         --text-cyan-300: #67e8f9;
         --border-cyan-700: #0e7490;
@@ -68,7 +74,7 @@
         --bg-gradient-end: #e2e8f0;
         --text-primary: #1e293b;
         --text-secondary: #475569;
-        --text-light: #475569; /* CORRIGIDO: Texto claro no tema claro agora é cinza */
+        --text-light: #475569;
         --text-cyan-400: #0891b2;
         --text-cyan-300: #06b6d4;
         --border-cyan-700: #155e75;
@@ -82,7 +88,6 @@
         --btn-outline-hover-color: var(--bg-gradient-start);
     }
 
-    /* Estilos gerais */
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
@@ -94,7 +99,6 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Seções */
     .glass-section {
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
@@ -104,10 +108,11 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
+      padding-top: 80px;
+      margin-top: -80px;
     }
     .glass-section.visible { opacity: 1; transform: translateY(0); }
 
-    /* Cores */
     .text-cyan-400 { color: var(--text-cyan-400); }
     .text-cyan-300 { color: var(--text-cyan-300); }
     .border-cyan-700 { border-color: var(--border-cyan-700); }
@@ -117,7 +122,6 @@
     footer p { color: var(--text-secondary) !important; }
 
 
-    /* Navbar Fixa */
     .navbar-glass {
         background: var(--glass-bg);
         backdrop-filter: blur(10px);
@@ -135,7 +139,6 @@
         color: var(--text-cyan-400);
     }
     
-    /* Botão de Tema */
     #theme-switcher {
         background: none;
         border: none;
@@ -146,7 +149,6 @@
         color: var(--text-cyan-400);
     }
 
-    /* Demais estilos... */
     .skill-bar .progress { background-color: var(--progress-bar-bg); }
     .skill-bar .progress-bar { background: linear-gradient(90deg, #22d3ee, #00c3ff); width: 0%; }
     .blog-card, .case-card, .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -729,12 +731,13 @@
                 const text = result.candidates[0].content.parts[0].text;
                 messageTextarea.value = text;
             } else {
-                messageTextarea.value = "Não foi possível gerar um rascunho. Por favor, tente novamente.";
+                console.error("Resposta da API bloqueada ou vazia:", result);
+                messageTextarea.value = "Não foi possível gerar um rascunho. A resposta pode ter sido bloqueada por segurança. Tente um assunto diferente.";
             }
 
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
-            messageTextarea.value = "Ops... Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
+            messageTextarea.value = "Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
         } finally {
             loadingIndicator.classList.add('d-none');
         }
@@ -763,4 +766,4 @@
 </script>
 
 </body>
-</ht
+</html>
