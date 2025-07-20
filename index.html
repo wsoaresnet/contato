@@ -98,8 +98,8 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
-      padding-top: 80px; /* Espaçamento para a navbar fixa */
-      margin-top: -80px; /* Compensa o espaçamento */
+      padding-top: 80px; 
+      margin-top: -80px; 
     }
     .glass-section.visible { opacity: 1; transform: translateY(0); }
 
@@ -107,7 +107,6 @@
     .text-cyan-400 { color: var(--text-cyan-400); }
     .text-cyan-300 { color: var(--text-cyan-300); }
     .border-cyan-700 { border-color: var(--border-cyan-700); }
-    /* CORREÇÃO: Aplica a variável de cor correta */
     .text-light { color: var(--text-light) !important; }
     p, .fs-5 { color: var(--text-primary); }
     .card-text, .service-card p { color: var(--text-secondary) !important; }
@@ -164,7 +163,6 @@
     .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
     .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
     .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
-    /* MICRO-INTERAÇÃO: Hover nos ícones sociais */
     .social-icons a { transition: transform 0.2s ease-in-out; }
     .social-icons a:hover { transform: scale(1.2); }
   </style>
@@ -174,7 +172,7 @@
 <!-- Fundo de partículas dinâmico -->
 <div id="particles-background" class="particles-container"></div>
 
-<!-- NOVA BARRA DE NAVEGAÇÃO FIXA -->
+<!-- BARRA DE NAVEGAÇÃO FIXA -->
 <nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav">
   <div class="container">
     <a class="navbar-brand fw-bold text-cyan-300" href="#">WS</a>
@@ -188,6 +186,7 @@
         <li class="nav-item"><a class="nav-link" href="#cases">Cases de Sucesso</a></li>
         <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
         <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="#formacao">Formação</a></li>
         <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
       </ul>
       <button id="theme-switcher" class="fs-4" aria-label="Alternar tema de cores">
@@ -281,8 +280,8 @@
         </div>
     </div>
   </section>
-
-  <!-- NOVA SEÇÃO DE SERVIÇOS -->
+  
+  <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
   <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
     <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
         <i class="bi bi-gear-wide-connected"></i> Meus Serviços
@@ -364,6 +363,19 @@
             </div>
         </div>
     </div>
+  </section>
+  
+  <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
+  <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
+    <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+        <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
+    </h2>
+    <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
+    <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
+    <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
+    <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> (Comunicação, Oratória, Liderança, PNL, etc.) pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
+    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
+    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
   </section>
 
   <!-- 5. Contato -->
@@ -687,4 +699,4 @@
 </script>
 
 </body>
-</ht
+</html>
