@@ -1,22 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LGPD na Prática: Por Onde Começar? - Willian Soares</title>
+  <title>Como a IA está Revolucionando o Suporte de TI - Willian Soares</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
   <style>
-    body { font-family: 'Inter', sans-serif; min-height: 100vh; background: linear-gradient(to bottom right, #111827, #082f49, #164e63); color: #e5e7eb; }
-    .glass-section { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-    .text-cyan-400 { color: #22d3ee; }
-    .text-cyan-300 { color: #67e8f9; }
-    .article-body h3 { color: #67e8f9; font-weight: 700; margin-top: 2rem; }
-    .article-body p { font-size: 1.1rem; line-height: 1.7; }
+    /* VARIÁVEIS DE TEMA */
+    :root {
+        --bg-gradient-start: #111827;
+        --bg-gradient-mid: #082f49;
+        --bg-gradient-end: #164e63;
+        --text-primary: #e5e7eb;
+        --text-secondary: #9ca3af;
+        --text-light: #f8fafc;
+        --text-cyan-400: #22d3ee;
+        --text-cyan-300: #67e8f9;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --btn-outline-color: var(--text-light);
+        --btn-outline-hover-bg: var(--text-light);
+        --btn-outline-hover-color: var(--bg-gradient-start);
+    }
+
+    [data-theme="light"] {
+        --bg-gradient-start: #f8fafc;
+        --bg-gradient-mid: #f1f5f9;
+        --bg-gradient-end: #e2e8f0;
+        --text-primary: #1e293b;
+        --text-secondary: #475569;
+        --text-light: #475569;
+        --text-cyan-400: #0891b2;
+        --text-cyan-300: #06b6d4;
+        --glass-bg: rgba(255, 255, 255, 0.5);
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --btn-outline-color: var(--text-secondary);
+        --btn-outline-hover-bg: var(--text-secondary);
+        --btn-outline-hover-color: var(--bg-gradient-start);
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      min-height: 100vh; 
+      background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end)); 
+      color: var(--text-primary);
+      transition: background 0.3s ease, color 0.3s ease;
+      /* IMPEDE A SELEÇÃO DE TEXTO */
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10+ */
+      user-select: none; /* Padrão */
+    }
+    .glass-section { 
+        background: var(--glass-bg); 
+        backdrop-filter: blur(10px); 
+        -webkit-backdrop-filter: blur(10px); 
+        border: 1px solid var(--glass-border); 
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+        transition: background 0.3s ease, border 0.3s ease;
+    }
+    .text-cyan-400 { color: var(--text-cyan-400); }
+    .text-cyan-300 { color: var(--text-cyan-300); }
+    .article-body h3 { color: var(--text-cyan-300); font-weight: 700; margin-top: 2rem; }
+    .article-body p { font-size: 1.1rem; line-height: 1.7; color: var(--text-primary); }
     .article-body ul { list-style-type: none; padding-left: 0; }
-    .article-body li::before { content: "✓"; color: #22d3ee; font-weight: bold; display: inline-block; width: 1.5em; margin-left: -1.5em; }
+    .article-body li { color: var(--text-primary); }
+    .article-body li::before { content: "✓"; color: var(--text-cyan-400); font-weight: bold; display: inline-block; width: 1.5em; margin-left: -1.5em; }
+    .text-light { color: var(--text-light) !important; }
+    footer p { color: var(--text-secondary) !important; }
+    .text-muted { color: var(--text-secondary) !important; }
+    .btn-outline-light {
+        --bs-btn-color: var(--btn-outline-color);
+        --bs-btn-border-color: var(--btn-outline-color);
+        --bs-btn-hover-bg: var(--btn-outline-hover-bg);
+        --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
+        --bs-btn-hover-color: var(--btn-outline-hover-color);
+    }
   </style>
 </head>
 <body>
@@ -29,22 +90,22 @@
   <main class="container my-5">
     <article class="glass-section p-4 p-md-5 rounded-4 shadow-lg">
       <header class="text-center mb-5">
-        <h2 class="display-5 fw-bold text-cyan-400">LGPD na Prática: Por Onde Começar?</h2>
+        <h2 class="display-5 fw-bold text-cyan-400">Como a IA está Revolucionando o Suporte de TI</h2>
         <p class="text-muted">Publicado em 19 de Julho de 2025</p>
       </header>
       <div class="article-body">
-        <p>A Lei Geral de Proteção de Dados (LGPD) não é mais uma novidade, mas muitas empresas, especialmente as de pequeno e médio porte, ainda se sentem perdidas sobre como se adequar. A boa notícia é que o processo não precisa ser um bicho de sete cabeças. O segredo é começar de forma organizada e focada no que é essencial.</p>
+        <p>A Inteligência Artificial (IA) deixou de ser um conceito de ficção científica para se tornar uma ferramenta poderosa no dia a dia das equipes de TI. No suporte técnico, em particular, a IA não está substituindo os humanos, mas sim os capacitando, automatizando tarefas repetitivas e permitindo que os analistas foquem em problemas de alta complexidade.</p>
         
-        <h3>1. Mapeamento de Dados: O Ponto de Partida</h3>
-        <p>O primeiro passo, e o mais crucial, é entender quais dados pessoais sua empresa coleta, por onde eles entram, onde são armazenados e com quem são compartilhados. Faça um inventário completo. Pergunte-se: Coletamos CPF de clientes? Onde fica a planilha com os dados dos funcionários? O formulário do site envia dados para qual ferramenta? Ter essa visão clara é a base para todo o resto.</p>
+        <h3>1. Chatbots Inteligentes para Triagem e Resoluções Simples</h3>
+        <p>A primeira linha de defesa do suporte moderno são os chatbots turbinados com IA. Eles são capazes de entender a linguagem natural do usuário, fazer a triagem inicial do problema e resolver as solicitações mais comuns, como redefinição de senhas ou configuração de e-mail. Isso libera a equipe de TI para lidar com questões que exigem raciocínio crítico, ao mesmo tempo que oferece uma resposta instantânea ao usuário para problemas simples.</p>
         
-        <h3>2. Defina as Bases Legais e Revise as Políticas</h3>
-        <p>Para cada tipo de dado que você coleta, a LGPD exige uma "base legal" que justifique esse tratamento. Pode ser o consentimento do titular, o cumprimento de um contrato, um legítimo interesse, entre outras. Após identificar suas bases legais, é hora de atualizar sua Política de Privacidade. Ela precisa ser clara, transparente e de fácil acesso, informando ao usuário exatamente o que você faz com os dados dele.</p>
+        <h3>2. Análise Preditiva para Prevenir Problemas</h3>
+        <p>Em vez de apenas apagar incêndios, a IA permite que o suporte de TI os previna. Ferramentas de monitoramento com IA podem analisar o desempenho de sistemas e redes em tempo real, identificando padrões que indicam uma falha iminente. Por exemplo, a IA pode detectar que um servidor está começando a superaquecer ou que o uso de disco está se aproximando de um nível crítico, alertando a equipe para agir proativamente antes que o problema afete os usuários.</p>
         
-        <h3>3. Segurança da Informação e Gestão de Incidentes</h3>
-        <p>Adequar-se à LGPD é também reforçar a segurança. Isso envolve medidas técnicas e administrativas, como usar senhas fortes, controlar o acesso a sistemas, utilizar antivírus e firewall, e treinar sua equipe. Tão importante quanto prevenir é ter um plano de resposta a incidentes. Se ocorrer um vazamento de dados, o que você fará? Quem será comunicado? Ter um processo definido pode minimizar os danos e as sanções.</p>
+        <h3>3. Base de Conhecimento Dinâmica e Inteligente</h3>
+        <p>A IA pode analisar todos os chamados resolvidos e criar uma base de conhecimento que aprende sozinha. Quando um analista (ou até mesmo um chatbot) se depara com um novo problema, a IA pode sugerir a solução mais provável com base em incidentes passados. Isso acelera drasticamente o tempo de resolução e garante que o conhecimento adquirido por um membro da equipe seja facilmente compartilhado com todos.</p>
         
-        <p class="mt-5">A jornada de conformidade com a LGPD é contínua, não um projeto com início, meio e fim. Começar com esses três pilares — mapeamento, base legal e segurança — coloca sua empresa no caminho certo para respeitar a privacidade dos seus clientes e evitar pesadas multas.</p>
+        <p class="mt-5">A adoção da IA no suporte de TI é um caminho sem volta. As empresas que abraçam essa revolução não apenas otimizam seus custos e aumentam a eficiência, mas também elevam a satisfação de seus usuários, oferecendo um suporte mais rápido, inteligente e proativo.</p>
       </div>
       <div class="text-center mt-5">
         <a href="index.html#blog" class="btn btn-outline-light">Voltar aos Artigos</a>
@@ -54,6 +115,16 @@
   <footer class="text-center py-4 mt-5">
     <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
   </footer>
+
+  <script>
+    // IMPEDE O CLIQUE DIREITO DO MOUSE
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // APLICA O TEMA SALVO NA PÁGINA PRINCIPAL
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    });
+  </script>
 </body>
 </html>
-
