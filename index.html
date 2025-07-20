@@ -604,7 +604,7 @@
         const messageTextarea = document.getElementById('message');
         const loadingIndicator = document.getElementById('ai-loading');
         
-        const name = nameInput.value || "Willian Soares";
+        const name = nameInput.value || "um profissional interessado";
         const keywords = keywordsInput.value;
 
         if (!keywords) {
@@ -616,7 +616,7 @@
         messageTextarea.value = "";
         messageTextarea.placeholder = "Gerando rascunho...";
 
-        const prompt = `Você é um assistente de escrita profissional. Escreva uma mensagem de contato curta e profissional em primeira pessoa, como se fosse ${name}. O objetivo é iniciar um contato sobre "${keywords}". A mensagem deve ser cordial, direta e mencionar o interesse em explorar oportunidades de colaboração ou discutir a vaga mencionada. O nome de quem escreve já estará no campo 'nome', então não precisa assinar a mensagem. A mensagem será enviada por um formulário no portfólio de ${name}.`;
+        const prompt = `Escreva uma mensagem de contato profissional e cordial para Willian Soares. O remetente é ${name} e o tópico de interesse é "${keywords}". A mensagem deve expressar interesse em discutir o tópico mencionado e explorar possíveis oportunidades de colaboração. A mensagem deve ser curta e direta, sem assinatura, pois o nome do remetente já está em um campo separado.`;
 
         try {
             let chatHistory = [];
@@ -675,4 +675,4 @@
 </script>
 
 </body>
-</html>
+</ht
