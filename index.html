@@ -370,9 +370,24 @@
         <label for="email" class="form-label fw-semibold">Email</label>
         <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
       </div>
+      <!-- GEMINI API FEATURE -->
+      <div class="mb-3">
+        <label for="ai-keywords" class="form-label fw-semibold">Assunto ou Vaga de Interesse (Opcional)</label>
+        <div class="input-group">
+          <input type="text" class="form-control form-control-lg form-control-glass" id="ai-keywords" placeholder="Ex: Vaga Analista de Redes">
+          <button class="btn btn-outline-light" type="button" id="generate-draft-btn" style="border-color: var(--glass-border);">
+            ✨ Gerar rascunho com IA
+          </button>
+        </div>
+      </div>
       <div class="mb-4">
         <label for="message" class="form-label fw-semibold">Mensagem</label>
-        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Deixe sua mensagem aqui..." required></textarea>
+        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Clique no botão acima para gerar um rascunho ou escreva sua mensagem aqui..." required></textarea>
+        <div class="d-none text-center mt-2" id="ai-loading">
+          <div class="spinner-border text-cyan-300" role="status">
+            <span class="visually-hidden">Gerando rascunho...</span>
+          </div>
+        </div>
       </div>
       <div class="d-grid">
         <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
@@ -505,7 +520,7 @@
                                 duration: 1.5,
                                 ease: 'power3.out',
                                 onUpdate: () => {
-                                    textSpan.textContent = Math.round(counter.value) + '%';
+                                    if(textSpan) textSpan.textContent = Math.round(counter.value) + '%';
                                 }
                             });
 
@@ -580,6 +595,70 @@
         });
     }
 
+    // =================================================================== */
+    // ================= SCRIPT DA API GEMINI ============================ */
+    // =================================================================== */
+    async function generateAIDraft() {
+        const nameInput = document.getElementById('name');
+        const keywordsInput = document.getElementById('ai-keywords');
+        const messageTextarea = document.getElementById('message');
+        const loadingIndicator = document.getElementById('ai-loading');
+        
+        const name = nameInput.value || "Willian Soares";
+        const keywords = keywordsInput.value;
+
+        if (!keywords) {
+            messageTextarea.placeholder = "Por favor, insira um assunto ou vaga para gerar o rascunho.";
+            return;
+        }
+
+        loadingIndicator.classList.remove('d-none');
+        messageTextarea.value = "";
+        messageTextarea.placeholder = "Gerando rascunho...";
+
+        const prompt = `Você é um assistente de escrita profissional. Escreva uma mensagem de contato curta e profissional em primeira pessoa, como se fosse ${name}. O objetivo é iniciar um contato sobre "${keywords}". A mensagem deve ser cordial, direta e mencionar o interesse em explorar oportunidades de colaboração ou discutir a vaga mencionada. O nome de quem escreve já estará no campo 'nome', então não precisa assinar a mensagem. A mensagem será enviada por um formulário no portfólio de ${name}.`;
+
+        try {
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                messageTextarea.value = text;
+            } else {
+                messageTextarea.value = "Não foi possível gerar um rascunho. Por favor, tente novamente.";
+            }
+
+        } catch (error) {
+            console.error("Erro ao chamar a API Gemini:", error);
+            messageTextarea.value = "Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
+        } finally {
+            loadingIndicator.classList.add('d-none');
+        }
+    }
+
+    function setupAIFeatures() {
+        const generateBtn = document.getElementById('generate-draft-btn');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', generateAIDraft);
+        }
+    }
+
     // Inicia tudo
     if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
         gsap.registerPlugin(SplitText);
@@ -591,6 +670,7 @@
     setupBackToTopButton();
     setupEasterEgg();
     setupThemeSwitcher();
+    setupAIFeatures(); // Inicia a funcionalidade da IA
   });
 </script>
 
