@@ -97,6 +97,10 @@
       color: var(--text-primary);
       overflow-x: hidden;
       transition: background 0.3s ease, color 0.3s ease;
+      /* IMPEDE A SELEÇÃO DE TEXTO */
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10+ */
+      user-select: none; /* Padrão */
     }
 
     .glass-section {
@@ -261,7 +265,8 @@
 </header>
 
 <main class="container my-5">
-<!-- 1. Meus Artigos -->
+
+  <!-- 1. Meus Artigos -->
   <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg visible" aria-labelledby="blog-heading">
     <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
         <i class="bi bi-journal-richtext"></i> Meus Artigos
