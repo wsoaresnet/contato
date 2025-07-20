@@ -97,10 +97,9 @@
       color: var(--text-primary);
       overflow-x: hidden;
       transition: background 0.3s ease, color 0.3s ease;
-      /* IMPEDE A SELEÇÃO DE TEXTO */
-      -webkit-user-select: none; /* Safari */
-      -ms-user-select: none; /* IE 10+ */
-      user-select: none; /* Padrão */
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
     .glass-section {
@@ -225,6 +224,24 @@
     .timeline-item-period {
         font-size: 0.9rem;
         color: var(--text-secondary);
+    }
+
+    /* ESTILOS DO BANNER DE COOKIES */
+    .cookie-banner {
+        position: fixed;
+        bottom: -100%; /* Começa escondido */
+        left: 0;
+        width: 100%;
+        padding: 1rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid var(--glass-border);
+        z-index: 1040;
+        transition: bottom 0.5s ease-in-out;
+    }
+    .cookie-banner.show {
+        bottom: 0;
     }
   </style>
 </head>
@@ -844,4 +861,4 @@
 </script>
 
 </body>
-</html>
+</ht
