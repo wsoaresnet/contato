@@ -57,6 +57,9 @@
         --shadow-color: rgba(0, 0, 0, 0.37);
         --progress-bar-bg: rgba(255, 255, 255, 0.1);
         --form-control-bg: rgba(255, 255, 255, 0.1);
+        --btn-outline-color: var(--text-light);
+        --btn-outline-hover-bg: var(--text-light);
+        --btn-outline-hover-color: var(--bg-gradient-start);
     }
 
     [data-theme="light"] {
@@ -74,6 +77,9 @@
         --shadow-color: rgba(0, 0, 0, 0.1);
         --progress-bar-bg: rgba(0, 0, 0, 0.1);
         --form-control-bg: rgba(0, 0, 0, 0.05);
+        --btn-outline-color: var(--text-secondary);
+        --btn-outline-hover-bg: var(--text-secondary);
+        --btn-outline-hover-color: var(--bg-gradient-start);
     }
 
     /* Estilos gerais */
@@ -165,6 +171,13 @@
     .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
     .social-icons a { transition: transform 0.2s ease-in-out; }
     .social-icons a:hover { transform: scale(1.2); }
+    .btn-outline-light {
+        --bs-btn-color: var(--btn-outline-color);
+        --bs-btn-border-color: var(--btn-outline-color);
+        --bs-btn-hover-bg: var(--btn-outline-hover-bg);
+        --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
+        --bs-btn-hover-color: var(--btn-outline-hover-color);
+    }
   </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
@@ -408,7 +421,7 @@
     <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
     <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
   </section>
-
+  
   <!-- Seção Meu Dia a Dia -->
   <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
     <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
@@ -604,11 +617,10 @@
                         });
                     }
                 } else {
-                    // AJUSTE: Remove a linha que fazia o elemento desaparecer
-                    // entry.target.classList.remove('visible'); 
+                    entry.target.classList.remove('visible');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { rootMargin: "-50% 0px -50% 0px" });
 
         sections.forEach(section => observer.observe(section));
     }
@@ -693,7 +705,7 @@
         messageTextarea.value = "";
         messageTextarea.placeholder = "Gerando rascunho...";
 
-        const prompt = `Preciso escrever uma mensagem de contato profissional e cordial para Willian Soares. O remetente é ${name} e o tópico de interesse é "${keywords}". A mensagem deve expressar interesse em discutir o tópico mencionado e explorar possíveis oportunidades de colaboração. A mensagem deve ser curta e direta ao ponto, consegue fazer isso?.`;
+        const prompt = `Escreva uma mensagem de contato profissional e cordial para Willian Soares. O remetente é ${name} e o tópico de interesse é "${keywords}". A mensagem deve expressar interesse em discutir o tópico mencionado e explorar possíveis oportunidades de colaboração. A mensagem deve ser curta e direta, sem assinatura, pois o nome do remetente já está em um campo separado.`;
 
         try {
             let chatHistory = [];
