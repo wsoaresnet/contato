@@ -104,8 +104,6 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
-      padding-top: 80px; 
-      margin-top: -80px; 
     }
     .glass-section.visible { opacity: 1; transform: translateY(0); }
 
@@ -736,7 +734,7 @@
 
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
-            messageTextarea.value = "Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
+            messageTextarea.value = "Ops... Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
         } finally {
             loadingIndicator.classList.add('d-none');
         }
@@ -765,4 +763,4 @@
 </script>
 
 </body>
-</html>
+</ht
