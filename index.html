@@ -162,6 +162,9 @@
     .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
     .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
     .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
+    /* MICRO-INTERAÇÃO: Hover nos ícones sociais */
+    .social-icons a { transition: transform 0.2s ease-in-out; }
+    .social-icons a:hover { transform: scale(1.2); }
   </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
@@ -315,37 +318,37 @@
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Suporte e Helpdesk</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Suporte e Helpdesk" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="95%">95%</div>
+                <div class="progress-bar" data-width="95%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Redes de Computadores</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Redes de Computadores" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="90%">90%</div>
+                <div class="progress-bar" data-width="90%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Gestão de Projetos de TI</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Gestão de Projetos de TI" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="80%">80%</div>
+                <div class="progress-bar" data-width="80%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Segurança (CFTV)</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Segurança (CFTV)" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="85%">85%</div>
+                <div class="progress-bar" data-width="85%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Hardware (Montagem e Manutenção)</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Hardware (Montagem e Manutenção)" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="98%">98%</div>
+                <div class="progress-bar" data-width="98%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
         <div class="col-md-6 skill-bar">
             <p class="fs-5 mb-2">Sistemas Operacionais e Software</p>
             <div class="progress" role="progressbar" aria-label="Nível de habilidade em Sistemas Operacionais e Software" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" data-width="90%">90%</div>
+                <div class="progress-bar" data-width="90%"><span class="progress-bar-text"></span></div>
             </div>
         </div>
     </div>
@@ -378,7 +381,7 @@
       </div>
     </form>
     
-    <div class="text-center mt-5">
+    <div class="text-center mt-5 social-icons">
         <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
         <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram"></i></a>
         <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="LinkedIn de Willian Soares"><i class="bi bi-linkedin"></i></a>
@@ -431,7 +434,6 @@
     // Função para animar o subtítulo
     function animateSubtitle() {
       const target = document.getElementById('animated-subtitle');
-      // AJUSTE DE PERFORMANCE: Delay reduzido de 0.5s para 0.2s para uma aparição mais rápida.
       if(target) gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
     }
 
@@ -483,19 +485,30 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Ativa link da navbar
                     navLinks.forEach(link => {
                         link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
                     });
                     
-                    // Animação de entrada da seção
                     entry.target.classList.add('visible');
 
-                    // Animação das skill bars
                     if (entry.target.id === 'habilidades') {
                         const skillBars = entry.target.querySelectorAll('.progress-bar');
                         skillBars.forEach(bar => {
                             const targetWidth = bar.getAttribute('data-width');
+                            const targetValue = parseInt(targetWidth, 10);
+                            const textSpan = bar.querySelector('.progress-bar-text');
+                            
+                            let counter = { value: 0 };
+
+                            gsap.to(counter, {
+                                value: targetValue,
+                                duration: 1.5,
+                                ease: 'power3.out',
+                                onUpdate: () => {
+                                    textSpan.textContent = Math.round(counter.value) + '%';
+                                }
+                            });
+
                             gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
                         });
                     }
@@ -503,7 +516,7 @@
                     entry.target.classList.remove('visible');
                 }
             });
-        }, { rootMargin: "-50% 0px -50% 0px" }); // Ativa quando o meio da seção está no meio da tela
+        }, { rootMargin: "-50% 0px -50% 0px" });
 
         sections.forEach(section => observer.observe(section));
     }
