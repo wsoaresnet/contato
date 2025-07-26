@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <title>Willian Soares | Seu Próximo TI</title>
 
   <!-- =================================================================== -->
@@ -11,7 +11,7 @@
   <!-- =================================================================== -->
   <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
   <meta name="author" content="Willian Soares">
-  
+
   <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
   <meta property="og:title" content="Willian Soares | Seu Próximo TI">
   <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
@@ -24,7 +24,7 @@
   <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
   <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
   <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
-  
+
   <!-- =================================================================== -->
   <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
   <!-- =================================================================== -->
@@ -37,10 +37,10 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  
+
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
+
   <!-- FAVICON GERADO -->
   <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
@@ -141,7 +141,7 @@
     .navbar-glass .nav-link.active {
         color: var(--text-cyan-400);
     }
-    
+
     #theme-switcher {
         background: none;
         border: none;
@@ -181,7 +181,7 @@
         --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
         --bs-btn-hover-color: var(--btn-outline-hover-color);
     }
-    
+
     .timeline {
         list-style: none;
         padding: 1rem 0;
@@ -242,6 +242,94 @@
     }
     .cookie-banner.show {
         bottom: 0;
+    }
+
+    /* Estilos para o Carrossel da Galeria */
+    .gallery-carousel {
+        position: relative;
+        overflow: hidden; /* Esconde o que está fora da área visível */
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 0.75rem; /* rounded-lg */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out; /* Transição suave para o movimento */
+        padding-bottom: 15px; /* Espaço para as sombras/efeitos se necessário */
+    }
+
+    .gallery-slide {
+        flex: 0 0 auto; /* Não cresce nem encolhe, mantém o tamanho */
+        width: calc(33.333% - 10px); /* 3 imagens por vez com gap */
+        margin-right: 15px; /* Gap entre as imagens */
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+    }
+
+    .gallery-slide:last-child {
+        margin-right: 0; /* Remove o gap da última imagem */
+    }
+
+    .gallery-image {
+        width: 100%;
+        height: 200px; /* Altura fixa para as imagens */
+        object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+        border-radius: 0.75rem;
+        cursor: pointer;
+    }
+
+    .gallery-prev, .gallery-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+
+    .gallery-prev:hover, .gallery-next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .gallery-prev {
+        left: 10px;
+    }
+
+    .gallery-next {
+        right: 10px;
+    }
+
+    .gallery-prev:disabled, .gallery-next:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Responsividade para o carrossel */
+    @media (max-width: 992px) { /* Tablets e menores */
+        .gallery-slide {
+            width: calc(50% - 10px); /* 2 imagens por vez */
+        }
+    }
+
+    @media (max-width: 768px) { /* Celulares */
+        .gallery-slide {
+            width: calc(100% - 15px); /* 1 imagem por vez */
+        }
     }
   </style>
 </head>
@@ -461,7 +549,7 @@
         </div>
     </div>
   </section>
-  
+
   <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
   <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
     <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
@@ -545,7 +633,7 @@
         </div>
     </div>
   </section>
-  
+
   <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
   <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
     <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
@@ -558,7 +646,7 @@
     <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
     <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
   </section>
-  
+
   <!-- Seção Meu Dia a Dia - Carrossel -->
   <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
     <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
@@ -614,7 +702,7 @@
       <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
     </h2>
     <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
-    
+
     <form action="https://formspree.io/f/xjkogvkn" method="POST" class="col-md-8 mx-auto">
       <div class="mb-3">
         <label for="name" class="form-label fw-semibold">Nome</label>
@@ -649,7 +737,7 @@
         </button>
       </div>
     </form>
-    
+
     <div class="text-center mt-5 social-icons">
         <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
         <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram"></i></a>
@@ -696,6 +784,7 @@
     <hr class="my-4 border-secondary">
     <div class="text-center">
       <p class="small text-secondary mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
+      <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por Willian Soares</p>
       <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
     </div>
   </div>
@@ -714,13 +803,26 @@
 
 
 <!-- Bibliotecas JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" xintegrity="sha512-163YoLXHNHNdSSyCheLfkTPQLGSTE5Ua7HrbxwsyGc6TRHrhfyaK1aiSElvsAL5dPc8ITztUoWLVEmsgrppHJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js" xintegrity="sha512-i31qJX8e37/1p2fa22D5P3y22i29jA/eM3S5FnMv3Tf0quS2vH8/IYT3D4M2/u/i2l5n2aJ/wSft2A9G/Y2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // --- INÍCIO DO SCRIPT PRINCIPAL ---
+
+    // Registra o plugin SplitText com o GSAP assim que as bibliotecas estiverem carregadas
+    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+        gsap.registerPlugin(SplitText);
+    } else {
+        console.error("GSAP ou SplitText não estão definidos ao tentar registrar o plugin. As animações de título podem não funcionar.");
+        // Fallback: garante que o título esteja visível mesmo sem a animação
+        const titleElement = document.getElementById('animated-title');
+        if (titleElement) {
+            gsap.set(titleElement, { opacity: 1, y: 0 });
+        }
+    }
 
     // Função para animar o título
     function animateTitle() {
@@ -742,41 +844,49 @@
     // Animação de partículas no fundo
     const particlesCanvas = document.createElement('canvas');
     const particlesContainer = document.getElementById('particles-background');
-    if (particlesContainer) {
+    let ctx; // Declare ctx here to make it accessible globally within the script
+    let particlesArray; // Declare particlesArray globally
+
+    function setupParticles() {
+      // Only initialize canvas and context if they haven't been already
+      if (!ctx && particlesContainer) { // Ensure particlesContainer exists
         particlesContainer.appendChild(particlesCanvas);
-        const ctx = particlesCanvas.getContext('2d');
-        let particlesArray;
+        ctx = particlesCanvas.getContext('2d');
+      } else if (!particlesContainer) {
+        console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
+        return; // Exit if the container is not found
+      }
 
-        function setupParticles() {
-            particlesCanvas.width = window.innerWidth;
-            particlesCanvas.height = document.body.scrollHeight;
-            particlesArray = Array.from({ length: 150 }).map(() => ({
-                x: Math.random() * particlesCanvas.width,
-                y: Math.random() * particlesCanvas.height,
-                r: Math.random() * 2 + 1,
-                dx: (Math.random() - 0.5) * 0.4,
-                dy: (Math.random() - 0.5) * 0.4
-            }));
-        }
+      particlesCanvas.width = window.innerWidth;
+      particlesCanvas.height = document.body.scrollHeight; // Use scrollHeight for full page height
 
-        function animateParticles() {
-            if(!ctx) return;
-            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-            particlesArray.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
-                ctx.fill();
-                p.x += p.dx;
-                p.y += p.dy;
-                if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-                if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        setupParticles();
-        animateParticles();
-        window.addEventListener('resize', setupParticles);
+      // Clear existing particles and re-create them for responsiveness
+      particlesArray = []; // Re-initialize the array
+      for (let i = 0; i < 150; i++) {
+        particlesArray.push({
+          x: Math.random() * particlesCanvas.width,
+          y: Math.random() * particlesCanvas.height,
+          r: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 0.4,
+          dy: (Math.random() - 0.5) * 0.4
+        });
+      }
+    }
+
+    function animateParticles() {
+      if (!ctx || !particlesArray) return; // Ensure context and particlesArray are available before drawing
+      ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+      particlesArray.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(animateParticles);
     }
 
     // Animação de scroll para as seções e navbar
@@ -790,7 +900,7 @@
                     navLinks.forEach(link => {
                         link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
                     });
-                    
+
                     entry.target.classList.add('visible');
 
                     if (entry.target.id === 'habilidades') {
@@ -799,7 +909,7 @@
                             const targetWidth = bar.getAttribute('data-width');
                             const targetValue = parseInt(targetWidth, 10);
                             const textSpan = bar.querySelector('.progress-bar-text');
-                            
+
                             let counter = { value: 0 };
 
                             gsap.to(counter, {
@@ -815,14 +925,14 @@
                         });
                     }
                 } else {
-                    // entry.target.classList.remove('visible');
+                    // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
                 }
             });
         }, { threshold: 0.2 });
 
         sections.forEach(section => observer.observe(section));
     }
-    
+
     // Script para o Contador de Visitas
     function updateVisitorCounter() {
         const counterElement = document.getElementById('visitor-counter');
@@ -848,56 +958,86 @@
       const slides = Array.from(document.querySelectorAll('.gallery-slide'));
       const prevBtn = document.querySelector('.gallery-prev');
       const nextBtn = document.querySelector('.gallery-next');
-      const images = document.querySelectorAll('.gallery-image');
-      
-      let currentIndex = 0;
-      const slideWidth = slides[0].getBoundingClientRect().width + 15; // inclui gap
-      
-      // Navegação do carrossel
-      function updateCarousel() {
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+      const images = document.querySelectorAll('.gallery-image'); // All images in the gallery
+
+      if (!track || slides.length === 0 || !prevBtn || !nextBtn) {
+        console.warn("Elementos do carrossel não encontrados ou insuficientes.");
+        return;
       }
-      
+
+      let currentIndex = 0;
+      let slideWidth = 0; // Will be calculated dynamically
+
+      function calculateSlideWidth() {
+        if (slides.length > 0) {
+          // Get the actual width of a slide including its margin-right
+          const firstSlide = slides[0];
+          const computedStyle = window.getComputedStyle(firstSlide);
+          const marginRight = parseFloat(computedStyle.marginRight);
+          slideWidth = firstSlide.offsetWidth + marginRight;
+        }
+      }
+
+      function updateCarousel() {
+        gsap.to(track, {
+          x: -currentIndex * slideWidth,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+        prevBtn.disabled = currentIndex === 0;
+        // Calculate max index based on how many slides fit
+        const containerWidth = track.parentElement.offsetWidth;
+        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
+        nextBtn.disabled = currentIndex >= maxIndex;
+      }
+
+      // Initial calculation and update
+      calculateSlideWidth();
+      updateCarousel();
+
+      // Recalculate on resize
+      window.addEventListener('resize', () => {
+        calculateSlideWidth();
+        updateCarousel(); // Re-position carousel after resize
+      });
+
       prevBtn.addEventListener('click', () => {
         currentIndex = Math.max(currentIndex - 1, 0);
         updateCarousel();
       });
-      
+
       nextBtn.addEventListener('click', () => {
-        currentIndex = Math.min(currentIndex + 1, slides.length - 1);
+        const containerWidth = track.parentElement.offsetWidth;
+        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
+        currentIndex = Math.min(currentIndex + 1, maxIndex);
         updateCarousel();
       });
-      
-      // Expansão das imagens
+
+      // Lightbox integration for gallery images
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const closeLightboxBtn = document.getElementById('close-lightbox');
+
       images.forEach(img => {
         img.addEventListener('click', function() {
-          if (this.classList.contains('expanded')) {
-            this.classList.remove('expanded');
-          } else {
-            // Remove expanded de todas as imagens primeiro
-            images.forEach(i => i.classList.remove('expanded'));
-            this.classList.add('expanded');
-          }
+          lightboxImage.src = this.src;
+          lightbox.classList.add('active');
         });
       });
-      
-      // Fechar imagem ao clicar fora
-      document.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('gallery-image')) {
-          images.forEach(img => img.classList.remove('expanded'));
-        }
+
+      closeLightboxBtn.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        lightboxImage.src = ""; // Clear image src
       });
-      
-      // Navegação por teclado
-      document.addEventListener('keydown', (e) => {
-        if (document.querySelector('.gallery-image.expanded')) {
-          if (e.key === 'Escape') {
-            images.forEach(img => img.classList.remove('expanded'));
-          }
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) { // Clicked on the overlay, not the image
+          lightbox.classList.remove('active');
+          lightboxImage.src = "";
         }
       });
     }
-    
+
     // Script do Easter Egg
     function setupEasterEgg() {
       const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
@@ -915,15 +1055,15 @@
           }
       });
     }
-    
+
     // Script do Tema Claro/Escuro
     function setupThemeSwitcher() {
         const switcher = document.getElementById('theme-switcher');
         const icon = switcher.querySelector('i');
         const html = document.documentElement;
-        
+
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        
+
         html.setAttribute('data-theme', savedTheme);
         icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
         icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
@@ -946,7 +1086,7 @@
         const keywordsInput = document.getElementById('ai-keywords');
         const messageTextarea = document.getElementById('message');
         const loadingIndicator = document.getElementById('ai-loading');
-        
+
         const name = nameInput.value || "um profissional interessado";
         const keywords = keywordsInput.value;
 
@@ -965,9 +1105,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-            
+
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -979,7 +1119,7 @@
             }
 
             const result = await response.json();
-            
+
             if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
                 const text = result.candidates[0].content.parts[0].text;
                 messageTextarea.value = text;
@@ -1003,21 +1143,37 @@
         }
     }
 
-    // Inicia tudo
-    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-        gsap.registerPlugin(SplitText);
+    // Inicia tudo quando a página estiver completamente carregada
+    window.onload = function () {
+        // Registra o plugin SplitText com o GSAP
+        if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+            gsap.registerPlugin(SplitText);
+            console.log("SplitText plugin registrado com sucesso.");
+        } else {
+            console.error("GSAP ou SplitText não estão definidos. As animações de título podem não funcionar.");
+            // Fallback: garante que o título esteja visível mesmo sem a animação
+            const titleElement = document.getElementById('animated-title');
+            if (titleElement) {
+                gsap.set(titleElement, { opacity: 1, y: 0 });
+            }
+        }
+
+        animateTitle();
+        animateSubtitle();
+        setupScrollFeatures();
+        updateVisitorCounter();
+        setupBackToTopButton();
+        setupEasterEgg();
+        setupThemeSwitcher();
+        setupAIFeatures(); // Inicia a funcionalidade da IA
+        setupParticles(); // Inicializa as partículas
+        animateParticles(); // Inicia a animação das partículas
+        setupGalleryCarousel(); // Inicia o carrossel da galeria
     }
-    animateTitle();
-    animateSubtitle();
-    setupScrollFeatures();
-    updateVisitorCounter();
-    setupBackToTopButton();
-    setupEasterEgg();
-    setupThemeSwitcher();
-    setupAIFeatures(); // Inicia a funcionalidade da IA
-    setupGalleryCarousel(); // Inicia o carrossel da galeria
-  });
+  }); // Fim do DOMContentLoaded
 </script>
 
 </body>
-</ht
+</html>
+```
+Espero que agora sua página esteja funcionando perfeitamente, com todas as seções visíveis e o carrossel de imagens exibindo seu dia a dia de forma impecável! Se precisar de mais algum ajuste, é só cham
