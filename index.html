@@ -276,12 +276,42 @@
   </div>
 </nav>
 
-<header class="py-5 text-center" style="padding-top: 120px !important;">
-  <h1 id="animated-title" class="display-2 fw-bold text-cyan-400" style="text-shadow: 0 4px 8px rgba(0,0,0,0.4);">Willian Soares</h1>
-  <p id="animated-subtitle" class="lead fs-4 mt-3">Seu Próximo TI</p>
+<header class="py-5 text-center hero-section" style="padding-top: 120px !important;">
+  <div class="container">
+    <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-3">Willian Soares</h1>
+    <p id="animated-subtitle" class="lead fs-3 text-light mb-4">Seu Próximo Profissional de TI</p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="#contato" class="btn btn-cta btn-lg rounded-pill px-4">
+        <i class="bi bi-envelope-fill me-2"></i>Contato
+      </a>
+      <a href="#servicos" class="btn btn-outline-light btn-lg rounded-pill px-4">
+        <i class="bi bi-gear-fill me-2"></i>Serviços
+      </a>
+    </div>
+  </div>
 </header>
 
 <main class="container my-5">
+  <!-- Seção de Destaque -->
+  <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <h2 class="h3 fw-bold text-cyan-300 mb-4">Transformando desafios tecnológicos em soluções eficientes</h2>
+        <p class="fs-5 mb-4">Com mais de 3 anos de experiência em TI, ofereço soluções personalizadas que combinam conhecimento técnico com uma abordagem humana.</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+            <i class="bi bi-check-circle-fill me-2"></i>Suporte Especializado
+          </div>
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+            <i class="bi bi-check-circle-fill me-2"></i>Soluções em Rede
+          </div>
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+            <i class="bi bi-check-circle-fill me-2"></i>Consultoria em TI
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- 1. Meus Artigos -->
   <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg visible" aria-labelledby="blog-heading">
@@ -354,12 +384,24 @@
 
   <!-- 2. Sobre Mim -->
   <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="sobre-heading">
-    <h2 id="sobre-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-      <i class="bi bi-person-workspace" aria-hidden="true"></i> Sobre Mim
-    </h2>
-    <p class="fs-5">Sou um profissional apaixonado por tecnologia, com mais de <strong>3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
-    <p class="fs-5">Amante de viagens, gosto de conhecer novos lugares e pessoas. Bem resolvido e independente, estou sempre aberto a novas possibilidades e aprendizados.</p>
-    <p class="fs-5">Busco constante aprimoramento pessoal e profissional, visando sempre o crescimento mútuo entre mim e a empresa.</p>
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 id="sobre-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+          <i class="bi bi-person-workspace" aria-hidden="true"></i> Sobre Mim
+        </h2>
+        <p class="fs-5">Sou um profissional apaixonado por tecnologia, com mais de <strong class="text-cyan-300">3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
+        <p class="fs-5">Minha abordagem combina conhecimento técnico sólido com habilidades interpessoais, garantindo não apenas a resolução de problemas, mas também uma experiência positiva para clientes e colegas.</p>
+        <p class="fs-5">Acredito que a tecnologia deve ser acessível e compreensível para todos, e me dedico a traduzir conceitos complexos em soluções práticas.</p>
+        <div class="mt-4">
+          <a href="#trajetoria" class="btn btn-outline-light">
+            <i class="bi bi-clock-history me-2"></i>Ver Minha Trajetória
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <img src="img/foto-perfil.jpg" alt="Willian Soares - Profissional de TI" class="img-fluid rounded-3 shadow" style="max-height: 400px;">
+      </div>
+    </div>
   </section>
 
   <!-- NOVA SEÇÃO TRAJETÓRIA PROFISSIONAL -->
@@ -593,10 +635,42 @@
 
 </main>
 
-<footer class="text-center py-4 mt-5">
-  <p class="mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
-  <p class="small text-secondary">O conteúdo deste site, incluindo textos e imagens, é de propriedade intelectual de Willian Soares e protegido pela lei de direitos autorais. A reprodução não autorizada é proibida.</p>
-  <p class="mt-2">Visitas: <span id="visitor-counter" class="fw-bold">00000</span></p>
+<footer class="py-5 mt-5 bg-dark bg-gradient">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h3 class="h5 text-cyan-300 mb-3">Willian Soares</h3>
+        <p class="small text-secondary">Profissional de TI dedicado a transformar desafios tecnológicos em soluções eficientes e acessíveis.</p>
+        <div class="social-icons mt-3">
+          <a href="https://instagram.com/wsoares_" target="_blank" class="text-cyan-300 me-3" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+          <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" class="text-cyan-300 me-3" aria-label="LinkedIn"><i class="bi bi-linkedin fs-5"></i></a>
+          <a href="https://www.youtube.com/@wsoares_" target="_blank" class="text-cyan-300 me-3" aria-label="YouTube"><i class="bi bi-youtube fs-5"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h3 class="h5 text-cyan-300 mb-3">Links Rápidos</h3>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#sobre" class="text-secondary small">Sobre Mim</a></li>
+          <li class="mb-2"><a href="#servicos" class="text-secondary small">Serviços</a></li>
+          <li class="mb-2"><a href="#habilidades" class="text-secondary small">Habilidades</a></li>
+          <li class="mb-2"><a href="#contato" class="text-secondary small">Contato</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
+        <ul class="list-unstyled text-secondary small">
+          <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i> contato@williansoares.net.br</li>
+          <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i> Itararé/SP, Brasil</li>
+          <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i> Disponível para projetos</li>
+        </ul>
+      </div>
+    </div>
+    <hr class="my-4 border-secondary">
+    <div class="text-center">
+      <p class="small text-secondary mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
+      <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
+    </div>
+  </div>
 </footer>
 
 <!-- ELEMENTO DO LIGHTBOX (MODAL) -->
