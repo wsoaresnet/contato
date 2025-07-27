@@ -1,574 +1,2353 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR" data-theme="dark">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
 
-  <title>Willian Soares | Seu Próximo TI</title>
+  <meta charset="UTF-8">
 
-  <!-- =================================================================== -->
-  <!-- ================ SEO E META TAGS DE COMPARTILHAMENTO ================ -->
-  <!-- =================================================================== -->
-  <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
-  <meta name="author" content="Willian Soares">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
-  <meta property="og:title" content="Willian Soares | Seu Próximo TI">
-  <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
-@@ -24,7 +24,7 @@
-  <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
-  <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
-  <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
-  
 
-  <!-- =================================================================== -->
-  <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
-  <!-- =================================================================== -->
-@@ -37,10 +37,10 @@
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  
+  <title>Willian Soares | Seu Próximo TI</title>
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
 
-  <!-- FAVICON GERADO -->
-  <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
-@@ -141,7 +141,7 @@
-    .navbar-glass .nav-link.active {
-        color: var(--text-cyan-400);
-    }
-    
+  <!-- =================================================================== -->
 
-    #theme-switcher {
-        background: none;
-        border: none;
-@@ -181,7 +181,7 @@
-        --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
-        --bs-btn-hover-color: var(--btn-outline-hover-color);
-    }
-    
+  <!-- ================ SEO E META TAGS DE COMPARTILHAMENTO ================ -->
 
-    .timeline {
-        list-style: none;
-        padding: 1rem 0;
-@@ -243,6 +243,94 @@
-    .cookie-banner.show {
-        bottom: 0;
-    }
+  <!-- =================================================================== -->
 
-    /* Estilos para o Carrossel da Galeria */
-    .gallery-carousel {
-        position: relative;
-        overflow: hidden; /* Esconde o que está fora da área visível */
-        width: 100%;
-        margin: 0 auto;
-        border-radius: 0.75rem; /* rounded-lg */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+  <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
 
-    .gallery-track {
-        display: flex;
-        transition: transform 0.5s ease-in-out; /* Transição suave para o movimento */
-        padding-bottom: 15px; /* Espaço para as sombras/efeitos se necessário */
-    }
+  <meta name="author" content="Willian Soares">
 
-    .gallery-slide {
-        flex: 0 0 auto; /* Não cresce nem encolhe, mantém o tamanho */
-        width: calc(33.333% - 10px); /* 3 imagens por vez com gap */
-        margin-right: 15px; /* Gap entre as imagens */
-        border-radius: 0.75rem;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        transition: transform 0.2s ease;
-    }
 
-    .gallery-slide:last-child {
-        margin-right: 0; /* Remove o gap da última imagem */
-    }
 
-    .gallery-image {
-        width: 100%;
-        height: 200px; /* Altura fixa para as imagens */
-        object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
-        border-radius: 0.75rem;
-        cursor: pointer;
-    }
+  <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
 
-    .gallery-prev, .gallery-next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        cursor: pointer;
-        z-index: 10;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        transition: background-color 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-    }
+  <meta property="og:title" content="Willian Soares | Seu Próximo TI">
 
-    .gallery-prev:hover, .gallery-next:hover {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
+  <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
 
-    .gallery-prev {
-        left: 10px;
-    }
+  <meta property="og:image" content="https://williansoares.net.br/img/og-image.jpg">
 
-    .gallery-next {
-        right: 10px;
-    }
+  <meta property="og:url" content="https://williansoares.net.br/">
 
-    .gallery-prev:disabled, .gallery-next:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+  <meta property="og:type" content="website">
 
-    /* Responsividade para o carrossel */
-    @media (max-width: 992px) { /* Tablets e menores */
-        .gallery-slide {
-            width: calc(50% - 10px); /* 2 imagens por vez */
-        }
-    }
 
-    @media (max-width: 768px) { /* Celulares */
-        .gallery-slide {
-            width: calc(100% - 15px); /* 1 imagem por vez */
-        }
-    }
-  </style>
+
+  <!-- Twitter Card -->
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
+
+  <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
+
+  <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
+
+
+
+  <!-- =================================================================== -->
+
+  <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
+
+  <!-- =================================================================== -->
+
+  <meta name="theme-color" content="#082f49">
+
+  <link rel="manifest" href="manifest.json">
+
+  <!-- =================================================================== -->
+
+
+
+  <!-- Google Fonts - Inter -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+
+
+  <!-- Bootstrap CSS -->
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+
+  <!-- Bootstrap Icons -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+  <!-- FAVICON GERADO -->
+
+  <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
+
+
+
+  <style>
+
+    /* =================================================================== */
+
+    /* =================== VARIÁVEIS DE TEMA (CSS) =================== */
+
+    /* =================================================================== */
+
+    :root {
+
+        --bg-gradient-start: #111827;
+
+        --bg-gradient-mid: #082f49;
+
+        --bg-gradient-end: #164e63;
+
+        --text-primary: #e5e7eb;
+
+        --text-secondary: #9ca3af;
+
+        --text-light: #f8fafc;
+
+        --text-cyan-400: #22d3ee;
+
+        --text-cyan-300: #67e8f9;
+
+        --border-cyan-700: #0e7490;
+
+        --glass-bg: rgba(255, 255, 255, 0.05);
+
+        --glass-border: rgba(255, 255, 255, 0.1);
+
+        --shadow-color: rgba(0, 0, 0, 0.37);
+
+        --progress-bar-bg: rgba(255, 255, 255, 0.1);
+
+        --form-control-bg: rgba(255, 255, 255, 0.1);
+
+        --btn-outline-color: var(--text-light);
+
+        --btn-outline-hover-bg: var(--text-light);
+
+        --btn-outline-hover-color: var(--bg-gradient-start);
+
+    }
+
+
+
+    [data-theme="light"] {
+
+        --bg-gradient-start: #f8fafc;
+
+        --bg-gradient-mid: #f1f5f9;
+
+        --bg-gradient-end: #e2e8f0;
+
+        --text-primary: #1e293b;
+
+        --text-secondary: #475569;
+
+        --text-light: #475569;
+
+        --text-cyan-400: #0891b2;
+
+        --text-cyan-300: #06b6d4;
+
+        --border-cyan-700: #155e75;
+
+        --glass-bg: rgba(255, 255, 255, 0.5);
+
+        --glass-border: rgba(0, 0, 0, 0.1);
+
+        --shadow-color: rgba(0, 0, 0, 0.1);
+
+        --progress-bar-bg: rgba(0, 0, 0, 0.1);
+
+        --form-control-bg: rgba(0, 0, 0, 0.05);
+
+        --btn-outline-color: var(--text-secondary);
+
+        --btn-outline-hover-bg: var(--text-secondary);
+
+        --btn-outline-hover-color: var(--bg-gradient-start);
+
+    }
+
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+
+      font-family: 'Inter', sans-serif;
+
+      min-height: 100vh;
+
+      background: var(--bg-gradient-end);
+
+      background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+
+      color: var(--text-primary);
+
+      overflow-x: hidden;
+
+      transition: background 0.3s ease, color 0.3s ease;
+
+      -webkit-user-select: none;
+
+      -ms-user-select: none;
+
+      user-select: none;
+
+    }
+
+
+
+    .glass-section {
+
+      background: var(--glass-bg);
+
+      backdrop-filter: blur(10px);
+
+      -webkit-backdrop-filter: blur(10px);
+
+      border: 1px solid var(--glass-border);
+
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+
+      opacity: 0;
+
+      transform: translateY(40px);
+
+      transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
+
+      padding-top: 80px;
+
+      margin-top: -80px;
+
+    }
+
+    .glass-section.visible { opacity: 1; transform: translateY(0); }
+
+
+
+    .text-cyan-400 { color: var(--text-cyan-400); }
+
+    .text-cyan-300 { color: var(--text-cyan-300); }
+
+    .border-cyan-700 { border-color: var(--border-cyan-700); }
+
+    .text-light { color: var(--text-light) !important; }
+
+    p, .fs-5 { color: var(--text-primary); }
+
+    .card-text, .service-card p { color: var(--text-secondary) !important; }
+
+    footer p { color: var(--text-secondary) !important; }
+
+
+
+
+
+    .navbar-glass {
+
+        background: var(--glass-bg);
+
+        backdrop-filter: blur(10px);
+
+        -webkit-backdrop-filter: blur(10px);
+
+        border-bottom: 1px solid var(--glass-border);
+
+        transition: background 0.3s ease;
+
+    }
+
+    .navbar-glass .nav-link {
+
+        color: var(--text-secondary);
+
+        font-weight: 600;
+
+        transition: color 0.2s ease;
+
+    }
+
+    .navbar-glass .nav-link:hover,
+
+    .navbar-glass .nav-link.active {
+
+        color: var(--text-cyan-400);
+
+    }
+
+
+
+    #theme-switcher {
+
+        background: none;
+
+        border: none;
+
+        color: var(--text-secondary);
+
+        cursor: pointer;
+
+    }
+
+    #theme-switcher:hover {
+
+        color: var(--text-cyan-400);
+
+    }
+
+
+
+    .skill-bar .progress { background-color: var(--progress-bar-bg); }
+
+    .skill-bar .progress-bar { background: linear-gradient(90deg, #22d3ee, #00c3ff); width: 0%; }
+
+    .blog-card, .case-card, .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+
+    .blog-card:hover, .case-card:hover, .service-card:hover { transform: translateY(-10px); box-shadow: 0 12px 40px var(--shadow-color); }
+
+    .blog-card img, .case-card img { aspect-ratio: 16 / 9; object-fit: cover; }
+
+    .testimonial { background: var(--glass-bg); border-left: 5px solid #00c3ff; }
+
+    .form-control-glass { background: var(--form-control-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-primary) !important; }
+
+    .form-control-glass::placeholder { color: var(--text-secondary); }
+
+    .form-control-glass:focus { border-color: var(--text-cyan-400) !important; box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important; }
+
+    .easter-egg-active { transition: filter 0.5s ease; filter: hue-rotate(180deg) invert(1); }
+
+    #back-to-top-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background-color: var(--text-cyan-400); color: var(--bg-gradient-start); border-radius: 50%; display: none; place-items: center; z-index: 1030; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; }
+
+    #back-to-top-btn.show { display: grid; opacity: 1; }
+
+    #back-to-top-btn:hover { transform: scale(1.1); }
+
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1050; display: flex; justify-content: center; align-items: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+
+    .lightbox.active { opacity: 1; pointer-events: all; }
+
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34, 211, 238, 0.5); }
+
+    .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
+
+    .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
+
+    .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
+
+    .social-icons a { transition: transform 0.2s ease-in-out; }
+
+    .social-icons a:hover { transform: scale(1.2); }
+
+    .btn-outline-light {
+
+        --bs-btn-color: var(--btn-outline-color);
+
+        --bs-btn-border-color: var(--btn-outline-color);
+
+        --bs-btn-hover-bg: var(--btn-outline-hover-bg);
+
+        --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
+
+        --bs-btn-hover-color: var(--btn-outline-hover-color);
+
+    }
+
+
+
+    .timeline {
+
+        list-style: none;
+
+        padding: 1rem 0;
+
+        position: relative;
+
+    }
+
+    .timeline:before {
+
+        content: '';
+
+        position: absolute;
+
+        top: 0;
+
+        left: 18px;
+
+        height: 100%;
+
+        width: 4px;
+
+        background: var(--glass-border);
+
+        border-radius: 2px;
+
+    }
+
+    .timeline-item {
+
+        margin-bottom: 2.5rem;
+
+        position: relative;
+
+        padding-left: 50px;
+
+    }
+
+    .timeline-item:before {
+
+        content: '';
+
+        position: absolute;
+
+        left: 10px;
+
+        top: 5px;
+
+        width: 20px;
+
+        height: 20px;
+
+        border-radius: 50%;
+
+        background: var(--text-cyan-400);
+
+        border: 4px solid var(--glass-bg);
+
+    }
+
+    .timeline-item-title {
+
+        font-weight: 700;
+
+        color: var(--text-primary);
+
+    }
+
+    .timeline-item-subtitle {
+
+        font-weight: 600;
+
+        color: var(--text-cyan-300);
+
+    }
+
+    .timeline-item-period {
+
+        font-size: 0.9rem;
+
+        color: var(--text-secondary);
+
+    }
+
+
+
+    /* ESTILOS DO BANNER DE COOKIES */
+
+    .cookie-banner {
+
+        position: fixed;
+
+        bottom: -100%; /* Começa escondido */
+
+        left: 0;
+
+        width: 100%;
+
+        padding: 1rem;
+
+        background: var(--glass-bg);
+
+        backdrop-filter: blur(10px);
+
+        -webkit-backdrop-filter: blur(10px);
+
+        border-top: 1px solid var(--glass-border);
+
+        z-index: 1040;
+
+        transition: bottom 0.5s ease-in-out;
+
+    }
+
+    .cookie-banner.show {
+
+        bottom: 0;
+
+    }
+
+
+
+    /* Estilos para o Carrossel da Galeria */
+
+    .gallery-carousel {
+
+        position: relative;
+
+        overflow: hidden; /* Esconde o que está fora da área visível */
+
+        width: 100%;
+
+        margin: 0 auto;
+
+        border-radius: 0.75rem; /* rounded-lg */
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    }
+
+
+
+    .gallery-track {
+
+        display: flex;
+
+        transition: transform 0.5s ease-in-out; /* Transição suave para o movimento */
+
+        padding-bottom: 15px; /* Espaço para as sombras/efeitos se necessário */
+
+    }
+
+
+
+    .gallery-slide {
+
+        flex: 0 0 auto; /* Não cresce nem encolhe, mantém o tamanho */
+
+        width: calc(33.333% - 10px); /* 3 imagens por vez com gap */
+
+        margin-right: 15px; /* Gap entre as imagens */
+
+        border-radius: 0.75rem;
+
+        overflow: hidden;
+
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+        transition: transform 0.2s ease;
+
+    }
+
+
+
+    .gallery-slide:last-child {
+
+        margin-right: 0; /* Remove o gap da última imagem */
+
+    }
+
+
+
+    .gallery-image {
+
+        width: 100%;
+
+        height: 200px; /* Altura fixa para as imagens */
+
+        object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+
+        border-radius: 0.75rem;
+
+        cursor: pointer;
+
+    }
+
+
+
+    .gallery-prev, .gallery-next {
+
+        position: absolute;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        background-color: rgba(0, 0, 0, 0.6);
+
+        color: white;
+
+        border: none;
+
+        padding: 10px 15px;
+
+        cursor: pointer;
+
+        z-index: 10;
+
+        border-radius: 50%;
+
+        font-size: 1.5rem;
+
+        transition: background-color 0.3s ease;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+
+    .gallery-prev:hover, .gallery-next:hover {
+
+        background-color: rgba(0, 0, 0, 0.8);
+
+    }
+
+
+
+    .gallery-prev {
+
+        left: 10px;
+
+    }
+
+
+
+    .gallery-next {
+
+        right: 10px;
+
+    }
+
+
+
+    .gallery-prev:disabled, .gallery-next:disabled {
+
+        opacity: 0.5;
+
+        cursor: not-allowed;
+
+    }
+
+
+
+    /* Responsividade para o carrossel */
+
+    @media (max-width: 992px) { /* Tablets e menores */
+
+        .gallery-slide {
+
+            width: calc(50% - 10px); /* 2 imagens por vez */
+
+        }
+
+    }
+
+
+
+    @media (max-width: 768px) { /* Celulares */
+
+        .gallery-slide {
+
+            width: calc(100% - 15px); /* 1 imagem por vez */
+
+        }
+
+    }
+
+  </style>
+
 </head>
+
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
-@@ -461,7 +549,7 @@
-        </div>
-    </div>
-  </section>
-  
 
-  <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
-  <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
-    <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
-@@ -545,7 +633,7 @@
-        </div>
-    </div>
-  </section>
-  
 
-  <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
-  <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
-    <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-@@ -558,7 +646,7 @@
-    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
-    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
-  </section>
-  
 
-  <!-- Seção Meu Dia a Dia - Carrossel -->
-  <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
-    <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
-@@ -614,7 +702,7 @@
-      <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
-    </h2>
-    <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
-    
+<!-- Fundo de partículas dinâmico -->
 
-    <form action="https://formspree.io/f/xjkogvkn" method="POST" class="col-md-8 mx-auto">
-      <div class="mb-3">
-        <label for="name" class="form-label fw-semibold">Nome</label>
-@@ -649,7 +737,7 @@
-        </button>
-      </div>
-    </form>
-    
+<div id="particles-background" class="particles-container"></div>
 
-    <div class="text-center mt-5 social-icons">
-        <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
-        <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram"></i></a>
-@@ -696,6 +784,7 @@
-    <hr class="my-4 border-secondary">
-    <div class="text-center">
-      <p class="small text-secondary mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
-      <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por Willian Soares</p>
-      <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
-    </div>
-  </div>
-@@ -714,14 +803,27 @@
+
+
+<!-- BARRA DE NAVEGAÇÃO FIXA -->
+
+<nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav">
+
+  <div class="container">
+
+    <a class="navbar-brand fw-bold text-cyan-300" href="#">WS</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+      <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+        <li class="nav-item"><a class="nav-link" href="#blog">Artigos</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#trajetoria">Trajetória</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#cases">Cases de Sucesso</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#formacao">Formação</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+
+      </ul>
+
+      <button id="theme-switcher" class="fs-4" aria-label="Alternar tema de cores">
+
+        <i class="bi bi-moon-stars-fill"></i>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+
+<header class="py-5 text-center hero-section" style="padding-top: 120px !important;">
+
+  <div class="container">
+
+    <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-3">Willian Soares</h1>
+
+    <p id="animated-subtitle" class="lead fs-3 text-light mb-4">Seu Próximo Profissional de TI</p>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+
+      <a href="#contato" class="btn btn-cta btn-lg rounded-pill px-4">
+
+        <i class="bi bi-envelope-fill me-2"></i>Contato
+
+      </a>
+
+      <a href="#servicos" class="btn btn-outline-light btn-lg rounded-pill px-4">
+
+        <i class="bi bi-gear-fill me-2"></i>Serviços
+
+      </a>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container my-5">
+
+  <!-- Seção de Destaque -->
+
+  <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center">
+
+    <div class="row justify-content-center">
+
+      <div class="col-lg-10">
+
+        <h2 class="h3 fw-bold text-cyan-300 mb-4">Transformando desafios tecnológicos em soluções eficientes</h2>
+
+        <p class="fs-5 mb-4">Com mais de 3 anos de experiência em TI, ofereço soluções personalizadas que combinam conhecimento técnico com uma abordagem humana.</p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+
+            <i class="bi bi-check-circle-fill me-2"></i>Suporte Especializado
+
+          </div>
+
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+
+            <i class="bi bi-check-circle-fill me-2"></i>Soluções em Rede
+
+          </div>
+
+          <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
+
+            <i class="bi bi-check-circle-fill me-2"></i>Consultoria em TI
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 1. Meus Artigos -->
+
+  <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg visible" aria-labelledby="blog-heading">
+
+    <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+
+        <i class="bi bi-journal-richtext"></i> Meus Artigos
+
+    </h2>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-redes.jpg" class="card-img-top" alt="Homem trabalhando em um servidor de redes.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
+
+                    <p class="card-text">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
+
+                    <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre 3 Dicas para Otimizar a Rede do seu Escritório">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-lgpd.jpg" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
+
+                    <p class="card-text">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
+
+                    <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre LGPD na Prática: Por Onde Começar?">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-ia.jpg" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
+
+                    <p class="card-text">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
+
+                    <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Como a IA está Revolucionando o Suporte de TI">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-comunidade.jpg" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
+
+                    <p class="card-text">Um relato sobre a experiência de ministrar uma palestra sobre segurança na internet para idosos do CRAS.</p>
+
+                    <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Ensinando Segurança Digital para a Melhor Idade">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-carreira.jpg" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Aprendizado Contínuo: A Chave para o Sucesso em TI</h5>
+
+                    <p class="card-text">Por que a atualização constante não é mais um diferencial, e sim um requisito essencial no mercado de trabalho.</p>
+
+                    <a href="artigo-informatica-mercado.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Aprendizado Contínuo: A Chave para o Sucesso em TI">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card blog-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/artigo-automacao.jpg" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Automação Residencial: O Futuro Bate à Porta</h5>
+
+                    <p class="card-text">Um guia prático para quem deseja começar a transformar sua casa ou escritório em um ambiente inteligente.</p>
+
+                    <a href="artigo-automacao.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Automação Residencial: O Futuro Bate à Porta">Ler Mais</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 2. Sobre Mim -->
+
+  <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="sobre-heading">
+
+    <div class="row align-items-center">
+
+      <div class="col-lg-6 mb-4 mb-lg-0">
+
+        <h2 id="sobre-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+
+          <i class="bi bi-person-workspace" aria-hidden="true"></i> Sobre Mim
+
+        </h2>
+
+        <p class="fs-5">Sou um profissional apaixonado por tecnologia, com mais de <strong class="text-cyan-300">3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
+
+        <p class="fs-5">Minha abordagem combina conhecimento técnico sólido com habilidades interpessoais, garantindo não apenas a resolução de problemas, mas também uma experiência positiva para clientes e colegas.</p>
+
+        <p class="fs-5">Acredito que a tecnologia deve ser acessível e compreensível para todos, e me dedico a traduzir conceitos complexos em soluções práticas.</p>
+
+        <div class="mt-4">
+
+          <a href="#trajetoria" class="btn btn-outline-light">
+
+            <i class="bi bi-clock-history me-2"></i>Ver Minha Trajetória
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 text-center">
+
+        <img src="img/foto-perfil.jpg" alt="Willian Soares - Profissional de TI" class="img-fluid rounded-3 shadow" style="max-height: 400px;">
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- NOVA SEÇÃO TRAJETÓRIA PROFISSIONAL -->
+
+  <section id="trajetoria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="trajetoria-heading">
+
+    <h2 id="trajetoria-heading" class="display-5 fw-bold text-cyan-400 mb-5 border-bottom border-cyan-700 pb-2 text-center">
+
+        <i class="bi bi-signpost-split-fill"></i> Minha Trajetória
+
+    </h2>
+
+    <ul class="timeline">
+
+        <li class="timeline-item">
+
+            <h5 class="timeline-item-title">Analista de TI</h5>
+
+            <h6 class="timeline-item-subtitle">Junitex</h6>
+
+            <p class="timeline-item-period">Março 2023 - Presente</p>
+
+        </li>
+
+        <li class="timeline-item">
+
+            <h5 class="timeline-item-title">Educador</h5>
+
+            <h6 class="timeline-item-subtitle">Dreamschool Brasil</h6>
+
+            <p class="timeline-item-period">Fevereiro 2020 - Março 2023</p>
+
+        </li>
+
+        <li class="timeline-item">
+
+            <h5 class="timeline-item-title">Instrutor</h5>
+
+            <h6 class="timeline-item-subtitle">Mundial Informática</h6>
+
+            <p class="timeline-item-period">Janeiro 2013 - Fevereiro 2020</p>
+
+        </li>
+
+        <li class="timeline-item">
+
+            <h5 class="timeline-item-title">Mídias Sociais</h5>
+
+            <h6 class="timeline-item-subtitle">Academia Artforma</h6>
+
+            <p class="timeline-item-period">Fevereiro 2017 - Agosto 2019</p>
+
+        </li>
+
+    </ul>
+
+  </section>
+
+
+
+  <!-- 3. Cases de Sucesso -->
+
+  <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
+
+    <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+
+        <i class="bi bi-trophy-fill"></i> Cases de Sucesso
+
+    </h2>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-10 col-lg-6">
+
+            <div class="card case-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede - Junitex</h5>
+
+                    <p class="card-text">Redução de 40% no tempo de inatividade da rede em 16 filiais através de um projeto completo de modernização.</p>
+
+                    <a href="case-junitex.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-10 col-lg-6">
+
+            <div class="card case-card h-100 rounded-3 overflow-hidden">
+
+                <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional - Dreamschool</h5>
+
+                    <p class="card-text">Desenvolvimento e aplicação de programas de treinamento que capacitaram mais de 200 alunos em diversas áreas da tecnologia.</p>
+
+                    <a href="case-dreamschool.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
+
+  <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
+
+    <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+
+        <i class="bi bi-gear-wide-connected"></i> Meus Serviços
+
+    </h2>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card text-center h-100 p-4 rounded-3">
+
+                <div class="card-body d-flex flex-column">
+
+                    <i class="bi bi-router-fill fs-1 text-cyan-300 mb-3"></i>
+
+                    <h5 class="card-title fw-bold">Consultoria em Infra & Redes</h5>
+
+                    <p class="card-text">Análise, planejamento e implementação de soluções de rede para garantir performance e segurança para sua empresa.</p>
+
+                    <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card text-center h-100 p-4 rounded-3">
+
+                <div class="card-body d-flex flex-column">
+
+                    <i class="bi bi-headset fs-1 text-cyan-300 mb-3"></i>
+
+                    <h5 class="card-title fw-bold">Suporte de TI & Helpdesk</h5>
+
+                    <p class="card-text">Soluções rápidas e eficientes para problemas do dia a dia, garantindo a produtividade da sua equipe com suporte remoto ou presencial.</p>
+
+                    <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card text-center h-100 p-4 rounded-3">
+
+                <div class="card-body d-flex flex-column">
+
+                    <i class="bi bi-easel2-fill fs-1 text-cyan-300 mb-3"></i>
+
+                    <h5 class="card-title fw-bold">Palestras e Treinamentos</h5>
+
+                    <p class="card-text">Capacitação de equipes e grupos sobre temas como Segurança Digital, LGPD e as melhores práticas no uso da tecnologia.</p>
+
+                    <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 4. Habilidades Técnicas -->
+
+  <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="habilidades-heading">
+
+    <h2 id="habilidades-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+
+      <i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> Habilidades Técnicas
+
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Suporte e Helpdesk</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Suporte e Helpdesk" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="95%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Redes de Computadores</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Redes de Computadores" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="90%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Gestão de Projetos de TI</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Gestão de Projetos de TI" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="80%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Segurança (CFTV)</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Segurança (CFTV)" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="85%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Hardware (Montagem e Manutenção)</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Hardware (Montagem e Manutenção)" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="98%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 skill-bar">
+
+            <p class="fs-5 mb-2">Sistemas Operacionais e Software</p>
+
+            <div class="progress" role="progressbar" aria-label="Nível de habilidade em Sistemas Operacionais e Software" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+
+                <div class="progress-bar" data-width="90%"><span class="progress-bar-text"></span></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
+
+  <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
+
+    <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+
+        <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
+
+    </h2>
+
+    <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
+
+    <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
+
+    <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
+
+    <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> (Comunicação, Oratória, Liderança, PNL, etc.) pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
+
+    <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
+
+    <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
+
+  </section>
+
+
+
+  <!-- Seção Meu Dia a Dia - Carrossel -->
+
+  <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
+
+    <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+
+      <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
+
+    </h2>
+
+    <div class="gallery-carousel">
+
+      <div class="gallery-track">
+
+        <div class="gallery-slide">
+
+          <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto4.jpg" alt="Willian viajando." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto6.jpg" alt="Willian em uma conferência." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto8.jpg" alt="Retrato de Willian." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto10.jpg" alt="Willian em um workshop." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto11.jpg" alt="Willian em um momento casual." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="gallery-image">
+
+        </div>
+
+        <div class="gallery-slide">
+
+          <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="gallery-image">
+
+        </div>
+
+      </div>
+
+      <button class="gallery-prev" aria-label="Foto anterior"><i class="bi bi-chevron-left"></i></button>
+
+      <button class="gallery-next" aria-label="Próxima foto"><i class="bi bi-chevron-right"></i></button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 5. Contato -->
+
+  <section id="contato" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
+
+    <h2 id="contato-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+
+      <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
+
+    </h2>
+
+    <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
+
+
+
+    <form action="https://formspree.io/f/xjkogvkn" method="POST" class="col-md-8 mx-auto">
+
+      <div class="mb-3">
+
+        <label for="name" class="form-label fw-semibold">Nome</label>
+
+        <input type="text" class="form-control form-control-lg form-control-glass" id="name" name="name" placeholder="Seu nome completo" required>
+
+      </div>
+
+      <div class="mb-3">
+
+        <label for="email" class="form-label fw-semibold">Email</label>
+
+        <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+
+      </div>
+
+      <!-- GEMINI API FEATURE -->
+
+      <div class="mb-3">
+
+        <label for="ai-keywords" class="form-label fw-semibold">Assunto ou Vaga de Interesse (Opcional)</label>
+
+        <div class="input-group">
+
+          <input type="text" class="form-control form-control-lg form-control-glass" id="ai-keywords" placeholder="Ex: Vaga Analista de Redes">
+
+          <button class="btn btn-outline-light" type="button" id="generate-draft-btn" style="border-color: var(--glass-border);">
+
+            ✨ Gerar rascunho com IA
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="mb-4">
+
+        <label for="message" class="form-label fw-semibold">Mensagem</label>
+
+        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Clique no botão acima para gerar um rascunho ou escreva sua mensagem aqui..." required></textarea>
+
+        <div class="d-none text-center mt-2" id="ai-loading">
+
+          <div class="spinner-border text-cyan-300" role="status">
+
+            <span class="visually-hidden">Gerando rascunho...</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="d-grid">
+
+        <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
+
+          <i class="bi bi-send-fill me-2"></i>Enviar Mensagem
+
+        </button>
+
+      </div>
+
+    </form>
+
+
+
+    <div class="text-center mt-5 social-icons">
+
+        <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
+
+        <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram"></i></a>
+
+        <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="LinkedIn de Willian Soares"><i class="bi bi-linkedin"></i></a>
+
+        <a href="https://www.youtube.com/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Canal do YouTube de Willian Soares"><i class="bi bi-youtube"></i></a>
+
+        <a href="https://open.spotify.com/user/12146244709?si=2a3f4c7ec6874d52" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Perfil do Spotify de Willian Soares"><i class="bi bi-spotify"></i></a>
+
+        <a href="https://www.threads.net/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Perfil do Threads de Willian Soares"><i class="bi bi-threads"></i></a>
+
+        <a href="https://discordapp.com/users/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" title="Discord: wsoares_" aria-label="Perfil do Discord de Willian Soares"><i class="bi bi-discord"></i></a>
+
+    </div>
+
+  </section>
+
+
+
+</main>
+
+
+
+<footer class="py-5 mt-5 bg-dark bg-gradient">
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-4 mb-4 mb-md-0">
+
+        <h3 class="h5 text-cyan-300 mb-3">Willian Soares</h3>
+
+        <p class="small text-secondary">Profissional de TI dedicado a transformar desafios tecnológicos em soluções eficientes e acessíveis.</p>
+
+        <div class="social-icons mt-3">
+
+          <a href="https://instagram.com/wsoares_" target="_blank" class="text-cyan-300 me-3" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+
+          <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" class="text-cyan-300 me-3" aria-label="LinkedIn"><i class="bi bi-linkedin fs-5"></i></a>
+
+          <a href="https://www.youtube.com/@wsoares_" target="_blank" class="text-cyan-300 me-3" aria-label="YouTube"><i class="bi bi-youtube fs-5"></i></a>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4 mb-4 mb-md-0">
+
+        <h3 class="h5 text-cyan-300 mb-3">Links Rápidos</h3>
+
+        <ul class="list-unstyled">
+
+          <li class="mb-2"><a href="#sobre" class="text-secondary small">Sobre Mim</a></li>
+
+          <li class="mb-2"><a href="#servicos" class="text-secondary small">Serviços</a></li>
+
+          <li class="mb-2"><a href="#habilidades" class="text-secondary small">Habilidades</a></li>
+
+          <li class="mb-2"><a href="#contato" class="text-secondary small">Contato</a></li>
+
+        </ul>
+
+      </div>
+
+      <div class="col-md-4">
+
+        <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
+
+        <ul class="list-unstyled text-secondary small">
+
+          <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i> contato@williansoares.net.br</li>
+
+          <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i> Paraná, Brasil</li>
+
+          <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i> Disponível para projetos</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <hr class="my-4 border-secondary">
+
+    <div class="text-center">
+
+      <p class="small text-secondary mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
+
+      <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por Willian Soares</p>
+
+      <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+
+<!-- ELEMENTO DO LIGHTBOX (MODAL) -->
+
+<div id="lightbox" class="lightbox">
+
+    <span id="close-lightbox" class="close-button" role="button" aria-label="Fechar imagem">&times;</span>
+
+    <img id="lightbox-image" src="" alt="Imagem em tela cheia">
+
+</div>
+
+
+
+<!-- BOTÃO VOLTAR AO TOPO -->
+
+<a href="#" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo">
+
+    <i class="bi bi-arrow-up-short"></i>
+
+</a>
+
+
+
 
 
 <!-- Bibliotecas JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" xintegrity="sha512-163YoLXHNHNdSSyCheLfkTPQLGSTE5Ua7HrbxwsyGc6TRHrhfyaK1aiSElvsAL5dPc8ITztUoWLVEmsgrppHJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js" xintegrity="sha512-i31qJX8e37/1p2fa22D5P3y22i29jA/eM3S5FnMv3Tf0quS2vH8/IYT3D4M2/u/i2l5n2aJ/wSft2A9G/Y2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
 
+
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // --- INÍCIO DO SCRIPT PRINCIPAL ---
 
-    // Registra o plugin SplitText com o GSAP assim que as bibliotecas estiverem carregadas
-    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-        gsap.registerPlugin(SplitText);
-    } else {
-        console.error("GSAP ou SplitText não estão definidos ao tentar registrar o plugin. As animações de título podem não funcionar.");
-        // Fallback: garante que o título esteja visível mesmo sem a animação
-        const titleElement = document.getElementById('animated-title');
-        if (titleElement) {
-            gsap.set(titleElement, { opacity: 1, y: 0 });
-        }
-    }
+  document.addEventListener('DOMContentLoaded', () => {
 
-    // Função para animar o título
-    function animateTitle() {
-      const target = document.getElementById('animated-title');
-@@ -742,41 +844,49 @@
-    // Animação de partículas no fundo
-    const particlesCanvas = document.createElement('canvas');
-    const particlesContainer = document.getElementById('particles-background');
-    if (particlesContainer) {
-    let ctx; // Declare ctx here to make it accessible globally within the script
-    let particlesArray; // Declare particlesArray globally
+    // --- INÍCIO DO SCRIPT PRINCIPAL ---
 
-    function setupParticles() {
-      // Only initialize canvas and context if they haven't been already
-      if (!ctx && particlesContainer) { // Ensure particlesContainer exists
-        particlesContainer.appendChild(particlesCanvas);
-        const ctx = particlesCanvas.getContext('2d');
-        let particlesArray;
 
-        function setupParticles() {
-            particlesCanvas.width = window.innerWidth;
-            particlesCanvas.height = document.body.scrollHeight;
-            particlesArray = Array.from({ length: 150 }).map(() => ({
-                x: Math.random() * particlesCanvas.width,
-                y: Math.random() * particlesCanvas.height,
-                r: Math.random() * 2 + 1,
-                dx: (Math.random() - 0.5) * 0.4,
-                dy: (Math.random() - 0.5) * 0.4
-            }));
-        }
-        ctx = particlesCanvas.getContext('2d');
-      } else if (!particlesContainer) {
-        console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
-        return; // Exit if the container is not found
-      }
 
-        function animateParticles() {
-            if(!ctx) return;
-            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-            particlesArray.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
-                ctx.fill();
-                p.x += p.dx;
-                p.y += p.dy;
-                if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-                if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        setupParticles();
-        animateParticles();
-        window.addEventListener('resize', setupParticles);
-      particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = document.body.scrollHeight; // Use scrollHeight for full page height
+    // Registra o plugin SplitText com o GSAP assim que as bibliotecas estiverem carregadas
 
-      // Clear existing particles and re-create them for responsiveness
-      particlesArray = []; // Re-initialize the array
-      for (let i = 0; i < 150; i++) {
-        particlesArray.push({
-          x: Math.random() * particlesCanvas.width,
-          y: Math.random() * particlesCanvas.height,
-          r: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.4,
-          dy: (Math.random() - 0.5) * 0.4
-        });
-      }
-    }
+    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
 
-    function animateParticles() {
-      if (!ctx || !particlesArray) return; // Ensure context and particlesArray are available before drawing
-      ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-      particlesArray.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-        if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
-      });
-      requestAnimationFrame(animateParticles);
-    }
+        gsap.registerPlugin(SplitText);
 
-    // Animação de scroll para as seções e navbar
-@@ -790,7 +900,7 @@
-                    navLinks.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
-                    });
-                    
+    } else {
 
-                    entry.target.classList.add('visible');
+        console.error("GSAP ou SplitText não estão definidos ao tentar registrar o plugin. As animações de título podem não funcionar.");
 
-                    if (entry.target.id === 'habilidades') {
-@@ -799,7 +909,7 @@
-                            const targetWidth = bar.getAttribute('data-width');
-                            const targetValue = parseInt(targetWidth, 10);
-                            const textSpan = bar.querySelector('.progress-bar-text');
-                            
+        // Fallback: garante que o título esteja visível mesmo sem a animação
 
-                            let counter = { value: 0 };
+        const titleElement = document.getElementById('animated-title');
 
-                            gsap.to(counter, {
-@@ -815,14 +925,14 @@
-                        });
-                    }
-                } else {
-                    // entry.target.classList.remove('visible');
-                    // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
-                }
-            });
-        }, { threshold: 0.2 });
+        if (titleElement) {
 
-        sections.forEach(section => observer.observe(section));
-    }
-    
+            gsap.set(titleElement, { opacity: 1, y: 0 });
 
-    // Script para o Contador de Visitas
-    function updateVisitorCounter() {
-        const counterElement = document.getElementById('visitor-counter');
-@@ -848,56 +958,86 @@
-      const slides = Array.from(document.querySelectorAll('.gallery-slide'));
-      const prevBtn = document.querySelector('.gallery-prev');
-      const nextBtn = document.querySelector('.gallery-next');
-      const images = document.querySelectorAll('.gallery-image');
-      
-      const images = document.querySelectorAll('.gallery-image'); // All images in the gallery
+        }
 
-      if (!track || slides.length === 0 || !prevBtn || !nextBtn) {
-        console.warn("Elementos do carrossel não encontrados ou insuficientes.");
-        return;
-      }
+    }
 
-      let currentIndex = 0;
-      const slideWidth = slides[0].getBoundingClientRect().width + 15; // inclui gap
-      
-      // Navegação do carrossel
-      let slideWidth = 0; // Will be calculated dynamically
 
-      function calculateSlideWidth() {
-        if (slides.length > 0) {
-          // Get the actual width of a slide including its margin-right
-          const firstSlide = slides[0];
-          const computedStyle = window.getComputedStyle(firstSlide);
-          const marginRight = parseFloat(computedStyle.marginRight);
-          slideWidth = firstSlide.offsetWidth + marginRight;
-        }
-      }
 
-      function updateCarousel() {
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        gsap.to(track, {
-          x: -currentIndex * slideWidth,
-          duration: 0.5,
-          ease: "power2.out"
-        });
-        prevBtn.disabled = currentIndex === 0;
-        // Calculate max index based on how many slides fit
-        const containerWidth = track.parentElement.offsetWidth;
-        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
-        nextBtn.disabled = currentIndex >= maxIndex;
-      }
-      
+    // Função para animar o título
 
-      // Initial calculation and update
-      calculateSlideWidth();
-      updateCarousel();
+    function animateTitle() {
 
-      // Recalculate on resize
-      window.addEventListener('resize', () => {
-        calculateSlideWidth();
-        updateCarousel(); // Re-position carousel after resize
-      });
+      const target = document.getElementById('animated-title');
 
-      prevBtn.addEventListener('click', () => {
-        currentIndex = Math.max(currentIndex - 1, 0);
-        updateCarousel();
-      });
-      
+      if (typeof SplitText !== 'undefined' && target) {
 
-      nextBtn.addEventListener('click', () => {
-        currentIndex = Math.min(currentIndex + 1, slides.length - 1);
-        const containerWidth = track.parentElement.offsetWidth;
-        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
-        currentIndex = Math.min(currentIndex + 1, maxIndex);
-        updateCarousel();
-      });
-      
-      // Expansão das imagens
+        const split = new SplitText(target, { type: 'chars' });
 
-      // Lightbox integration for gallery images
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const closeLightboxBtn = document.getElementById('close-lightbox');
+        gsap.from(split.chars, {
 
-      images.forEach(img => {
-        img.addEventListener('click', function() {
-          if (this.classList.contains('expanded')) {
-            this.classList.remove('expanded');
-          } else {
-            // Remove expanded de todas as imagens primeiro
-            images.forEach(i => i.classList.remove('expanded'));
-            this.classList.add('expanded');
-          }
-          lightboxImage.src = this.src;
-          lightbox.classList.add('active');
-        });
-      });
-      
-      // Fechar imagem ao clicar fora
-      document.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('gallery-image')) {
-          images.forEach(img => img.classList.remove('expanded'));
-        }
+          y: 60, opacity: 0, stagger: 0.05, ease: 'power3.out', duration: 1
 
-      closeLightboxBtn.addEventListener('click', () => {
-        lightbox.classList.remove('active');
-        lightboxImage.src = ""; // Clear image src
-      });
-      
-      // Navegação por teclado
-      document.addEventListener('keydown', (e) => {
-        if (document.querySelector('.gallery-image.expanded')) {
-          if (e.key === 'Escape') {
-            images.forEach(img => img.classList.remove('expanded'));
-          }
+        });
 
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) { // Clicked on the overlay, not the image
-          lightbox.classList.remove('active');
-          lightboxImage.src = "";
-        }
-      });
-    }
-    
+      }
 
-    // Script do Easter Egg
-    function setupEasterEgg() {
-      const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-@@ -915,15 +1055,15 @@
-          }
-      });
-    }
-    
+    }
 
-    // Script do Tema Claro/Escuro
-    function setupThemeSwitcher() {
-        const switcher = document.getElementById('theme-switcher');
-        const icon = switcher.querySelector('i');
-        const html = document.documentElement;
-        
 
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        
 
-        html.setAttribute('data-theme', savedTheme);
-        icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
-        icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
-@@ -946,7 +1086,7 @@
-        const keywordsInput = document.getElementById('ai-keywords');
-        const messageTextarea = document.getElementById('message');
-        const loadingIndicator = document.getElementById('ai-loading');
-        
+    // Função para animar o subtítulo
 
-        const name = nameInput.value || "um profissional interessado";
-        const keywords = keywordsInput.value;
+    function animateSubtitle() {
 
-@@ -965,9 +1105,9 @@
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-            
+      const target = document.getElementById('animated-subtitle');
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-@@ -979,7 +1119,7 @@
-            }
+      if(target) gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
 
-            const result = await response.json();
-            
+    }
 
-            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-                const text = result.candidates[0].content.parts[0].text;
-                messageTextarea.value = text;
-@@ -1003,21 +1143,37 @@
-        }
-    }
 
-    // Inicia tudo
-    if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-        gsap.registerPlugin(SplitText);
-    // Inicia tudo quando a página estiver completamente carregada
-    window.onload = function () {
-        // Registra o plugin SplitText com o GSAP
-        if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
-            gsap.registerPlugin(SplitText);
-            console.log("SplitText plugin registrado com sucesso.");
-        } else {
-            console.error("GSAP ou SplitText não estão definidos. As animações de título podem não funcionar.");
-            // Fallback: garante que o título esteja visível mesmo sem a animação
-            const titleElement = document.getElementById('animated-title');
-            if (titleElement) {
-                gsap.set(titleElement, { opacity: 1, y: 0 });
-            }
-        }
 
-        animateTitle();
-        animateSubtitle();
-        setupScrollFeatures();
-        updateVisitorCounter();
-        setupBackToTopButton();
-        setupEasterEgg();
-        setupThemeSwitcher();
-        setupAIFeatures(); // Inicia a funcionalidade da IA
-        setupParticles(); // Inicializa as partículas
-        animateParticles(); // Inicia a animação das partículas
-        setupGalleryCarousel(); // Inicia o carrossel da galeria
-    }
-    animateTitle();
-    animateSubtitle();
-    setupScrollFeatures();
-    updateVisitorCounter();
-    setupBackToTopButton();
-    setupEasterEgg();
-    setupThemeSwitcher();
-    setupAIFeatures(); // Inicia a funcionalidade da IA
-    setupGalleryCarousel(); // Inicia o carrossel da galeria
-  });
-  }); // Fim do DOMContentLoaded
+    // Animação de partículas no fundo
+
+    const particlesCanvas = document.createElement('canvas');
+
+    const particlesContainer = document.getElementById('particles-background');
+
+    let ctx; // Declare ctx here to make it accessible globally within the script
+
+    let particlesArray; // Declare particlesArray globally
+
+
+
+    function setupParticles() {
+
+      // Only initialize canvas and context if they haven't been already
+
+      if (!ctx && particlesContainer) { // Ensure particlesContainer exists
+
+        particlesContainer.appendChild(particlesCanvas);
+
+        ctx = particlesCanvas.getContext('2d');
+
+      } else if (!particlesContainer) {
+
+        console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
+
+        return; // Exit if the container is not found
+
+      }
+
+
+
+      particlesCanvas.width = window.innerWidth;
+
+      particlesCanvas.height = document.body.scrollHeight; // Use scrollHeight for full page height
+
+
+
+      // Clear existing particles and re-create them for responsiveness
+
+      particlesArray = []; // Re-initialize the array
+
+      for (let i = 0; i < 150; i++) {
+
+        particlesArray.push({
+
+          x: Math.random() * particlesCanvas.width,
+
+          y: Math.random() * particlesCanvas.height,
+
+          r: Math.random() * 2 + 1,
+
+          dx: (Math.random() - 0.5) * 0.4,
+
+          dy: (Math.random() - 0.5) * 0.4
+
+        });
+
+      }
+
+    }
+
+
+
+    function animateParticles() {
+
+      if (!ctx || !particlesArray) return; // Ensure context and particlesArray are available before drawing
+
+      ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+
+      particlesArray.forEach(p => {
+
+        ctx.beginPath();
+
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+
+        ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
+
+        ctx.fill();
+
+        p.x += p.dx;
+
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
+
+        if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
+
+      });
+
+      requestAnimationFrame(animateParticles);
+
+    }
+
+
+
+    // Animação de scroll para as seções e navbar
+
+    function setupScrollFeatures() {
+
+        const sections = document.querySelectorAll('section[id]');
+
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+
+
+        const observer = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    navLinks.forEach(link => {
+
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+
+                    });
+
+
+
+                    entry.target.classList.add('visible');
+
+
+
+                    if (entry.target.id === 'habilidades') {
+
+                        const skillBars = entry.target.querySelectorAll('.progress-bar');
+
+                        skillBars.forEach(bar => {
+
+                            const targetWidth = bar.getAttribute('data-width');
+
+                            const targetValue = parseInt(targetWidth, 10);
+
+                            const textSpan = bar.querySelector('.progress-bar-text');
+
+
+
+                            let counter = { value: 0 };
+
+
+
+                            gsap.to(counter, {
+
+                                value: targetValue,
+
+                                duration: 1.5,
+
+                                ease: 'power3.out',
+
+                                onUpdate: () => {
+
+                                    if(textSpan) textSpan.textContent = Math.round(counter.value) + '%';
+
+                                }
+
+                            });
+
+
+
+                            gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
+
+                        });
+
+                    }
+
+                } else {
+
+                    // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
+
+                }
+
+            });
+
+        }, { threshold: 0.2 });
+
+
+
+        sections.forEach(section => observer.observe(section));
+
+    }
+
+
+
+    // Script para o Contador de Visitas
+
+    function updateVisitorCounter() {
+
+        const counterElement = document.getElementById('visitor-counter');
+
+        if (!counterElement) return;
+
+        let count = localStorage.getItem('willianSoaresVisitorCount');
+
+        count = count ? parseInt(count, 10) + 1 : 1;
+
+        localStorage.setItem('willianSoaresVisitorCount', count);
+
+        counterElement.innerText = count.toString().padStart(5, '0');
+
+    }
+
+
+
+    // Script para o Botão Voltar ao Topo
+
+    function setupBackToTopButton() {
+
+        const btn = document.getElementById('back-to-top-btn');
+
+        if (!btn) return;
+
+        window.addEventListener('scroll', () => {
+
+            btn.classList.toggle('show', window.scrollY > 300);
+
+        });
+
+    }
+
+
+
+    // Script do Carrossel de Imagens
+
+    function setupGalleryCarousel() {
+
+      const track = document.querySelector('.gallery-track');
+
+      const slides = Array.from(document.querySelectorAll('.gallery-slide'));
+
+      const prevBtn = document.querySelector('.gallery-prev');
+
+      const nextBtn = document.querySelector('.gallery-next');
+
+      const images = document.querySelectorAll('.gallery-image'); // All images in the gallery
+
+
+
+      if (!track || slides.length === 0 || !prevBtn || !nextBtn) {
+
+        console.warn("Elementos do carrossel não encontrados ou insuficientes.");
+
+        return;
+
+      }
+
+
+
+      let currentIndex = 0;
+
+      let slideWidth = 0; // Will be calculated dynamically
+
+
+
+      function calculateSlideWidth() {
+
+        if (slides.length > 0) {
+
+          // Get the actual width of a slide including its margin-right
+
+          const firstSlide = slides[0];
+
+          const computedStyle = window.getComputedStyle(firstSlide);
+
+          const marginRight = parseFloat(computedStyle.marginRight);
+
+          slideWidth = firstSlide.offsetWidth + marginRight;
+
+        }
+
+      }
+
+
+
+      function updateCarousel() {
+
+        gsap.to(track, {
+
+          x: -currentIndex * slideWidth,
+
+          duration: 0.5,
+
+          ease: "power2.out"
+
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+
+        // Calculate max index based on how many slides fit
+
+        const containerWidth = track.parentElement.offsetWidth;
+
+        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
+
+        nextBtn.disabled = currentIndex >= maxIndex;
+
+      }
+
+
+
+      // Initial calculation and update
+
+      calculateSlideWidth();
+
+      updateCarousel();
+
+
+
+      // Recalculate on resize
+
+      window.addEventListener('resize', () => {
+
+        calculateSlideWidth();
+
+        updateCarousel(); // Re-position carousel after resize
+
+      });
+
+
+
+      prevBtn.addEventListener('click', () => {
+
+        currentIndex = Math.max(currentIndex - 1, 0);
+
+        updateCarousel();
+
+      });
+
+
+
+      nextBtn.addEventListener('click', () => {
+
+        const containerWidth = track.parentElement.offsetWidth;
+
+        const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
+
+        currentIndex = Math.min(currentIndex + 1, maxIndex);
+
+        updateCarousel();
+
+      });
+
+
+
+      // Lightbox integration for gallery images
+
+      const lightbox = document.getElementById('lightbox');
+
+      const lightboxImage = document.getElementById('lightbox-image');
+
+      const closeLightboxBtn = document.getElementById('close-lightbox');
+
+
+
+      images.forEach(img => {
+
+        img.addEventListener('click', function() {
+
+          lightboxImage.src = this.src;
+
+          lightbox.classList.add('active');
+
+        });
+
+      });
+
+
+
+      closeLightboxBtn.addEventListener('click', () => {
+
+        lightbox.classList.remove('active');
+
+        lightboxImage.src = ""; // Clear image src
+
+      });
+
+
+
+      lightbox.addEventListener('click', (e) => {
+
+        if (e.target === lightbox) { // Clicked on the overlay, not the image
+
+          lightbox.classList.remove('active');
+
+          lightboxImage.src = "";
+
+        }
+
+      });
+
+    }
+
+
+
+    // Script do Easter Egg
+
+    function setupEasterEgg() {
+
+      const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+
+      let index = 0;
+
+      document.addEventListener('keydown', (e) => {
+
+          if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
+
+              index++;
+
+              if (index === konamiCode.length) {
+
+                  document.body.classList.add('easter-egg-active');
+
+                  setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
+
+                  index = 0;
+
+              }
+
+          } else {
+
+              index = 0;
+
+          }
+
+      });
+
+    }
+
+
+
+    // Script do Tema Claro/Escuro
+
+    function setupThemeSwitcher() {
+
+        const switcher = document.getElementById('theme-switcher');
+
+        const icon = switcher.querySelector('i');
+
+        const html = document.documentElement;
+
+
+
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+
+
+        html.setAttribute('data-theme', savedTheme);
+
+        icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
+
+        icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
+
+
+
+        switcher.addEventListener('click', () => {
+
+            const currentTheme = html.getAttribute('data-theme');
+
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+
+            localStorage.setItem('theme', newTheme);
+
+            icon.classList.toggle('bi-sun-fill', newTheme === 'light');
+
+            icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
+
+        });
+
+    }
+
+
+
+    // =================================================================== */
+
+    // ================= SCRIPT DA API GEMINI ============================ */
+
+    // =================================================================== */
+
+    async function generateAIDraft() {
+
+        const nameInput = document.getElementById('name');
+
+        const keywordsInput = document.getElementById('ai-keywords');
+
+        const messageTextarea = document.getElementById('message');
+
+        const loadingIndicator = document.getElementById('ai-loading');
+
+
+
+        const name = nameInput.value || "um profissional interessado";
+
+        const keywords = keywordsInput.value;
+
+
+
+        if (!keywords) {
+
+            messageTextarea.placeholder = "Por favor, insira um assunto ou vaga para gerar o rascunho.";
+
+            return;
+
+        }
+
+
+
+        loadingIndicator.classList.remove('d-none');
+
+        messageTextarea.value = "";
+
+        messageTextarea.placeholder = "Gerando rascunho...";
+
+
+
+        const prompt = `Escreva uma mensagem de contato profissional e cordial para Willian Soares. O remetente é ${name} e o tópico de interesse é "${keywords}". A mensagem deve expressar interesse em discutir o tópico mencionado e explorar possíveis oportunidades de colaboração. A mensagem deve ser curta e direta, sem assinatura, pois o nome do remetente já está em um campo separado.`;
+
+
+
+        try {
+
+            let chatHistory = [];
+
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+
+            const apiKey = "";
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+
+
+            const response = await fetch(apiUrl, {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+
+                body: JSON.stringify(payload)
+
+            });
+
+
+
+            if (!response.ok) {
+
+                throw new Error(`HTTP error! status: ${response.status}`);
+
+            }
+
+
+
+            const result = await response.json();
+
+
+
+            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+
+                const text = result.candidates[0].content.parts[0].text;
+
+                messageTextarea.value = text;
+
+            } else {
+
+                console.error("Resposta da API bloqueada ou vazia:", result);
+
+                messageTextarea.value = "Não foi possível gerar um rascunho. A resposta pode ter sido bloqueada por segurança. Tente um assunto diferente.";
+
+            }
+
+
+
+        } catch (error) {
+
+            console.error("Erro ao chamar a API Gemini:", error);
+
+            messageTextarea.value = "Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
+
+        } finally {
+
+            loadingIndicator.classList.add('d-none');
+
+        }
+
+    }
+
+
+
+    function setupAIFeatures() {
+
+        const generateBtn = document.getElementById('generate-draft-btn');
+
+        if (generateBtn) {
+
+            generateBtn.addEventListener('click', generateAIDraft);
+
+        }
+
+    }
+
+
+
+    // Inicia tudo quando a página estiver completamente carregada
+
+    window.onload = function () {
+
+        // Registra o plugin SplitText com o GSAP
+
+        if (typeof gsap !== 'undefined' && typeof SplitText !== 'undefined') {
+
+            gsap.registerPlugin(SplitText);
+
+            console.log("SplitText plugin registrado com sucesso.");
+
+        } else {
+
+            console.error("GSAP ou SplitText não estão definidos. As animações de título podem não funcionar.");
+
+            // Fallback: garante que o título esteja visível mesmo sem a animação
+
+            const titleElement = document.getElementById('animated-title');
+
+            if (titleElement) {
+
+                gsap.set(titleElement, { opacity: 1, y: 0 });
+
+            }
+
+        }
+
+
+
+        animateTitle();
+
+        animateSubtitle();
+
+        setupScrollFeatures();
+
+        updateVisitorCounter();
+
+        setupBackToTopButton();
+
+        setupEasterEgg();
+
+        setupThemeSwitcher();
+
+        setupAIFeatures(); // Inicia a funcionalidade da IA
+
+        setupParticles(); // Inicializa as partículas
+
+        animateParticles(); // Inicia a animação das partículas
+
+        setupGalleryCarousel(); // Inicia o carrossel da galeria
+
+    }
+
+  }); // Fim do DOMContentLoaded
+
 </script>
 
+
+
 </body>
-</ht
+
 </html>
