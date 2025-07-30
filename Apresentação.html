@@ -756,13 +756,9 @@
                         slide.classList.add('active');
                     }
                 });
-                // Esconder botões de navegação na tela final
+                // Garante que os botões de navegação estejam sempre visíveis
                 const navButtons = document.querySelector('.navigation-buttons');
-                if (index === slides.length - 1) { // Último slide é a tela final
-                    navButtons.style.display = 'flex'; // Sempre visível
-                } else {
-                    navButtons.style.display = 'flex'; // Sempre visível
-                }
+                navButtons.style.display = 'flex'; 
 
                 // Controla a visibilidade das partículas
                 const particlesBackground = document.getElementById('particles-background');
