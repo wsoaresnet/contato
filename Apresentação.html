@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Executiva TI - Junitex</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --junitex-azul: #002D62; /* Baseado no logo, azul marinho */
+            --junitex-amarelo: #FFD700; /* Baseado no logo, amarelo vibrante */
+            --text-white: #FFFFFF; /* Branco puro para textos de alta legibilidade */
+            --text-dark: #212529; /* Preto para textos escuros */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Garante que não haja barra de rolagem no body */
+            background-color: var(--junitex-azul);
+            color: var(--text-white);
+        }
+
+        /* Container para as partículas de fundo */
+        #particles-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Garante que fique atrás do conteúdo */
+        }
+        #particles-background canvas {
+            display: block;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center; /* Alinhamento central padrão para o slide */
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden; /* Garante que o slide individual não tenha barra de rolagem */
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+        }
+
+        .slide-content {
+            padding: 2vh 5vw; /* Padding responsivo, maior nas laterais */
+            max-width: 95vw; /* Largura máxima do conteúdo */
+            height: calc(100vh - 100px); /* Altura para deixar espaço para os botões */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* ALINHAMENTO À ESQUERDA PARA O CONTEÚDO */
+            overflow: hidden; /* O conteúdo interno do slide-content também não rola */
+            text-align: left; /* Alinha o texto à esquerda dentro do slide-content */
+        }
+
+        /* Cores e estilos específicos para os slides */
+        .slide-azul {
+            background-color: var(--junitex-azul);
+            color: var(--text-white) !important;
+        }
+
+        .slide-amarelo {
+            background-color: var(--junitex-amarelo);
+            color: var(--text-dark);
+        }
+
+        .titulo-destaque {
+            color: var(--junitex-amarelo);
+            font-size: 4.5vw; /* Font size responsivo */
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1vh; /* Margem responsiva */
+            width: 100%; /* Garante que o título ocupe a largura e se alinhe à esquerda */
+            text-align: left; /* Alinha o título à esquerda */
+        }
+        /* Centraliza títulos e subtítulos apenas no slide 1 */
+        #slide1 .titulo-destaque,
+        #slide1 .subtitulo {
+            text-align: center;
+        }
+
+
+        .subtitulo {
+            font-size: 2.5vw; /* Font size responsivo */
+            color: var(--text-white) !important;
+            margin-bottom: 2vh; /* Margem responsiva */
+            width: 100%; /* Garante que o subtítulo ocupe a largura e se alinhe à esquerda */
+            text-align: left; /* Alinha o subtítulo à esquerda */
+        }
+
+        .text-body {
+            font-size: 1.5vw; /* Font size responsivo */
+            line-height: 1.8;
+            max-width: 100%; /* Ocupa toda a largura disponível do slide-content */
+            margin: 0; /* Remove margens automáticas para controle total */
+            color: var(--text-white) !important;
+            text-align: left; /* Alinha o texto do corpo à esquerda */
+        }
+
+        .logo-junitex {
+            max-width: 50vw; /* Largura responsiva */
+            max-height: 50vh; /* Altura responsiva para garantir que caiba */
+            object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+            margin-top: 2vh; /* Margem responsiva */
+            display: block; /* Para centralizar com margin auto */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Estilo para listas dentro dos slides com ícones Font Awesome */
+        .slide ul {
+            list-style: none;
+            padding-left: 0;
+            width: 100%; /* Ocupa a largura total do slide-content */
+            margin-top: 2vh; /* Margem responsiva */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinha itens da lista ao topo */
+            align-items: flex-start; /* Alinha itens da lista à esquerda */
+        }
+
+        .slide ul li {
+            position: relative;
+            padding-left: 3.5vw; /* Espaço para o ícone, relativo */
+            margin-bottom: 1.2vh; /* Margem responsiva */
+            font-size: 1.6vw; /* Font size responsivo */
+            text-align: left;
+            max-width: 100%; /* Ocupa toda a largura disponível do slide-content */
+            margin-left: 0; /* Remove margens automáticas */
+            margin-right: 0; /* Remove margens automáticas */
+            display: flex;
+            align-items: flex-start;
+            color: var(--text-white) !important;
+        }
+
+        .slide ul li .fa-li {
+            position: absolute;
+            left: 0;
+            top: 0.1vh;
+            color: var(--junitex-amarelo);
+            font-size: 1.8vw;
+            margin-right: 0.5vw;
+        }
+
+        /* Estilo para o texto em negrito e itálico dentro dos LIs */
+        .slide ul li b i {
+            margin-right: 0.5vw;
+            display: inline-block;
+            white-space: nowrap; /* Tenta manter o negrito/itálico na mesma linha */
+        }
+
+
+        /* Navegação */
+        .navigation-buttons {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .navigation-buttons button {
+            background-color: var(--junitex-amarelo);
+            color: var(--junitex-azul);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #ffd000;
+        }
+
+        /* Estilos da tela final e seus botões */
+        .final-screen-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        .final-screen-buttons button {
+            background-color: var(--junitex-amarelo);
+            color: var(--junitex-azul);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+        .final-screen-buttons button:hover {
+            background-color: #ffd000;
+        }
+
+        /* Estilos para slides com imagens de fundo */
+        .slide.bg-image {
+            background-blend-mode: overlay;
+            background-color: rgba(0, 45, 98, 0.7);
+        }
+
+        /* Estilos para prints do bot */
+        .screenshot-bot {
+            max-width: 24vw; /* Diminuído em 40% (era 40vw, agora 24vw) */
+            max-height: 24vh; /* Diminuído em 40% (era 40vh, agora 24vh) */
+            object-fit: contain;
+            width: 100%;
+            height: auto;
+            border: 5px solid var(--junitex-amarelo);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-bottom: 1vh;
+        }
+
+        /* Ajustes para a disposição das imagens do bot em duas colunas */
+        .bot-screenshots-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2vw;
+            margin-top: 2vh;
+            flex-grow: 1;
+            align-items: center;
+            width: 100%;
+        }
+
+        .bot-screenshots-container .screenshot-wrapper {
+            flex: 1 1 45%;
+            max-width: 45%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 1200px) {
+            .titulo-destaque {
+                font-size: 4.5vw;
+            }
+            .subtitulo {
+                font-size: 2.5vw;
+            }
+            .text-body {
+                font-size: 1.6vw;
+            }
+            .slide ul li {
+                font-size: 1.7vw;
+            }
+            .slide ul li .fa-li {
+                font-size: 1.9vw;
+            }
+            .screenshot-bot {
+                max-width: 30vw; /* Ajuste para telas menores */
+                max-height: 30vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .titulo-destaque {
+                font-size: 6vw;
+            }
+            .subtitulo {
+                font-size: 3.5vw;
+            }
+            .text-body, .slide ul li {
+                font-size: 2.5vw;
+            }
+            .slide ul li .fa-li {
+                font-size: 2.8vw;
+            }
+            .final-screen-buttons button {
+                font-size: 1.5rem;
+                padding: 10px 20px;
+            }
+            .slide-content {
+                padding: 1vh 1vw;
+            }
+            .logo-junitex {
+                max-width: 70vw;
+            }
+            .screenshot-bot {
+                max-width: 70vw;
+                max-height: 30vh;
+            }
+            .bot-screenshots-container .screenshot-wrapper {
+                flex: 1 1 90%;
+                max-width: 90%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Container para as partículas de fundo -->
+    <div id="particles-background"></div>
+
+    <!-- Slide 1: Capa -->
+    <section id="slide1" class="slide slide-azul active">
+        <div class="slide-content">
+            <h1 class="titulo-destaque"> Inovação em Ação:</h1>
+            <h2 class="subtitulo"> O Portfólio Estratégico de TI da Junitex</h2>
+            <img src="https://crediario.junitex.com.br/wp-content/uploads/2025/04/Logo-e-Juninho-03-19102022.png" alt="Logo Junitex" class="img-fluid logo-junitex">
+        </div>
+    </section>
+
+    <!-- Slide 2: O Papel Estratégico da TI -->
+    <section id="slide2" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> O Papel Estratégico da TI na Junitex</h2>
+            <p class="text-body">
+                Na Junitex, a TI é a força motriz por trás da inovação, otimizando processos e impulsionando o valor estratégico do negócio. Estamos construindo o futuro, hoje.
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 3: Projetos Concluídos e em Ajustes Finais -->
+    <section id="slide3" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/planejamento.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Projetos Concluídos e em Ajustes Finais</h2>
+            <p class="text-body">
+                Nossas soluções já estão operacionais, refinando processos e gerando valor imediato.
+            </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-check-circle"></i></span><b><i>Dashboard de Monitoramento de Viagens e Frota:</i></b>&nbsp;Otimização de recursos, maior controle e visibilidade da operação logística.</li>
+                <li><span class="fa-li"><i class="fas fa-users-cog"></i></span><b><i>Responsáveis:</i></b>&nbsp;Marcos Belantoni (Autor), Willian Soares (Apoio), Ryan Oliveira (Suporte).</li>
+                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Entregas Atuais:</i></b>&nbsp;Site/webapp, dashboard gerencial, app para motoristas (viagens, abastecimentos, ocorrências), cálculo automático de consumo, alertas de licenciamento e troca de óleo.</li>
+                <li><span class="fa-li"><i class="fas fa-forward"></i></span><b><i>Próximos Implementações:</i></b>&nbsp;Alerta de vencimento de CNH, melhorias na dashboard, ajuste de performance do banco de dados.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 4: Projetos em Andamento e Implementação -->
+    <section id="slide4" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/engrenagens.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Projetos em Andamento e Implementação</h2>
+            <p class="text-body"> Veja os principais projetos de TI em execução e seu impacto estratégico:</p>
+        </div>
+    </section>
+
+    <!-- Slide 5: Chatbot via GPT -->
+    <section id="slide5" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/ia_azul.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Chatbot via GPT (Juninho)</h2>
+            <p class="text-body">
+                Agente de IA focado em otimizar o suporte interno e o acesso à informação.
+            </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b>&nbsp;Willian Soares.</li>
+                <li><span class="fa-li"><i class="fas fa-bullseye"></i></span><b><i>Foco:</i></b>&nbsp;Auxiliar colaboradores com dúvidas sobre o sistema ERP Ecomoda e rotinas diárias.</li>
+                <li><span class="fa-li"><i class="fas fa-robot"></i></span><b><i>Funcionalidades:</i></b>&nbsp;Respostas diretas, orientações, ajuda em criação/gestão de planilhas e documentos.</li>
+                <li><span class="fa-li"><i class="fas fa-cloud-upload-alt"></i></span><b><i>Status:</i></b>&nbsp;Base de conhecimento no ar e alimentada.</li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b>&nbsp;Desafoga o suporte, agiliza a resolução de dúvidas, otimiza o tempo dos colaboradores.</li>
+                <li><span class="fa-li"><i class="fas fa-link"></i></span><b><i>Acesso:</i></b>&nbsp;<a href="https://chatgpt.com/g/g-68666485deac8191a6b59a3da0485eb0-juninho?model=gpt-4-1" target="_blank" style="color: var(--junitex-amarelo); text-decoration: none;">Link do Chatbot</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 6: Bot Humanizado no WhatsApp -->
+    <section id="slide6" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Bot Humanizado no WhatsApp</h2>
+            <p class="text-body">
+                Inteligência Artificial conversacional para agilizar o suporte de TI diretamente via WhatsApp.
+            </p>
+            <div class="bot-screenshots-container">
+                <div class="screenshot-wrapper">
+                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true" alt="Print Resumo Atendimento Bot 1" class="img-fluid screenshot-bot">
+                </div>
+                <div class="screenshot-wrapper">
+                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true" alt="Print Resumo Atendimento Bot 2" class="img-fluid screenshot-bot">
+                </div>
+            </div>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b>&nbsp;Willian Soares.</li>
+                <li><span class="fa-li"><i class="fas fa-hourglass-half"></i></span><b><i>Status:</i></b>&nbsp;Em fase de testes e ajustes finais.</li>
+                <li><span class="fa-li"><i class="fas fa-mobile-alt"></i></span><b><i>Funcionalidade:</i></b>&nbsp;Suporte automático para problemas simples (periféricos, tarefas cotidianas); redirecionamento para chamado se necessário.</li>
+                <li><span class="fa-li"><i class="fas fa-tools"></i></span><b><i>Tecnologia:</i></b>&nbsp;N8N (automação), WaHa (gateway WhatsApp), Redis (memória), Processamento Google Gemini (maior estabilidade e precisão).</li>
+                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Diferencial:</i></b>&nbsp;Envio de resumo do atendimento para o técnico.</li>
+                <li><span class="fa-li"><i class="fas fa-arrow-alt-circle-right"></i></span><b><i>Futuro:</i></b>&nbsp;Interpretação de documentos/imagens/vídeos/Áudios, ajuste de performance.</li>
+                <li><span class="fa-li"><i class="fas fa-chart-line"></i></span><b><i>Impacto:</i></b>&nbsp;Otimização do suporte de TI, autonomia do colaborador.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 7: Gestão Carteira de Clientes – Dito CRM -->
+    <section id="slide7" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Gestão Carteira de Clientes – Dito CRM</h2>
+            <p class="text-body"> A Junitex investe na unificação de dados para um relacionamento mais próximo e vendas mais eficazes. </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-calendar-alt"></i></span><b><i>Status:</i></b>&nbsp;Implementação.</li>
+                <li><span class="fa-li"><i class="fas fa-database"></i></span><b><i>Plataforma para unificação dos dados dos clientes.</i></b></li>
+                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Segmentação e campanhas personalizadas.</i></b></li>
+                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></span><b><i>Fidelização e aumento das vendas.</i></b></li>
+                <li><span class="fa-li"><i class="fas fa-check-double"></i></span><b><i>Progresso:</i></b>&nbsp;Banco de dados pronto; integração com Ecomoda iniciando.</li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b>&nbsp;Relacionamento aprimorado, impulsionamento de vendas e fidelização.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 8: E-commerce de Marcas Próprias Junitex -->
+    <section id="slide8" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> E-commerce de Marcas Próprias Junitex</h2>
+            <p class="text-body">
+                Expansão estratégica para o ambiente online com nossas marcas exclusivas.
+            </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-store"></i></span><b><i>Status:</i></b>&nbsp;Uma loja no ar, funcional, aguardando integração fiscal final com o sistema Ecomoda.</li>
+                <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span><b><i>O Projeto:</i></b>&nbsp;Desenvolvimento de 5 lojas de marcas próprias para vendas online.</li>
+                <li><span class="fa-li"><i class="fas fa-play-circle"></i></span><b><i>Próximos Passos:</i></b>&nbsp;Lançamento dos outros 4 sites e início da divulgação após a integração com Ecomoda.</li>
+                <li><span class="fa-li"><i class="fas fa-chart-area"></i></i></span><b><i>Impacto:</i></b>&nbsp;Aumento do alcance de mercado, novas fontes de receita e fortalecimento da marca.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 9: Aplicativo da Manutenção -->
+    <section id="slide9" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/dashboards_blue.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Aplicativo da Manutenção</h2>
+            <p class="text-body"> Ferramenta que garante controle e transparência nas operações de manutenção. </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-wrench"></i></span><b><i>Funcionalidade:</i></b>&nbsp;Acompanhamento de manutenções por filial, checklists de verificação e relatórios.</li>
+                <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span><b><i>Visualização:</i></b>&nbsp;Dashboards integradas para análise de dados.</li>
+                <li><span class="fa-li"><i class="fas fa-users"></i></span><b><i>Acessos:</i></b>&nbsp;Gerentes de filiais e diretoria com acessos dedicados para solicitações.</li>
+                <li><span class="fa-li"><i class="fas fa-globe"></i></span><b><i>Plataforma:</i></b>&nbsp;WebApp, garantindo acesso em qualquer dispositivo.</li>
+                <li><span class="fa-li"><i class="fas fa-paint-brush"></i></span><b><i>Status:</i></b>&nbsp;Parte visual iniciada.</li>
+                <li><span class="fa-li"><i class="fas fa-clock"></i></i></span><b><i>Impacto:</i></b>&nbsp;Otimização de processos, maior controle e transparência na gestão da manutenção.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 10: Inovação Contínua – Projetos em Pipeline -->
+    <section id="slide10" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/planejamento_azul.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Inovação Contínua – Projetos em Pipeline</h2>
+            <p class="text-body"> Veja os principais projetos futuros e iniciativas em análise que ampliarão os resultados:</p>
+        </div>
+    </section>
+
+    <!-- Slide 11: Pagamento de Parcelas do Cliente -->
+    <section id="slide11" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/linhas_azuis.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Pagamento de Parcelas do Cliente</h2>
+            <p class="text-body">
+                Autonomia e comodidade para o cliente, eficiência para o setor de crediário.
+            </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-code-branch"></i></span><b><i>Status:</i></b>&nbsp;A desenvolver.</li>
+                <li><span class="fa-li"><i class="fas fa-lightbulb"></i></span><b><i>Ideia Principal:</i></b>&nbsp;Cliente acessa o site, cria/atualiza cadastro e seleciona parcelas (vencidas/a vencer) para pagamento via PIX.</li>
+                <li><span class="fa-li"><i class="fas fa-route"></i></span><b><i>Fluxo:</i></b>&nbsp;Totalmente integrado ao fluxograma obrigatório do Ecomoda.</li>
+                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></i></span><b><i>Impacto:</i></b>&nbsp;Alívio da demanda do crediário, melhora na experiência do cliente e otimização de recebimentos.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 12: Novos Dashboards no Ecomoda -->
+    <section id="slide12" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/linhas_horizontais_azuis.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Novas Dashboards no Ecomoda</h2>
+            <p class="text-body">
+                Mais inteligência e agilidade na análise de dados para tomada de decisões estratégicas.
+            </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-user-check"></i></span><b><i>Origem:</i></b>&nbsp;Solicitação do Emerson para melhor análise de dados.</li>
+                <li><span class="fa-li"><i class="fas fa-building"></i></span><b><i>Projeto:</i></b>&nbsp;Desenvolvimento de um sistema de intranet para dashboards personalizadas.</li>
+                <li><span class="fa-li"><i class="fas fa-calendar-day"></i></span><b><i>Exibição Inicial:</i></b>&nbsp;Dados D-1 (tudo que ocorreu no dia anterior, de momento).</li>
+                <li><span class="fa-li"><i class="fas fa-chart-pie"></i></span><b><i>Impacto:</i></b>&nbsp;Melhora na inteligência de negócios e na capacidade de análise dos diretores.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 13: Ferramenta Parceira Meta -->
+    <section id="slide13" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Ferramenta Parceira Meta</h2>
+            <p class="text-body"> Fortalecendo a comunicação com o cliente e impulsionando o engajamento. </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-search"></i></span><b><i>Status:</i></b>&nbsp;Em análise para implementação.</li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Objetivo:</i></b>&nbsp;Encontrar a ferramenta de melhor custo-benefício, parceira Meta, para comunicação entre crediário/filiais e clientes Junitex.</li>
+                <li><span class="fa-li"><i class="fab fa-whatsapp"></i></span><b><i>Canais:</i></b>&nbsp;Disparos via WhatsApp para promoções, cobranças, alertas de vencimento, cashback, etc.</li>
+                <li><span class="fa-li"><i class="fas fa-comments"></i></span><b><i>Impacto:</i></b>&nbsp;Otimização da comunicação, engajamento do cliente e potencial de incremento de vendas.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 14: Integração Mapfre/Ecomoda -->
+    <section id="slide14" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Integração Mapfree/Ecomoda</h2>
+            <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Status:</i></b>&nbsp;Retomando o desenvolvimento.</li>
+                <li><span class="fa-li"><i class="fas fa-calendar-check"></i></span><b><i>Cronograma:</i></b>&nbsp;Retomada da conversa em 30/07/2025 com Mapfree, Ecomoda e Junitex.</li>
+                <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span><b><i>O Projeto:</i></b>&nbsp;Implementação dos produtos de seguridade da Mapfree (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</li>
+                <li><span class="fa-li"><i class="fas fa-chart-line"></i></i></span><b><i>Impacto:</i></b>&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 15: Próximos Passos e Visão de Futuro -->
+    <section id="slide15" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/ondas_azuis.jpeg');">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Próximos Passos e Visão de Futuro</h2>
+            <p class="text-body">
+                Comprometimento contínuo da TI com a inovação, otimização e a contribuição para os resultados estratégicos da Junitex. Contamos com o engajamento de todos para seguir transformando!
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide Final: Encerramento -->
+    <section id="slide16" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Apresentação Encerrada!</h2>
+            <p class="text-body" style="margin-top: 2rem;">
+                Agradecemos sua atenção e interesse nos projetos de TI da Junitex.
+            </p>
+            <p class="text-body" style="font-size: 1.8vw; font-weight: bold; margin-top: 3vh;">
+                Deseja rever a apresentação ou finalizar?
+            </p>
+            <div class="final-screen-buttons">
+                <button id="restartBtn"><i class="fas fa-sync-alt"></i> Voltar ao Início</button>
+                <button id="closeBtn"><i class="fas fa-times-circle"></i> Fechar Apresentação</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Botões de Navegação -->
+    <div class="navigation-buttons">
+        <button id="homeBtn" title="Voltar ao Início"><i class="fas fa-home"></i> Home</button>
+        <button id="prevBtn"><i class="fas fa-chevron-left"></i> Anterior</button>
+        <button id="nextBtn">Próximo <i class="fas fa-chevron-right"></i></button>
+        <button id="fullscreenBtn" title="Tela Cheia"><i class="fas fa-expand"></i> Tela Cheia</button>
+    </div>
+
+    <!-- Bootstrap JS e custom JS para o slideshow -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+
+            // Animação de partículas no fundo
+            const particlesCanvas = document.createElement('canvas');
+            const particlesContainer = document.getElementById('particles-background');
+            particlesContainer.appendChild(particlesCanvas);
+            let ctx = particlesCanvas.getContext('2d');
+            let particlesArray;
+
+            // Objeto para armazenar as propriedades das partículas
+            const particleProperties = {
+                numberOfParticles: 100,
+                maxSize: 3,
+                minSize: 1,
+                maxSpeed: 0.5,
+                minSpeed: 0.1,
+                color: 'rgba(255, 255, 255, 0.5)', // Branco translúcido
+                lineColor: 'rgba(255, 255, 255, 0.1)', // Linhas mais suaves
+                lineDistance: 100 // Distância para conectar partículas
+            };
+
+            // Classe da Partícula
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+
+                // Método para desenhar a partícula
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+
+                // Método para atualizar a posição da partícula
+                update() {
+                    // Inverte a direção se a partícula atingir as bordas
+                    if (this.x + this.size > particlesCanvas.width || this.x - this.size < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y + this.size > particlesCanvas.height || this.y - this.size < 0) {
+                        this.directionY = -this.directionY;
+                    }
+
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                }
+            }
+
+            // Inicializar as partículas
+            function initParticles() {
+                particlesCanvas.width = window.innerWidth;
+                particlesCanvas.height = window.innerHeight;
+                particlesArray = [];
+                for (let i = 0; i < particleProperties.numberOfParticles; i++) {
+                    let size = Math.random() * (particleProperties.maxSize - particleProperties.minSize) + particleProperties.minSize;
+                    let x = Math.random() * (particlesCanvas.width - size * 2) + size;
+                    let y = Math.random() * (particlesCanvas.height - size * 2) + size;
+                    let directionX = (Math.random() * (particleProperties.maxSpeed * 2) - particleProperties.maxSpeed);
+                    let directionY = (Math.random() * (particleProperties.maxSpeed * 2) - particleProperties.maxSpeed);
+                    let color = particleProperties.color;
+
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            // Loop de animação
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+
+                    for (let j = i; j < particlesArray.length; j++) {
+                        let distance = Math.sqrt(
+                            ((particlesArray[i].x - particlesArray[j].x) * (particlesArray[i].x - particlesArray[j].x)) +
+                            ((particlesArray[i].y - particlesArray[j].y) * (particlesArray[i].y - particlesArray[j].y))
+                        );
+
+                        if (distance < particleProperties.lineDistance) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = particleProperties.lineColor;
+                            ctx.lineWidth = 1;
+                            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            // Event listener para redimensionamento da janela
+            window.addEventListener('resize', initParticles);
+
+            // Inicia a animação das partículas
+            initParticles();
+            animateParticles();
+
+
+            // Função para entrar em tela cheia
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) {
+                        slide.classList.add('active');
+                    }
+                });
+                // Esconder botões de navegação na tela final
+                const navButtons = document.querySelector('.navigation-buttons');
+                if (index === slides.length - 1) { // Último slide é a tela final
+                    navButtons.style.display = 'none';
+                } else {
+                    navButtons.style.display = 'flex';
+                }
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function goToHome() {
+                currentSlide = 0;
+                showSlide(currentSlide);
+            }
+
+            // Inicializa o primeiro slide
+            showSlide(currentSlide);
+
+            // Event listeners para os botões de navegação
+            document.getElementById('nextBtn').addEventListener('click', nextSlide);
+            document.getElementById('prevBtn').addEventListener('click', prevSlide);
+            document.getElementById('homeBtn').addEventListener('click', goToHome);
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
+
+            // Event listeners para os botões da tela final
+            document.getElementById('restartBtn').addEventListener('click', goToHome);
+            document.getElementById('closeBtn').addEventListener('click', function() {
+                window.close();
+            });
+
+            // Event listeners para as setas do teclado
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (event.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (event.key === 'Home' || event.key === 'h' || event.key === 'H') {
+                    goToHome();
+                } else if (event.key === 'f' || event.key === 'F') {
+                    toggleFullScreen();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
