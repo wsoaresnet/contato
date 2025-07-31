@@ -13,6 +13,8 @@
     <!-- Preload dos Prints do Bot para carregamento mais rápido -->
     <link rel="preload" as="image" href="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true">
     <link rel="preload" as="image" href="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true">
+    <!-- Preload da Logo Final para carregamento mais rápido -->
+    <link rel="preload" as="image" href="https://github.com/wsoaresnet/contato/blob/main/img/Logo.png?raw=true">
     <style>
         :root {
             --junitex-azul: #002D62; /* Baseado no logo, azul marinho */
@@ -407,6 +409,17 @@
             transition: width 0.3s ease-out; /* Transição suave */
         }
 
+        /* Logo na tela final */
+        .final-slide-logo {
+            max-width: 30vw; /* Largura responsiva */
+            max-height: 20vh; /* Altura responsiva */
+            object-fit: contain;
+            margin-top: 3vh; /* Margem acima da logo */
+            display: block; /* Para centralizar */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
 
         /* Responsividade para telas menores */
         @media (max-width: 1200px) {
@@ -428,6 +441,9 @@
             .screenshot-bot {
                 max-width: 25vw; /* Ajuste para telas menores */
                 max-height: 25vh;
+            }
+            .final-slide-logo {
+                max-width: 40vw; /* Ajuste para telas menores */
             }
         }
 
@@ -479,6 +495,9 @@
             }
             .progress-bar-container {
                 bottom: 55px; /* Ajuste para mobile */
+            }
+            .final-slide-logo {
+                max-width: 60vw; /* Ajuste para mobile */
             }
         }
 
@@ -741,6 +760,8 @@
                 <button id="restartBtn"><i class="fas fa-sync-alt"></i> Voltar ao Início</button>
                 <button id="closeBtn"><i class="fas fa-times-circle"></i> Fechar Apresentação</button>
             </div>
+            <!-- Nova Logo na tela final -->
+            <img src="https://github.com/wsoaresnet/contato/blob/main/img/Logo.png?raw=true" alt="Logo Junitex" class="img-fluid final-slide-logo">
         </div>
     </section>
 
@@ -898,7 +919,7 @@
                     // Reset animations for all children before activating a slide
                     slide.querySelectorAll('.slide-content > *:not(.logo-junitex), .slide-content ul li').forEach(el => {
                         el.style.animation = 'none'; // Remove any active animation
-                        el.style.opacity = ''; // Reset opacity to default (important for visibility)
+                        el.style.opacity = '0'; // Set opacity to 0 before animating
                     });
 
                     if (i === index) {
@@ -906,22 +927,20 @@
                         // Apply animations with delays
                         setTimeout(() => {
                             let delay = 0.1;
-                            slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-screenshots-container, .slide-content > .collapsible-container, .slide-content > .toggle-details-btn').forEach(el => {
-                                el.style.opacity = '0'; // Set to 0 before animating
+                            // Select direct children of .slide-content that are NOT .logo-junitex
+                            slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-screenshots-container, .slide-content > .collapsible-container, .slide-content > .toggle-details-btn, .slide-content > .final-screen-buttons, .slide-content > .final-slide-logo').forEach(el => {
                                 el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
                                 delay += 0.1;
                             });
 
                             // Specific delays for list items
                             slide.querySelectorAll('.slide-content ul li').forEach((li, liIndex) => {
-                                li.style.opacity = '0'; // Set to 0 before animating
                                 li.style.animation = `slideInUpFade 0.8s ease-out ${delay + (liIndex * 0.1)}s forwards`;
                             });
 
                             // Animação da logo no primeiro slide
                             if (slide.id === 'slide1') {
                                 const logo = document.querySelector('#slide1 .logo-junitex');
-                                logo.style.opacity = '0'; // Set to 0 before animating
                                 logo.style.animation = `slideInUpFade 1s ease-out 0.5s forwards`;
                             }
 
