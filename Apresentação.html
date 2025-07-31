@@ -326,6 +326,40 @@
             cursor: pointer;
         }
 
+        /* Estilos para conteúdo colapsável */
+        .collapsible-container .expanded-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+        }
+
+        .collapsible-container.expanded .expanded-details {
+            max-height: 500px; /* Ajuste conforme a altura máxima esperada do conteúdo */
+            opacity: 1;
+        }
+
+        .toggle-details-btn {
+            background-color: var(--junitex-amarelo);
+            color: var(--junitex-azul);
+            border: none;
+            padding: 10px 20px;
+            font-size: clamp(0.8rem, 1.2vw, 1.5rem);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            margin-top: 2vh; /* Adicionado margem para separar do conteúdo */
+        }
+
+        .toggle-details-btn:hover {
+            background-color: #ffd000;
+        }
+
+        .toggle-details-btn:active {
+            transform: scale(0.98); /* Efeito de clique */
+        }
+
         /* Keyframes para animação de entrada */
         @keyframes slideInUpFade {
             from {
@@ -339,10 +373,39 @@
         }
 
         /* Removido o opacity: 0 inicial para evitar que os textos sumam */
-        /* .slide .slide-content > *:not(.logo-junitex),
+        /* .slide .slide-content > *:not(.logo-junitex) {
+            opacity: 0;
+        }
         .slide .slide-content ul li {
             opacity: 0;
         } */
+        /* Animação específica para a logo no primeiro slide */
+        #slide1 .logo-junitex {
+            animation: slideInUpFade 1s ease-out 0.5s forwards;
+            opacity: 0; /* Inicia invisível para a animação */
+        }
+
+        /* Barra de Progresso */
+        .progress-bar-container {
+            position: fixed;
+            bottom: 65px; /* Acima dos botões de navegação */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; /* Largura da barra */
+            height: 8px; /* Altura da barra */
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo da barra */
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%; /* Começa com 0% */
+            background-color: var(--junitex-amarelo); /* Cor de preenchimento */
+            border-radius: 5px;
+            transition: width 0.3s ease-out; /* Transição suave */
+        }
 
 
         /* Responsividade para telas menores */
@@ -413,6 +476,9 @@
             .slide ul li span.description { /* O restante do texto após o tópico */
                 display: block; /* Garante que o restante do texto vá para a próxima linha */
                 margin-top: 0; /* Remove margem extra */
+            }
+            .progress-bar-container {
+                bottom: 55px; /* Ajuste para mobile */
             }
         }
 
@@ -536,12 +602,23 @@
             <p class="text-body">
                 Expansão estratégica para o ambiente online com nossas marcas exclusivas.
             </p>
-            <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-store"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Uma loja no ar, funcional, aguardando integração fiscal final com o sistema Ecomoda.</span></li>
-                <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Desenvolvimento de 5 lojas de marcas próprias para vendas online.</span></li>
-                <li><span class="fa-li"><i class="fas fa-play-circle"></i></span><b><i>Próximos Passos:</i></b><span class="description">&nbsp;Lançamento dos outros 4 sites e início da divulgação após a integração com Ecomoda.</span></li>
-                <li><span class="fa-li"><i class="fas fa-chart-area"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Aumento do alcance de mercado, novas fontes de receita e fortalecimento da marca.</span></li>
-            </ul>
+            <div class="collapsible-container"> <!-- Novo contêiner para o conteúdo colapsável -->
+                <ul class="fa-ul">
+                    <li><span class="fa-li"><i class="fas fa-store"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Uma loja no ar, funcional, aguardando integração fiscal final com o sistema Ecomoda.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Desenvolvimento de 5 lojas de marcas próprias para vendas online.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-play-circle"></i></span><b><i>Próximos Passos:</i></b><span class="description">&nbsp;Lançamento dos outros 4 sites e início da divulgação após a integração com Ecomoda.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-chart-area"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Aumento do alcance de mercado, novas fontes de receita e fortalecimento da marca.</span></li>
+                </ul>
+                <div class="expanded-details">
+                    <p class="text-body mt-3">
+                        Detalhes adicionais sobre o e-commerce: A plataforma foi desenvolvida com foco em escalabilidade e experiência do usuário, utilizando as melhores práticas de SEO para garantir visibilidade nos motores de busca. A integração com o Ecomoda é crucial para a gestão de estoque e fiscal, otimizando todo o fluxo de vendas.
+                    </p>
+                    <p class="text-body">
+                        Estamos explorando funcionalidades como personalização de produtos e integração com redes sociais para maximizar o engajamento do cliente.
+                    </p>
+                </div>
+            </div>
+            <button class="toggle-details-btn mt-3"><i class="fas fa-info-circle"></i> Saiba Mais</button>
         </div>
     </section>
 
@@ -620,12 +697,23 @@
         <div class="slide-content">
             <h2 class="titulo-destaque"> Integração Mapfre/Ecomoda</h2>
             <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
-            <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Retomando o desenvolvimento.</span></li>
-                <li><span class="fa-li"><i class="fas fa-calendar-check"></i></span><b><i>Cronograma:</i></b><span class="description">&nbsp;Retomada da conversa em 30/07/2025 com Mapfre, Ecomoda e Junitex.</span></li>
-                <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</span></li>
-                <li><span class="fa-li"><i class="fas fa-chart-line"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</span></li>
-            </ul>
+            <div class="collapsible-container"> <!-- Novo contêiner para o conteúdo colapsável -->
+                <ul class="fa-ul">
+                    <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Retomando o desenvolvimento.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-calendar-check"></i></span><b><i>Cronograma:</i></b><span class="description">&nbsp;Retomada da conversa em 30/07/2025 com Mapfre, Ecomoda e Junitex.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</span></li>
+                    <li><span class="fa-li"><i class="fas fa-chart-line"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</span></li>
+                </ul>
+                <div class="expanded-details">
+                    <p class="text-body mt-3">
+                        A integração com a Mapfre permitirá que as filiais da Junitex ofereçam uma gama completa de produtos de seguridade, desde seguros de vida e auto até residenciais e empresariais. Isso posiciona a Junitex como um hub de soluções financeiras e de proteção para seus clientes.
+                    </p>
+                    <p class="text-body">
+                        A fase atual envolve a sincronização de catálogos de produtos e a automação dos processos de cotação e emissão de apólices diretamente pelo sistema Ecomoda, garantindo agilidade e precisão nas vendas.
+                    </p>
+                </div>
+            </div>
+            <button class="toggle-details-btn mt-3"><i class="fas fa-info-circle"></i> Saiba Mais</button>
         </div>
     </section>
 
@@ -664,6 +752,11 @@
         <button id="fullscreenBtn" title="Tela Cheia"><i class="fas fa-expand"></i> Tela Cheia</button>
     </div>
 
+    <!-- Barra de Progresso -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+
     <!-- Modal para Imagem Expandida -->
     <div id="imageModal" class="image-modal">
         <span class="close-modal">&times;</span>
@@ -676,6 +769,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const slides = document.querySelectorAll('.slide');
             let currentSlide = 0;
+            const progressBarFill = document.getElementById('progressBarFill');
 
             // Animação de partículas no fundo
             const particlesCanvas = document.createElement('canvas');
@@ -793,13 +887,18 @@
                 }
             }
 
+            function updateProgressBar() {
+                const progress = ((currentSlide + 1) / slides.length) * 100;
+                progressBarFill.style.width = `${progress}%`;
+            }
+
             function showSlide(index) {
                 slides.forEach((slide, i) => {
                     slide.classList.remove('active');
                     // Reset animations for all children before activating a slide
                     slide.querySelectorAll('.slide-content > *:not(.logo-junitex), .slide-content ul li').forEach(el => {
                         el.style.animation = 'none'; // Remove any active animation
-                        // Removido o el.style.opacity = '0'; para corrigir o problema dos textos sumindo
+                        el.style.opacity = ''; // Reset opacity to default (important for visibility)
                     });
 
                     if (i === index) {
@@ -807,15 +906,25 @@
                         // Apply animations with delays
                         setTimeout(() => {
                             let delay = 0.1;
-                            slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-screenshots-container').forEach(el => {
+                            slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-screenshots-container, .slide-content > .collapsible-container, .slide-content > .toggle-details-btn').forEach(el => {
+                                el.style.opacity = '0'; // Set to 0 before animating
                                 el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
                                 delay += 0.1;
                             });
 
                             // Specific delays for list items
                             slide.querySelectorAll('.slide-content ul li').forEach((li, liIndex) => {
+                                li.style.opacity = '0'; // Set to 0 before animating
                                 li.style.animation = `slideInUpFade 0.8s ease-out ${delay + (liIndex * 0.1)}s forwards`;
                             });
+
+                            // Animação da logo no primeiro slide
+                            if (slide.id === 'slide1') {
+                                const logo = document.querySelector('#slide1 .logo-junitex');
+                                logo.style.opacity = '0'; // Set to 0 before animating
+                                logo.style.animation = `slideInUpFade 1s ease-out 0.5s forwards`;
+                            }
+
                         }, 50); // Pequeno atraso para garantir que o display esteja pronto
                     }
                 });
@@ -826,6 +935,8 @@
                 // Partículas sempre visíveis (garantido pelo CSS também)
                 const particlesBackground = document.getElementById('particles-background');
                 particlesBackground.style.display = 'block';
+
+                updateProgressBar(); // Atualiza a barra de progresso
             }
 
             function nextSlide() {
@@ -897,6 +1008,19 @@
                 if (event.target === imageModal) {
                     closeImageModal();
                 }
+            });
+
+            // Lógica para o botão "Saiba Mais"
+            document.querySelectorAll('.toggle-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const collapsibleContainer = this.previousElementSibling; // O div .collapsible-container
+                    collapsibleContainer.classList.toggle('expanded');
+                    if (collapsibleContainer.classList.contains('expanded')) {
+                        this.innerHTML = '<i class="fas fa-info-circle"></i> Saiba Menos';
+                    } else {
+                        this.innerHTML = '<i class="fas fa-info-circle"></i> Saiba Mais';
+                    }
+                });
             });
         });
     </script>
