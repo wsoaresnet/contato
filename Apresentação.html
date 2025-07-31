@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Preload da Logo Junitex para carregamento mais rápido -->
+    <link rel="preload" as="image" href="https://crediario.junitex.com.br/wp-content/uploads/2025/04/Logo-e-Juninho-03-19102022.png">
+    <!-- Preload dos Prints do Bot para carregamento mais rápido -->
+    <link rel="preload" as="image" href="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true">
+    <link rel="preload" as="image" href="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true">
     <style>
         :root {
             --junitex-azul: #002D62; /* Baseado no logo, azul marinho */
@@ -163,9 +168,6 @@
 
         .slide ul li .fa-li {
             /* Removemos o posicionamento absoluto para que o ícone participe do fluxo flexbox */
-            /* position: absolute; */
-            /* left: 0; */
-            /* top: 0.1vh; */
             color: var(--junitex-amarelo);
             font-size: clamp(1.2rem, 1.8vw, 2.2rem); /* Font size responsivo com clamp */
             margin-right: 0.8vw; /* Espaçamento entre o ícone e o texto */
@@ -207,12 +209,16 @@
             font-size: clamp(0.8rem, 1.2vw, 1.5rem); /* Font size responsivo com clamp */
             cursor: pointer;
             border-radius: 8px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Adicionado transform para feedback */
             font-weight: bold;
         }
 
         .navigation-buttons button:hover {
             background-color: #ffd000;
+        }
+
+        .navigation-buttons button:active {
+            transform: scale(0.98); /* Efeito de clique */
         }
 
         /* Estilos da tela final e seus botões */
@@ -230,11 +236,14 @@
             font-size: 1.5rem;
             cursor: pointer;
             border-radius: 8px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Adicionado transform para feedback */
             font-weight: bold;
         }
         .final-screen-buttons button:hover {
             background-color: #ffd000;
+        }
+        .final-screen-buttons button:active {
+            transform: scale(0.98); /* Efeito de clique */
         }
 
         /* Estilos para prints do bot */
@@ -317,6 +326,25 @@
             cursor: pointer;
         }
 
+        /* Keyframes para animação de entrada */
+        @keyframes slideInUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Removido o opacity: 0 inicial para evitar que os textos sumam */
+        /* .slide .slide-content > *:not(.logo-junitex),
+        .slide .slide-content ul li {
+            opacity: 0;
+        } */
+
+
         /* Responsividade para telas menores */
         @media (max-width: 1200px) {
             .titulo-destaque {
@@ -352,7 +380,6 @@
             }
             .slide ul li {
                 font-size: 2.2vw; /* Ajustado para mobile */
-                /* padding-left: 5vw; Removido, flexbox cuida disso */
             }
             .slide ul li .fa-li {
                 font-size: 2.8vw;
@@ -526,7 +553,7 @@
             <ul class="fa-ul">
                 <li><span class="fa-li"><i class="fas fa-wrench"></i></span><b><i>Funcionalidade:</i></b><span class="description">&nbsp;Acompanhamento de manutenções por filial, checklists de verificação e relatórios.</span></li>
                 <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span><b><i>Visualização:</i></b><span class="description">&nbsp;Dashboards integradas para análise de dados.</span></li>
-                <li><span class="fa-li"><i class="fas fa-users"></i></span><b><i>Acessos:</i></b><span class="description">&nbsp;Gerentes de filiais e diretoria com acessos dedicados para solicitações.</span></li>
+                <li><span class="fa-li"><i class="fas fa-users"></i></span><b><i>Acessos:</i></i></b><span class="description">&nbsp;Gerentes de filiais e diretoria com acessos dedicados para solicitações.</span></li>
                 <li><span class="fa-li"><i class="fas fa-globe"></i></span><b><i>Plataforma:</i></b><span class="description">&nbsp;WebApp, garantindo acesso em qualquer dispositivo.</span></li>
                 <li><span class="fa-li"><i class="fas fa-paint-brush"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Parte visual iniciada.</span></li>
                 <li><span class="fa-li"><i class="fas fa-clock"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Otimização de processos, maior controle e transparência na gestão da manutenção.</span></li>
@@ -769,8 +796,27 @@
             function showSlide(index) {
                 slides.forEach((slide, i) => {
                     slide.classList.remove('active');
+                    // Reset animations for all children before activating a slide
+                    slide.querySelectorAll('.slide-content > *:not(.logo-junitex), .slide-content ul li').forEach(el => {
+                        el.style.animation = 'none'; // Remove any active animation
+                        // Removido o el.style.opacity = '0'; para corrigir o problema dos textos sumindo
+                    });
+
                     if (i === index) {
                         slide.classList.add('active');
+                        // Apply animations with delays
+                        setTimeout(() => {
+                            let delay = 0.1;
+                            slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-screenshots-container').forEach(el => {
+                                el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
+                                delay += 0.1;
+                            });
+
+                            // Specific delays for list items
+                            slide.querySelectorAll('.slide-content ul li').forEach((li, liIndex) => {
+                                li.style.animation = `slideInUpFade 0.8s ease-out ${delay + (liIndex * 0.1)}s forwards`;
+                            });
+                        }, 50); // Pequeno atraso para garantir que o display esteja pronto
                     }
                 });
                 // Botões de navegação sempre visíveis
