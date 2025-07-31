@@ -33,6 +33,7 @@
             width: 100%;
             height: 100%;
             z-index: -1; /* Garante que fique atrás do conteúdo */
+            display: block; /* Sempre visível */
         }
         #particles-background canvas {
             display: block;
@@ -72,18 +73,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center; /* ALINHAMENTO HORIZONTAL DO CONTEÚDO AO CENTRO */
-            overflow: hidden; /* O conteúdo interno do slide-content também não rola */
+            overflow-y: hidden; /* Não permite rolagem vertical, o texto deve se adaptar */
+            overflow-x: hidden; /* Garante que não haja rolagem horizontal */
             text-align: left; /* Alinha o texto à esquerda dentro do slide-content */
+            box-sizing: border-box; /* Garante que padding não aumente o tamanho total */
         }
 
         /* Cores e estilos específicos para os slides */
         .slide-azul {
-            background-color: var(--junitex-azul);
+            /* Alterado para RGBA para permitir a visibilidade das partículas */
+            background-color: rgba(0, 45, 98, 0.9); /* Azul Junitex com 90% de opacidade */
             color: var(--text-white) !important;
         }
 
         .slide-amarelo {
-            background-color: var(--junitex-amarelo);
+            /* Alterado para RGBA para permitir a visibilidade das partículas */
+            background-color: rgba(255, 215, 0, 0.9); /* Amarelo Junitex com 90% de opacidade */
             color: var(--text-dark);
         }
 
@@ -144,33 +149,42 @@
         }
 
         .slide ul li {
-            position: relative;
-            padding-left: 3.5vw; /* Espaço para o ícone, relativo */
+            /* Usamos flexbox para um controle mais granular e flexível */
+            display: flex;
+            align-items: flex-start; /* Alinha o ícone e o texto ao topo do item */
+            flex-wrap: wrap; /* Permite que o conteúdo quebre para a próxima linha se não houver espaço */
             margin-bottom: 1.2vh; /* Margem responsiva */
             font-size: clamp(1.1rem, 1.5vw, 2rem); /* Font size responsivo com clamp */
             text-align: left;
-            max-width: 90vw; /* Aumentado para permitir mais texto na linha */
-            margin-left: 0; /* Remove margens automáticas */
-            margin-right: 0; /* Remove margens automáticas */
-            display: flex;
-            align-items: flex-start;
+            max-width: 100%;
             color: var(--text-white) !important;
+            padding-left: 0; /* Removemos o padding-left fixo, o flexbox cuidará do espaçamento */
         }
 
         .slide ul li .fa-li {
-            position: absolute;
-            left: 0;
-            top: 0.1vh;
+            /* Removemos o posicionamento absoluto para que o ícone participe do fluxo flexbox */
+            /* position: absolute; */
+            /* left: 0; */
+            /* top: 0.1vh; */
             color: var(--junitex-amarelo);
             font-size: clamp(1.2rem, 1.8vw, 2.2rem); /* Font size responsivo com clamp */
+            margin-right: 0.8vw; /* Espaçamento entre o ícone e o texto */
+            flex-shrink: 0; /* Impede que o ícone encolha */
+        }
+
+        /* Estilo para o texto em negrito e itálico (tópico principal) */
+        .slide ul li b i {
+            white-space: normal; /* Permite que o texto quebre para a próxima linha */
+            display: inline; /* Mantém como inline por padrão para fluir com o restante do texto */
             margin-right: 0.5vw;
         }
 
-        /* Estilo para o texto em negrito e itálico dentro dos LIs */
-        .slide ul li b i {
-            margin-right: 0.5vw;
-            display: inline-block;
-            white-space: nowrap; /* Tenta manter o negrito/itálico na mesma linha */
+        /* Estilo para o texto descritivo após o tópico principal */
+        .slide ul li span.description {
+            flex-basis: 0; /* Permite que o elemento se ajuste ao espaço disponível */
+            flex-grow: 1; /* Permite que ele cresça para ocupar o espaço */
+            min-width: 0; /* Permite que ele encolha se necessário */
+            white-space: normal; /* Garante que o texto quebre naturalmente */
         }
 
 
@@ -223,12 +237,6 @@
             background-color: #ffd000;
         }
 
-        /* Estilos para slides com imagens de fundo */
-        .slide.bg-image {
-            background-blend-mode: overlay;
-            background-color: rgba(0, 45, 98, 0.7);
-        }
-
         /* Estilos para prints do bot */
         .screenshot-bot {
             max-width: 20vw; /* Reduzido para 20vw */
@@ -240,6 +248,7 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             margin-bottom: 1vh;
+            cursor: pointer; /* Adiciona cursor de ponteiro para indicar clicável */
         }
 
         /* Ajustes para a disposição das imagens do bot em duas colunas */
@@ -262,6 +271,50 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        /* Estilos do Modal de Imagem */
+        .image-modal {
+            display: none; /* Escondido por padrão */
+            position: fixed; /* Fixo na tela */
+            z-index: 2000; /* Acima de tudo */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Permite rolagem se a imagem for muito grande */
+            background-color: rgba(0,0,0,0.8); /* Fundo preto semi-transparente */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain; /* Garante que a imagem caiba sem cortar */
+            border: 5px solid var(--junitex-amarelo);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: var(--text-white);
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: var(--junitex-amarelo);
+            text-decoration: none;
+            cursor: pointer;
         }
 
         /* Responsividade para telas menores */
@@ -299,10 +352,11 @@
             }
             .slide ul li {
                 font-size: 2.2vw; /* Ajustado para mobile */
-                padding-left: 5vw; /* Mais espaço para o ícone no mobile */
+                /* padding-left: 5vw; Removido, flexbox cuida disso */
             }
             .slide ul li .fa-li {
                 font-size: 2.8vw;
+                margin-right: 2vw; /* Ajuste de margem para mobile */
             }
             .final-screen-buttons button {
                 font-size: 1.5rem;
@@ -310,6 +364,7 @@
             }
             .slide-content {
                 padding: 1vh 1vw;
+                height: calc(100vh - 80px); /* Ajuste de altura para mobile, considerando botões menores */
             }
             .logo-junitex {
                 max-width: 70vw;
@@ -324,13 +379,13 @@
             }
             /* Força a quebra de linha para o texto após o negrito/itálico no mobile */
             .slide ul li b i {
-                white-space: normal; /* Permite que o texto quebre */
-                display: block; /* Ocupa a linha inteira */
+                display: block; /* Força o tópico a ir para uma nova linha */
                 margin-right: 0; /* Remove margem extra */
+                margin-bottom: 0.5vh; /* Pequena margem para separar do texto descritivo */
             }
-            .slide ul li span:last-child { /* O restante do texto após o tópico */
+            .slide ul li span.description { /* O restante do texto após o tópico */
                 display: block; /* Garante que o restante do texto vá para a próxima linha */
-                margin-top: 0.5vh; /* Pequena margem para separar do tópico */
+                margin-top: 0; /* Remove margem extra */
             }
         }
 
@@ -353,7 +408,7 @@
     <!-- Slide 2: O Papel Estratégico da TI -->
     <section id="slide2" class="slide slide-azul">
         <div class="slide-content">
-            <h2 class="titulo-destaque"> O Papel Estratégico da TI na Junitex</h2>
+            <h2 class="titulo-destaque"> O Papel Estratégico de TI na Junitex</h2>
             <p class="text-body">
                 Na Junitex, a TI é a força motriz por trás da inovação, otimizando processos e impulsionando o valor estratégico do negócio. Estamos construindo o futuro, hoje.
             </p>
@@ -361,23 +416,23 @@
     </section>
 
     <!-- Slide 3: Projetos Concluídos e em Ajustes Finais -->
-    <section id="slide3" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/planejamento.jpeg');">
+    <section id="slide3" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Projetos Concluídos e em Ajustes Finais</h2>
             <p class="text-body">
                 Nossas soluções já estão operacionais, refinando processos e gerando valor imediato.
             </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-check-circle"></i></span><b><i>Dashboard de Monitoramento de Viagens e Frota:</i></b>&nbsp;Otimização de recursos, maior controle e visibilidade da operação logística.</li>
-                <li><span class="fa-li"><i class="fas fa-users-cog"></i></span><b><i>Responsáveis:</i></b>&nbsp;Marcos Belantoni (Autor), Willian Soares (Apoio), Ryan Oliveira (Suporte).</li>
-                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Entregas Atuais:</i></b>&nbsp;Site/webapp, dashboard gerencial, app para motoristas (viagens, abastecimentos, ocorrências), cálculo automático de consumo, alertas de licenciamento e troca de óleo.</li>
-                <li><span class="fa-li"><i class="fas fa-forward"></i></span><b><i>Próximos Implementações:</i></b>&nbsp;Alerta de vencimento de CNH, melhorias na dashboard, ajuste de performance do banco de dados.</li>
+                <li><span class="fa-li"><i class="fas fa-check-circle"></i></span><b><i>Dashboard de Monitoramento de Viagens e Frota:</i></b><span class="description">&nbsp;Otimização de recursos, maior controle e visibilidade da operação logística.</span></li>
+                <li><span class="fa-li"><i class="fas fa-users-cog"></i></span><b><i>Responsáveis:</i></b><span class="description">&nbsp;Marcos Belantoni (Autor), Willian Soares (Apoio), Ryan Oliveira (Suporte).</span></li>
+                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Entregas Atuais:</i></b><span class="description">&nbsp;Site/webapp, dashboard gerencial, app para motoristas (viagens, abastecimentos, ocorrências), cálculo automático de consumo, alertas de licenciamento e troca de óleo.</span></li>
+                <li><span class="fa-li"><i class="fas fa-forward"></i></span><b><i>Próximos Implementações:</i></b><span class="description">&nbsp;Alerta de vencimento de CNH, melhorias na dashboard, ajuste de performance do banco de dados.</span></li>
             </ul>
         </div>
     </section>
 
     <!-- Slide 4: Projetos em Andamento e Implementação -->
-    <section id="slide4" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/engrenagens.jpeg');">
+    <section id="slide4" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Projetos em Andamento e Implementação</h2>
             <p class="text-body"> Veja os principais projetos de TI em execução e seu impacto estratégico:</p>
@@ -385,19 +440,19 @@
     </section>
 
     <!-- Slide 5: Chatbot via GPT -->
-    <section id="slide5" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/ia_azul.jpeg');">
+    <section id="slide5" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Chatbot via GPT (Juninho)</h2>
             <p class="text-body">
                 Agente de IA focado em otimizar o suporte interno e o acesso à informação.
             </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b>&nbsp;Willian Soares.</li>
-                <li><span class="fa-li"><i class="fas fa-bullseye"></i></span><b><i>Foco:</i></b>&nbsp;Auxiliar colaboradores com dúvidas sobre o sistema ERP Ecomoda e rotinas diárias.</li>
-                <li><span class="fa-li"><i class="fas fa-robot"></i></span><b><i>Funcionalidades:</i></b>&nbsp;Respostas diretas, orientações, ajuda em criação/gestão de planilhas e documentos.</li>
-                <li><span class="fa-li"><i class="fas fa-cloud-upload-alt"></i></span><b><i>Status:</i></b>&nbsp;Base de conhecimento no ar e alimentada.</li>
-                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b>&nbsp;Desafoga o suporte, agiliza a resolução de dúvidas, otimiza o tempo dos colaboradores.</li>
-                <li><span class="fa-li"><i class="fas fa-link"></i></span><b><i>Acesso:</i></b>&nbsp;<a href="https://chatgpt.com/g/g-68666485deac8191a6b59a3da0485eb0-juninho?model=gpt-4-1" target="_blank" style="color: var(--junitex-amarelo); text-decoration: none;">Link do Chatbot</a></li>
+                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b><span class="description">&nbsp;Willian Soares.</span></li>
+                <li><span class="fa-li"><i class="fas fa-bullseye"></i></span><b><i>Foco:</i></b><span class="description">&nbsp;Auxiliar colaboradores com dúvidas sobre o sistema ERP Ecomoda e rotinas diárias.</span></li>
+                <li><span class="fa-li"><i class="fas fa-robot"></i></span><b><i>Funcionalidades:</i></b><span class="description">&nbsp;Respostas diretas, orientações, ajuda em criação/gestão de planilhas e documentos.</span></li>
+                <li><span class="fa-li"><i class="fas fa-cloud-upload-alt"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Base de conhecimento no ar e alimentada.</span></li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Desafoga o suporte, agiliza a resolução de dúvidas, otimiza o tempo dos colaboradores.</span></li>
+                <li><span class="fa-li"><i class="fas fa-link"></i></span><b><i>Acesso:</i></b><span class="description">&nbsp;<a href="https://chatgpt.com/g/g-68666485deac8191a6b59a3da0485eb0-juninho?model=gpt-4-1" target="_blank" style="color: var(--junitex-amarelo); text-decoration: none;">Link do Chatbot</a></span></li>
             </ul>
         </div>
     </section>
@@ -411,20 +466,22 @@
             </p>
             <div class="bot-screenshots-container">
                 <div class="screenshot-wrapper">
-                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true" alt="Print Resumo Atendimento Bot 1" class="img-fluid screenshot-bot">
+                    <!-- Adicionado onclick para abrir o modal -->
+                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true" alt="Print Resumo Atendimento Bot 1" class="img-fluid screenshot-bot" onclick="openImageModal(this.src)">
                 </div>
                 <div class="screenshot-wrapper">
-                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true" alt="Print Resumo Atendimento Bot 2" class="img-fluid screenshot-bot">
+                    <!-- Adicionado onclick para abrir o modal -->
+                    <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true" alt="Print Resumo Atendimento Bot 2" class="img-fluid screenshot-bot" onclick="openImageModal(this.src)">
                 </div>
             </div>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b>&nbsp;Willian Soares.</li>
-                <li><span class="fa-li"><i class="fas fa-hourglass-half"></i></span><b><i>Status:</i></b>&nbsp;Em fase de testes e ajustes finais.</li>
-                <li><span class="fa-li"><i class="fas fa-mobile-alt"></i></span><b><i>Funcionalidade:</i></b>&nbsp;Suporte automático para problemas simples (periféricos, tarefas cotidianas); redirecionamento para chamado se necessário.</li>
-                <li><span class="fa-li"><i class="fas fa-tools"></i></span><b><i>Tecnologia:</i></b>&nbsp;N8N (automação), WaHa (gateway WhatsApp), Redis (memória), Processamento Google Gemini (maior estabilidade e precisão).</li>
-                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Diferencial:</i></b>&nbsp;Envio de resumo do atendimento para o técnico.</li>
-                <li><span class="fa-li"><i class="fas fa-arrow-alt-circle-right"></i></span><b><i>Futuro:</i></b>&nbsp;Interpretação de documentos/imagens/vídeos/Áudios, ajuste de performance.</li>
-                <li><span class="fa-li"><i class="fas fa-chart-line"></i></span><b><i>Impacto:</i></b>&nbsp;Otimização do suporte de TI, autonomia do colaborador.</li>
+                <li><span class="fa-li"><i class="fas fa-user-tie"></i></span><b><i>Autor:</i></b><span class="description">&nbsp;Willian Soares.</span></li>
+                <li><span class="fa-li"><i class="fas fa-hourglass-half"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Em fase de testes e ajustes finais.</span></li>
+                <li><span class="fa-li"><i class="fas fa-mobile-alt"></i></span><b><i>Funcionalidade:</i></b><span class="description">&nbsp;Suporte automático para problemas simples (periféricos, tarefas cotidianas); redirecionamento para chamado se necessário.</span></li>
+                <li><span class="fa-li"><i class="fas fa-tools"></i></span><b><i>Tecnologia:</i></b><span class="description">&nbsp;N8N (automação), WaHa (gateway WhatsApp), Redis (memória), Processamento Google Gemini (maior estabilidade e precisão).</span></li>
+                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Diferencial:</i></b><span class="description">&nbsp;Envio de resumo do atendimento para o técnico.</span></li>
+                <li><span class="fa-li"><i class="fas fa-arrow-alt-circle-right"></i></span><b><i>Futuro:</i></b><span class="description">&nbsp;Interpretação de documentos/imagens/vídeos/Áudios, ajuste de performance.</span></li>
+                <li><span class="fa-li"><i class="fas fa-chart-line"></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Otimização do suporte de TI, autonomia do colaborador.</span></li>
             </ul>
         </div>
     </section>
@@ -435,12 +492,12 @@
             <h2 class="titulo-destaque"> Gestão Carteira de Clientes – Dito CRM</h2>
             <p class="text-body"> A Junitex investe na unificação de dados para um relacionamento mais próximo e vendas mais eficazes. </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-calendar-alt"></i></span><b><i>Status:</i></b>&nbsp;Implementação.</li>
-                <li><span class="fa-li"><i class="fas fa-database"></i></span><b><i>Plataforma para unificação dos dados dos clientes.</i></b></li>
-                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Segmentação e campanhas personalizadas.</i></b></li>
-                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></span><b><i>Fidelização e aumento das vendas.</i></b></li>
-                <li><span class="fa-li"><i class="fas fa-check-double"></i></span><b><i>Progresso:</i></b>&nbsp;Banco de dados pronto; integração com Ecomoda iniciando.</li>
-                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b>&nbsp;Relacionamento aprimorado, impulsionamento de vendas e fidelização.</li>
+                <li><span class="fa-li"><i class="fas fa-calendar-alt"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Implementação.</span></li>
+                <li><span class="fa-li"><i class="fas fa-database"></i></span><b><i>Plataforma para unificação dos dados dos clientes.</i></b><span class="description"></span></li>
+                <li><span class="fa-li"><i class="fas fa-cogs"></i></span><b><i>Segmentação e campanhas personalizadas.</i></b><span class="description"></span></li>
+                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></span><b><i>Fidelização e aumento das vendas.</i></b><span class="description"></span></li>
+                <li><span class="fa-li"><i class="fas fa-check-double"></i></span><b><i>Progresso:</i></b><span class="description">&nbsp;Banco de dados pronto; integração com Ecomoda iniciando.</span></li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Relacionamento aprimorado, impulsionamento de vendas e fidelização.</span></li>
             </ul>
         </div>
     </section>
@@ -453,32 +510,32 @@
                 Expansão estratégica para o ambiente online com nossas marcas exclusivas.
             </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-store"></i></span><b><i>Status:</i></b>&nbsp;Uma loja no ar, funcional, aguardando integração fiscal final com o sistema Ecomoda.</li>
-                <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span><b><i>O Projeto:</i></b>&nbsp;Desenvolvimento de 5 lojas de marcas próprias para vendas online.</li>
-                <li><span class="fa-li"><i class="fas fa-play-circle"></i></span><b><i>Próximos Passos:</i></b>&nbsp;Lançamento dos outros 4 sites e início da divulgação após a integração com Ecomoda.</li>
-                <li><span class="fa-li"><i class="fas fa-chart-area"></i></i></span><b><i>Impacto:</i></b>&nbsp;Aumento do alcance de mercado, novas fontes de receita e fortalecimento da marca.</li>
+                <li><span class="fa-li"><i class="fas fa-store"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Uma loja no ar, funcional, aguardando integração fiscal final com o sistema Ecomoda.</span></li>
+                <li><span class="fa-li"><i class="fas fa-project-diagram"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Desenvolvimento de 5 lojas de marcas próprias para vendas online.</span></li>
+                <li><span class="fa-li"><i class="fas fa-play-circle"></i></span><b><i>Próximos Passos:</i></b><span class="description">&nbsp;Lançamento dos outros 4 sites e início da divulgação após a integração com Ecomoda.</span></li>
+                <li><span class="fa-li"><i class="fas fa-chart-area"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Aumento do alcance de mercado, novas fontes de receita e fortalecimento da marca.</span></li>
             </ul>
         </div>
     </section>
 
     <!-- Slide 9: Aplicativo da Manutenção -->
-    <section id="slide9" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/dashboards_blue.jpeg');">
+    <section id="slide9" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Aplicativo da Manutenção</h2>
             <p class="text-body"> Ferramenta que garante controle e transparência nas operações de manutenção. </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-wrench"></i></span><b><i>Funcionalidade:</i></b>&nbsp;Acompanhamento de manutenções por filial, checklists de verificação e relatórios.</li>
-                <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span><b><i>Visualização:</i></b>&nbsp;Dashboards integradas para análise de dados.</li>
-                <li><span class="fa-li"><i class="fas fa-users"></i></span><b><i>Acessos:</i></b>&nbsp;Gerentes de filiais e diretoria com acessos dedicados para solicitações.</li>
-                <li><span class="fa-li"><i class="fas fa-globe"></i></span><b><i>Plataforma:</i></b>&nbsp;WebApp, garantindo acesso em qualquer dispositivo.</li>
-                <li><span class="fa-li"><i class="fas fa-paint-brush"></i></span><b><i>Status:</i></b>&nbsp;Parte visual iniciada.</li>
-                <li><span class="fa-li"><i class="fas fa-clock"></i></i></span><b><i>Impacto:</i></b>&nbsp;Otimização de processos, maior controle e transparência na gestão da manutenção.</li>
+                <li><span class="fa-li"><i class="fas fa-wrench"></i></span><b><i>Funcionalidade:</i></b><span class="description">&nbsp;Acompanhamento de manutenções por filial, checklists de verificação e relatórios.</span></li>
+                <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span><b><i>Visualização:</i></b><span class="description">&nbsp;Dashboards integradas para análise de dados.</span></li>
+                <li><span class="fa-li"><i class="fas fa-users"></i></span><b><i>Acessos:</i></b><span class="description">&nbsp;Gerentes de filiais e diretoria com acessos dedicados para solicitações.</span></li>
+                <li><span class="fa-li"><i class="fas fa-globe"></i></span><b><i>Plataforma:</i></b><span class="description">&nbsp;WebApp, garantindo acesso em qualquer dispositivo.</span></li>
+                <li><span class="fa-li"><i class="fas fa-paint-brush"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Parte visual iniciada.</span></li>
+                <li><span class="fa-li"><i class="fas fa-clock"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Otimização de processos, maior controle e transparência na gestão da manutenção.</span></li>
             </ul>
         </div>
     </section>
 
     <!-- Slide 10: Inovação Contínua – Projetos em Pipeline -->
-    <section id="slide10" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/planejamento_azul.jpeg');">
+    <section id="slide10" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Inovação Contínua – Projetos em Pipeline</h2>
             <p class="text-body"> Veja os principais projetos futuros e iniciativas em análise que ampliarão os resultados:</p>
@@ -486,33 +543,33 @@
     </section>
 
     <!-- Slide 11: Pagamento de Parcelas do Cliente -->
-    <section id="slide11" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/linhas_azuis.jpeg');">
+    <section id="slide11" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Pagamento de Parcelas do Cliente</h2>
             <p class="text-body">
                 Autonomia e comodidade para o cliente, eficiência para o setor de crediário.
             </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-code-branch"></i></span><b><i>Status:</i></b>&nbsp;A desenvolver.</li>
-                <li><span class="fa-li"><i class="fas fa-lightbulb"></i></span><b><i>Ideia Principal:</i></b>&nbsp;Cliente acessa o site, cria/atualiza cadastro e seleciona parcelas (vencidas/a vencer) para pagamento via PIX.</li>
-                <li><span class="fa-li"><i class="fas fa-route"></i></span><b><i>Fluxo:</i></b>&nbsp;Totalmente integrado ao fluxograma obrigatório do Ecomoda.</li>
-                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></i></span><b><i>Impacto:</i></b>&nbsp;Alívio da demanda do crediário, melhora na experiência do cliente e otimização de recebimentos.</li>
+                <li><span class="fa-li"><i class="fas fa-code-branch"></i></span><b><i>Status:</i></b><span class="description">&nbsp;A desenvolver.</span></li>
+                <li><span class="fa-li"><i class="fas fa-lightbulb"></i></span><b><i>Ideia Principal:</i></b><span class="description">&nbsp;Cliente acessa o site, cria/atualiza cadastro e seleciona parcelas (vencidas/a vencer) para pagamento via PIX.</span></li>
+                <li><span class="fa-li"><i class="fas fa-route"></i></span><b><i>Fluxo:</i></b><span class="description">&nbsp;Totalmente integrado ao fluxograma obrigatório do Ecomoda.</span></li>
+                <li><span class="fa-li"><i class="fas fa-dollar-sign"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Alívio da demanda do crediário, melhora na experiência do cliente e otimização de recebimentos.</span></li>
             </ul>
         </div>
     </section>
 
     <!-- Slide 12: Novos Dashboards no Ecomoda -->
-    <section id="slide12" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/linhas_horizontais_azuis.jpeg');">
+    <section id="slide12" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Novas Dashboards no Ecomoda</h2>
             <p class="text-body">
                 Mais inteligência e agilidade na análise de dados para tomada de decisões estratégicas.
             </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-user-check"></i></span><b><i>Origem:</i></b>&nbsp;Solicitação do Emerson para melhor análise de dados.</li>
-                <li><span class="fa-li"><i class="fas fa-building"></i></span><b><i>Projeto:</i></b>&nbsp;Desenvolvimento de um sistema de intranet para dashboards personalizadas.</li>
-                <li><span class="fa-li"><i class="fas fa-calendar-day"></i></span><b><i>Exibição Inicial:</i></b>&nbsp;Dados D-1 (tudo que ocorreu no dia anterior, de momento).</li>
-                <li><span class="fa-li"><i class="fas fa-chart-pie"></i></span><b><i>Impacto:</i></b>&nbsp;Melhora na inteligência de negócios e na capacidade de análise dos diretores.</li>
+                <li><span class="fa-li"><i class="fas fa-user-check"></i></span><b><i>Origem:</i></b><span class="description">&nbsp;Solicitação do Emerson para melhor análise de dados.</span></li>
+                <li><span class="fa-li"><i class="fas fa-building"></i></span><b><i>Projeto:</i></b><span class="description">&nbsp;Desenvolvimento de um sistema de intranet para dashboards personalizadas.</span></li>
+                <li><span class="fa-li"><i class="fas fa-calendar-day"></i></span><b><i>Exibição Inicial:</i></b><span class="description">&nbsp;Dados D-1 (tudo que ocorreu no dia anterior, de momento).</span></li>
+                <li><span class="fa-li"><i class="fas fa-chart-pie"></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Melhora na inteligência de negócios e na capacidade de análise dos diretores.</span></li>
             </ul>
         </div>
     </section>
@@ -523,10 +580,10 @@
             <h2 class="titulo-destaque"> Ferramenta Parceira Meta</h2>
             <p class="text-body"> Fortalecendo a comunicação com o cliente e impulsionando o engajamento. </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-search"></i></span><b><i>Status:</i></b>&nbsp;Em análise para implementação.</li>
-                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Objetivo:</i></b>&nbsp;Encontrar a ferramenta de melhor custo-benefício, parceira Meta, para comunicação entre crediário/filiais e clientes Junitex.</li>
-                <li><span class="fa-li"><i class="fab fa-whatsapp"></i></span><b><i>Canais:</i></b>&nbsp;Disparos via WhatsApp para promoções, cobranças, alertas de vencimento, cashback, etc.</li>
-                <li><span class="fa-li"><i class="fas fa-comments"></i></span><b><i>Impacto:</i></b>&nbsp;Otimização da comunicação, engajamento do cliente e potencial de incremento de vendas.</li>
+                <li><span class="fa-li"><i class="fas fa-search"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Em análise para implementação.</span></li>
+                <li><span class="fa-li"><i class="fas fa-handshake"></i></span><b><i>Objetivo:</i></b><span class="description">&nbsp;Encontrar a ferramenta de melhor custo-benefício, parceira Meta, para comunicação entre crediário/filiais e clientes Junitex.</span></li>
+                <li><span class="fa-li"><i class="fab fa-whatsapp"></i></span><b><i>Canais:</i></b><span class="description">&nbsp;Disparos via WhatsApp para promoções, cobranças, alertas de vencimento, cashback, etc.</span></li>
+                <li><span class="fa-li"><i class="fas fa-comments"></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Otimização da comunicação, engajamento do cliente e potencial de incremento de vendas.</span></li>
             </ul>
         </div>
     </section>
@@ -537,18 +594,18 @@
             <h2 class="titulo-destaque"> Integração Mapfre/Ecomoda</h2>
             <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
             <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Status:</i></b>&nbsp;Retomando o desenvolvimento.</li>
-                <li><span class="fa-li"><i class="fas fa-calendar-check"></i></span><b><i>Cronograma:</i></b>&nbsp;Retomada da conversa em 31/07/2025 com Mapfre, Ecomoda e Junitex.</li>
-                <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span><b><i>O Projeto:</i></b>&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</li>
-                <li><span class="fa-li"><i class="fas fa-chart-line"></i></i></span><b><i>Impacto:</i></b>&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</li>
+                <li><span class="fa-li"><i class="fas fa-sync-alt"></i></span><b><i>Status:</i></b><span class="description">&nbsp;Retomando o desenvolvimento.</span></li>
+                <li><span class="fa-li"><i class="fas fa-calendar-check"></i></span><b><i>Cronograma:</i></b><span class="description">&nbsp;Retomada da conversa em 30/07/2025 com Mapfre, Ecomoda e Junitex.</span></li>
+                <li><span class="fa-li"><i class="fas fa-shield-alt"></i></span><b><i>O Projeto:</i></b><span class="description">&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</span></li>
+                <li><span class="fa-li"><i class="fas fa-chart-line"></i></i></span><b><i>Impacto:</i></b><span class="description">&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</span></li>
             </ul>
         </div>
     </section>
 
     <!-- Slide 15: Próximos Passos e Visão de Futuro -->
-    <section id="slide15" class="slide slide-azul bg-image" style="background-image: url('https://raw.githubusercontent.com/google-gemini/multimodal-gemini-example/main/images/ondas_azuis.jpeg');">
+    <section id="slide15" class="slide slide-azul">
         <div class="slide-content">
-            <h2 class="titulo-destaque"> Próximos Passos e Visão de Futuro</h2>
+            <h2 class="titulo-destaque"> Inovação Contínua – Projetos em Pipeline</h2>
             <p class="text-body">
                 Comprometimento contínuo da TI com a inovação, otimização e a contribuição para os resultados estratégicos da Junitex. Contamos com o engajamento de todos para seguir transformando!
             </p>
@@ -578,6 +635,12 @@
         <button id="prevBtn"><i class="fas fa-chevron-left"></i> Anterior</button>
         <button id="nextBtn">Próximo <i class="fas fa-chevron-right"></i></button>
         <button id="fullscreenBtn" title="Tela Cheia"><i class="fas fa-expand"></i> Tela Cheia</button>
+    </div>
+
+    <!-- Modal para Imagem Expandida -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="image-modal-content" id="expandedImage">
     </div>
 
     <!-- Bootstrap JS e custom JS para o slideshow -->
@@ -710,21 +773,13 @@
                         slide.classList.add('active');
                     }
                 });
-                // Esconder botões de navegação na tela final
+                // Botões de navegação sempre visíveis
                 const navButtons = document.querySelector('.navigation-buttons');
-                if (index === slides.length - 1) { // Último slide é a tela final
-                    navButtons.style.display = 'flex'; // Sempre visível
-                } else {
-                    navButtons.style.display = 'flex'; // Sempre visível
-                }
-
-                // Controla a visibilidade das partículas
+                navButtons.style.display = 'flex'; 
+                
+                // Partículas sempre visíveis (garantido pelo CSS também)
                 const particlesBackground = document.getElementById('particles-background');
-                if (index === 0) { // Se for o slide 1 (índice 0)
-                    particlesBackground.style.display = 'none';
-                } else {
-                    particlesBackground.style.display = 'block';
-                }
+                particlesBackground.style.display = 'block';
             }
 
             function nextSlide() {
@@ -754,7 +809,7 @@
             // Event listeners para os botões da tela final
             document.getElementById('restartBtn').addEventListener('click', goToHome);
             document.getElementById('closeBtn').addEventListener('click', function() {
-                window.close();
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: var(--junitex-azul); color: var(--text-white); font-size: 3rem; flex-direction: column;"><h1>Apresentação Finalizada!</h1><p>Obrigado por sua atenção.</p><button onclick="window.location.reload()" style="background-color: var(--junitex-amarelo); color: var(--junitex-azul); border: none; padding: 15px 30px; font-size: 1.5rem; cursor: pointer; border-radius: 8px; margin-top: 20px;">Reiniciar</button></div>';
             });
 
             // Event listeners para as setas do teclado
@@ -767,6 +822,34 @@
                     goToHome();
                 } else if (event.key === 'f' || event.key === 'F') {
                     toggleFullScreen();
+                } else if (event.key === 'Escape') { // Adicionado para fechar o modal com ESC
+                    closeImageModal();
+                }
+            });
+
+            // Lógica do Modal de Imagem
+            const imageModal = document.getElementById('imageModal');
+            const expandedImage = document.getElementById('expandedImage');
+            const closeModalBtn = document.querySelector('.close-modal');
+
+            // Função para abrir o modal
+            window.openImageModal = function(src) {
+                expandedImage.src = src;
+                imageModal.style.display = 'flex'; // Usa flex para centralizar
+            }
+
+            // Função para fechar o modal
+            window.closeImageModal = function() {
+                imageModal.style.display = 'none';
+            }
+
+            // Fecha o modal ao clicar no 'x'
+            closeModalBtn.addEventListener('click', closeImageModal);
+
+            // Fecha o modal ao clicar fora da imagem
+            imageModal.addEventListener('click', function(event) {
+                if (event.target === imageModal) {
+                    closeImageModal();
                 }
             });
         });
