@@ -27,6 +27,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            /* Garante que não haverá scrollbar no body */
             overflow: hidden;
             background-color: var(--junitex-azul);
             color: var(--text-white);
@@ -77,11 +78,19 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Corrigido: Habilita a rolagem interna para evitar corte de conteúdo */
             overflow-y: auto;
             overflow-x: hidden;
-            text-align: left;
             box-sizing: border-box;
+        }
+
+        /* Oculta o scrollbar vertical, mas mantém a funcionalidade de rolagem */
+        .slide-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* Cores e estilos específicos para os slides */
@@ -103,8 +112,9 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             margin-bottom: 1vh;
             width: 100%;
-            text-align: left;
+            text-align: center; /* Títulos centralizados */
         }
+        
         #slide1 .titulo-destaque,
         #slide1 .subtitulo {
             text-align: center;
@@ -115,7 +125,7 @@
             color: var(--text-white) !important;
             margin-bottom: 2vh;
             width: 100%;
-            text-align: left;
+            text-align: center; /* Subtítulos centralizados */
         }
 
         .text-body {
@@ -124,7 +134,7 @@
             max-width: 100%;
             margin: 0;
             color: var(--text-white) !important;
-            text-align: left;
+            text-align: left; /* Parágrafos alinhados à esquerda */
             box-sizing: border-box;
         }
 
@@ -138,7 +148,7 @@
             margin-right: auto;
         }
 
-        /* Estilo para listas com ícones Font Awesome */
+        /* Estilo para listas com ícones Font Awesome (AJUSTADO) */
         .slide ul {
             list-style: none;
             padding-left: 0;
@@ -147,36 +157,35 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: flex-start; /* Alinhado à esquerda */
+            gap: 1vh;
+            text-align: left;
         }
-
-        /* Estilo para listas em duas colunas */
+        
         .slide ul.two-column-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2vw;
-            flex-direction: unset;
-            justify-content: unset;
-            align-items: unset;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Alinhado à esquerda */
         }
 
         .slide ul li {
             display: flex;
             align-items: flex-start;
             flex-wrap: nowrap;
-            margin-bottom: 0.8vh;
+            margin-bottom: 1vh;
             font-size: clamp(1.1rem, 1.5vw, 2rem);
-            text-align: left;
             max-width: 100%;
             color: var(--text-white) !important;
             padding-left: 0;
+            text-align: left; /* Texto do item da lista alinhado à esquerda */
         }
-
+        
         .slide ul li .fas {
             color: var(--junitex-amarelo) !important;
         }
-
+        
         .slide ul li .fa-li {
             color: var(--junitex-amarelo);
             font-size: clamp(1.2rem, 1.8vw, 2.2rem);
@@ -188,15 +197,17 @@
             display: block;
             flex-grow: 1;
             min-width: 0;
+            line-height: 1.5;
+            text-align: left;
         }
-
+        
         /* Estilo para o texto em negrito e itálico (tópico principal) */
         .slide ul li b i {
             white-space: normal;
             display: inline;
             margin-right: 0.5vw;
         }
-
+        
         /* Estilo para o texto descritivo após o tópico principal */
         .slide ul li span.description {
             display: inline;
@@ -254,22 +265,7 @@
             transform: scale(0.98);
         }
 
-        /* Classes para conteúdo colapsável - unificado */
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-            opacity: 0;
-            margin-top: 2vh;
-        }
-
-        .collapsible-content.is-visible {
-            /* Corrigido: Valor alto para garantir que o conteúdo não seja cortado */
-            max-height: 1000px; /* Ajuste para um valor grande o suficiente */
-            opacity: 1;
-            margin-top: 1vh;
-            margin-bottom: 2vh;
-        }
+        /* Classes para conteúdo colapsável (REMOVIDO e substituído por modal) */
         
         /* Estilos dos botões de navegação */
         .navigation-buttons {
@@ -312,8 +308,8 @@
             justify-content: center;
         }
 
-        /* Estilos do Modal de Imagem */
-        .image-modal {
+        /* Estilos do Modal de Imagem e de Detalhes (UNIFICADO) */
+        .modal {
             display: none;
             position: fixed;
             z-index: 2000;
@@ -321,23 +317,31 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
             background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
         }
-
-        .image-modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
+        
+        .modal-content {
+            background-color: var(--junitex-azul);
             border: 5px solid var(--junitex-amarelo);
             border-radius: 10px;
             box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            padding: 3vh 3vw;
         }
 
+        .modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
         .close-modal {
             position: absolute;
             top: 20px;
@@ -396,10 +400,9 @@
             transition: width 0.3s ease-out;
         }
 
-
         /* =========================================================================
-           RESPONSIVIDADE AJUSTADA
-           ========================================================================= */
+            RESPONSIVIDADE AJUSTADA
+            ========================================================================= */
 
         @media (max-width: 1200px) {
             .titulo-destaque { font-size: clamp(2.5rem, 4.5vw, 6rem); }
@@ -419,8 +422,19 @@
             .titulo-destaque { font-size: 8vw; }
             .subtitulo { font-size: 5vw; }
             .text-body { font-size: 3.5vw; line-height: 1.5; }
-            .slide ul.two-column-list { grid-template-columns: 1fr; gap: 2vh; }
-            .slide ul li { font-size: 3.5vw; margin-bottom: 2vh; flex-wrap: wrap; }
+            /* Lista agora em uma única coluna por padrão, sem precisar de grid */
+            .slide ul.two-column-list { 
+                display: flex; 
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start; /* Alinhado à esquerda */
+                gap: 1vh;
+            }
+            .slide ul li { 
+                font-size: 3.5vw; 
+                margin-bottom: 1.5vh; 
+                flex-wrap: wrap; 
+            }
             .slide ul li .fa-li { font-size: 4vw; margin-right: 3vw; }
             .slide ul li .list-item-text { margin-left: 0; }
             .logo-junitex { max-width: 80vw; }
@@ -437,21 +451,13 @@
             #slide6 .screenshot-bot {
                 max-width: 80vw;
             }
-            #slide6 .bot-details-container {
-                flex: 1 1 100%;
-                max-width: 100%;
-            }
             .toggle-details-btn,
             .bot-details-btn {
                 font-size: 3.5vw;
                 padding: 3vw 6vw;
                 margin-bottom: 15vh;
             }
-
-            .collapsible-content.is-visible {
-                max-height: unset;
-                height: auto;
-            }
+            
         }
     </style>
 </head>
@@ -486,6 +492,7 @@
             <p class="text-body">
                 Nossas soluções já estão operacionais, refinando processos e gerando valor imediato.
             </p>
+            <!-- Alterado para lista de uma coluna -->
             <ul class="fa-ul two-column-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-check-circle"></i></span>
@@ -534,6 +541,7 @@
             <p class="text-body">
                 Agente de IA focado em otimizar o suporte interno e o acesso à informação.
             </p>
+            <!-- Alterado para lista de uma coluna -->
             <ul class="fa-ul two-column-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-user-tie"></i></span>
@@ -624,34 +632,9 @@
                     </div>
                 </li>
             </ul>
-            <!-- Conteúdo extra para ser exibido/escondido, agora com uma ID para o JS encontrar -->
-            <div id="botDetailsContent" class="collapsible-content">
-                <ul class="fa-ul">
-                    <li>
-                        <span class="fa-li"><i class="fas fa-mobile-alt"></i></span>
-                        <div class="list-item-text">
-                            <b><i>Funcionalidade:</i></b>
-                            <span class="description">&nbsp;Suporte automático para problemas simples (periféricos, tarefas cotidianas); redirecionamento para chamado se necessário.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-arrow-alt-circle-right"></i></span>
-                        <div class="list-item-text">
-                            <b><i>Futuro:</i></b>
-                            <span class="description">&nbsp;Interpretação de documentos/imagens/vídeos/Áudios, ajuste de performance.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-chart-line"></i></span>
-                        <div class="list-item-text">
-                            <b><i>Impacto:</i></b>
-                            <span class="description">&nbsp;Otimização do suporte de TI, autonomia do colaborador.</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- O botão agora tem um data-target para o JS saber qual elemento expandir -->
-            <button class="bot-details-btn" data-target="botDetailsContent"><i class="fas fa-plus-circle"></i> Ver Detalhes</button>
+            <!-- Removido o conteúdo do collapsible-content e colocado para ser exibido via modal -->
+            <!-- Botão "Saiba Mais" agora abre um modal -->
+            <button class="bot-details-btn" onclick="openTextModal('botDetailsModalContent')"><i class="fas fa-plus-circle"></i> Ver Detalhes</button>
         </div>
     </section>
 
@@ -660,6 +643,7 @@
         <div class="slide-content">
             <h2 class="titulo-destaque"> Gestão Carteira de Clientes – Dito CRM</h2>
             <p class="text-body"> A Junitex investe na unificação de dados para um relacionamento mais próximo e vendas mais eficazes. </p>
+            <!-- Alterado para lista de uma coluna -->
             <ul class="fa-ul two-column-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-calendar-alt"></i></span>
@@ -704,12 +688,48 @@
                     </div>
                 </li>
             </ul>
-            <div id="ecommerceDetails" class="collapsible-content">
-                <p class="text-body mt-3">
-                    A plataforma foi desenvolvida com foco em escalabilidade e experiência do usuário, utilizando as melhores práticas de SEO para garantir visibilidade nos motores de busca. A integração com o Ecomoda é crucial para a gestão de estoque e fiscal, otimizando todo o fluxo de vendas. Estamos explorando funcionalidades como personalização de produtos e integração com redes sociais para maximizar o engajamento do cliente.
-                </p>
-            </div>
-            <button class="toggle-details-btn mt-3" data-target="ecommerceDetails"><i class="fas fa-info-circle"></i> Saiba Mais</button>
+            <!-- CORRIGIDO: Botão "Saiba Mais" agora abre o modal de texto corretamente -->
+            <button class="toggle-details-btn mt-3" onclick="openTextModal('ditoDetailsModalContent')"><i class="fas fa-info-circle"></i> Saiba Mais</button>
+        </div>
+    </section>
+
+    <!-- Slide 8: E-commerce e Marcas Próprias (NOVO) -->
+    <section id="slide8" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> E-commerce e Marcas Próprias</h2>
+            <p class="text-body">
+                Expandindo nossa presença digital e gerando novas oportunidades de receita com plataformas de vendas online.
+            </p>
+            <ul class="fa-ul two-column-list">
+                <li>
+                    <span class="fa-li"><i class="fas fa-store"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Status:</i></b>
+                        <span class="description">&nbsp;1 loja no ar, finalizando integração com o sistema Ecomoda.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-project-diagram"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Projeto:</i></b>
+                        <span class="description">&nbsp;Desenvolver 5 lojas de marcas próprias para vendas online.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-forward"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Próximos Passos:</i></b>
+                        <span class="description">&nbsp;Após a integração fiscal com o Ecomoda, as outras 4 lojas serão lançadas e a divulgação será iniciada.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-chart-line"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Impacto:</i></b>
+                        <span class="description">&nbsp;Aumento do alcance de mercado, diversificação dos canais de venda e geração de receita.</span>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -896,7 +916,6 @@
         <div class="slide-content">
             <h2 class="titulo-destaque"> Integração Mapfre/Ecomoda</h2>
             <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
-            <!-- Alterado para usar o novo esquema de data-target -->
             <ul class="fa-ul two-column-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-sync-alt"></i></span>
@@ -927,12 +946,8 @@
                     </div>
                 </li>
             </ul>
-            <div id="mapfreDetails" class="collapsible-content">
-                <p class="text-body mt-3">
-                    A integração com a Mapfre permitirá a venda de diversos produtos de seguridade, como seguros de vida, residenciais e para veículos, diretamente nas filiais da Junitex. Isso não apenas diversifica as nossas ofertas, mas também adiciona um valor significativo aos nossos clientes. O processo de retomada do projeto em 30/07/2025 foca em alinhar as equipes técnicas para a implementação no sistema Ecomoda, garantindo uma operação fluida e sem falhas.
-                </p>
-            </div>
-            <button class="toggle-details-btn mt-3" data-target="mapfreDetails"><i class="fas fa-info-circle"></i> Saiba Mais</button>
+            <!-- CORRIGIDO: Botão "Saiba Mais" agora abre o modal de texto corretamente -->
+            <button class="toggle-details-btn mt-3" onclick="openTextModal('mapfreDetailsModalContent')"><i class="fas fa-info-circle"></i> Saiba Mais</button>
         </div>
     </section>
 
@@ -976,21 +991,57 @@
         <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
 
-    <!-- Modal para Imagem Expandida -->
-    <div id="imageModal" class="image-modal">
+    <!-- MODAL DE IMAGEM -->
+    <div id="imageModal" class="modal">
         <span class="close-modal">&times;</span>
-        <img class="image-modal-content" id="expandedImage">
+        <div class="modal-content">
+            <img class="modal-image" id="expandedImage" src="" alt="Imagem Expandida">
+        </div>
+    </div>
+
+    <!-- MODAL DE TEXTO (NOVO) -->
+    <div id="textModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <div id="modalContentPlaceholder"></div>
+        </div>
+    </div>
+    
+    <!-- Conteúdo dos modais de texto escondidos -->
+    <div style="display:none;">
+        <div id="botDetailsModalContent">
+            <h3 class="titulo-destaque text-center">Detalhes do Bot Humanizado</h3>
+            <p class="text-body mt-3">
+                A funcionalidade do bot inclui suporte automático para problemas simples, como questões com periféricos do computador e tarefas cotidianas. Quando o bot não consegue resolver, ele direciona o colaborador para a abertura de um chamado, garantindo que nenhum problema fique sem atenção.
+            </p>
+            <p class="text-body mt-3">
+                No futuro, as adições incluem a melhoria no fluxo de conversa e a capacidade de interpretar documentos, imagens ou vídeos enviados, além de um ajuste na performance da consulta à base de conhecimento. O impacto é a otimização do suporte de TI e a autonomia do colaborador.
+            </p>
+        </div>
+        <div id="ditoDetailsModalContent">
+            <h3 class="titulo-destaque text-center">Detalhes da Dito CRM</h3>
+            <p class="text-body mt-3">
+                A Dito é uma ferramenta essencial para a gestão da carteira de clientes dos vendedores da Junitex. Com o banco de dados já estruturado, a próxima etapa é a integração com o sistema Ecomoda. Isso permitirá a unificação de dados e a criação de campanhas de marketing personalizadas, fidelizando clientes e impulsionando as vendas.
+            </p>
+        </div>
+        <div id="mapfreDetailsModalContent">
+            <h3 class="titulo-destaque text-center">Detalhes da Integração Mapfre/Ecomoda</h3>
+            <p class="text-body mt-3">
+                A integração com a Mapfre permitirá a venda de diversos produtos de seguridade, como seguros de vida, residenciais e para veículos, diretamente nas filiais da Junitex. Isso não apenas diversifica as nossas ofertas, mas também adiciona um valor significativo aos nossos clientes. O processo de retomada do projeto em 30/07/2025 foca em alinhar as equipes técnicas para a implementação no sistema Ecomoda, garantindo uma operação fluida e sem falhas.
+            </p>
+        </div>
     </div>
     
     <!-- Bootstrap JS e custom JS para o slideshow -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona todos os slides da apresentação
             const slides = document.querySelectorAll('.slide');
             let currentSlide = 0;
             const progressBarFill = document.getElementById('progressBarFill');
 
-            // Animação de partículas no fundo
+            // --- Animação de partículas no fundo ---
             const particlesCanvas = document.createElement('canvas');
             const particlesContainer = document.getElementById('particles-background');
             particlesContainer.appendChild(particlesCanvas);
@@ -1083,6 +1134,7 @@
             initParticles();
             animateParticles();
 
+            // --- Funções de navegação e controles ---
             function toggleFullScreen() {
                 if (!document.fullscreenElement) {
                     document.documentElement.requestFullscreen();
@@ -1099,43 +1151,36 @@
             }
 
             function showSlide(index) {
+                // Remove a classe 'active' de todos os slides
                 slides.forEach((slide, i) => {
                     slide.classList.remove('active');
-                    // Reset animations for all children before activating a slide
+                    // Reinicia as animações para os filhos dos slides inativos
                     slide.querySelectorAll('.slide-content > *:not(.logo-junitex)').forEach(el => {
                         el.style.animation = 'none';
                         el.style.opacity = '';
                     });
-                    slide.querySelectorAll('.collapsible-content ul li').forEach(el => {
-                        el.style.animation = 'none';
-                        el.style.opacity = '';
-                    });
-
-                    if (i === index) {
-                        slide.classList.add('active');
-                        // Apply animations with delays
-                        setTimeout(() => {
-                            let delay = 0.1;
-                            const animatedElements = slide.querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-images-container, .slide-content > .two-column-list, .slide-content > .collapsible-content, .slide-content > .toggle-details-btn');
-                            animatedElements.forEach(el => {
-                                el.style.opacity = '0';
-                                el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
-                                delay += 0.1;
-                            });
-
-                            slide.querySelectorAll('.collapsible-content ul li').forEach((li, liIndex) => {
-                                li.style.opacity = '0';
-                                li.style.animation = `slideInUpFade 0.8s ease-out ${delay + (liIndex * 0.1)}s forwards`;
-                            });
-
-                            if (slide.id === 'slide1') {
-                                const logo = document.querySelector('#slide1 .logo-junitex');
-                                logo.style.opacity = '0';
-                                logo.style.animation = `slideInUpFade 1s ease-out 0.5s forwards`;
-                            }
-                        }, 50);
-                    }
                 });
+
+                // Adiciona a classe 'active' ao slide atual
+                if (index >= 0 && index < slides.length) {
+                    slides[index].classList.add('active');
+                    // Aplica animações com atrasos
+                    setTimeout(() => {
+                        let delay = 0.1;
+                        const animatedElements = slides[index].querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-images-container, .slide-content > .two-column-list, .slide-content > .toggle-details-btn');
+                        animatedElements.forEach(el => {
+                            el.style.opacity = '0';
+                            el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
+                            delay += 0.1;
+                        });
+
+                        if (slides[index].id === 'slide1') {
+                            const logo = document.querySelector('#slide1 .logo-junitex');
+                            logo.style.opacity = '0';
+                            logo.style.animation = `slideInUpFade 1s ease-out 0.5s forwards`;
+                        }
+                    }, 50);
+                }
 
                 const navButtons = document.querySelector('.navigation-buttons');
                 navButtons.style.display = 'flex';
@@ -1161,18 +1206,20 @@
                 showSlide(currentSlide);
             }
 
+            // Inicia com o primeiro slide visível
             showSlide(currentSlide);
 
+            // --- Event Listeners para os botões de navegação ---
             document.getElementById('nextBtn').addEventListener('click', nextSlide);
             document.getElementById('prevBtn').addEventListener('click', prevSlide);
             document.getElementById('homeBtn').addEventListener('click', goToHome);
             document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
-
             document.getElementById('restartBtn').addEventListener('click', goToHome);
             document.getElementById('closeBtn').addEventListener('click', function() {
                 document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: var(--junitex-azul); color: var(--text-white); font-size: 3rem; flex-direction: column;"><h1>Apresentação Finalizada!</h1><p>Obrigado por sua atenção.</p><button onclick="window.location.reload()" style="background-color: var(--junitex-amarelo); color: var(--junitex-azul); border: none; padding: 15px 30px; font-size: 1.5rem; cursor: pointer; border-radius: 8px; margin-top: 20px;">Reiniciar</button></div>';
             });
 
+            // --- Event Listeners para teclado ---
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowRight') {
                     nextSlide();
@@ -1183,59 +1230,61 @@
                 } else if (event.key === 'f' || event.key === 'F') {
                     toggleFullScreen();
                 } else if (event.key === 'Escape') {
-                    closeImageModal();
+                    closeModal();
                 }
             });
 
+            // --- Lógica do Modal de Imagem e de Texto ---
             const imageModal = document.getElementById('imageModal');
+            const textModal = document.getElementById('textModal');
             const expandedImage = document.getElementById('expandedImage');
-            const closeModalBtn = document.querySelector('.close-modal');
+            const textModalContentContainer = document.getElementById('modalContentPlaceholder');
+
+            // Função genérica para fechar qualquer modal
+            function closeModal() {
+                imageModal.style.display = 'none';
+                textModal.style.display = 'none';
+            }
+
+            // Event listener para o botão de fechar genérico
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', closeModal);
+            });
+            
+            // Event listener para clicar fora dos modais
+            window.addEventListener('click', function(event) {
+                if (event.target === imageModal || event.target === textModal) {
+                    closeModal();
+                }
+            });
 
             window.openImageModal = function(src) {
                 expandedImage.src = src;
                 imageModal.style.display = 'flex';
             }
-
-            window.closeImageModal = function() {
-                imageModal.style.display = 'none';
-            }
-
-            closeModalBtn.addEventListener('click', closeImageModal);
-
-            imageModal.addEventListener('click', function(event) {
-                if (event.target === imageModal) {
-                    closeImageModal();
+            
+            window.openTextModal = function(contentId) {
+                // Seleciona o elemento pelo ID correto
+                const contentDiv = document.getElementById(contentId);
+                
+                // Limpa o conteúdo anterior
+                textModalContentContainer.innerHTML = '';
+                
+                // Clona e injeta o novo conteúdo, verificando se o elemento existe
+                if (contentDiv) {
+                    const newContent = contentDiv.cloneNode(true);
+                    newContent.style.display = 'block';
+                    textModalContentContainer.appendChild(newContent);
+                } else {
+                    console.error(`Erro: Conteúdo com ID '${contentId}' não encontrado.`);
                 }
-            });
-
-            // Lógica unificada para todos os botões de detalhes
-            document.querySelectorAll('.toggle-details-btn, .bot-details-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const targetElement = document.getElementById(targetId);
-
-                    if (targetElement) {
-                        const isVisible = targetElement.classList.contains('is-visible');
-                        
-                        if (isVisible) {
-                            targetElement.style.maxHeight = '0';
-                            targetElement.classList.remove('is-visible');
-                            this.innerHTML = '<i class="fas fa-info-circle"></i> Saiba Mais';
-                        } else {
-                            // Corrige a lógica para usar scrollHeight para a transição
-                            targetElement.style.maxHeight = targetElement.scrollHeight + 'px';
-                            targetElement.classList.add('is-visible');
-                            this.innerHTML = '<i class="fas fa-minus-circle"></i> Saiba Menos';
-                        }
-                    }
-                });
-            });
-
-             // Event listener para redimensionamento da janela para recalcular a altura
+                
+                textModal.style.display = 'flex';
+            }
+            
+            // Event listener para redimensionamento da janela
             window.addEventListener('resize', function() {
-                document.querySelectorAll('.collapsible-content.is-visible').forEach(element => {
-                    element.style.maxHeight = element.scrollHeight + 'px';
-                });
+                // A animação de partículas já se redimensiona
             });
         });
     </script>
