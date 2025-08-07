@@ -215,14 +215,14 @@
             white-space: normal;
         }
 
-        /* Estilos específicos para o Slide 6 (Bot no WhatsApp) */
-        #slide6 .slide-content {
+        /* Estilos específicos para o Slide do Bot no WhatsApp */
+        #slide11 .slide-content {
             justify-content: flex-start;
             padding-top: 5vh;
             overflow-y: auto;
         }
         
-        #slide6 .bot-images-container {
+        #slide11 .bot-images-container {
             display: flex;
             justify-content: center;
             gap: 2vw;
@@ -230,7 +230,7 @@
             margin-bottom: 2vh;
         }
 
-        #slide6 .screenshot-bot {
+        #slide11 .screenshot-bot {
             max-width: 20vw;
             height: auto;
             object-fit: contain;
@@ -448,13 +448,13 @@
             .progress-bar-container { width: 90%; bottom: 65px; }
 
             /* Ajustes específicos para o slide do Bot no mobile */
-            #slide6 .bot-images-container {
+            #slide11 .bot-images-container {
                 flex-direction: column;
                 align-items: center;
                 gap: 2vh;
                 margin-bottom: 2vh;
             }
-            #slide6 .screenshot-bot {
+            #slide11 .screenshot-bot {
                 max-width: 80vw;
             }
             .toggle-details-btn,
@@ -472,7 +472,7 @@
     <!-- Container para as partículas de fundo -->
     <div id="particles-background"></div>
 
-    <!-- Slide 1: Capa -->
+    <!-- Slides da Apresentação -->
     <section id="slide1" class="slide slide-azul active">
         <div class="slide-content">
             <h1 class="titulo-destaque"> Inovação em Ação:</h1>
@@ -481,7 +481,6 @@
         </div>
     </section>
 
-    <!-- Slide 2: O Papel Estratégico da TI -->
     <section id="slide2" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> O Papel Estratégico de TI na Junitex</h2>
@@ -491,7 +490,6 @@
         </div>
     </section>
 
-    <!-- Slide 3: Projetos Concluídos e em Ajustes Finais -->
     <section id="slide3" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Projetos Concluídos e em Ajustes Finais</h2>
@@ -531,32 +529,179 @@
         </div>
     </section>
 
-    <!-- Slide 4: O Ecossistema Integrado de TI (NOVO) -->
     <section id="slide4" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Ferramenta Parceira Meta</h2>
+            <p class="text-body"> Fortalecendo a comunicação com o cliente e impulsionando o engajamento. </p>
+            <ul class="fa-ul two-column-list animate-list">
+                <li>
+                    <span class="fa-li"><i class="fas fa-search"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Status:</i></b>
+                        <span class="description">&nbsp;Em análise para implementação.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-handshake"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Objetivo:</i></b>
+                        <span class="description">&nbsp;Encontrar a ferramenta de melhor custo-benefício, parceira Meta, para comunicação entre crediário/filiais e clientes Junitex.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fab fa-whatsapp"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Canais:</i></b>
+                        <span class="description">&nbsp;Disparos via WhatsApp para promoções, cobranças, alertas de vencimento, cashback, etc.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-comments"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Impacto:</i></b>
+                        <span class="description">&nbsp;Otimização da comunicação, engajamento do cliente e potencial de incremento de vendas.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="slide5" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Integração Mapfre/Ecomoda</h2>
+            <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
+            <ul class="fa-ul two-column-list animate-list">
+                <li>
+                    <span class="fa-li"><i class="fas fa-sync-alt"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Status:</i></b>
+                        <span class="description">&nbsp;Retomando o desenvolvimento.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-calendar-check"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Cronograma:</i></b>
+                        <span class="description">&nbsp;Retomada da conversa em 30/07/2025 com Mapfre, Ecomoda e Junitex.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-shield-alt"></i></span>
+                    <div class="list-item-text">
+                        <b><i>O Projeto:</i></b>
+                        <span class="description">&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-chart-line"></i></i></span>
+                    <div class="list-item-text">
+                        <b><i>Impacto:</i></b>
+                        <span class="description">&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</span>
+                    </div>
+                </li>
+            </ul>
+            <button class="toggle-details-btn mt-3" onclick="openTextModal('mapfreDetailsModalContent')"><i class="fas fa-info-circle"></i> Saiba Mais</button>
+        </div>
+    </section>
+
+    <section id="slide6" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Novos Dashboards no Ecomoda</h2>
+            <p class="text-body">
+                Mais inteligência e agilidade na análise de dados para tomada de decisões estratégicas.
+            </p>
+            <ul class="fa-ul two-column-list animate-list">
+                <li>
+                    <span class="fa-li"><i class="fas fa-user-check"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Origem:</i></b>
+                        <span class="description">&nbsp;Solicitação do Emerson para melhor análise de dados.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-building"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Projeto:</i></b>
+                        <span class="description">&nbsp;Desenvolvimento de um sistema de intranet para dashboards personalizadas.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-calendar-day"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Exibição Inicial:</i></b>
+                        <span class="description">&nbsp;Dados D-1 (tudo que ocorreu no dia anterior, de momento).</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-chart-pie"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Impacto:</i></b>
+                        <span class="description">&nbsp;Melhora na inteligência de negócios e na capacidade de análise dos diretores.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="slide7" class="slide slide-azul">
+        <div class="slide-content">
+            <h2 class="titulo-destaque"> Pagamento de Parcelas do Cliente</h2>
+            <p class="text-body">
+                Autonomia e comodidade para o cliente, eficiência para o setor de crediário.
+            </p>
+            <ul class="fa-ul two-column-list animate-list">
+                <li>
+                    <span class="fa-li"><i class="fas fa-code-branch"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Status:</i></b>
+                        <span class="description">&nbsp;A desenvolver.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-lightbulb"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Ideia Principal:</i></b>
+                        <span class="description">&nbsp;Cliente acessa o site, cria/atualiza cadastro e seleciona parcelas (vencidas/a vencer) para pagamento via PIX.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-route"></i></span>
+                    <div class="list-item-text">
+                        <b><i>Fluxo:</i></b>
+                        <span class="description">&nbsp;Totalmente integrado ao fluxograma obrigatório do Ecomoda.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-dollar-sign"></i></i></span>
+                    <div class="list-item-text">
+                        <b><i>Impacto:</i></b>
+                        <span class="description">&nbsp;Alívio da demanda do crediário, melhora na experiência do cliente e otimização de recebimentos.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="slide8" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> O Ecossistema Integrado de TI</h2>
             <p class="subtitulo">
                 Conectando nossos projetos para construir um futuro digital coeso.
             </p>
             <p class="text-body">
-                
-            </p>
-            <p class="text-body mt-4">
                 Nosso foco não está em ferramentas isoladas, mas em um ecossistema inteligente, onde cada projeto fortalece e retroalimenta o próximo. Por exemplo, a integração com o Dito CRM e a automação de comunicação via Meta se unem para enriquecer a experiência do cliente, enquanto os dashboards fornecem a inteligência necessária para otimizar toda a operação.
             </p>
         </div>
     </section>
 
-    <!-- Slide 5: Projetos em Andamento e Implementação -->
-    <section id="slide5" class="slide slide-azul">
+    <section id="slide9" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Projetos em Andamento e Implementação</h2>
             <p class="text-body"> Veja os principais projetos de TI em execução e seu impacto estratégico:</p>
         </div>
     </section>
 
-    <!-- Slide 6: Chatbot via GPT -->
-    <section id="slide6" class="slide slide-azul">
+    <section id="slide10" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Chatbot via GPT (Juninho)</h2>
             <p class="text-body">
@@ -609,19 +754,16 @@
         </div>
     </section>
 
-    <!-- Slide 7: Bot Humanizado no WhatsApp (Reformulado) -->
-    <section id="slide7" class="slide slide-azul">
+    <section id="slide11" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Bot Humanizado no WhatsApp</h2>
             <p class="text-body">
                 Inteligência Artificial conversacional para agilizar o suporte de TI diretamente via WhatsApp.
             </p>
-            <!-- Imagens do bot agora acima do texto -->
             <div class="bot-images-container">
                 <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_2.png?raw=true" alt="Print Resumo Atendimento Bot 1" class="img-fluid screenshot-bot" onclick="openImageModal(this.src)">
                 <img src="https://github.com/wsoaresnet/contato/blob/main/img/Screenshot_1.png?raw=true" alt="Print Resumo Atendimento Bot 2" class="img-fluid screenshot-bot" onclick="openImageModal(this.src)">
             </div>
-            <!-- Novo layout de texto, com o botão "Saiba Mais" para expandir -->
             <ul class="fa-ul two-column-list animate-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-user-tie"></i></span>
@@ -652,18 +794,14 @@
                     </div>
                 </li>
             </ul>
-            <!-- Removido o conteúdo do collapsible-content e colocado para ser exibido via modal -->
-            <!-- Botão "Saiba Mais" agora abre um modal -->
             <button class="bot-details-btn" onclick="openTextModal('botDetailsModalContent')"><i class="fas fa-plus-circle"></i> Ver Detalhes</button>
         </div>
     </section>
 
-    <!-- Slide 8: Gestão Carteira de Clientes – Dito CRM -->
-    <section id="slide8" class="slide slide-azul">
+    <section id="slide12" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Gestão Carteira de Clientes – Dito CRM</h2>
             <p class="text-body"> A Junitex investe na unificação de dados para um relacionamento mais próximo e vendas mais eficazes. </p>
-            <!-- Alterado para lista de uma coluna -->
             <ul class="fa-ul two-column-list animate-list">
                 <li>
                     <span class="fa-li"><i class="fas fa-calendar-alt"></i></span>
@@ -708,13 +846,11 @@
                     </div>
                 </li>
             </ul>
-            <!-- CORRIGIDO: Botão "Saiba Mais" agora abre o modal de texto corretamente -->
             <button class="toggle-details-btn mt-3" onclick="openTextModal('ditoDetailsModalContent')"><i class="fas fa-info-circle"></i> Saiba Mais</button>
         </div>
     </section>
 
-    <!-- Slide 9: E-commerce e Marcas Próprias -->
-    <section id="slide9" class="slide slide-azul">
+    <section id="slide13" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> E-commerce e Marcas Próprias</h2>
             <p class="text-body">
@@ -753,8 +889,7 @@
         </div>
     </section>
 
-    <!-- Slide 10: Aplicativo da Manutenção -->
-    <section id="slide10" class="slide slide-azul">
+    <section id="slide14" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Aplicativo da Manutenção</h2>
             <p class="text-body"> Ferramenta que garante controle e transparência nas operações de manutenção. </p>
@@ -805,173 +940,13 @@
         </div>
     </section>
 
-    <!-- Slide 11: Inovação Contínua – Projetos em Pipeline -->
-    <section id="slide11" class="slide slide-azul">
+    <section id="slide15" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Inovação Contínua – Projetos em Pipeline</h2>
             <p class="text-body"> Veja os principais projetos futuros e iniciativas em análise que ampliarão os resultados:</p>
         </div>
     </section>
     
-    <!-- Slide 12: Pagamento de Parcelas do Cliente -->
-    <section id="slide12" class="slide slide-azul">
-        <div class="slide-content">
-            <h2 class="titulo-destaque"> Pagamento de Parcelas do Cliente</h2>
-            <p class="text-body">
-                Autonomia e comodidade para o cliente, eficiência para o setor de crediário.
-            </p>
-            <ul class="fa-ul two-column-list animate-list">
-                <li>
-                    <span class="fa-li"><i class="fas fa-code-branch"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Status:</i></b>
-                        <span class="description">&nbsp;A desenvolver.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-lightbulb"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Ideia Principal:</i></b>
-                        <span class="description">&nbsp;Cliente acessa o site, cria/atualiza cadastro e seleciona parcelas (vencidas/a vencer) para pagamento via PIX.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-route"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Fluxo:</i></b>
-                        <span class="description">&nbsp;Totalmente integrado ao fluxograma obrigatório do Ecomoda.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-dollar-sign"></i></i></span>
-                    <div class="list-item-text">
-                        <b><i>Impacto:</i></b>
-                        <span class="description">&nbsp;Alívio da demanda do crediário, melhora na experiência do cliente e otimização de recebimentos.</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Slide 13: Novos Dashboards no Ecomoda -->
-    <section id="slide13" class="slide slide-azul">
-        <div class="slide-content">
-            <h2 class="titulo-destaque"> Novos Dashboards no Ecomoda</h2>
-            <p class="text-body">
-                Mais inteligência e agilidade na análise de dados para tomada de decisões estratégicas.
-            </p>
-            <ul class="fa-ul two-column-list animate-list">
-                <li>
-                    <span class="fa-li"><i class="fas fa-user-check"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Origem:</i></b>
-                        <span class="description">&nbsp;Solicitação do Emerson para melhor análise de dados.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-building"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Projeto:</i></b>
-                        <span class="description">&nbsp;Desenvolvimento de um sistema de intranet para dashboards personalizadas.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-calendar-day"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Exibição Inicial:</i></b>
-                        <span class="description">&nbsp;Dados D-1 (tudo que ocorreu no dia anterior, de momento).</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-chart-pie"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Impacto:</i></b>
-                        <span class="description">&nbsp;Melhora na inteligência de negócios e na capacidade de análise dos diretores.</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Slide 14: Ferramenta Parceira Meta -->
-    <section id="slide14" class="slide slide-azul">
-        <div class="slide-content">
-            <h2 class="titulo-destaque"> Ferramenta Parceira Meta</h2>
-            <p class="text-body"> Fortalecendo a comunicação com o cliente e impulsionando o engajamento. </p>
-            <ul class="fa-ul two-column-list animate-list">
-                <li>
-                    <span class="fa-li"><i class="fas fa-search"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Status:</i></b>
-                        <span class="description">&nbsp;Em análise para implementação.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-handshake"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Objetivo:</i></b>
-                        <span class="description">&nbsp;Encontrar a ferramenta de melhor custo-benefício, parceira Meta, para comunicação entre crediário/filiais e clientes Junitex.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fab fa-whatsapp"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Canais:</i></b>
-                        <span class="description">&nbsp;Disparos via WhatsApp para promoções, cobranças, alertas de vencimento, cashback, etc.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-comments"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Impacto:</i></b>
-                        <span class="description">&nbsp;Otimização da comunicação, engajamento do cliente e potencial de incremento de vendas.</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Slide 15: Integração Mapfre/Ecomoda (Corrigido) -->
-    <section id="slide15" class="slide slide-azul">
-        <div class="slide-content">
-            <h2 class="titulo-destaque"> Integração Mapfre/Ecomoda</h2>
-            <p class="text-body"> Ampliando nosso portfólio e gerando novas oportunidades de receita. </p>
-            <ul class="fa-ul two-column-list animate-list">
-                <li>
-                    <span class="fa-li"><i class="fas fa-sync-alt"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Status:</i></b>
-                        <span class="description">&nbsp;Retomando o desenvolvimento.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-calendar-check"></i></span>
-                    <div class="list-item-text">
-                        <b><i>Cronograma:</i></b>
-                        <span class="description">&nbsp;Retomada da conversa em 30/07/2025 com Mapfre, Ecomoda e Junitex.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-shield-alt"></i></span>
-                    <div class="list-item-text">
-                        <b><i>O Projeto:</i></b>
-                        <span class="description">&nbsp;Implementação dos produtos de seguridade da Mapfre (seguros de vida, auto, residencial, etc.) dentro do Ecomoda.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-chart-line"></i></i></span>
-                    <div class="list-item-text">
-                        <b><i>Impacto:</i></b>
-                        <span class="description">&nbsp;Diversificação de serviços, nova fonte de receita e valor agregado ao cliente nas filiais Junitex.</span>
-                    </div>
-                </li>
-            </ul>
-            <!-- CORRIGIDO: Botão "Saiba Mais" agora abre o modal de texto corretamente -->
-            <button class="toggle-details-btn mt-3" onclick="openTextModal('mapfreDetailsModalContent')"><i class="fas fa-info-circle"></i> Saiba Mais</button>
-        </div>
-    </section>
-
-    <!-- Slide 16: Próximos Passos e Visão de Futuro -->
     <section id="slide16" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Próximos Passos e Visão de Futuro</h2>
@@ -981,7 +956,6 @@
         </div>
     </section>
 
-    <!-- Slide Final: Encerramento -->
     <section id="slide17" class="slide slide-azul">
         <div class="slide-content">
             <h2 class="titulo-destaque"> Apresentação Encerrada!</h2>
@@ -1049,6 +1023,13 @@
             <h3 class="titulo-destaque text-center">Detalhes da Integração Mapfre/Ecomoda</h3>
             <p class="text-body mt-3">
                 A integração com a Mapfre permitirá a venda de diversos produtos de seguridade, como seguros de vida, residenciais e para veículos, diretamente nas filiais da Junitex. Isso não apenas diversifica as nossas ofertas, mas também adiciona um valor significativo aos nossos clientes. O processo de retomada do projeto em 30/07/2025 foca em alinhar as equipes técnicas para a implementação no sistema Ecomoda, garantindo uma operação fluida e sem falhas.
+            </p>
+        </div>
+        <!-- Adicionado conteúdo para o modal da Ferramenta Meta -->
+        <div id="metaDetailsModalContent">
+            <h3 class="titulo-destaque text-center">Detalhes da Ferramenta Parceira Meta</h3>
+            <p class="text-body mt-3">
+                O objetivo deste projeto é encontrar uma ferramenta com o melhor custo-benefício que seja parceira da Meta, permitindo que os setores de crediário e as filiais se comuniquem de forma mais eficaz com os clientes da rede Junitex. A principal funcionalidade será o disparo de mensagens via WhatsApp para comunicar promoções, cobranças, alertas de vencimento de cashback, e outras necessidades. Isso otimizará a comunicação, aumentará o engajamento dos clientes e poderá impulsionar as vendas de forma significativa.
             </p>
         </div>
         <div id="feedbackModalContent">
@@ -1195,7 +1176,7 @@
                     // Aplica animações com atrasos
                     setTimeout(() => {
                         let delay = 0.1;
-                        const animatedElements = slides[index].querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-images-container, .slide-content > .two-column-list, .slide-content > .toggle-details-btn');
+                        const animatedElements = slides[index].querySelectorAll('.slide-content > h1, .slide-content > h2, .slide-content > p, .slide-content > .bot-images-container, .slide-content > .two-column-list, .slide-content > .toggle-details-btn, .slide-content > .final-screen-buttons');
                         animatedElements.forEach(el => {
                             el.style.opacity = '0';
                             el.style.animation = `slideInUpFade 0.8s ease-out ${delay}s forwards`;
@@ -1217,7 +1198,10 @@
                 }
 
                 const navButtons = document.querySelector('.navigation-buttons');
-                navButtons.style.display = 'flex';
+                navButtons.style.display = (index === slides.length - 1) ? 'none' : 'flex';
+
+                const progressBar = document.querySelector('.progress-bar-container');
+                progressBar.style.display = (index === slides.length - 1) ? 'none' : 'block';
 
                 const particlesBackground = document.getElementById('particles-background');
                 particlesBackground.style.display = 'block';
