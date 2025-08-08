@@ -240,8 +240,6 @@
         /* Estilos para o carrossel de rolagem */
         .carousel-container {
             position: relative;
-            margin-left: 1rem;
-            margin-right: 1rem;
         }
         .carousel-track {
             display: flex;
@@ -249,6 +247,8 @@
             gap: 1rem;
             scroll-snap-type: x mandatory;
             padding-bottom: 1rem;
+            margin-left: 1rem;
+            margin-right: 1rem;
         }
         .carousel-track::-webkit-scrollbar {
             display: none;
@@ -282,10 +282,10 @@
             background-color: rgba(0, 0, 0, 0.6);
         }
         .carousel-control-prev {
-            left: -3rem; /* Posição à esquerda do container */
+            left: -1rem; /* Posição à esquerda do container */
         }
         .carousel-control-next {
-            right: -3rem; /* Posição à direita do container */
+            right: -1rem; /* Posição à direita do container */
         }
     </style>
 </head>
@@ -475,15 +475,14 @@
         </ul>
     </section>
 
-    <!-- 3. Cases de Sucesso (Ajustado com rolagem horizontal e layout correto) -->
+    <!-- 3. Cases de Sucesso (Removido o Carrossel) -->
     <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
         <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-trophy-fill"></i> Cases de Sucesso
         </h2>
-        <div class="carousel-container" id="cases-carousel-container">
-            <div class="carousel-track">
-                <!-- Case 1 -->
-                <div class="card case-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 450px; scroll-snap-align: start;">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-10 col-lg-6">
+                <div class="card case-card h-100 rounded-3 overflow-hidden">
                     <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede - Junitex</h5>
@@ -491,8 +490,9 @@
                         <a href="case-junitex.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
                     </div>
                 </div>
-                <!-- Case 2 -->
-                <div class="card case-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 450px; scroll-snap-align: start;">
+            </div>
+            <div class="col-md-10 col-lg-6">
+                <div class="card case-card h-100 rounded-3 overflow-hidden">
                     <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional - Dreamschool</h5>
@@ -501,8 +501,6 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" id="cases-prev-btn" aria-label="Case anterior"><i class="bi bi-chevron-left"></i></button>
-            <button class="carousel-control-next" id="cases-next-btn" aria-label="Próximo case"><i class="bi bi-chevron-right"></i></button>
         </div>
     </section>
 
@@ -1027,28 +1025,19 @@
               return;
           }
 
-          let scrollStep = firstItem.offsetWidth + 16;
-          const totalWidth = track.scrollWidth;
-          const containerWidth = track.offsetWidth;
-
-          // Clone os primeiros itens e os adicione ao final para a rolagem infinita
-          for (let i = 0; i < Math.ceil(containerWidth / scrollStep) + 1; i++) {
-              if (items[i]) {
-                let clone = items[i].cloneNode(true);
-                track.appendChild(clone);
-              }
+          const scrollStep = firstItem.offsetWidth + 16;
+          
+          // Clonar itens para criar a ilusão de loop infinito
+          const numClones = items.length;
+          for (let i = 0; i < numClones; i++) {
+            track.appendChild(items[i].cloneNode(true));
+          }
+          for (let i = items.length - 1; i >= 0; i--) {
+            track.insertBefore(items[i].cloneNode(true), track.firstChild);
           }
 
-          // Clone os últimos itens e os adicione no início
-          for (let i = items.length - 1; i >= items.length - Math.ceil(containerWidth / scrollStep) - 1; i--) {
-              if (items[i]) {
-                let clone = items[i].cloneNode(true);
-                track.insertBefore(clone, items[0]);
-              }
-          }
-
-          // Ajusta a posição inicial para o primeiro item real
-          track.scrollLeft = items.length * scrollStep;
+          // Posicionar o carrossel no início dos itens originais
+          track.scrollLeft = numClones * scrollStep;
 
           prevBtn.addEventListener('click', () => {
               track.scrollBy({ left: -scrollStep, behavior: 'smooth' });
@@ -1059,11 +1048,13 @@
           });
 
           track.addEventListener('scroll', () => {
-              if (track.scrollLeft < scrollStep) {
-                  track.scrollLeft = totalWidth - scrollStep;
+              // Chegando ao final dos clones iniciais, pule para o início
+              if (track.scrollLeft <= 0) {
+                track.scrollLeft = numClones * scrollStep;
               }
-              if (track.scrollLeft > totalWidth - (scrollStep * 2)) {
-                  track.scrollLeft = scrollStep;
+              // Chegando ao início dos clones finais, pule para o final
+              if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep)) {
+                track.scrollLeft = numClones * scrollStep - 1;
               }
           });
       }
