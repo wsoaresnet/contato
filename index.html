@@ -236,6 +236,57 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
         }
+        
+        /* Estilos para o carrossel de rolagem */
+        .carousel-container {
+            position: relative;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 1rem;
+        }
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-track > div {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 300px;
+        }
+        .carousel-control-prev, .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, background-color 0.3s ease;
+        }
+        .carousel-control-prev:hover, .carousel-control-next:hover {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .carousel-control-prev {
+            left: -3rem; /* Posição à esquerda do container */
+        }
+        .carousel-control-next {
+            right: -3rem; /* Posição à direita do container */
+        }
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
@@ -311,10 +362,10 @@
         <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-journal-richtext"></i> Meus Artigos
         </h2>
-        <div class="position-relative">
-            <div class="d-flex overflow-auto gap-4 py-3" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;" id="blog-carousel-track">
+        <div class="carousel-container" id="blog-carousel-container">
+            <div class="carousel-track">
                 <!-- Artigo 1 - 'Ensinando Segurança Digital...' (Primeiro Item) -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-comunidade.jpg" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
@@ -323,7 +374,7 @@
                     </div>
                 </div>
                 <!-- Artigo 2 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-redes.jpg" class="card-img-top" alt="Homem trabalhando em um servidor de redes.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
@@ -332,7 +383,7 @@
                     </div>
                 </div>
                 <!-- Artigo 3 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-lgpd.jpg" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
@@ -341,7 +392,7 @@
                     </div>
                 </div>
                 <!-- Artigo 4 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-ia.jpg" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
@@ -350,7 +401,7 @@
                     </div>
                 </div>
                 <!-- Artigo 5 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-carreira.jpg" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Aprendizado Contínuo: A Chave para o Sucesso em TI</h5>
@@ -359,7 +410,7 @@
                     </div>
                 </div>
                 <!-- Artigo 6 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
                     <img src="img/artigo-automacao.jpg" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Automação Residencial: O Futuro Bate à Porta</h5>
@@ -429,8 +480,8 @@
         <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-trophy-fill"></i> Cases de Sucesso
         </h2>
-        <div class="position-relative">
-            <div class="d-flex overflow-auto gap-4 py-3" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;" id="cases-carousel-track">
+        <div class="carousel-container" id="cases-carousel-container">
+            <div class="carousel-track">
                 <!-- Case 1 -->
                 <div class="card case-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="width: 450px; scroll-snap-align: start;">
                     <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
@@ -554,98 +605,102 @@
 
     <!-- Seção Meu Dia a Dia - Galeria com Picture e srcset (Ajustada) -->
     <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
-        <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+        <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
         </h2>
-        <div class="d-flex overflow-auto gap-4 py-3" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
-            <!-- Imagem 1 -->
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto1-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto1-medium.jpg">
-                    <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
+        <div class="carousel-container" id="galeria-carousel-container">
+            <div class="carousel-track">
+                <!-- Imagem 1 -->
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto1-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto1-medium.jpg">
+                        <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <!-- Imagem 2 -->
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto2-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto2-medium.jpg">
+                        <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <!-- Imagem 3 -->
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto3-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto3-medium.jpg">
+                        <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <!-- Adicionar as outras imagens da galeria usando a mesma estrutura <picture> -->
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto4-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto4-medium.jpg">
+                        <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto5-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto5-medium.jpg">
+                        <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto6-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto6-medium.jpg">
+                        <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto7-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto7-medium.jpg">
+                        <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto8-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto8-medium.jpg">
+                        <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto10-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto10-medium.jpg">
+                        <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto11-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto11-medium.jpg">
+                        <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto12-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto12-medium.jpg">
+                        <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
+                <div class="flex-shrink-0" style="scroll-snap-align: start;">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto13-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto13-medium.jpg">
+                        <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image">
+                    </picture>
+                </div>
             </div>
-            <!-- Imagem 2 -->
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto2-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto2-medium.jpg">
-                    <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <!-- Imagem 3 -->
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto3-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto3-medium.jpg">
-                    <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <!-- Adicionar as outras imagens da galeria usando a mesma estrutura <picture> -->
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto4-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto4-medium.jpg">
-                    <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto5-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto5-medium.jpg">
-                    <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto6-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto6-medium.jpg">
-                    <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto7-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto7-medium.jpg">
-                    <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto8-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto8-medium.jpg">
-                    <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto10-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto10-medium.jpg">
-                    <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto11-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto11-medium.jpg">
-                    <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto12-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto12-medium.jpg">
-                    <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
-            <div class="flex-shrink-0" style="width: 300px; scroll-snap-align: start;">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/foto13-small.jpg">
-                    <source media="(max-width: 992px)" srcset="img/foto13-medium.jpg">
-                    <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
-                </picture>
-            </div>
+            <button class="carousel-control-prev" id="galeria-prev-btn" aria-label="Imagem anterior"><i class="bi bi-chevron-left"></i></button>
+            <button class="carousel-control-next" id="galeria-next-btn" aria-label="Próxima imagem"><i class="bi bi-chevron-right"></i></button>
         </div>
     </section>
 
@@ -949,17 +1004,38 @@
           });
       }
 
-      // Script do Carrossel de Artigos
-      function setupCarousel(trackId, prevBtnId, nextBtnId) {
-          const track = document.getElementById(trackId);
+      // Função de Carrossel otimizada e infinita para reutilização
+      function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
+          const container = document.getElementById(containerId);
+          const track = container.querySelector('.carousel-track');
+          const items = Array.from(track.children);
           const prevBtn = document.getElementById(prevBtnId);
           const nextBtn = document.getElementById(nextBtnId);
 
-          if (!track || !prevBtn || !nextBtn) {
+          if (!container || !track || !prevBtn || !nextBtn || items.length === 0) {
+              console.warn(`Elementos do carrossel para a seção ${containerId} não encontrados.`);
               return;
           }
 
-          const scrollStep = track.querySelector('div').offsetWidth + 16; // 16px é o gap-4 do Bootstrap
+          let scrollStep = items[0].offsetWidth + 16;
+          let scrollPosition = 0;
+          const totalWidth = track.scrollWidth;
+          const containerWidth = track.offsetWidth;
+
+          // Clone os primeiros itens e os adicione ao final para a rolagem infinita
+          for (let i = 0; i < Math.ceil(containerWidth / scrollStep) + 1; i++) {
+              let clone = items[i].cloneNode(true);
+              track.appendChild(clone);
+          }
+
+          // Clone os últimos itens e os adicione no início
+          for (let i = items.length - 1; i >= items.length - Math.ceil(containerWidth / scrollStep) - 1; i--) {
+              let clone = items[i].cloneNode(true);
+              track.insertBefore(clone, items[0]);
+          }
+
+          // Ajusta a posição inicial para o primeiro item real
+          track.scrollLeft = items.length * scrollStep;
 
           prevBtn.addEventListener('click', () => {
               track.scrollBy({ left: -scrollStep, behavior: 'smooth' });
@@ -970,17 +1046,13 @@
           });
 
           track.addEventListener('scroll', () => {
-              prevBtn.disabled = track.scrollLeft <= 0;
-              nextBtn.disabled = track.scrollLeft + track.offsetWidth >= track.scrollWidth;
+              if (track.scrollLeft < scrollStep) {
+                  track.scrollLeft = totalWidth - scrollStep;
+              }
+              if (track.scrollLeft > totalWidth - (scrollStep * 2)) {
+                  track.scrollLeft = scrollStep;
+              }
           });
-
-          // Definir o estado inicial dos botões
-          prevBtn.disabled = true;
-          if (track.scrollWidth > track.offsetWidth) {
-              nextBtn.disabled = false;
-          } else {
-              nextBtn.disabled = true;
-          }
       }
       
       window.onload = function () {
@@ -994,8 +1066,9 @@
           setupParticles();
           animateParticles();
           setupLightbox();
-          setupCarousel('blog-carousel-track', 'blog-prev-btn', 'blog-next-btn');
-          setupCarousel('cases-carousel-track', 'cases-prev-btn', 'cases-next-btn');
+          setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
+          setupInfiniteCarousel('cases-carousel-container', 'cases-prev-btn', 'cases-next-btn');
+          setupInfiniteCarousel('galeria-carousel-container', 'galeria-prev-btn', 'galeria-next-btn');
       }
     });
 </script>
