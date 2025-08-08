@@ -6,42 +6,28 @@
 
     <title>Willian Soares | Seu Próximo TI</title>
 
-    <!-- =================================================================== -->
-    <!-- ================ SEO E META TAGS DE COMPARTILHAMENTO ================ -->
-    <!-- =================================================================== -->
     <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
     <meta name="author" content="Willian Soares">
 
-    <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:title" content="Willian Soares | Seu Próximo TI">
     <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
     <meta property="og:image" content="https://williansoares.net.br/img/og-image.jpg">
     <meta property="og:url" content="https://williansoares.net.br/">
     <meta property="og:type" content="website">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Willian Soares | Seu Próximo TI">
     <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
     <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
 
-    <!-- =================================================================== -->
-    <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
-    <!-- =================================================================== -->
     <meta name="theme-color" content="#082f49">
     <link rel="manifest" href="manifest.json">
-    <!-- =================================================================== -->
-
-    <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- FAVICON GERADO -->
     <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
     <style>
@@ -154,9 +140,18 @@
 
         .skill-bar .progress { background-color: var(--progress-bar-bg); }
         .skill-bar .progress-bar { background: linear-gradient(90deg, #22d3ee, #00c3ff); width: 0%; }
-        .blog-card, .case-card, .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .blog-card:hover, .case-card:hover, .service-card:hover { transform: translateY(-10px); box-shadow: 0 12px 40px var(--shadow-color); }
+        
+        .blog-card, .case-card, .service-card { 
+            background: var(--glass-bg); 
+            border: 1px solid var(--glass-border); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; 
+        }
+        .blog-card:hover, .case-card:hover, .service-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 25px var(--shadow-color); 
+        }
         .blog-card img, .case-card img { aspect-ratio: 16 / 9; object-fit: cover; }
+        
         .testimonial { background: var(--glass-bg); border-left: 5px solid #00c3ff; }
         .form-control-glass { background: var(--form-control-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-primary) !important; }
         .form-control-glass::placeholder { color: var(--text-secondary); }
@@ -182,6 +177,7 @@
             --bs-btn-hover-color: var(--bg-gradient-start);
         }
 
+        /* ESTILOS DA TIMELINE */
         .timeline {
             list-style: none;
             padding: 1rem 0;
@@ -226,123 +222,50 @@
             color: var(--text-secondary);
         }
 
-        /* ESTILOS DO BANNER DE COOKIES */
-        .cookie-banner {
-            position: fixed;
-            bottom: -100%; /* Começa escondido */
-            left: 0;
+        /* CARROSSEL NATIVO COM CSS SNAP POINTS */
+        .native-carousel {
+            display: grid;
+            grid-auto-flow: column;
+            gap: 1.5rem; /* Espaçamento entre os cards */
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
+            scroll-padding-left: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .native-carousel-item {
+            scroll-snap-align: start;
+            flex-shrink: 0;
             width: 100%;
-            padding: 1rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
-            z-index: 1040;
-            transition: bottom 0.5s ease-in-out;
+            max-width: 350px; /* Largura máxima para cada card, para telas maiores */
         }
-        .cookie-banner.show {
-            bottom: 0;
-        }
-
-        /* Estilos para o Carrossel da Galeria */
-        .gallery-carousel {
-            position: relative;
-            overflow: hidden; /* Esconde o que está fora da área visível */
-            width: 100%;
-            margin: 0 auto;
-            border-radius: 0.75rem; /* rounded-lg */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .gallery-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out; /* Transição suave para o movimento */
-            padding-bottom: 15px; /* Espaço para as sombras/efeitos se necessário */
-        }
-
-        .gallery-slide {
-            flex: 0 0 auto; /* Não cresce nem encolhe, mantém o tamanho */
-            width: calc(33.333% - 10px); /* 3 imagens por vez com gap */
-            margin-right: 15px; /* Gap entre as imagens */
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease;
-            display: flex; /* Adicionado para centralizar a imagem verticalmente */
-            align-items: center; /* Adicionado para centralizar a imagem verticalmente */
-            justify-content: center; /* Adicionado para centralizar a imagem horizontalmente */
-        }
-
-        .gallery-slide:last-child {
-            margin-right: 0; /* Remove o gap da última imagem */
-        }
-
-        .gallery-image {
-            max-width: 100%;
-            max-height: 100%; /* Limita a altura máxima da imagem ao seu contêiner */
-            height: 200px; /* Altura fixa para as imagens */
-            object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
-            border-radius: 0.75rem;
-            cursor: pointer;
-        }
-
-        .gallery-prev, .gallery-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            z-index: 10;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-        }
-
-        .gallery-prev:hover, .gallery-next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .gallery-prev {
-            left: 10px;
-        }
-
-        .gallery-next {
-            right: 10px;
-        }
-
-        .gallery-prev:disabled, .gallery-next:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Responsividade para o carrossel */
-        @media (max-width: 992px) { /* Tablets e menores */
-            .gallery-slide {
-                width: calc(50% - 10px); /* 2 imagens por vez */
+        @media (min-width: 768px) {
+            .native-carousel-item {
+                width: calc(50% - 0.75rem); /* Dois cards em telas médias */
             }
         }
-
-        @media (max-width: 768px) { /* Celulares */
-            .gallery-slide {
-                width: calc(100% - 15px); /* 1 imagem por vez */
+        @media (min-width: 992px) {
+            .native-carousel-item {
+                width: calc(33.333% - 1rem); /* Três cards em telas grandes */
             }
+        }
+        .native-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .native-carousel::-webkit-scrollbar-thumb {
+            background-color: var(--text-cyan-400);
+            border-radius: 10px;
+        }
+        .native-carousel::-webkit-scrollbar-track {
+            background-color: var(--progress-bar-bg);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
 
-<!-- Fundo de partículas dinâmico -->
 <div id="particles-background" class="particles-container"></div>
 
-<!-- BARRA DE NAVEGAÇÃO FIXA -->
 <nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav">
     <div class="container">
         <a class="navbar-brand fw-bold text-cyan-300" href="#">WS</a>
@@ -384,7 +307,6 @@
 </header>
 
 <main class="container my-5">
-    <!-- Seção de Destaque -->
     <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center visible" aria-labelledby="destaque-heading" style="padding-top: 0; margin-top: 0;">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -405,13 +327,12 @@
         </div>
     </section>
 
-    <!-- 1. Meus Artigos -->
     <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg visible" aria-labelledby="blog-heading">
         <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-journal-richtext"></i> Meus Artigos
         </h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-6 col-lg-4">
+        <div class="native-carousel">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-redes.jpg" class="card-img-top" alt="Homem trabalhando em um servidor de redes.">
                     <div class="card-body d-flex flex-column">
@@ -421,7 +342,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-lgpd.jpg" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados.">
                     <div class="card-body d-flex flex-column">
@@ -431,7 +352,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-ia.jpg" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial.">
                     <div class="card-body d-flex flex-column">
@@ -441,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-comunidade.jpg" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador.">
                     <div class="card-body d-flex flex-column">
@@ -451,7 +372,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-carreira.jpg" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI.">
                     <div class="card-body d-flex flex-column">
@@ -461,7 +382,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="native-carousel-item">
                 <div class="card blog-card h-100 rounded-3 overflow-hidden">
                     <img src="img/artigo-automacao.jpg" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor.">
                     <div class="card-body d-flex flex-column">
@@ -474,7 +395,6 @@
         </div>
     </section>
 
-    <!-- 2. Sobre Mim -->
     <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="sobre-heading">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
@@ -496,7 +416,6 @@
         </div>
     </section>
 
-    <!-- NOVA SEÇÃO TRAJETÓRIA PROFISSIONAL -->
     <section id="trajetoria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="trajetoria-heading">
         <h2 id="trajetoria-heading" class="display-5 fw-bold text-cyan-400 mb-5 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-signpost-split-fill"></i> Minha Trajetória
@@ -525,13 +444,12 @@
         </ul>
     </section>
 
-    <!-- 3. Cases de Sucesso -->
     <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
         <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-trophy-fill"></i> Cases de Sucesso
         </h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-10 col-lg-6">
+        <div class="native-carousel">
+            <div class="native-carousel-item">
                 <div class="card case-card h-100 rounded-3 overflow-hidden">
                     <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
                     <div class="card-body d-flex flex-column">
@@ -541,7 +459,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 col-lg-6">
+            <div class="native-carousel-item">
                 <div class="card case-card h-100 rounded-3 overflow-hidden">
                     <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
                     <div class="card-body d-flex flex-column">
@@ -554,7 +472,6 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
     <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
         <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-gear-wide-connected"></i> Meus Serviços
@@ -593,7 +510,6 @@
         </div>
     </section>
 
-    <!-- 4. Habilidades Técnicas -->
     <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="habilidades-heading">
         <h2 id="habilidades-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
             <i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> Habilidades Técnicas
@@ -638,7 +554,6 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
     <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
         <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
             <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
@@ -651,7 +566,6 @@
         <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
     </section>
 
-    <!-- Seção Meu Dia a Dia - Carrossel -->
     <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
         <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
             <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
@@ -659,40 +573,88 @@
         <div class="gallery-carousel">
             <div class="gallery-track">
                 <div class="gallery-slide">
-                    <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto1-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto1-medium.jpg">
+                        <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto2-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto2-medium.jpg">
+                        <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto3-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto3-medium.jpg">
+                        <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto4.jpg" alt="Willian viajando." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto4-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto4-medium.jpg">
+                        <img src="img/foto4.jpg" alt="Willian viajando." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto5-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto5-medium.jpg">
+                        <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto6.jpg" alt="Willian em uma conferência." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto6-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto6-medium.jpg">
+                        <img src="img/foto6.jpg" alt="Willian em uma conferência." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto7-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto7-medium.jpg">
+                        <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto8.jpg" alt="Retrato de Willian." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto8-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto8-medium.jpg">
+                        <img src="img/foto8.jpg" alt="Retrato de Willian." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto10.jpg" alt="Willian em um workshop." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto10-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto10-medium.jpg">
+                        <img src="img/foto10.jpg" alt="Willian em um workshop." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto11.jpg" alt="Willian em um momento casual." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto11-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto11-medium.jpg">
+                        <img src="img/foto11.jpg" alt="Willian em um momento casual." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto12-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto12-medium.jpg">
+                        <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-slide">
-                    <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="gallery-image">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="img/foto13-small.jpg">
+                        <source media="(max-width: 992px)" srcset="img/foto13-medium.jpg">
+                        <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="gallery-image">
+                    </picture>
                 </div>
             </div>
             <button class="gallery-prev" aria-label="Foto anterior"><i class="bi bi-chevron-left"></i></button>
@@ -700,7 +662,6 @@
         </div>
     </section>
 
-    <!-- 5. Contato -->
     <section id="contato" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
         <h2 id="contato-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
@@ -716,24 +677,9 @@
                 <label for="email" class="form-label fw-semibold">Email</label>
                 <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
             </div>
-            <!-- GEMINI API FEATURE -->
-            <div class="mb-3">
-                <label for="ai-keywords" class="form-label fw-semibold">Assunto ou Vaga de Interesse (Opcional)</label>
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-lg form-control-glass" id="ai-keywords" placeholder="Ex: Vaga Analista de Redes">
-                    <button class="btn btn-outline-light" type="button" id="generate-draft-btn" style="border-color: var(--glass-border);">
-                        ✨ Gerar rascunho com IA
-                    </button>
-                </div>
-            </div>
             <div class="mb-4">
                 <label for="message" class="form-label fw-semibold">Mensagem</label>
-                <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Clique no botão acima para gerar um rascunho ou escreva sua mensagem aqui..." required></textarea>
-                <div class="d-none text-center mt-2" id="ai-loading">
-                    <div class="spinner-border text-cyan-300" role="status">
-                        <span class="visually-hidden">Gerando rascunho...</span>
-                    </div>
-                </div>
+                <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
             </div>
             <div class="d-grid">
                 <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
@@ -787,46 +733,33 @@
         </div>
         <hr class="my-4 border-secondary">
         <div class="text-center">
-            <p class="small text-secondary mb-1">&copy; 2025 Willian Soares. Todos os direitos reservados.</p>
+            <p class="small text-secondary mb-1">© 2025 Willian Soares. Todos os direitos reservados.</p>
             <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por Willian Soares</p>
             <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
         </div>
     </div>
 </footer>
 
-<!-- ELEMENTO DO LIGHTBOX (MODAL) -->
 <div id="lightbox" class="lightbox">
-    <span id="close-lightbox" class="close-button" role="button" aria-label="Fechar imagem">&times;</span>
+    <span id="close-lightbox" class="close-button" role="button" aria-label="Fechar imagem">×</span>
     <img id="lightbox-image" src="" alt="Imagem em tela cheia">
 </div>
 
-<!-- BOTÃO VOLTAR AO TOPO -->
 <a href="#" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo">
     <i class="bi bi-arrow-up-short"></i>
 </a>
 
 
-<!-- Bibliotecas JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<!-- A biblioteca SplitText foi removida, pois causava erro e não é gratuita -->
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
       // --- INÍCIO DO SCRIPT PRINCIPAL ---
-
-      // Verifica se o GSAP foi carregado
-      if (typeof gsap === 'undefined') {
-        console.error("GSAP não está definido. As animações podem não funcionar.");
-      } else {
-        console.log("GSAP carregado com sucesso.");
-      }
 
       // Função para animar o título
       function animateTitle() {
           const target = document.getElementById('animated-title');
           if (target && typeof gsap !== 'undefined') {
-              // Separa o texto em caracteres e anima
               const textContent = target.textContent;
               target.innerHTML = '';
               const chars = textContent.split('').map(char => {
@@ -852,24 +785,22 @@
       // Animação de partículas no fundo
       const particlesCanvas = document.createElement('canvas');
       const particlesContainer = document.getElementById('particles-background');
-      let ctx; // Declare ctx here to make it accessible globally within the script
-      let particlesArray; // Declare particlesArray globally
+      let ctx;
+      let particlesArray;
 
       function setupParticles() {
-          // Only initialize canvas and context if they haven't been already
-          if (!ctx && particlesContainer) { // Ensure particlesContainer exists
+          if (!ctx && particlesContainer) {
               particlesContainer.appendChild(particlesCanvas);
               ctx = particlesCanvas.getContext('2d');
           } else if (!particlesContainer) {
               console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
-              return; // Exit if the container is not found
+              return;
           }
 
           particlesCanvas.width = window.innerWidth;
-          particlesCanvas.height = document.body.scrollHeight; // Use scrollHeight for full page height
+          particlesCanvas.height = document.body.scrollHeight;
 
-          // Clear existing particles and re-create them for responsiveness
-          particlesArray = []; // Re-initialize the array
+          particlesArray = [];
           for (let i = 0; i < 150; i++) {
               particlesArray.push({
                   x: Math.random() * particlesCanvas.width,
@@ -882,7 +813,7 @@
       }
 
       function animateParticles() {
-          if (!ctx || !particlesArray) return; // Ensure context and particlesArray are available before drawing
+          if (!ctx || !particlesArray) return;
           ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
           particlesArray.forEach(p => {
               ctx.beginPath();
@@ -960,13 +891,16 @@
           });
       }
 
-      // Script do Carrossel de Imagens
+      // Script do Carrossel de Imagens (Mantido para a galeria)
       function setupGalleryCarousel() {
           const track = document.querySelector('.gallery-track');
           const slides = Array.from(document.querySelectorAll('.gallery-slide'));
           const prevBtn = document.querySelector('.gallery-prev');
           const nextBtn = document.querySelector('.gallery-next');
-          const images = document.querySelectorAll('.gallery-image'); // All images in the gallery
+          const images = document.querySelectorAll('.gallery-image');
+          const lightbox = document.getElementById('lightbox');
+          const lightboxImage = document.getElementById('lightbox-image');
+          const closeLightboxBtn = document.getElementById('close-lightbox');
 
           if (!track || slides.length === 0 || !prevBtn || !nextBtn) {
               console.warn("Elementos do carrossel não encontrados ou insuficientes.");
@@ -974,11 +908,10 @@
           }
 
           let currentIndex = 0;
-          let slideWidth = 0; // Will be calculated dynamically
+          let slideWidth = 0;
 
           function calculateSlideWidth() {
               if (slides.length > 0) {
-                  // Get the actual width of a slide including its margin-right
                   const firstSlide = slides[0];
                   const computedStyle = window.getComputedStyle(firstSlide);
                   const marginRight = parseFloat(computedStyle.marginRight);
@@ -993,20 +926,17 @@
                   ease: "power2.out"
               });
               prevBtn.disabled = currentIndex === 0;
-              // Calculate max index based on how many slides fit
               const containerWidth = track.parentElement.offsetWidth;
               const maxIndex = Math.max(0, slides.length - Math.floor(containerWidth / slideWidth));
               nextBtn.disabled = currentIndex >= maxIndex;
           }
-
-          // Initial calculation and update
+          
           calculateSlideWidth();
           updateCarousel();
 
-          // Recalculate on resize
           window.addEventListener('resize', () => {
               calculateSlideWidth();
-              updateCarousel(); // Re-position carousel after resize
+              updateCarousel();
           });
 
           prevBtn.addEventListener('click', () => {
@@ -1021,11 +951,6 @@
               updateCarousel();
           });
 
-          // Lightbox integration for gallery images
-          const lightbox = document.getElementById('lightbox');
-          const lightboxImage = document.getElementById('lightbox-image');
-          const closeLightboxBtn = document.getElementById('close-lightbox');
-
           images.forEach(img => {
               img.addEventListener('click', function() {
                   lightboxImage.src = this.src;
@@ -1035,11 +960,11 @@
 
           closeLightboxBtn.addEventListener('click', () => {
               lightbox.classList.remove('active');
-              lightboxImage.src = ""; // Clear image src
+              lightboxImage.src = "";
           });
 
           lightbox.addEventListener('click', (e) => {
-              if (e.target === lightbox) { // Clicked on the overlay, not the image
+              if (e.target === lightbox) {
                   lightbox.classList.remove('active');
                   lightboxImage.src = "";
               }
@@ -1085,76 +1010,8 @@
               icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
           });
       }
-
-      // =================================================================== */
-      // ================= SCRIPT DA API GEMINI ============================ */
-      // =================================================================== */
-      async function generateAIDraft() {
-          const nameInput = document.getElementById('name');
-          const keywordsInput = document.getElementById('ai-keywords');
-          const messageTextarea = document.getElementById('message');
-          const loadingIndicator = document.getElementById('ai-loading');
-
-          const name = nameInput.value || "um profissional interessado";
-          const keywords = keywordsInput.value;
-
-          if (!keywords) {
-              messageTextarea.placeholder = "Por favor, insira um assunto ou vaga para gerar o rascunho.";
-              return;
-          }
-
-          loadingIndicator.classList.remove('d-none');
-          messageTextarea.value = "";
-          messageTextarea.placeholder = "Gerando rascunho...";
-
-          const prompt = `Escreva uma mensagem de contato profissional e cordial para Willian Soares. O remetente é ${name} e o tópico de interesse é "${keywords}". A mensagem deve expressar interesse em discutir o tópico mencionado e explorar possíveis oportunidades de colaboração. A mensagem deve ser curta e direta, sem assinatura, pois o nome do remetente já está em um campo separado.`;
-
-          try {
-              let chatHistory = [];
-              chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-              const payload = { contents: chatHistory };
-              const apiKey = "";
-              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-              const response = await fetch(apiUrl, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(payload)
-              });
-
-              if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-              }
-
-              const result = await response.json();
-
-              if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-                  const text = result.candidates[0].content.parts[0].text;
-                  messageTextarea.value = text;
-              } else {
-                  console.error("Resposta da API bloqueada ou vazia:", result);
-                  messageTextarea.value = "Não foi possível gerar um rascunho. A resposta pode ter sido bloqueada por segurança. Tente um assunto diferente.";
-              }
-
-          } catch (error) {
-              console.error("Erro ao chamar a API Gemini:", error);
-              messageTextarea.value = "Ocorreu um erro ao gerar o rascunho. Por favor, tente novamente mais tarde.";
-          } finally {
-              loadingIndicator.classList.add('d-none');
-          }
-      }
-
-      function setupAIFeatures() {
-          const generateBtn = document.getElementById('generate-draft-btn');
-          if (generateBtn) {
-              generateBtn.addEventListener('click', generateAIDraft);
-          }
-      }
-
-      // Inicia tudo quando a página estiver completamente carregada
+      
       window.onload = function () {
-          // A função original de registro do plugin SplitText foi removida
-          // A animação foi reescrita abaixo para funcionar sem ela
           animateTitle();
           animateSubtitle();
           setupScrollFeatures();
@@ -1162,13 +1019,11 @@
           setupBackToTopButton();
           setupEasterEgg();
           setupThemeSwitcher();
-          setupAIFeatures(); // Inicia a funcionalidade da IA
-          setupParticles(); // Inicializa as partículas
-          animateParticles(); // Inicia a animação das partículas
-          setupGalleryCarousel(); // Inicia o carrossel da galeria
+          setupParticles();
+          animateParticles();
+          setupGalleryCarousel();
       }
-    }); // Fim do DOMContentLoaded
+    });
 </script>
-
 </body>
 </html>
