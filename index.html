@@ -268,6 +268,9 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease;
+            display: flex; /* Adicionado para centralizar a imagem verticalmente */
+            align-items: center; /* Adicionado para centralizar a imagem verticalmente */
+            justify-content: center; /* Adicionado para centralizar a imagem horizontalmente */
         }
 
         .gallery-slide:last-child {
@@ -275,9 +278,10 @@
         }
 
         .gallery-image {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%; /* Limita a altura máxima da imagem ao seu contêiner */
             height: 200px; /* Altura fixa para as imagens */
-            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+            object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
             border-radius: 0.75rem;
             cursor: pointer;
         }
@@ -776,7 +780,7 @@
                 <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
                 <ul class="list-unstyled text-secondary small">
                     <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i> contato@williansoares.net.br</li>
-                    <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i> Paraná, Brasil</li>
+                    <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i> Itararé/SP, Brasil</li>
                     <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i> Disponível para projetos</li>
                 </ul>
             </div>
