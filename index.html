@@ -320,7 +320,7 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
+        
         /* Estilos do Chatbot */
         #chatbot-btn {
             position: fixed;
@@ -359,6 +359,7 @@
             flex-direction: column;
             z-index: 1040;
             overflow: hidden;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         .chatbot-header {
             background: var(--text-cyan-400);
@@ -375,6 +376,8 @@
             padding: 1rem;
             overflow-y: auto;
             background-color: var(--bg-gradient-mid);
+            display: flex;
+            flex-direction: column;
         }
         .chatbot-message {
             background-color: var(--glass-bg);
@@ -382,11 +385,35 @@
             border-radius: 1rem;
             margin-bottom: 0.75rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: var(--text-cyan-400);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .chatbot-loading-dots {
+            width: 40px;
+            text-align: center;
+        }
+        .chatbot-loading-dots::after {
+            content: '...';
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            animation: loading-dots 1s infinite;
+        }
+        @keyframes loading-dots {
+            0% { width: 0; }
+            50% { width: 1.5ch; }
+            100% { width: 0; }
         }
         .chatbot-input {
             display: flex;
             padding: 1rem;
             border-top: 1px solid var(--glass-border);
+            background-color: var(--bg-gradient-start);
         }
         .chatbot-input input {
             flex-grow: 1;
@@ -410,6 +437,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
+            transition: transform 0.2s ease-in-out;
+        }
+        .chatbot-input button:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -937,6 +969,10 @@
     </div>
     <div id="chatbot-body" class="chatbot-body">
         <div class="chatbot-message">Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?</div>
+        <!-- Indicador de carregamento -->
+        <div id="loading-indicator" class="chatbot-message" style="display: none;">
+            <div class="chatbot-loading-dots"></div>
+        </div>
     </div>
     <div class="chatbot-input">
         <input type="text" id="chatbot-input-field" placeholder="Digite sua mensagem...">
@@ -1169,14 +1205,19 @@
             });
         }
 
-        // Script para o Chatbot (Interface simples)
-        function setupChatbot() {
+        // Script para o Chatbot (agora conectado à API Gemini)
+        async function setupChatbot() {
             const chatbotBtn = document.getElementById('chatbot-btn');
             const chatbotContainer = document.getElementById('chatbot-container');
             const closeChatbotBtn = document.getElementById('close-chatbot-btn');
             const chatBody = document.getElementById('chatbot-body');
             const chatInput = document.getElementById('chatbot-input-field');
             const sendBtn = document.getElementById('chatbot-send-btn');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const chatHistory = [{
+                role: "model",
+                parts: [{ text: "Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?" }]
+            }];
 
             chatbotBtn.addEventListener('click', () => {
                 chatbotContainer.style.display = (chatbotContainer.style.display === 'flex') ? 'none' : 'flex';
@@ -1186,29 +1227,65 @@
                 chatbotContainer.style.display = 'none';
             });
             
-            // Simulação de resposta
-            function sendMessage() {
+            async function sendMessage() {
                 const message = chatInput.value.trim();
                 if (message === '') return;
 
-                // Mensagem do usuário
+                // Adiciona a mensagem do usuário ao histórico e na tela
+                chatHistory.push({ role: "user", parts: [{ text: message }] });
                 const userMessage = document.createElement('div');
-                userMessage.classList.add('chatbot-message');
+                userMessage.classList.add('chatbot-message', 'user-message');
                 userMessage.textContent = message;
-                userMessage.style.cssText = 'background-color: var(--text-cyan-400); color: white; align-self: flex-end; margin-left: auto;';
                 chatBody.appendChild(userMessage);
 
                 chatInput.value = '';
+                chatInput.disabled = true;
+                sendBtn.disabled = true;
+                chatBody.scrollTop = chatBody.scrollHeight;
+                
+                // Mostra o indicador de carregamento
+                loadingIndicator.style.display = 'block';
                 chatBody.scrollTop = chatBody.scrollHeight;
 
-                // Simulação de resposta do bot (pode ser substituído por uma chamada de API)
-                setTimeout(() => {
+                try {
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erro na API: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const botResponseText = result.candidates[0].content.parts[0].text;
+                    chatHistory.push({ role: "model", parts: [{ text: botResponseText }] });
+
+                    // Esconde o indicador e mostra a resposta do bot
+                    loadingIndicator.style.display = 'none';
                     const botMessage = document.createElement('div');
                     botMessage.classList.add('chatbot-message');
-                    botMessage.textContent = 'Obrigado por sua mensagem! Um especialista entrará em contato em breve.';
+                    botMessage.textContent = botResponseText;
                     chatBody.appendChild(botMessage);
+                    
+                } catch (error) {
+                    loadingIndicator.style.display = 'none';
+                    const errorMessage = document.createElement('div');
+                    errorMessage.classList.add('chatbot-message');
+                    errorMessage.textContent = 'Desculpe, ocorreu um erro. Tente novamente mais tarde.';
+                    chatBody.appendChild(errorMessage);
+                    console.error('Erro na chamada da API:', error);
+                } finally {
+                    chatInput.disabled = false;
+                    sendBtn.disabled = false;
                     chatBody.scrollTop = chatBody.scrollHeight;
-                }, 1000);
+                }
             }
 
             sendBtn.addEventListener('click', sendMessage);
