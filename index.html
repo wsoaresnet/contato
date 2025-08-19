@@ -89,6 +89,7 @@
             --bs-btn-hover-color: var(--bg-gradient-start);
         }
 
+        /* --- Estilos Adicionais e Corrigidos --- */
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
@@ -101,7 +102,6 @@
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            /* Adicionado padding para compensar a navbar fixa */
             padding-top: 5.5rem;
         }
 
@@ -114,9 +114,12 @@
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
-            /* Removido o padding e margin de alinhamento, agora controlados pelo body */
         }
-        .glass-section.visible { opacity: 1; transform: translateY(0); }
+        /* Corrigido: a primeira seção agora já começa com a classe 'visible' para garantir que ela apareça */
+        .glass-section.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
         .text-cyan-400 { color: var(--text-cyan-400); }
         .text-cyan-300 { color: var(--text-cyan-300); }
@@ -288,9 +291,134 @@
         .carousel-control-next {
             right: -1rem; /* Posição à direita do container */
         }
+        /* Estilos do Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-gradient-start);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .preloader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--glass-border);
+            border-top-color: var(--text-cyan-400);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Estilos do Chatbot */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 80px;
+            width: 60px;
+            height: 60px;
+            background-color: #25d366; /* WhatsApp Green */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1030;
+            transition: transform 0.3s ease;
+        }
+        #chatbot-btn:hover {
+            transform: scale(1.1);
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 90vw;
+            max-width: 350px;
+            height: 70vh;
+            max-height: 500px;
+            background: var(--bg-gradient-start);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            display: none;
+            flex-direction: column;
+            z-index: 1040;
+            overflow: hidden;
+        }
+        .chatbot-header {
+            background: var(--text-cyan-400);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .chatbot-body {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: var(--bg-gradient-mid);
+        }
+        .chatbot-message {
+            background-color: var(--glass-bg);
+            padding: 0.75rem;
+            border-radius: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        .chatbot-input input {
+            flex-grow: 1;
+            border-radius: 1.5rem;
+            background-color: var(--form-control-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+        }
+        .chatbot-input input::placeholder {
+            color: var(--text-secondary);
+        }
+        .chatbot-input button {
+            background-color: var(--text-cyan-400);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
+
+<!-- Preloader -->
+<div id="preloader" class="preloader">
+    <div class="preloader-spinner"></div>
+</div>
 
 <!-- Fundo de partículas dinâmico -->
 <div id="particles-background" class="particles-container"></div>
@@ -337,7 +465,7 @@
 </header>
 
 <main class="container my-5">
-    <!-- Seção de Destaque -->
+    <!-- Seção de Destaque - Agora com a classe 'visible' para aparecer na inicialização -->
     <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center visible" aria-labelledby="destaque-heading">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -359,7 +487,7 @@
     </section>
 
     <!-- 1. Meus Artigos (Ajustado com rolagem horizontal e layout correto) -->
-    <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg visible" aria-labelledby="blog-heading">
+    <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="blog-heading">
         <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
             <i class="bi bi-journal-richtext"></i> Meus Artigos
         </h2>
@@ -610,91 +738,93 @@
         </h2>
         <div class="carousel-container" id="galeria-carousel-container">
             <div class="carousel-track">
-                <!-- Imagem 1 -->
+                <!-- Imagem 1 (com WebP) -->
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto1-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto1-medium.jpg">
+                        <!-- Suporte para o formato WebP para maior performance -->
+                        <source media="(max-width: 768px)" srcset="img/foto1-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto1-medium.webp" type="image/webp">
+                        <!-- Imagem de fallback para navegadores antigos -->
                         <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
-                <!-- Imagem 2 -->
+                <!-- Imagem 2 (com WebP) -->
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto2-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto2-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto2-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto2-medium.webp" type="image/webp">
                         <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
-                <!-- Imagem 3 -->
+                <!-- Imagem 3 (com WebP) -->
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto3-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto3-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto3-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto3-medium.webp" type="image/webp">
                         <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <!-- Adicionar as outras imagens da galeria usando a mesma estrutura <picture> -->
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto4-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto4-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto4-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto4-medium.webp" type="image/webp">
                         <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto5-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto5-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto5-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto5-medium.webp" type="image/webp">
                         <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto6-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto6-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto6-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto6-medium.webp" type="image/webp">
                         <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto7-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto7-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto7-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto7-medium.webp" type="image/webp">
                         <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto8-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto8-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto8-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto8-medium.webp" type="image/webp">
                         <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto10-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto10-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto10-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto10-medium.webp" type="image/webp">
                         <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto11-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto11-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto11-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto11-medium.webp" type="image/webp">
                         <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto12-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto12-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto12-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto12-medium.webp" type="image/webp">
                         <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
                 <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
                     <picture>
-                        <source media="(max-width: 768px)" src="img/foto13-small.jpg">
-                        <source media="(max-width: 992px)" src="img/foto13-medium.jpg">
+                        <source media="(max-width: 768px)" srcset="img/foto13-small.webp" type="image/webp">
+                        <source media="(max-width: 992px)" srcset="img/foto13-medium.webp" type="image/webp">
                         <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
                     </picture>
                 </div>
@@ -794,288 +924,374 @@
     <i class="bi bi-arrow-up-short"></i>
 </a>
 
+<!-- Botão do Chatbot -->
+<div id="chatbot-btn">
+    <i class="bi bi-chat-dots-fill"></i>
+</div>
+
+<!-- Container do Chatbot -->
+<div id="chatbot-container" class="chatbot-container">
+    <div class="chatbot-header">
+        <span>Chatbot Gemini</span>
+        <button id="close-chatbot-btn" class="btn-close btn-close-white" aria-label="Fechar Chatbot"></button>
+    </div>
+    <div id="chatbot-body" class="chatbot-body">
+        <div class="chatbot-message">Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbot-input-field" placeholder="Digite sua mensagem...">
+        <button id="chatbot-send-btn"><i class="bi bi-send-fill"></i></button>
+    </div>
+</div>
 
 <!-- Bibliotecas JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // --- INÍCIO DO SCRIPT PRINCIPAL ---
+        // --- INÍCIO DO SCRIPT PRINCIPAL ---
 
-      // Função para animar o título
-      function animateTitle() {
-          const target = document.getElementById('animated-title');
-          if (target && typeof gsap !== 'undefined') {
-              const textContent = target.textContent;
-              target.innerHTML = '';
-              const chars = textContent.split('').map(char => {
-                  const span = document.createElement('span');
-                  span.textContent = char;
-                  span.style.display = 'inline-block';
-                  return span;
-              });
-              chars.forEach(span => target.appendChild(span));
-              
-              gsap.from(chars, {
-                  y: 60, opacity: 0, stagger: 0.05, ease: 'power3.out', duration: 1
-              });
-          }
-      }
-
-      // Função para animar o subtítulo
-      function animateSubtitle() {
-          const target = document.getElementById('animated-subtitle');
-          if(target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
-      }
-
-      // Animação de partículas no fundo
-      const particlesCanvas = document.createElement('canvas');
-      const particlesContainer = document.getElementById('particles-background');
-      let ctx;
-      let particlesArray;
-
-      function setupParticles() {
-          if (!ctx && particlesContainer) {
-              particlesContainer.appendChild(particlesCanvas);
-              ctx = particlesCanvas.getContext('2d');
-          } else if (!particlesContainer) {
-              console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
-              return;
-          }
-
-          particlesCanvas.width = window.innerWidth;
-          particlesCanvas.height = document.body.scrollHeight;
-
-          particlesArray = [];
-          for (let i = 0; i < 150; i++) {
-              particlesArray.push({
-                  x: Math.random() * particlesCanvas.width,
-                  y: Math.random() * particlesCanvas.height,
-                  r: Math.random() * 2 + 1,
-                  dx: (Math.random() - 0.5) * 0.4,
-                  dy: (Math.random() - 0.5) * 0.4
-              });
-          }
-      }
-
-      function animateParticles() {
-          if (!ctx || !particlesArray) return;
-          ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-          particlesArray.forEach(p => {
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-              ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
-              ctx.fill();
-              p.x += p.dx;
-              p.y += p.dy;
-              if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
-              if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
-          });
-          requestAnimationFrame(animateParticles);
-      }
-
-      // Animação de scroll para as seções e navbar
-      function setupScrollFeatures() {
-          const sections = document.querySelectorAll('section[id]');
-          const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-
-          const observer = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                      navLinks.forEach(link => {
-                          link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
-                      });
-
-                      entry.target.classList.add('visible');
-
-                      if (entry.target.id === 'habilidades') {
-                          const skillBars = entry.target.querySelectorAll('.progress-bar');
-                          skillBars.forEach(bar => {
-                              const targetWidth = bar.getAttribute('data-width');
-                              const targetValue = parseInt(targetWidth, 10);
-                              const textSpan = bar.querySelector('.progress-bar-text');
-
-                              let counter = { value: 0 };
-
-                              gsap.to(counter, {
-                                  value: targetValue,
-                                  duration: 1.5,
-                                  ease: 'power3.out',
-                                  onUpdate: () => {
-                                      if(textSpan) textSpan.textContent = Math.round(counter.value) + '%';
-                                  }
-                              });
-
-                              gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
-                          });
-                      }
-                  } else {
-                      // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
-                  }
-              });
-          }, { threshold: 0.2 });
-
-          sections.forEach(section => observer.observe(section));
-      }
-
-      // Script para o Contador de Visitas
-      function updateVisitorCounter() {
-          const counterElement = document.getElementById('visitor-counter');
-          if (!counterElement) return;
-          let count = localStorage.getItem('willianSoaresVisitorCount');
-          count = count ? parseInt(count, 10) + 1 : 1;
-          localStorage.setItem('willianSoaresVisitorCount', count);
-          counterElement.innerText = count.toString().padStart(5, '0');
-      }
-
-      // Script para o Botão Voltar ao Topo
-      function setupBackToTopButton() {
-          const btn = document.getElementById('back-to-top-btn');
-          if (!btn) return;
-          window.addEventListener('scroll', () => {
-              btn.classList.toggle('show', window.scrollY > 300);
-          });
-      }
-
-      // Script para o Lightbox
-      function setupLightbox() {
-        const images = document.querySelectorAll('.gallery-image');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightbox-image');
-        const closeLightboxBtn = document.getElementById('close-lightbox');
-
-        images.forEach(img => {
-            img.addEventListener('click', function() {
-                lightboxImage.src = this.src;
-                lightbox.classList.add('active');
-            });
-        });
-
-        closeLightboxBtn.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-            lightboxImage.src = "";
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-                lightboxImage.src = "";
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if(preloader) {
+                preloader.classList.add('preloader-hidden');
             }
         });
-      }
 
-      // Script do Easter Egg
-      function setupEasterEgg() {
-          const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-          let index = 0;
-          document.addEventListener('keydown', (e) => {
-              if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
-                  index++;
-                  if (index === konamiCode.length) {
-                      document.body.classList.add('easter-egg-active');
-                      setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
-                      index = 0;
-                  }
-              } else {
-                  index = 0;
-              }
-          });
-      }
+        // Função para animar o título - Corrigido para garantir o espaçamento
+        function animateTitle() {
+            const titleElement = document.getElementById('animated-title');
+            if (titleElement && typeof gsap !== 'undefined') {
+                const words = titleElement.textContent.split(' ');
+                titleElement.innerHTML = ''; // Limpa o conteúdo original
 
-      // Script do Tema Claro/Escuro
-      function setupThemeSwitcher() {
-          const switcher = document.getElementById('theme-switcher');
-          const icon = switcher.querySelector('i');
-          const html = document.documentElement;
+                words.forEach((word, index) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.textContent = word;
+                    wordSpan.style.display = 'inline-block';
+                    titleElement.appendChild(wordSpan);
 
-          const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                    // Adiciona um espaço explícito entre as palavras
+                    if (index < words.length - 1) {
+                        const spaceSpan = document.createElement('span');
+                        spaceSpan.innerHTML = '&nbsp;'; // Usa um espaço fixo
+                        titleElement.appendChild(spaceSpan);
+                    }
+                });
 
-          html.setAttribute('data-theme', savedTheme);
-          icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
-          icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
+                const wordSpans = Array.from(titleElement.querySelectorAll('span'));
+                gsap.from(wordSpans, {
+                    y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', duration: 1.2
+                });
+            }
+        }
 
-          switcher.addEventListener('click', () => {
-              const currentTheme = html.getAttribute('data-theme');
-              const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-              html.setAttribute('data-theme', newTheme);
-              localStorage.setItem('theme', newTheme);
-              icon.classList.toggle('bi-sun-fill', newTheme === 'light');
-              icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
-          });
-      }
+        // Função para animar o subtítulo
+        function animateSubtitle() {
+            const target = document.getElementById('animated-subtitle');
+            if(target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
+        }
 
-      // Função de Carrossel otimizada e infinita para reutilização
-      function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
-          const container = document.getElementById(containerId);
-          if (!container) {
-              console.warn(`Container do carrossel com ID "${containerId}" não encontrado.`);
-              return;
-          }
-          const track = container.querySelector('.carousel-track');
-          const items = Array.from(track.children);
-          const prevBtn = document.getElementById(prevBtnId);
-          const nextBtn = document.getElementById(nextBtnId);
+        // Animação de partículas no fundo
+        const particlesCanvas = document.createElement('canvas');
+        const particlesContainer = document.getElementById('particles-background');
+        let ctx;
+        let particlesArray;
 
-          if (!track || !prevBtn || !nextBtn || items.length === 0) {
-              console.warn(`Elementos do carrossel para a seção ${containerId} não encontrados.`);
-              return;
-          }
+        function setupParticles() {
+            if (!ctx && particlesContainer) {
+                particlesContainer.appendChild(particlesCanvas);
+                ctx = particlesCanvas.getContext('2d');
+            } else if (!particlesContainer) {
+                console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
+                return;
+            }
 
-          const firstItem = items[0];
-          if (!firstItem) {
-              console.warn(`O primeiro item do carrossel para a seção ${containerId} não foi encontrado.`);
-              return;
-          }
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = document.body.scrollHeight;
 
-          const scrollStep = firstItem.offsetWidth + 16;
-          
-          // Clonar itens para criar a ilusão de loop infinito
-          const numClones = items.length;
-          for (let i = 0; i < numClones; i++) {
-            track.appendChild(items[i].cloneNode(true));
-          }
-          for (let i = items.length - 1; i >= 0; i--) {
-            track.insertBefore(items[i].cloneNode(true), track.firstChild);
-          }
+            particlesArray = [];
+            for (let i = 0; i < 150; i++) {
+                particlesArray.push({
+                    x: Math.random() * particlesCanvas.width,
+                    y: Math.random() * particlesCanvas.height,
+                    r: Math.random() * 2 + 1,
+                    dx: (Math.random() - 0.5) * 0.4,
+                    dy: (Math.random() - 0.5) * 0.4
+                });
+            }
+        }
 
-          // Posicionar o carrossel no início dos itens originais
-          track.scrollLeft = numClones * scrollStep;
+        function animateParticles() {
+            if (!ctx || !particlesArray) return;
+            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+            particlesArray.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = ['#ffffff', '#22d3ee', '#a5f3fc'][Math.floor(Math.random() * 3)];
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > particlesCanvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > particlesCanvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
 
-          prevBtn.addEventListener('click', () => {
-              track.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-          });
+        // Animação de scroll para as seções e navbar
+        function setupScrollFeatures() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
-          nextBtn.addEventListener('click', () => {
-              track.scrollBy({ left: scrollStep, behavior: 'smooth' });
-          });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
 
-          track.addEventListener('scroll', () => {
-              // Chegando ao final dos clones iniciais, pule para o início
-              if (track.scrollLeft <= 0) {
-                track.scrollLeft = numClones * scrollStep;
-              }
-              // Chegando ao início dos clones finais, pule para o final
-              if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep)) {
-                track.scrollLeft = numClones * scrollStep - 1;
-              }
-          });
-      }
-      
-      window.onload = function () {
-          animateTitle();
-          animateSubtitle();
-          setupScrollFeatures();
-          updateVisitorCounter();
-          setupBackToTopButton();
-          setupEasterEgg();
-          setupThemeSwitcher();
-          setupParticles();
-          animateParticles();
-          setupLightbox();
-          setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
-          setupInfiniteCarousel('cases-carousel-container', 'cases-prev-btn', 'cases-next-btn');
-          setupInfiniteCarousel('galeria-carousel-container', 'galeria-prev-btn', 'galeria-next-btn');
-      }
+                        entry.target.classList.add('visible');
+
+                        if (entry.target.id === 'habilidades') {
+                            const skillBars = entry.target.querySelectorAll('.progress-bar');
+                            skillBars.forEach(bar => {
+                                const targetWidth = bar.getAttribute('data-width');
+                                const targetValue = parseInt(targetWidth, 10);
+                                const textSpan = bar.querySelector('.progress-bar-text');
+
+                                let counter = { value: 0 };
+
+                                gsap.to(counter, {
+                                    value: targetValue,
+                                    duration: 1.5,
+                                    ease: 'power3.out',
+                                    onUpdate: () => {
+                                        if(textSpan) textSpan.textContent = Math.round(counter.value) + '%';
+                                    }
+                                });
+
+                                gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
+                            });
+                        }
+                    } else {
+                        // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Script para o Contador de Visitas
+        function updateVisitorCounter() {
+            const counterElement = document.getElementById('visitor-counter');
+            if (!counterElement) return;
+            let count = localStorage.getItem('willianSoaresVisitorCount');
+            count = count ? parseInt(count, 10) + 1 : 1;
+            localStorage.setItem('willianSoaresVisitorCount', count);
+            counterElement.innerText = count.toString().padStart(5, '0');
+        }
+
+        // Script para o Botão Voltar ao Topo
+        function setupBackToTopButton() {
+            const btn = document.getElementById('back-to-top-btn');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('show', window.scrollY > 300);
+            });
+        }
+
+        // Script para o Lightbox
+        function setupLightbox() {
+            const images = document.querySelectorAll('.gallery-image');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const closeLightboxBtn = document.getElementById('close-lightbox');
+
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    lightboxImage.src = this.src;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            closeLightboxBtn.addEventListener('click', () => {
+                lightbox.classList.remove('active');
+                lightboxImage.src = "";
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.classList.remove('active');
+                    lightboxImage.src = "";
+                }
+            });
+        }
+
+        // Script do Easter Egg
+        function setupEasterEgg() {
+            const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+            let index = 0;
+            document.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
+                    index++;
+                    if (index === konamiCode.length) {
+                        document.body.classList.add('easter-egg-active');
+                        setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
+                        index = 0;
+                    }
+                } else {
+                    index = 0;
+                }
+            });
+        }
+
+        // Script do Tema Claro/Escuro
+        function setupThemeSwitcher() {
+            const switcher = document.getElementById('theme-switcher');
+            const icon = switcher.querySelector('i');
+            const html = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+            html.setAttribute('data-theme', savedTheme);
+            icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
+            icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
+
+            switcher.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                icon.classList.toggle('bi-sun-fill', newTheme === 'light');
+                icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
+            });
+        }
+
+        // Script para o Chatbot (Interface simples)
+        function setupChatbot() {
+            const chatbotBtn = document.getElementById('chatbot-btn');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const closeChatbotBtn = document.getElementById('close-chatbot-btn');
+            const chatBody = document.getElementById('chatbot-body');
+            const chatInput = document.getElementById('chatbot-input-field');
+            const sendBtn = document.getElementById('chatbot-send-btn');
+
+            chatbotBtn.addEventListener('click', () => {
+                chatbotContainer.style.display = (chatbotContainer.style.display === 'flex') ? 'none' : 'flex';
+            });
+
+            closeChatbotBtn.addEventListener('click', () => {
+                chatbotContainer.style.display = 'none';
+            });
+            
+            // Simulação de resposta
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+
+                // Mensagem do usuário
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('chatbot-message');
+                userMessage.textContent = message;
+                userMessage.style.cssText = 'background-color: var(--text-cyan-400); color: white; align-self: flex-end; margin-left: auto;';
+                chatBody.appendChild(userMessage);
+
+                chatInput.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                // Simulação de resposta do bot (pode ser substituído por uma chamada de API)
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('chatbot-message');
+                    botMessage.textContent = 'Obrigado por sua mensagem! Um especialista entrará em contato em breve.';
+                    chatBody.appendChild(botMessage);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+            }
+
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        // Função de Carrossel otimizada e infinita para reutilização
+        function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.warn(`Container do carrossel com ID "${containerId}" não encontrado.`);
+                return;
+            }
+            const track = container.querySelector('.carousel-track');
+            const items = Array.from(track.children);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+
+            if (!track || !prevBtn || !nextBtn || items.length === 0) {
+                console.warn(`Elementos do carrossel para a seção ${containerId} não encontrados.`);
+                return;
+            }
+
+            const firstItem = items[0];
+            if (!firstItem) {
+                console.warn(`O primeiro item do carrossel para a seção ${containerId} não foi encontrado.`);
+                return;
+            }
+
+            const scrollStep = firstItem.offsetWidth + 16;
+            
+            // Clonar itens para criar a ilusão de loop infinito
+            const numClones = items.length;
+            for (let i = 0; i < numClones; i++) {
+              track.appendChild(items[i].cloneNode(true));
+            }
+            for (let i = items.length - 1; i >= 0; i--) {
+              track.insertBefore(items[i].cloneNode(true), track.firstChild);
+            }
+
+            // Posicionar o carrossel no início dos itens originais
+            track.scrollLeft = numClones * scrollStep;
+
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({ left: scrollStep, behavior: 'smooth' });
+            });
+
+            track.addEventListener('scroll', () => {
+                // Chegando ao final dos clones iniciais, pule para o início
+                if (track.scrollLeft <= 0) {
+                  track.scrollLeft = numClones * scrollStep;
+                }
+                // Chegando ao início dos clones finais, pule para o final
+                if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep)) {
+                  track.scrollLeft = numClones * scrollStep - 1;
+                }
+            });
+        }
+        
+        window.onload = function () {
+            animateTitle();
+            animateSubtitle();
+            setupScrollFeatures();
+            updateVisitorCounter();
+            setupBackToTopButton();
+            setupEasterEgg();
+            setupThemeSwitcher();
+            setupParticles();
+            animateParticles();
+            setupLightbox();
+            setupChatbot();
+            setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
+            setupInfiniteCarousel('cases-carousel-container', 'cases-prev-btn', 'cases-next-btn');
+            setupInfiniteCarousel('galeria-carousel-container', 'galeria-prev-btn', 'galeria-next-btn');
+        }
     });
 </script>
 </body>
