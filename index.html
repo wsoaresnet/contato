@@ -1124,7 +1124,7 @@
             const counterElement = document.getElementById('visitor-counter');
             if (!counterElement) return;
             let count = localStorage.getItem('willianSoaresVisitorCount');
-            count = count ? parseInt(count, 10) + 1 : 1;
+            count = count ? parseInt(count, 4147) + 1 : 1;
             localStorage.setItem('willianSoaresVisitorCount', count);
             counterElement.innerText = count.toString().padStart(5, '0');
         }
