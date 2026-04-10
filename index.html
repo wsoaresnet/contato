@@ -6,13 +6,11 @@
 
     <title>Willian Soares | Seu Próximo TI</title>
 
-    <!-- =================================================================== -->
-    <!-- ================ SEO E META TAGS DE COMPARTILHAMENTO ================ -->
-    <!-- =================================================================== -->
+    <!-- SEO E META TAGS -->
     <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
     <meta name="author" content="Willian Soares">
 
-    <!-- Open Graph (para Facebook, LinkedIn, WhatsApp) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Willian Soares | Seu Próximo TI">
     <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
     <meta property="og:image" content="https://williansoares.net.br/img/og-image.jpg">
@@ -25,30 +23,24 @@
     <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
     <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
 
-    <!-- =================================================================== -->
-    <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
-    <!-- =================================================================== -->
+    <!-- PWA -->
     <meta name="theme-color" content="#082f49">
     <link rel="manifest" href="manifest.json">
-    <!-- =================================================================== -->
 
-    <!-- Google Fonts - Inter -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- FAVICON GERADO -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Inter, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
 
-    <!-- Estilos CSS Inseridos Aqui para Simplicidade (Mover para um arquivo externo 'style.css' é o ideal) -->
     <style>
-        /* =================================================================== */
-        /* =================== VARIÁVEIS DE TEMA (CSS) =================== */
-        /* =================================================================== */
+        /* ===== VARIÁVEIS DE TEMA ===== */
         :root {
             --bg-gradient-start: #111827;
             --bg-gradient-mid: #082f49;
@@ -67,6 +59,8 @@
             --btn-outline-color: var(--text-light);
             --btn-outline-hover-bg: var(--text-light);
             --btn-outline-hover-color: var(--bg-gradient-start);
+            --stats-bg: rgba(34, 211, 238, 0.06);
+            --stats-border: rgba(34, 211, 238, 0.18);
         }
 
         [data-theme="light"] {
@@ -87,14 +81,15 @@
             --btn-outline-color: var(--text-secondary);
             --btn-outline-hover-bg: var(--text-secondary);
             --bs-btn-hover-color: var(--bg-gradient-start);
+            --stats-bg: rgba(8, 145, 178, 0.07);
+            --stats-border: rgba(8, 145, 178, 0.2);
         }
 
-        /* --- Estilos Adicionais e Corrigidos --- */
+        /* ===== BASE ===== */
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: var(--bg-gradient-end);
             background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
             color: var(--text-primary);
             overflow-x: hidden;
@@ -102,9 +97,10 @@
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            padding-top: 5.5rem;
+            padding-top: 5rem;
         }
 
+        /* ===== GLASS ===== */
         .glass-section {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
@@ -115,12 +111,9 @@
             transform: translateY(40px);
             transition: opacity 1s ease, transform 1s ease, background 0.3s ease, border 0.3s ease;
         }
-        /* Corrigido: a primeira seção agora já começa com a classe 'visible' para garantir que ela apareça */
-        .glass-section.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        .glass-section.visible { opacity: 1; transform: translateY(0); }
 
+        /* ===== UTILITÁRIOS ===== */
         .text-cyan-400 { color: var(--text-cyan-400); }
         .text-cyan-300 { color: var(--text-cyan-300); }
         .border-cyan-700 { border-color: var(--border-cyan-700); }
@@ -129,22 +122,37 @@
         .card-text, .service-card p { color: var(--text-secondary) !important; }
         footer p { color: var(--text-secondary) !important; }
 
-
+        /* ===== NAVBAR ===== */
         .navbar-glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(13, 27, 42, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--stats-border);
             transition: background 0.3s ease;
+        }
+        [data-theme="light"] .navbar-glass {
+            background: rgba(248, 250, 252, 0.88);
+        }
+        .navbar-glass .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-cyan-300) !important;
+            letter-spacing: 1px;
         }
         .navbar-glass .nav-link {
             color: var(--text-secondary);
             font-weight: 600;
+            font-size: 0.82rem;
             transition: color 0.2s ease;
+            padding: 0.5rem 0.65rem;
         }
         .navbar-glass .nav-link:hover,
-        .navbar-glass .nav-link.active {
-            color: var(--text-cyan-400);
+        .navbar-glass .nav-link.active { color: var(--text-cyan-400); }
+
+        /* Toggler corrigido para aparecer no dark mode */
+        .navbar-toggler { border-color: rgba(103,232,249,0.4); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2834, 211, 238, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         #theme-switcher {
@@ -152,39 +160,201 @@
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem 0.5rem;
         }
-        #theme-switcher:hover {
-            color: var(--text-cyan-400);
+        #theme-switcher:hover { color: var(--text-cyan-400); }
+
+        /* Botão CTA na navbar */
+        .navbar-cta {
+            background: var(--text-cyan-400);
+            color: #0d1b2a !important;
+            border-radius: 20px;
+            padding: 0.35rem 1rem !important;
+            font-weight: 700 !important;
+            font-size: 0.8rem !important;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .navbar-cta:hover {
+            background: var(--text-cyan-300);
+            transform: scale(1.04);
         }
 
-        .skill-bar .progress { background-color: var(--progress-bar-bg); }
-        .skill-bar .progress-bar { background: linear-gradient(90deg, #22d3ee, #00c3ff); width: 0%; }
-        
-        .blog-card, .case-card, .service-card { 
-            background: var(--glass-bg); 
-            border: 1px solid var(--glass-border); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; 
+        /* ===== HERO ===== */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 1rem 4rem;
         }
-        .blog-card:hover, .case-card:hover, .service-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 12px 25px var(--shadow-color); 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -60px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 70%);
+            pointer-events: none;
         }
-        .blog-card img, .case-card img { aspect-ratio: 16 / 9; object-fit: cover; }
-        
+
+        /* Avatar no hero */
+        .hero-avatar-wrap {
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            border: 3px solid var(--text-cyan-400);
+            box-shadow: 0 0 30px rgba(34,211,238,0.25), 0 0 60px rgba(34,211,238,0.08);
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #082f49, #0e7490);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem; font-weight: 700; color: var(--text-cyan-400);
+        }
+        .hero-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Subtítulo tipado */
+        .hero-role {
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            color: var(--text-cyan-400);
+            margin-bottom: 0.75rem;
+            font-weight: 400;
+        }
+
+        /* ===== STATS STRIP ===== */
+        .stats-strip {
+            background: var(--stats-bg);
+            border-top: 1px solid var(--stats-border);
+            border-bottom: 1px solid var(--stats-border);
+            padding: 1.25rem 0;
+        }
+        .stats-strip .stat-item { text-align: center; }
+        .stats-strip .stat-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-cyan-400);
+            line-height: 1;
+        }
+        .stats-strip .stat-label {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* ===== CARDS ===== */
+        .blog-card, .case-card, .service-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .blog-card:hover, .case-card:hover, .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px var(--shadow-color);
+        }
+        .blog-card img, .case-card img { aspect-ratio: 16/9; object-fit: cover; }
+
+        /* Cards mobile horizontal (cases) */
+        @media (max-width: 575.98px) {
+            .case-card { display: flex !important; flex-direction: row; }
+            .case-card .case-card-img-wrap {
+                width: 110px;
+                min-width: 110px;
+                flex-shrink: 0;
+                overflow: hidden;
+                border-radius: 0.375rem 0 0 0.375rem;
+            }
+            .case-card .case-card-img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                aspect-ratio: unset;
+            }
+            .case-card .card-body { padding: 0.85rem; }
+        }
+
+        /* ===== SOBRE - IMAGEM ===== */
+        .about-img-frame {
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid var(--border-cyan-700);
+            box-shadow: 0 8px 32px var(--shadow-color), 0 0 0 6px rgba(34,211,238,0.06);
+        }
+        .about-img-frame img { width: 100%; object-fit: cover; display: block; }
+
+        /* ===== SKILL BARS ===== */
+        .skill-bar .progress { background-color: var(--progress-bar-bg); height: 8px; border-radius: 4px; }
+        .skill-bar .progress-bar {
+            background: linear-gradient(90deg, #22d3ee, #00c3ff);
+            width: 0%;
+            border-radius: 4px;
+            position: relative;
+        }
+        .skill-bar .progress-bar-text {
+            position: absolute; right: 0; top: -1.5rem;
+            font-size: 0.78rem; color: var(--text-cyan-300); font-weight: 600;
+        }
+        .skill-bar p { font-size: 0.95rem; }
+
+        /* ===== TESTIMONIAL ===== */
         .testimonial { background: var(--glass-bg); border-left: 5px solid #00c3ff; }
-        .form-control-glass { background: var(--form-control-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-primary) !important; }
+
+        /* ===== FORM ===== */
+        .form-control-glass {
+            background: var(--form-control-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: var(--text-primary) !important;
+        }
         .form-control-glass::placeholder { color: var(--text-secondary); }
-        .form-control-glass:focus { border-color: var(--text-cyan-400) !important; box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important; }
+        .form-control-glass:focus {
+            border-color: var(--text-cyan-400) !important;
+            box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25) !important;
+        }
+
+        /* ===== EASTER EGG ===== */
         .easter-egg-active { transition: filter 0.5s ease; filter: hue-rotate(180deg) invert(1); }
-        #back-to-top-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background-color: var(--text-cyan-400); color: var(--bg-gradient-start); border-radius: 50%; display: none; place-items: center; z-index: 1030; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; }
+
+        /* ===== BACK TO TOP ===== */
+        #back-to-top-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 46px; height: 46px;
+            background-color: var(--text-cyan-400);
+            color: var(--bg-gradient-start);
+            border-radius: 50%; display: none; place-items: center;
+            z-index: 1030; opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+        }
         #back-to-top-btn.show { display: grid; opacity: 1; }
         #back-to-top-btn:hover { transform: scale(1.1); }
-        .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1050; display: flex; justify-content: center; align-items: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+
+        /* ===== PARTÍCULAS ===== */
+        .particles-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); z-index: 1050;
+            display: flex; justify-content: center; align-items: center; padding: 2rem;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out;
+        }
         .lightbox.active { opacity: 1; pointer-events: all; }
-        .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34, 211, 238, 0.5); }
-        .lightbox .close-button { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
-        .btn-cta { background-color: #06b6d4; border-color: #06b6d4; color: white; transition: all 0.3s ease; }
+        .lightbox img {
+            max-width: 90vw; max-height: 90vh; object-fit: contain;
+            border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34,211,238,0.5);
+        }
+        .lightbox .close-button {
+            position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem;
+            color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease;
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn-cta {
+            background-color: #06b6d4; border-color: #06b6d4; color: white;
+            transition: all 0.3s ease;
+        }
         .btn-cta:hover { background-color: #0891b2; border-color: #0891b2; transform: scale(1.05); }
         .social-icons a { transition: transform 0.2s ease-in-out; }
         .social-icons a:hover { transform: scale(1.2); }
@@ -196,252 +366,194 @@
             --bs-btn-hover-color: var(--bg-gradient-start);
         }
 
-        /* ESTILOS DA TIMELINE */
-        .timeline {
-            list-style: none;
-            padding: 1rem 0;
-            position: relative;
-        }
+        /* ===== TIMELINE ===== */
+        .timeline { list-style: none; padding: 1rem 0; position: relative; }
         .timeline:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 18px;
-            height: 100%;
-            width: 4px;
-            background: var(--glass-border);
+            content: ''; position: absolute; top: 0; left: 18px;
+            height: 100%; width: 3px;
+            background: linear-gradient(to bottom, var(--text-cyan-400), transparent);
             border-radius: 2px;
         }
-        .timeline-item {
-            margin-bottom: 2.5rem;
-            position: relative;
-            padding-left: 50px;
-        }
+        .timeline-item { margin-bottom: 2rem; position: relative; padding-left: 50px; }
         .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 5px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            content: ''; position: absolute; left: 10px; top: 5px;
+            width: 18px; height: 18px; border-radius: 50%;
             background: var(--text-cyan-400);
-            border: 4px solid var(--glass-bg);
+            border: 3px solid var(--bg-gradient-start);
+            box-shadow: 0 0 8px rgba(34,211,238,0.4);
         }
-        .timeline-item-title {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .timeline-item-subtitle {
-            font-weight: 600;
-            color: var(--text-cyan-300);
-        }
-        .timeline-item-period {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Estilos para o carrossel de rolagem */
-        .carousel-container {
-            position: relative;
-        }
+        .timeline-item-title { font-weight: 700; color: var(--text-primary); }
+        .timeline-item-subtitle { font-weight: 600; color: var(--text-cyan-300); }
+        .timeline-item-period { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* ===== CARROSSEL ===== */
+        .carousel-container { position: relative; }
         .carousel-track {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 1rem;
-            margin-left: 1rem;
-            margin-right: 1rem;
+            display: flex; overflow-x: auto; gap: 1rem;
+            scroll-snap-type: x mandatory; padding-bottom: 1rem;
+            margin-left: 1rem; margin-right: 1rem;
         }
-        .carousel-track::-webkit-scrollbar {
-            display: none;
-        }
-        .carousel-track > div {
-            scroll-snap-align: start;
-            flex-shrink: 0;
-            width: 300px;
-        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+        .carousel-track > div { scroll-snap-align: start; flex-shrink: 0; width: 300px; }
         .carousel-control-prev, .carousel-control-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.4);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            cursor: pointer;
-            opacity: 0.8;
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: rgba(34,211,238,0.15);
+            border: 1px solid rgba(34,211,238,0.3);
+            color: var(--text-cyan-300); font-size: 1.4rem;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10; cursor: pointer; opacity: 0.85;
             transition: opacity 0.3s ease, background-color 0.3s ease;
         }
         .carousel-control-prev:hover, .carousel-control-next:hover {
-            opacity: 1;
-            background-color: rgba(0, 0, 0, 0.6);
+            opacity: 1; background-color: rgba(34,211,238,0.3);
         }
-        .carousel-control-prev {
-            left: -1rem; /* Posição à esquerda do container */
-        }
-        .carousel-control-next {
-            right: -1rem; /* Posição à direita do container */
-        }
-        /* Estilos do Preloader */
+        .carousel-control-prev { left: -0.5rem; }
+        .carousel-control-next { right: -0.5rem; }
+
+        /* ===== GALERIA ===== */
+        .gallery-image { cursor: zoom-in; transition: transform 0.3s ease; }
+        .gallery-image:hover { transform: scale(1.03); }
+
+        /* ===== PRELOADER ===== */
         .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-gradient-start);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-gradient-start); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
             transition: opacity 0.5s ease-in-out;
         }
-        .preloader-hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .preloader-hidden { opacity: 0; pointer-events: none; }
         .preloader-spinner {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border: 5px solid var(--glass-border);
             border-top-color: var(--text-cyan-400);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            border-radius: 50%; animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Estilos do Chatbot */
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== CHATBOT ===== */
         #chatbot-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 80px;
-            width: 60px;
-            height: 60px;
-            background-color: #25d366; /* WhatsApp Green */
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 1030;
+            position: fixed; bottom: 20px; right: 80px;
+            width: 56px; height: 56px;
+            background-color: #25d366;
+            color: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.75rem;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.35);
+            cursor: pointer; z-index: 1030;
             transition: transform 0.3s ease;
         }
-        #chatbot-btn:hover {
-            transform: scale(1.1);
-        }
+        #chatbot-btn:hover { transform: scale(1.1); }
         .chatbot-container {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 90vw;
-            max-width: 350px;
-            height: 70vh;
-            max-height: 500px;
+            position: fixed; bottom: 90px; right: 20px;
+            width: 90vw; max-width: 350px; height: 70vh; max-height: 500px;
             background: var(--bg-gradient-start);
-            border: 1px solid var(--glass-border);
-            border-radius: 1rem;
+            border: 1px solid var(--glass-border); border-radius: 1rem;
             box-shadow: 0 8px 32px 0 var(--shadow-color);
-            display: none;
-            flex-direction: column;
-            z-index: 1040;
-            overflow: hidden;
+            display: none; flex-direction: column; z-index: 1040; overflow: hidden;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
         .chatbot-header {
-            background: var(--text-cyan-400);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
+            background: var(--text-cyan-400); color: white; padding: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-top-left-radius: 1rem; border-top-right-radius: 1rem;
         }
         .chatbot-body {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
+            flex-grow: 1; padding: 1rem; overflow-y: auto;
             background-color: var(--bg-gradient-mid);
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
         .chatbot-message {
-            background-color: var(--glass-bg);
-            padding: 0.75rem;
-            border-radius: 1rem;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            max-width: 80%;
+            background-color: var(--glass-bg); padding: 0.75rem;
+            border-radius: 1rem; margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 80%;
         }
         .user-message {
-            background-color: var(--text-cyan-400);
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
+            background-color: var(--text-cyan-400); color: white;
+            align-self: flex-end; margin-left: auto;
         }
-        .chatbot-loading-dots {
-            width: 40px;
-            text-align: center;
-        }
+        .chatbot-loading-dots { width: 40px; text-align: center; }
         .chatbot-loading-dots::after {
-            content: '...';
-            display: inline-block;
-            overflow: hidden;
-            vertical-align: bottom;
-            animation: loading-dots 1s infinite;
+            content: '...'; display: inline-block; overflow: hidden;
+            vertical-align: bottom; animation: loading-dots 1s infinite;
         }
-        @keyframes loading-dots {
-            0% { width: 0; }
-            50% { width: 1.5ch; }
-            100% { width: 0; }
-        }
+        @keyframes loading-dots { 0% { width: 0; } 50% { width: 1.5ch; } 100% { width: 0; } }
         .chatbot-input {
-            display: flex;
-            padding: 1rem;
+            display: flex; padding: 1rem;
             border-top: 1px solid var(--glass-border);
             background-color: var(--bg-gradient-start);
         }
         .chatbot-input input {
-            flex-grow: 1;
-            border-radius: 1.5rem;
+            flex-grow: 1; border-radius: 1.5rem;
             background-color: var(--form-control-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            margin-right: 0.5rem;
+            border: 1px solid var(--glass-border); color: var(--text-primary);
+            padding: 0.5rem 1rem; margin-right: 0.5rem;
         }
-        .chatbot-input input::placeholder {
-            color: var(--text-secondary);
-        }
+        .chatbot-input input::placeholder { color: var(--text-secondary); }
         .chatbot-input button {
-            background-color: var(--text-cyan-400);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-            transition: transform 0.2s ease-in-out;
+            background-color: var(--text-cyan-400); color: white; border: none;
+            border-radius: 50%; width: 40px; height: 40px;
+            display: flex; justify-content: center; align-items: center;
+            flex-shrink: 0; transition: transform 0.2s ease-in-out;
         }
-        .chatbot-input button:hover {
-            transform: scale(1.1);
+        .chatbot-input button:hover { transform: scale(1.1); }
+
+        /* ===== FORMAÇÃO - ícone de certificado ===== */
+        .cert-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.75rem 1rem; border-radius: 0.5rem;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            margin-bottom: 0.75rem;
+            transition: background 0.2s ease;
+        }
+        .cert-item:hover { background: rgba(34,211,238,0.06); }
+        .cert-icon { color: var(--text-cyan-400); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .cert-item p { margin: 0; font-size: 0.95rem; }
+
+        /* ===== SEÇÃO HEADING PADRÃO ===== */
+        .section-heading {
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 800; color: var(--text-cyan-400);
+            margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-cyan-700);
+        }
+
+        /* ===== FOOTER ===== */
+        footer { background: rgba(0,0,0,0.3) !important; border-top: 1px solid var(--glass-border); }
+        [data-theme="light"] footer { background: rgba(0,0,0,0.06) !important; }
+        footer a { text-decoration: none; transition: color 0.2s ease; }
+        footer a:hover { color: var(--text-cyan-400) !important; }
+
+        /* ===== RESPONSIVIDADE MOBILE ===== */
+        @media (max-width: 767.98px) {
+            body { padding-top: 4.5rem; }
+            .hero-section { padding: 3.5rem 1rem 3rem; }
+            .hero-avatar-wrap { width: 88px; height: 88px; font-size: 1.8rem; }
+            .stats-strip .stat-number { font-size: 1.4rem; }
+            .stats-strip .stat-label { font-size: 0.65rem; }
+            .section-heading { font-size: 1.4rem; }
+
+            /* Sobre: foto acima do texto no mobile */
+            .about-row { flex-direction: column !important; }
+            .about-img-col { order: -1; margin-bottom: 1.5rem; }
+            .about-img-frame { max-height: 260px; }
+            .about-img-frame img { max-height: 260px; width: 100%; }
+
+            /* Serviços: lista horizontal no mobile */
+            .service-card-mobile {
+                display: flex !important;
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                padding: 1rem !important;
+                gap: 1rem;
+            }
+            .service-card-mobile .service-icon { font-size: 1.75rem; flex-shrink: 0; margin: 0 !important; }
+            .service-card-mobile .btn { margin-top: 0.5rem; }
+
+            /* Blog: cards menores no mobile */
+            .carousel-track > div { width: 260px; }
         }
     </style>
 </head>
@@ -452,14 +564,15 @@
     <div class="preloader-spinner"></div>
 </div>
 
-<!-- Fundo de partículas dinâmico -->
+<!-- Fundo de partículas -->
 <div id="particles-background" class="particles-container"></div>
 
-<!-- BARRA DE NAVEGAÇÃO FIXA -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav">
     <div class="container">
-        <a class="navbar-brand fw-bold text-cyan-300" href="#">WS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#">WS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -467,7 +580,7 @@
                 <li class="nav-item"><a class="nav-link" href="#blog">Artigos</a></li>
                 <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
                 <li class="nav-item"><a class="nav-link" href="#trajetoria">Trajetória</a></li>
-                <li class="nav-item"><a class="nav-link" href="#cases">Cases de Sucesso</a></li>
+                <li class="nav-item"><a class="nav-link" href="#cases">Cases</a></li>
                 <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
                 <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
                 <li class="nav-item"><a class="nav-link" href="#formacao">Formação</a></li>
@@ -475,59 +588,93 @@
                 <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
                 <li class="nav-item"><a class="nav-link" href="https://www.mercadolivre.com.br/presentes/bday-do-will-xwxnh" target="_blank" rel="noopener noreferrer">Lista de Presentes</a></li>
             </ul>
-            <button id="theme-switcher" class="fs-4" aria-label="Alternar tema de cores">
-                <i class="bi bi-moon-stars-fill"></i>
-            </button>
+            <div class="d-flex align-items-center gap-2">
+                <button id="theme-switcher" aria-label="Alternar tema de cores">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
+                <a href="#contato" class="nav-link navbar-cta d-none d-lg-inline-block">
+                    <i class="bi bi-envelope-fill me-1"></i>Contato
+                </a>
+            </div>
         </div>
     </div>
 </nav>
 
+<!-- HERO -->
 <header class="py-5 text-center hero-section">
     <div class="container">
-        <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-3">Willian Soares</h1>
-        <p id="animated-subtitle" class="lead fs-3 text-light mb-4">Seu Próximo Profissional de TI</p>
-        <div class="d-flex justify-content-center gap-3 mt-4">
+        <div class="hero-avatar-wrap">
+            <img src="img/foto-perfil.jpg" alt="Foto de Willian Soares" onerror="this.style.display='none';this.parentElement.innerHTML='WS'">
+        </div>
+        <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-2">Willian Soares</h1>
+        <p class="hero-role">Analista de TI &nbsp;·&nbsp; Consultor &nbsp;·&nbsp; Educador</p>
+        <p id="animated-subtitle" class="lead fs-5 text-light mb-4">Transformando desafios tecnológicos em soluções eficientes</p>
+        <div class="d-flex justify-content-center gap-3 mt-3 flex-wrap">
             <a href="#contato" class="btn btn-cta btn-lg rounded-pill px-4">
-                <i class="bi bi-envelope-fill me-2"></i>Contato
+                <i class="bi bi-envelope-fill me-2"></i>Entrar em Contato
             </a>
-            <a href="#servicos" class="btn btn-cta btn-lg rounded-pill px-4">
-                <i class="bi bi-gear-fill me-2"></i>Serviços
+            <a href="#servicos" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                <i class="bi bi-gear-fill me-2"></i>Meus Serviços
             </a>
         </div>
     </div>
 </header>
 
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="container">
+        <div class="row g-2 justify-content-center">
+            <div class="col-6 col-sm-3 stat-item">
+                <span class="stat-number">3+</span>
+                <span class="stat-label">Anos de Experiência</span>
+            </div>
+            <div class="col-6 col-sm-3 stat-item">
+                <span class="stat-number">200+</span>
+                <span class="stat-label">Alunos Capacitados</span>
+            </div>
+            <div class="col-6 col-sm-3 stat-item">
+                <span class="stat-number">16</span>
+                <span class="stat-label">Filiais Atendidas</span>
+            </div>
+            <div class="col-6 col-sm-3 stat-item">
+                <span class="stat-number">40%</span>
+                <span class="stat-label">Redução de Downtime</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <main class="container my-5">
-    <!-- Seção de Destaque - Agora com a classe 'visible' para aparecer na inicialização -->
+
+    <!-- DESTAQUE -->
     <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center visible" aria-labelledby="destaque-heading">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 id="destaque-heading" class="h3 fw-bold text-cyan-300 mb-4">Transformando desafios tecnológicos em soluções eficientes</h2>
+                <h2 id="destaque-heading" class="h4 fw-bold text-cyan-300 mb-4">Transformando desafios tecnológicos em soluções eficientes</h2>
                 <p class="fs-5 mb-4">Com mais de 3 anos de experiência em TI, ofereço soluções personalizadas que combinam conhecimento técnico com uma abordagem humana.</p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Suporte Especializado
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <div class="badge py-2 px-3 rounded-pill" style="background:rgba(34,211,238,0.12);color:var(--text-cyan-300);border:1px solid rgba(34,211,238,0.25);">
+                        <i class="bi bi-check-circle-fill me-1"></i>Suporte Especializado
                     </div>
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Soluções em Rede
+                    <div class="badge py-2 px-3 rounded-pill" style="background:rgba(34,211,238,0.12);color:var(--text-cyan-300);border:1px solid rgba(34,211,238,0.25);">
+                        <i class="bi bi-check-circle-fill me-1"></i>Soluções em Rede
                     </div>
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Consultoria em TI
+                    <div class="badge py-2 px-3 rounded-pill" style="background:rgba(34,211,238,0.12);color:var(--text-cyan-300);border:1px solid rgba(34,211,238,0.25);">
+                        <i class="bi bi-check-circle-fill me-1"></i>Consultoria em TI
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 1. Meus Artigos (Ajustado com rolagem horizontal e layout correto) -->
+    <!-- 1. MEUS ARTIGOS -->
     <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="blog-heading">
-        <h2 id="blog-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
-            <i class="bi bi-journal-richtext"></i> Meus Artigos
+        <h2 id="blog-heading" class="section-heading">
+            <i class="bi bi-journal-richtext" aria-hidden="true"></i> Meus Artigos
         </h2>
         <div class="carousel-container" id="blog-carousel-container">
             <div class="carousel-track">
-                <!-- Artigo 1 - 'Ensinando Segurança Digital...' (Primeiro Item) -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-comunidade.jpg" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
@@ -535,8 +682,7 @@
                         <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Ensinando Segurança Digital para a Melhor Idade">Ler Mais</a>
                     </div>
                 </div>
-                <!-- Artigo 2 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-redes.jpg" class="card-img-top" alt="Homem trabalhando em um servidor de redes.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
@@ -544,8 +690,7 @@
                         <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre 3 Dicas para Otimizar a Rede do seu Escritório">Ler Mais</a>
                     </div>
                 </div>
-                <!-- Artigo 3 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-lgpd.jpg" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
@@ -553,8 +698,7 @@
                         <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre LGPD na Prática: Por Onde Começar?">Ler Mais</a>
                     </div>
                 </div>
-                <!-- Artigo 4 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-ia.jpg" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
@@ -562,8 +706,7 @@
                         <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Como a IA está Revolucionando o Suporte de TI">Ler Mais</a>
                     </div>
                 </div>
-                <!-- Artigo 5 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-carreira.jpg" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Aprendizado Contínuo: A Chave para o Sucesso em TI</h5>
@@ -571,8 +714,7 @@
                         <a href="artigo-informatica-mercado.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Aprendizado Contínuo: A Chave para o Sucesso em TI">Ler Mais</a>
                     </div>
                 </div>
-                <!-- Artigo 6 -->
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align: start;">
+                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;">
                     <img src="img/artigo-automacao.jpg" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor.">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-cyan-300">Automação Residencial: O Futuro Bate à Porta</h5>
@@ -586,11 +728,11 @@
         </div>
     </section>
 
-    <!-- 2. Sobre Mim -->
+    <!-- 2. SOBRE MIM -->
     <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="sobre-heading">
-        <div class="row align-items-center">
+        <div class="row align-items-center about-row">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <h2 id="sobre-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+                <h2 id="sobre-heading" class="section-heading">
                     <i class="bi bi-person-workspace" aria-hidden="true"></i> Sobre Mim
                 </h2>
                 <p class="fs-5">Sou um profissional apaixonado por tecnologia, com mais de <strong class="text-cyan-300">3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
@@ -602,62 +744,72 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="img/foto-perfil.jpg" alt="Willian Soares - Profissional de TI" class="img-fluid rounded-3 shadow" style="max-height: 400px;">
+            <div class="col-lg-6 about-img-col text-center">
+                <div class="about-img-frame mx-auto" style="max-width:380px;">
+                    <img src="img/foto-perfil.jpg" alt="Willian Soares - Profissional de TI" class="img-fluid">
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- NOVA SEÇÃO TRAJETÓRIA PROFISSIONAL -->
+    <!-- 3. TRAJETÓRIA PROFISSIONAL -->
     <section id="trajetoria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="trajetoria-heading">
-        <h2 id="trajetoria-heading" class="display-5 fw-bold text-cyan-400 mb-5 border-bottom border-cyan-700 pb-2 text-center">
+        <h2 id="trajetoria-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-signpost-split-fill"></i> A História Até Aqui...
         </h2>
-        <ul class="timeline">
-            <li class="timeline-item">
-                <h5 class="timeline-item-title">Analista de TI</h5>
-                <h6 class="timeline-item-subtitle">Junitex</h6>
-                <p class="timeline-item-period">Março 2023 - Presente</p>
-            </li>
-            <li class="timeline-item">
-                <h5 class="timeline-item-title">Educador</h5>
-                <h6 class="timeline-item-subtitle">Dreamschool Brasil</h6>
-                <p class="timeline-item-period">Fevereiro 2020 - Março 2023</p>
-            </li>
-            <li class="timeline-item">
-                <h5 class="timeline-item-title">Instrutor</h5>
-                <h6 class="timeline-item-subtitle">Mundial Informática</h6>
-                <p class="timeline-item-period">Janeiro 2013 - Fevereiro 2020</p>
-            </li>
-            <li class="timeline-item">
-                <h5 class="timeline-item-title">Mídias Sociais</h5>
-                <h6 class="timeline-item-subtitle">Academia Artforma</h6>
-                <p class="timeline-item-period">Fevereiro 2017 - Agosto 2019</p>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <h5 class="timeline-item-title">Analista de TI</h5>
+                        <h6 class="timeline-item-subtitle">Junitex</h6>
+                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1"></i>Março 2023 – Presente</p>
+                    </li>
+                    <li class="timeline-item">
+                        <h5 class="timeline-item-title">Educador</h5>
+                        <h6 class="timeline-item-subtitle">Dreamschool Brasil</h6>
+                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1"></i>Fevereiro 2020 – Março 2023</p>
+                    </li>
+                    <li class="timeline-item">
+                        <h5 class="timeline-item-title">Instrutor</h5>
+                        <h6 class="timeline-item-subtitle">Mundial Informática</h6>
+                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1"></i>Janeiro 2013 – Fevereiro 2020</p>
+                    </li>
+                    <li class="timeline-item">
+                        <h5 class="timeline-item-title">Mídias Sociais</h5>
+                        <h6 class="timeline-item-subtitle">Academia Artforma</h6>
+                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1"></i>Fevereiro 2017 – Agosto 2019</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- 3. Cases de Sucesso (Removido o Carrossel) -->
+    <!-- 4. CASES DE SUCESSO -->
     <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
-        <h2 id="cases-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <h2 id="cases-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-trophy-fill"></i> Cases de Sucesso
         </h2>
         <div class="row g-4 justify-content-center">
-            <div class="col-md-10 col-lg-6">
+            <div class="col-sm-10 col-lg-6">
                 <div class="card case-card h-100 rounded-3 overflow-hidden">
-                    <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
+                    <div class="case-card-img-wrap">
+                        <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor.">
+                    </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede - Junitex</h5>
+                        <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede – Junitex</h5>
                         <p class="card-text">Redução de 40% no tempo de inatividade da rede em 16 filiais através de um projeto completo de modernização.</p>
                         <a href="case-junitex.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 col-lg-6">
+            <div class="col-sm-10 col-lg-6">
                 <div class="card case-card h-100 rounded-3 overflow-hidden">
-                    <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
+                    <div class="case-card-img-wrap">
+                        <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia.">
+                    </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional - Dreamschool</h5>
+                        <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional – Dreamschool</h5>
                         <p class="card-text">Desenvolvimento e aplicação de programas de treinamento que capacitaram mais de 200 alunos em diversas áreas da tecnologia.</p>
                         <a href="case-dreamschool.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
                     </div>
@@ -666,16 +818,16 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE SERVIÇOS REINSERIDA -->
+    <!-- 5. SERVIÇOS -->
     <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
-        <h2 id="servicos-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <h2 id="servicos-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-gear-wide-connected"></i> Meus Serviços
         </h2>
         <div class="row g-4 justify-content-center">
             <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3">
+                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
                     <div class="card-body d-flex flex-column">
-                        <i class="bi bi-router-fill fs-1 text-cyan-300 mb-3"></i>
+                        <i class="bi bi-router-fill fs-1 text-cyan-300 mb-3 service-icon"></i>
                         <h5 class="card-title fw-bold">Consultoria em Infra & Redes</h5>
                         <p class="card-text">Análise, planejamento e implementação de soluções de rede para garantir performance e segurança para sua empresa.</p>
                         <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
@@ -683,9 +835,9 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3">
+                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
                     <div class="card-body d-flex flex-column">
-                        <i class="bi bi-headset fs-1 text-cyan-300 mb-3"></i>
+                        <i class="bi bi-headset fs-1 text-cyan-300 mb-3 service-icon"></i>
                         <h5 class="card-title fw-bold">Suporte de TI & Helpdesk</h5>
                         <p class="card-text">Soluções rápidas e eficientes para problemas do dia a dia, garantindo a produtividade da sua equipe com suporte remoto ou presencial.</p>
                         <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
@@ -693,9 +845,9 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3">
+                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
                     <div class="card-body d-flex flex-column">
-                        <i class="bi bi-easel2-fill fs-1 text-cyan-300 mb-3"></i>
+                        <i class="bi bi-easel2-fill fs-1 text-cyan-300 mb-3 service-icon"></i>
                         <h5 class="card-title fw-bold">Palestras e Treinamentos</h5>
                         <p class="card-text">Capacitação de equipes e grupos sobre temas como Segurança Digital, LGPD e as melhores práticas no uso da tecnologia.</p>
                         <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
@@ -705,9 +857,9 @@
         </div>
     </section>
 
-    <!-- 4. Habilidades Técnicas -->
+    <!-- 6. HABILIDADES TÉCNICAS -->
     <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="habilidades-heading">
-        <h2 id="habilidades-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+        <h2 id="habilidades-heading" class="section-heading">
             <i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> Habilidades Técnicas
         </h2>
         <div class="row g-4">
@@ -750,115 +902,146 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE FORMAÇÃO ACADÊMICA REINSERIDA -->
+    <!-- 7. FORMAÇÃO ACADÊMICA -->
     <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
-        <h2 id="formacao-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 d-flex align-items-center gap-3">
+        <h2 id="formacao-heading" class="section-heading">
             <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
         </h2>
-        <p class="fs-5 mb-2">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
-        <p class="fs-5 mb-2">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
-        <p class="fs-5 mb-2">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
-        <p class="fs-5 mb-2">Certificações em <strong>Soft Skills</strong> (Comunicação, Oratória, Liderança, PNL, etc.) pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
-        <p class="fs-5 mb-2">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
-        <p class="fs-5 mb-2">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
-        <p class="fs-5 mb-2">Certificado em <strong>Pyton</strong> pela <strong class="text-cyan-300">Cloud Devops</strong> e <strong class="text-cyan-300">Hashtag Treinamentos</strong>.</p>
+        <div class="row g-2">
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Certificações em <strong>Soft Skills</strong> (Comunicação, Oratória, Liderança, PNL, etc.) pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="cert-item">
+                    <i class="bi bi-patch-check-fill cert-icon"></i>
+                    <p class="fs-5">Certificado em <strong>Pyton</strong> pela <strong class="text-cyan-300">Cloud Devops</strong> e <strong class="text-cyan-300">Hashtag Treinamentos</strong>.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Seção Meu Dia a Dia - Galeria com Picture e srcset (Ajustada) -->
+    <!-- 8. GALERIA - MEU DIA A DIA -->
     <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
-        <h2 id="galeria-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <h2 id="galeria-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
         </h2>
         <div class="carousel-container" id="galeria-carousel-container">
             <div class="carousel-track">
-                <!-- Imagem 1 (com WebP) -->
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
-                        <!-- Suporte para o formato WebP para maior performance -->
                         <source media="(max-width: 768px)" srcset="img/foto1-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto1-medium.webp" type="image/webp">
-                        <!-- Imagem de fallback para navegadores antigos -->
-                        <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <!-- Imagem 2 (com WebP) -->
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto2-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto2-medium.webp" type="image/webp">
-                        <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <!-- Imagem 3 (com WebP) -->
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto3-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto3-medium.webp" type="image/webp">
-                        <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <!-- Adicionar as outras imagens da galeria usando a mesma estrutura <picture> -->
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto4-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto4-medium.webp" type="image/webp">
-                        <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto5-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto5-medium.webp" type="image/webp">
-                        <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto6-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto6-medium.webp" type="image/webp">
-                        <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto7-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto7-medium.webp" type="image/webp">
-                        <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto8-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto8-medium.webp" type="image/webp">
-                        <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto10-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto10-medium.webp" type="image/webp">
-                        <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto11-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto11-medium.webp" type="image/webp">
-                        <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto12-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto12-medium.webp" type="image/webp">
-                        <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
-                <div class="flex-shrink-0" style="scroll-snap-align: start; width: 300px;">
+                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;">
                     <picture>
                         <source media="(max-width: 768px)" srcset="img/foto13-small.webp" type="image/webp">
                         <source media="(max-width: 992px)" srcset="img/foto13-medium.webp" type="image/webp">
-                        <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image" style="height: 200px; object-fit: cover;">
+                        <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;">
                     </picture>
                 </div>
             </div>
@@ -867,47 +1050,65 @@
         </div>
     </section>
 
-    <!-- 5. Contato -->
+    <!-- 9. CONTATO -->
     <section id="contato" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
-        <h2 id="contato-heading" class="display-5 fw-bold text-cyan-400 mb-4 border-bottom border-cyan-700 pb-2 text-center">
+        <h2 id="contato-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
         </h2>
         <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
 
-        <form action="https://formspree.io/f/xjkogvkn" method="POST" class="col-md-8 mx-auto">
-            <div class="mb-3">
-                <label for="name" class="form-label fw-semibold">Nome</label>
-                <input type="text" class="form-control form-control-lg form-control-glass" id="name" name="name" placeholder="Seu nome completo" required>
+        <div class="row justify-content-center g-5">
+            <div class="col-md-7">
+                <form action="https://formspree.io/f/xjkogvkn" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold">Nome</label>
+                        <input type="text" class="form-control form-control-lg form-control-glass" id="name" name="name" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="form-label fw-semibold">Mensagem</label>
+                        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
+                            <i class="bi bi-send-fill me-2"></i>Enviar Mensagem
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label fw-semibold">Email</label>
-                <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+            <div class="col-md-4 d-flex flex-column justify-content-center">
+                <p class="fs-5 mb-3 text-cyan-300 fw-bold">Ou me encontre nas redes sociais:</p>
+                <div class="d-flex flex-column gap-3">
+                    <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Instagram de Willian Soares">
+                        <i class="bi bi-instagram fs-5"></i><span>@wsoares_</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="LinkedIn de Willian Soares">
+                        <i class="bi bi-linkedin fs-5"></i><span>Willian Soares</span>
+                    </a>
+                    <a href="https://www.youtube.com/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Canal do YouTube de Willian Soares">
+                        <i class="bi bi-youtube fs-5"></i><span>@wsoares_</span>
+                    </a>
+                    <a href="https://open.spotify.com/user/12146244709" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Perfil do Spotify de Willian Soares">
+                        <i class="bi bi-spotify fs-5"></i><span>Spotify</span>
+                    </a>
+                    <a href="https://www.threads.net/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Perfil do Threads de Willian Soares">
+                        <i class="bi bi-threads fs-5"></i><span>@wsoares_</span>
+                    </a>
+                    <a href="https://discordapp.com/users/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" title="Discord: wsoares_" aria-label="Perfil do Discord de Willian Soares">
+                        <i class="bi bi-discord fs-5"></i><span>wsoares_</span>
+                    </a>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="message" class="form-label fw-semibold">Mensagem</label>
-                <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold">
-                    <i class="bi bi-send-fill me-2"></i>Enviar Mensagem
-                </button>
-            </div>
-        </form>
-
-        <div class="text-center mt-5 social-icons">
-            <p class="fs-5 mb-3">Ou me encontre nas redes sociais:</p>
-            <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="LinkedIn de Willian Soares"><i class="bi bi-linkedin"></i></a>
-            <a href="https://www.youtube.com/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Canal do YouTube de Willian Soares"><i class="bi bi-youtube"></i></a>
-            <a href="https://open.spotify.com/user/12146244709" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Perfil do Spotify de Willian Soares"><i class="bi bi-spotify"></i></a>
-            <a href="https://www.threads.net/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" aria-label="Perfil do Threads de Willian Soares"><i class="bi bi-threads"></i></a>
-            <a href="https://discordapp.com/users/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 fs-4 mx-2" title="Discord: wsoares_" aria-label="Perfil do Discord de Willian Soares"><i class="bi bi-discord"></i></a>
         </div>
     </section>
 
 </main>
 
-<footer class="py-5 mt-5 bg-dark bg-gradient">
+<!-- FOOTER -->
+<footer class="py-5 mt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4 mb-md-0">
@@ -931,9 +1132,9 @@
             <div class="col-md-4">
                 <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
                 <ul class="list-unstyled text-secondary small">
-                    <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i> contato@williansoares.net.br</li>
-                    <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i> Itararé/SP, Brasil</li>
-                    <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i> Disponível para projetos</li>
+                    <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__ text-secondary" data-cfemail="4e2d21203a2f3a210e39272222272f203d212f3c2b3d60202b3a602c3c">[email&#160;protected]</a></li>
+                    <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i>Itararé/SP, Brasil</li>
+                    <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i>Disponível para projetos</li>
                 </ul>
             </div>
         </div>
@@ -946,23 +1147,21 @@
     </div>
 </footer>
 
-<!-- ELEMENTO DO LIGHTBOX (MODAL) -->
+<!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox">
     <span id="close-lightbox" class="close-button" role="button" aria-label="Fechar imagem">×</span>
     <img id="lightbox-image" src="" alt="Imagem em tela cheia">
 </div>
 
-<!-- BOTÃO VOLTAR AO TOPO -->
+<!-- VOLTAR AO TOPO -->
 <a href="#" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo">
     <i class="bi bi-arrow-up-short"></i>
 </a>
 
-<!-- Botão do Chatbot -->
+<!-- CHATBOT -->
 <div id="chatbot-btn">
     <i class="bi bi-chat-dots-fill"></i>
 </div>
-
-<!-- Container do Chatbot -->
 <div id="chatbot-container" class="chatbot-container">
     <div class="chatbot-header">
         <span>Chatbot Gemini</span>
@@ -970,8 +1169,7 @@
     </div>
     <div id="chatbot-body" class="chatbot-body">
         <div class="chatbot-message">Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?</div>
-        <!-- Indicador de carregamento -->
-        <div id="loading-indicator" class="chatbot-message" style="display: none;">
+        <div id="loading-indicator" class="chatbot-message" style="display:none;">
             <div class="chatbot-loading-dots"></div>
         </div>
     </div>
@@ -981,56 +1179,48 @@
     </div>
 </div>
 
-<!-- Bibliotecas JS -->
+<!-- JS -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- INÍCIO DO SCRIPT PRINCIPAL ---
 
         // Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            if(preloader) {
-                preloader.classList.add('preloader-hidden');
-            }
+            if (preloader) preloader.classList.add('preloader-hidden');
         });
 
-        // Função para animar o título - Corrigido para garantir o espaçamento
+        // Animação do título
         function animateTitle() {
             const titleElement = document.getElementById('animated-title');
             if (titleElement && typeof gsap !== 'undefined') {
                 const words = titleElement.textContent.split(' ');
-                titleElement.innerHTML = ''; // Limpa o conteúdo original
-
+                titleElement.innerHTML = '';
                 words.forEach((word, index) => {
                     const wordSpan = document.createElement('span');
                     wordSpan.textContent = word;
                     wordSpan.style.display = 'inline-block';
                     titleElement.appendChild(wordSpan);
-
-                    // Adiciona um espaço explícito entre as palavras
                     if (index < words.length - 1) {
                         const spaceSpan = document.createElement('span');
-                        spaceSpan.innerHTML = '&nbsp;'; // Usa um espaço fixo
+                        spaceSpan.innerHTML = '&nbsp;';
                         titleElement.appendChild(spaceSpan);
                     }
                 });
-
                 const wordSpans = Array.from(titleElement.querySelectorAll('span'));
-                gsap.from(wordSpans, {
-                    y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', duration: 1.2
-                });
+                gsap.from(wordSpans, { y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', duration: 1.2 });
             }
         }
 
-        // Função para animar o subtítulo
+        // Animação do subtítulo
         function animateSubtitle() {
             const target = document.getElementById('animated-subtitle');
-            if(target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
+            if (target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
         }
 
-        // Animação de partículas no fundo
+        // Partículas
         const particlesCanvas = document.createElement('canvas');
         const particlesContainer = document.getElementById('particles-background');
         let ctx;
@@ -1040,14 +1230,9 @@
             if (!ctx && particlesContainer) {
                 particlesContainer.appendChild(particlesCanvas);
                 ctx = particlesCanvas.getContext('2d');
-            } else if (!particlesContainer) {
-                console.error("Elemento 'particles-background' não encontrado. Partículas não serão inicializadas.");
-                return;
-            }
-
+            } else if (!particlesContainer) return;
             particlesCanvas.width = window.innerWidth;
             particlesCanvas.height = document.body.scrollHeight;
-
             particlesArray = [];
             for (let i = 0; i < 150; i++) {
                 particlesArray.push({
@@ -1076,51 +1261,38 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // Animação de scroll para as seções e navbar
+        // Scroll + navbar ativa + animação das seções
         function setupScrollFeatures() {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navLinks.forEach(link => {
                             link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
                         });
-
                         entry.target.classList.add('visible');
-
                         if (entry.target.id === 'habilidades') {
                             const skillBars = entry.target.querySelectorAll('.progress-bar');
                             skillBars.forEach(bar => {
                                 const targetWidth = bar.getAttribute('data-width');
                                 const targetValue = parseInt(targetWidth, 10);
                                 const textSpan = bar.querySelector('.progress-bar-text');
-
                                 let counter = { value: 0 };
-
                                 gsap.to(counter, {
-                                    value: targetValue,
-                                    duration: 1.5,
-                                    ease: 'power3.out',
-                                    onUpdate: () => {
-                                        if(textSpan) textSpan.textContent = Math.round(counter.value) + '%';
-                                    }
+                                    value: targetValue, duration: 1.5, ease: 'power3.out',
+                                    onUpdate: () => { if (textSpan) textSpan.textContent = Math.round(counter.value) + '%'; }
                                 });
-
                                 gsap.to(bar, { width: targetWidth, duration: 1.5, ease: 'power3.out' });
                             });
                         }
-                    } else {
-                        // entry.target.classList.remove('visible'); // Comentei para manter a seção visível após a primeira aparição
                     }
                 });
             }, { threshold: 0.2 });
-
             sections.forEach(section => observer.observe(section));
         }
 
-        // Script para o Contador de Visitas
+        // Contador de visitas
         function updateVisitorCounter() {
             const counterElement = document.getElementById('visitor-counter');
             if (!counterElement) return;
@@ -1130,34 +1302,29 @@
             counterElement.innerText = count.toString().padStart(5, '0');
         }
 
-        // Script para o Botão Voltar ao Topo
+        // Botão voltar ao topo
         function setupBackToTopButton() {
             const btn = document.getElementById('back-to-top-btn');
             if (!btn) return;
-            window.addEventListener('scroll', () => {
-                btn.classList.toggle('show', window.scrollY > 300);
-            });
+            window.addEventListener('scroll', () => { btn.classList.toggle('show', window.scrollY > 300); });
         }
 
-        // Script para o Lightbox
+        // Lightbox
         function setupLightbox() {
             const images = document.querySelectorAll('.gallery-image');
             const lightbox = document.getElementById('lightbox');
             const lightboxImage = document.getElementById('lightbox-image');
             const closeLightboxBtn = document.getElementById('close-lightbox');
-
             images.forEach(img => {
-                img.addEventListener('click', function() {
+                img.addEventListener('click', function () {
                     lightboxImage.src = this.src;
                     lightbox.classList.add('active');
                 });
             });
-
             closeLightboxBtn.addEventListener('click', () => {
                 lightbox.classList.remove('active');
                 lightboxImage.src = "";
             });
-
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox) {
                     lightbox.classList.remove('active');
@@ -1166,7 +1333,7 @@
             });
         }
 
-        // Script do Easter Egg
+        // Easter Egg (Konami Code)
         function setupEasterEgg() {
             const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
             let index = 0;
@@ -1178,24 +1345,19 @@
                         setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
                         index = 0;
                     }
-                } else {
-                    index = 0;
-                }
+                } else { index = 0; }
             });
         }
 
-        // Script do Tema Claro/Escuro
+        // Tema claro/escuro
         function setupThemeSwitcher() {
             const switcher = document.getElementById('theme-switcher');
             const icon = switcher.querySelector('i');
             const html = document.documentElement;
-
             const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-
             html.setAttribute('data-theme', savedTheme);
             icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
             icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
-
             switcher.addEventListener('click', () => {
                 const currentTheme = html.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -1206,7 +1368,7 @@
             });
         }
 
-        // Script para o Chatbot (agora conectado à API Gemini)
+        // Chatbot (Gemini)
         async function setupChatbot() {
             const chatbotBtn = document.getElementById('chatbot-btn');
             const chatbotContainer = document.getElementById('chatbot-container');
@@ -1215,66 +1377,45 @@
             const chatInput = document.getElementById('chatbot-input-field');
             const sendBtn = document.getElementById('chatbot-send-btn');
             const loadingIndicator = document.getElementById('loading-indicator');
-            const chatHistory = [{
-                role: "model",
-                parts: [{ text: "Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?" }]
-            }];
+            const chatHistory = [{ role: "model", parts: [{ text: "Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?" }] }];
 
             chatbotBtn.addEventListener('click', () => {
                 chatbotContainer.style.display = (chatbotContainer.style.display === 'flex') ? 'none' : 'flex';
             });
+            closeChatbotBtn.addEventListener('click', () => { chatbotContainer.style.display = 'none'; });
 
-            closeChatbotBtn.addEventListener('click', () => {
-                chatbotContainer.style.display = 'none';
-            });
-            
             async function sendMessage() {
                 const message = chatInput.value.trim();
                 if (message === '') return;
-
-                // Adiciona a mensagem do usuário ao histórico e na tela
                 chatHistory.push({ role: "user", parts: [{ text: message }] });
                 const userMessage = document.createElement('div');
                 userMessage.classList.add('chatbot-message', 'user-message');
                 userMessage.textContent = message;
                 chatBody.appendChild(userMessage);
-
                 chatInput.value = '';
                 chatInput.disabled = true;
                 sendBtn.disabled = true;
                 chatBody.scrollTop = chatBody.scrollHeight;
-                
-                // Mostra o indicador de carregamento
                 loadingIndicator.style.display = 'block';
                 chatBody.scrollTop = chatBody.scrollHeight;
-
                 try {
                     const payload = { contents: chatHistory };
                     const apiKey = "";
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    
-                    if (!response.ok) {
-                        throw new Error(`Erro na API: ${response.status}`);
-                    }
-
+                    if (!response.ok) throw new Error(`Erro na API: ${response.status}`);
                     const result = await response.json();
-                    
                     const botResponseText = result.candidates[0].content.parts[0].text;
                     chatHistory.push({ role: "model", parts: [{ text: botResponseText }] });
-
-                    // Esconde o indicador e mostra a resposta do bot
                     loadingIndicator.style.display = 'none';
                     const botMessage = document.createElement('div');
                     botMessage.classList.add('chatbot-message');
                     botMessage.textContent = botResponseText;
                     chatBody.appendChild(botMessage);
-                    
                 } catch (error) {
                     loadingIndicator.style.display = 'none';
                     const errorMessage = document.createElement('div');
@@ -1290,70 +1431,33 @@
             }
 
             sendBtn.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
+            chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
         }
 
-        // Função de Carrossel otimizada e infinita para reutilização
+        // Carrossel infinito
         function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
             const container = document.getElementById(containerId);
-            if (!container) {
-                console.warn(`Container do carrossel com ID "${containerId}" não encontrado.`);
-                return;
-            }
+            if (!container) return;
             const track = container.querySelector('.carousel-track');
             const items = Array.from(track.children);
             const prevBtn = document.getElementById(prevBtnId);
             const nextBtn = document.getElementById(nextBtnId);
-
-            if (!track || !prevBtn || !nextBtn || items.length === 0) {
-                console.warn(`Elementos do carrossel para a seção ${containerId} não encontrados.`);
-                return;
-            }
-
+            if (!track || !prevBtn || !nextBtn || items.length === 0) return;
             const firstItem = items[0];
-            if (!firstItem) {
-                console.warn(`O primeiro item do carrossel para a seção ${containerId} não foi encontrado.`);
-                return;
-            }
-
+            if (!firstItem) return;
             const scrollStep = firstItem.offsetWidth + 16;
-            
-            // Clonar itens para criar a ilusão de loop infinito
             const numClones = items.length;
-            for (let i = 0; i < numClones; i++) {
-              track.appendChild(items[i].cloneNode(true));
-            }
-            for (let i = items.length - 1; i >= 0; i--) {
-              track.insertBefore(items[i].cloneNode(true), track.firstChild);
-            }
-
-            // Posicionar o carrossel no início dos itens originais
+            for (let i = 0; i < numClones; i++) track.appendChild(items[i].cloneNode(true));
+            for (let i = items.length - 1; i >= 0; i--) track.insertBefore(items[i].cloneNode(true), track.firstChild);
             track.scrollLeft = numClones * scrollStep;
-
-            prevBtn.addEventListener('click', () => {
-                track.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-            });
-
-            nextBtn.addEventListener('click', () => {
-                track.scrollBy({ left: scrollStep, behavior: 'smooth' });
-            });
-
+            prevBtn.addEventListener('click', () => { track.scrollBy({ left: -scrollStep, behavior: 'smooth' }); });
+            nextBtn.addEventListener('click', () => { track.scrollBy({ left: scrollStep, behavior: 'smooth' }); });
             track.addEventListener('scroll', () => {
-                // Chegando ao final dos clones iniciais, pule para o início
-                if (track.scrollLeft <= 0) {
-                  track.scrollLeft = numClones * scrollStep;
-                }
-                // Chegando ao início dos clones finais, pule para o final
-                if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep)) {
-                  track.scrollLeft = numClones * scrollStep - 1;
-                }
+                if (track.scrollLeft <= 0) track.scrollLeft = numClones * scrollStep;
+                if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep)) track.scrollLeft = numClones * scrollStep - 1;
             });
         }
-        
+
         window.onload = function () {
             animateTitle();
             animateSubtitle();
@@ -1367,10 +1471,10 @@
             setupLightbox();
             setupChatbot();
             setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
-            setupInfiniteCarousel('cases-carousel-container', 'cases-prev-btn', 'cases-next-btn');
             setupInfiniteCarousel('galeria-carousel-container', 'galeria-prev-btn', 'galeria-next-btn');
-        }
-    });
+        };
+
+    }); // fim DOMContentLoaded
 </script>
 </body>
 </html>
