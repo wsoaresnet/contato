@@ -149,7 +149,6 @@
         .navbar-glass .nav-link:hover,
         .navbar-glass .nav-link.active { color: var(--text-cyan-400); }
 
-        /* Toggler corrigido para aparecer no dark mode */
         .navbar-toggler { border-color: rgba(103,232,249,0.4); }
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2834, 211, 238, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
@@ -165,7 +164,6 @@
         }
         #theme-switcher:hover { color: var(--text-cyan-400); }
 
-        /* Botão CTA na navbar */
         .navbar-cta {
             background: var(--text-cyan-400);
             color: #0d1b2a !important;
@@ -195,7 +193,6 @@
             pointer-events: none;
         }
 
-        /* Avatar no hero */
         .hero-avatar-wrap {
             width: 110px; height: 110px;
             border-radius: 50%;
@@ -209,7 +206,6 @@
         }
         .hero-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Subtítulo tipado */
         .hero-role {
             font-size: 1rem;
             letter-spacing: 0.08em;
@@ -254,7 +250,6 @@
         }
         .blog-card img, .case-card img { aspect-ratio: 16/9; object-fit: cover; }
 
-        /* Cards mobile horizontal (cases) */
         @media (max-width: 575.98px) {
             .case-card { display: flex !important; flex-direction: row; }
             .case-card .case-card-img-wrap {
@@ -498,7 +493,7 @@
         }
         .chatbot-input button:hover { transform: scale(1.1); }
 
-        /* ===== FORMAÇÃO - ícone de certificado ===== */
+        /* ===== FORMAÇÃO ===== */
         .cert-item {
             display: flex; align-items: flex-start; gap: 0.75rem;
             padding: 0.75rem 1rem; border-radius: 0.5rem;
@@ -510,7 +505,7 @@
         .cert-icon { color: var(--text-cyan-400); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
         .cert-item p { margin: 0; font-size: 0.95rem; }
 
-        /* ===== SEÇÃO HEADING PADRÃO ===== */
+        /* ===== SEÇÃO HEADING ===== */
         .section-heading {
             display: flex; align-items: center; gap: 0.75rem;
             font-size: clamp(1.5rem, 4vw, 2.25rem);
@@ -525,6 +520,21 @@
         footer a { text-decoration: none; transition: color 0.2s ease; }
         footer a:hover { color: var(--text-cyan-400) !important; }
 
+        /* ===== CONTADOR DE VISITAS ===== */
+        #visitor-counter {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+        /* Indicador de status do contador */
+        .counter-status {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        .counter-status.online  { color: #22d3ee; }
+        .counter-status.offline { color: #6b7280; }
+
         /* ===== RESPONSIVIDADE MOBILE ===== */
         @media (max-width: 767.98px) {
             body { padding-top: 4.5rem; }
@@ -534,13 +544,11 @@
             .stats-strip .stat-label { font-size: 0.65rem; }
             .section-heading { font-size: 1.4rem; }
 
-            /* Sobre: foto acima do texto no mobile */
             .about-row { flex-direction: column !important; }
             .about-img-col { order: -1; margin-bottom: 1.5rem; }
             .about-img-frame { max-height: 260px; }
             .about-img-frame img { max-height: 260px; width: 100%; }
 
-            /* Serviços: lista horizontal no mobile */
             .service-card-mobile {
                 display: flex !important;
                 flex-direction: row;
@@ -552,7 +560,6 @@
             .service-card-mobile .service-icon { font-size: 1.75rem; flex-shrink: 0; margin: 0 !important; }
             .service-card-mobile .btn { margin-top: 0.5rem; }
 
-            /* Blog: cards menores no mobile */
             .carousel-track > div { width: 260px; }
         }
     </style>
@@ -947,13 +954,13 @@
             <div class="col-12">
                 <div class="cert-item">
                     <i class="bi bi-patch-check-fill cert-icon"></i>
-                    <p class="fs-5">Certificado em <strong>Pyton</strong> pela <strong class="text-cyan-300">Cloud Devops</strong> e <strong class="text-cyan-300">Hashtag Treinamentos</strong>.</p>
+                    <p class="fs-5">Certificado em <strong>Python</strong> pela <strong class="text-cyan-300">Cloud Devops</strong> e <strong class="text-cyan-300">Hashtag Treinamentos</strong>.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 8. GALERIA - MEU DIA A DIA -->
+    <!-- 8. GALERIA -->
     <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
         <h2 id="galeria-heading" class="section-heading justify-content-center text-center">
             <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
@@ -1132,7 +1139,7 @@
             <div class="col-md-4">
                 <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
                 <ul class="list-unstyled text-secondary small">
-                    <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__ text-secondary" data-cfemail="4e2d21203a2f3a210e39272222272f203d212f3c2b3d60202b3a602c3c">contato@williansoares.net.br</a></li>
+                    <li class="mb-2"><i class="bi bi-envelope-fill text-cyan-300 me-2"></i>contato@williansoares.net.br</li>
                     <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2"></i>Itararé/SP, Brasil</li>
                     <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2"></i>Disponível para projetos</li>
                 </ul>
@@ -1142,7 +1149,13 @@
         <div class="text-center">
             <p class="small text-secondary mb-1">© 2025 Willian Soares. Todos os direitos reservados.</p>
             <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por Willian Soares</p>
-            <p class="small text-secondary">Visitas: <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span></p>
+            <p class="small text-secondary mb-0">
+                Visitas:
+                <span id="visitor-counter" class="fw-bold text-cyan-300">00000</span>
+                <span id="counter-status-icon" class="counter-status" title="Carregando contador...">
+                    <i class="bi bi-circle-fill" style="font-size:0.5rem;"></i>
+                </span>
+            </p>
         </div>
     </div>
 </footer>
@@ -1180,19 +1193,22 @@
 </div>
 
 <!-- JS -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // Preloader
+        // ─────────────────────────────────────────────
+        // PRELOADER
+        // ─────────────────────────────────────────────
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             if (preloader) preloader.classList.add('preloader-hidden');
         });
 
-        // Animação do título
+        // ─────────────────────────────────────────────
+        // ANIMAÇÃO DO TÍTULO
+        // ─────────────────────────────────────────────
         function animateTitle() {
             const titleElement = document.getElementById('animated-title');
             if (titleElement && typeof gsap !== 'undefined') {
@@ -1214,13 +1230,19 @@
             }
         }
 
-        // Animação do subtítulo
+        // ─────────────────────────────────────────────
+        // ANIMAÇÃO DO SUBTÍTULO
+        // ─────────────────────────────────────────────
         function animateSubtitle() {
             const target = document.getElementById('animated-subtitle');
-            if (target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
+            if (target && typeof gsap !== 'undefined') {
+                gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
+            }
         }
 
-        // Partículas
+        // ─────────────────────────────────────────────
+        // PARTÍCULAS
+        // ─────────────────────────────────────────────
         const particlesCanvas = document.createElement('canvas');
         const particlesContainer = document.getElementById('particles-background');
         let ctx;
@@ -1261,7 +1283,9 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // Scroll + navbar ativa + animação das seções
+        // ─────────────────────────────────────────────
+        // SCROLL + NAVBAR ATIVA + SKILL BARS
+        // ─────────────────────────────────────────────
         function setupScrollFeatures() {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -1292,24 +1316,95 @@
             sections.forEach(section => observer.observe(section));
         }
 
-        // Contador de visitas
-        function updateVisitorCounter() {
-            const counterElement = document.getElementById('visitor-counter');
-            if (!counterElement) return;
-            let count = localStorage.getItem('willianSoaresVisitorCount');
-            count = count ? parseInt(count, 4147) + 1 : 1;
-            localStorage.setItem('willianSoaresVisitorCount', count);
-            counterElement.innerText = count.toString().padStart(5, '0');
+        // ─────────────────────────────────────────────
+        // CONTADOR DE VISITAS GLOBAL (CountAPI + fallback)
+        // ─────────────────────────────────────────────
+        /*
+         * Estratégia:
+         *  1. Tenta bater na CountAPI (https://api.countapi.xyz) para registrar +1
+         *     e obter o total global compartilhado entre todos os visitantes.
+         *  2. Se a API falhar (offline, CORS, timeout), usa localStorage como fallback
+         *     a partir do offset de 1243 visitas iniciais.
+         *
+         * Namespace: williansoares.net.br  |  Key: page-visits
+         * Para resetar o contador no CountAPI, acesse:
+         *   https://api.countapi.xyz/set/williansoares.net.br/page-visits?value=1243
+         * (faça isso apenas uma vez para inicializar com 1243)
+         */
+        async function updateVisitorCounter() {
+            const counterEl    = document.getElementById('visitor-counter');
+            const statusIconEl = document.getElementById('counter-status-icon');
+            if (!counterEl) return;
+
+            const NAMESPACE   = 'williansoares.net.br';
+            const KEY         = 'page-visits';
+            const BASE_OFFSET = 1243; // ponto de partida caso o localStorage seja virgem
+            const TIMEOUT_MS  = 4000; // tempo máximo de espera pela API
+
+            // Utilitário: formata com zeros à esquerda (5 dígitos mínimo)
+            function format(n) {
+                return n.toString().padStart(5, '0');
+            }
+
+            // Atualiza o ícone de status (online = ciano, offline = cinza)
+            function setStatus(online) {
+                if (!statusIconEl) return;
+                statusIconEl.classList.toggle('online', online);
+                statusIconEl.classList.toggle('offline', !online);
+                statusIconEl.title = online
+                    ? 'Contador global em tempo real'
+                    : 'Contador local (offline)';
+            }
+
+            // ── Tentativa 1: CountAPI ──────────────────────────────────────
+            try {
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+                const res = await fetch(
+                    `https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`,
+                    { signal: controller.signal }
+                );
+                clearTimeout(timer);
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const data = await res.json();
+                const globalCount = data.value;   // número total de hits na API
+
+                // Exibe o valor global (já inclui todos os visitantes anteriores)
+                counterEl.textContent = format(globalCount);
+                setStatus(true);
+
+                // Sincroniza o localStorage com o valor global para uso offline futuro
+                localStorage.setItem('willianSoaresVisitorCountGlobal', globalCount);
+
+            } catch (err) {
+                // ── Fallback: localStorage ─────────────────────────────────
+                console.warn('[Contador] API indisponível, usando localStorage.', err.message);
+
+                // Recupera o último valor global salvo, ou usa BASE_OFFSET
+                const stored = localStorage.getItem('willianSoaresVisitorCountGlobal');
+                let count = stored ? parseInt(stored, 10) + 1 : BASE_OFFSET;
+                localStorage.setItem('willianSoaresVisitorCountGlobal', count);
+
+                counterEl.textContent = format(count);
+                setStatus(false);
+            }
         }
 
-        // Botão voltar ao topo
+        // ─────────────────────────────────────────────
+        // BOTÃO VOLTAR AO TOPO
+        // ─────────────────────────────────────────────
         function setupBackToTopButton() {
             const btn = document.getElementById('back-to-top-btn');
             if (!btn) return;
             window.addEventListener('scroll', () => { btn.classList.toggle('show', window.scrollY > 300); });
         }
 
-        // Lightbox
+        // ─────────────────────────────────────────────
+        // LIGHTBOX
+        // ─────────────────────────────────────────────
         function setupLightbox() {
             const images = document.querySelectorAll('.gallery-image');
             const lightbox = document.getElementById('lightbox');
@@ -1333,7 +1428,9 @@
             });
         }
 
-        // Easter Egg (Konami Code)
+        // ─────────────────────────────────────────────
+        // EASTER EGG (Konami Code)
+        // ─────────────────────────────────────────────
         function setupEasterEgg() {
             const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
             let index = 0;
@@ -1349,7 +1446,9 @@
             });
         }
 
-        // Tema claro/escuro
+        // ─────────────────────────────────────────────
+        // TEMA CLARO / ESCURO
+        // ─────────────────────────────────────────────
         function setupThemeSwitcher() {
             const switcher = document.getElementById('theme-switcher');
             const icon = switcher.querySelector('i');
@@ -1368,16 +1467,18 @@
             });
         }
 
-        // Chatbot (Gemini)
+        // ─────────────────────────────────────────────
+        // CHATBOT (Gemini)
+        // ─────────────────────────────────────────────
         async function setupChatbot() {
-            const chatbotBtn = document.getElementById('chatbot-btn');
+            const chatbotBtn      = document.getElementById('chatbot-btn');
             const chatbotContainer = document.getElementById('chatbot-container');
             const closeChatbotBtn = document.getElementById('close-chatbot-btn');
-            const chatBody = document.getElementById('chatbot-body');
-            const chatInput = document.getElementById('chatbot-input-field');
-            const sendBtn = document.getElementById('chatbot-send-btn');
+            const chatBody        = document.getElementById('chatbot-body');
+            const chatInput       = document.getElementById('chatbot-input-field');
+            const sendBtn         = document.getElementById('chatbot-send-btn');
             const loadingIndicator = document.getElementById('loading-indicator');
-            const chatHistory = [{ role: "model", parts: [{ text: "Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?" }] }];
+            const chatHistory     = [{ role: "model", parts: [{ text: "Olá! Sou o seu assistente virtual. Como posso te ajudar hoje?" }] }];
 
             chatbotBtn.addEventListener('click', () => {
                 chatbotContainer.style.display = (chatbotContainer.style.display === 'flex') ? 'none' : 'flex';
@@ -1434,7 +1535,9 @@
             chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
         }
 
-        // Carrossel infinito
+        // ─────────────────────────────────────────────
+        // CARROSSEL INFINITO
+        // ─────────────────────────────────────────────
         function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -1458,11 +1561,14 @@
             });
         }
 
+        // ─────────────────────────────────────────────
+        // INICIALIZAÇÃO
+        // ─────────────────────────────────────────────
         window.onload = function () {
             animateTitle();
             animateSubtitle();
             setupScrollFeatures();
-            updateVisitorCounter();
+            updateVisitorCounter();   // ← contador global com CountAPI
             setupBackToTopButton();
             setupEasterEgg();
             setupThemeSwitcher();
