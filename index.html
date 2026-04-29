@@ -1793,8 +1793,23 @@
         }
 
         // ─────────────────────────────────────────────
-        // CHATBOT (Gemini)
+        // CHATBOT (Gemini 1.5 Flash — Free Tier)
+        //
+        // ▶ COMO CONFIGURAR:
+        //   1. Acesse: https://aistudio.google.com/app/apikey
+        //   2. Clique em "Create API key" → selecione um projeto Google
+        //   3. Copie a chave gerada (começa com "AIza...")
+        //   4. Cole no lugar de SUA_CHAVE_AQUI abaixo
+        //   5. Salve e faça upload do arquivo
+        //
+        // ▶ POR QUE gemini-1.5-flash?
+        //   O modelo gemini-2.5-flash-preview requer billing ativo no Google Cloud.
+        //   O gemini-1.5-flash funciona 100% no free tier (sem cartão de crédito),
+        //   com 15 requisições/minuto e 1 milhão de tokens/dia — mais que suficiente
+        //   para um chatbot de portfólio.
         // ─────────────────────────────────────────────
+        const GEMINI_API_KEY = "AIzaSyCQGRslWX2xZoIZf-7M2ihwmH6WsyLxYbQ"; // ← COLE SUA CHAVE AQUI
+
         function setupChatbot() {
             const chatbotBtn       = document.getElementById('chatbot-btn');
             const chatbotContainer = document.getElementById('chatbot-container');
@@ -1805,12 +1820,23 @@
             const loadingIndicator = document.getElementById('loading-indicator');
             if (!chatbotBtn || !chatbotContainer) return;
 
-            const chatHistory = [{ role: "model", parts: [{ text: "Olá! Sou o assistente virtual de Willian Soares. Como posso te ajudar hoje?" }] }];
+            // System prompt: dá contexto ao modelo sobre quem é Willian
+            // para que as respostas sejam relevantes ao portfólio.
+            const SYSTEM_PROMPT = `Você é o assistente virtual do portfólio de Willian Soares, 
+um Analista de TI e Consultor com mais de 3 anos de experiência baseado em Itararé, SP, Brasil. 
+Responda perguntas sobre os serviços dele (Consultoria em Infra & Redes, Suporte TI & Helpdesk, 
+Palestras e Treinamentos), sua trajetória profissional (Junitex, Dreamschool, Mundial Informática), 
+habilidades técnicas e formas de contato (contato@williansoares.net.br). 
+Seja direto, simpático e profissional. Responda sempre em português. 
+Se a pergunta for completamente fora do contexto de TI ou do portfólio, redirecione gentilmente 
+para o formulário de contato.`;
+
+            // Histórico de conversa — começa com o contexto do sistema
+            const chatHistory = [];
 
             chatbotBtn.addEventListener('click', () => {
                 const isOpen = chatbotContainer.style.display === 'flex';
                 chatbotContainer.style.display = isOpen ? 'none' : 'flex';
-                // NOVO: Atualiza aria-expanded para acessibilidade
                 chatbotBtn.setAttribute('aria-expanded', String(!isOpen));
                 chatbotContainer.setAttribute('aria-hidden', String(isOpen));
                 if (!isOpen) chatInput.focus();
@@ -1825,6 +1851,18 @@
             async function sendMessage() {
                 const message = chatInput.value.trim();
                 if (!message) return;
+
+                // Avisa se a chave ainda não foi configurada
+                if (!GEMINI_API_KEY || GEMINI_API_KEY === "SUA_CHAVE_AQUI") {
+                    const warnMsg = document.createElement('div');
+                    warnMsg.classList.add('chatbot-message');
+                    warnMsg.innerHTML = '⚠️ Chatbot não configurado. Adicione sua chave do Google AI Studio no arquivo index.html.';
+                    chatBody.appendChild(warnMsg);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                    return;
+                }
+
+                // Adiciona mensagem do usuário ao histórico e à UI
                 chatHistory.push({ role: "user", parts: [{ text: message }] });
 
                 const userMessage = document.createElement('div');
@@ -1838,31 +1876,52 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
 
                 try {
-                    const payload = { contents: chatHistory };
-                    // NOTA: A API key está vazia — o chatbot não funcionará até você
-                    // preencher com sua chave do Google AI Studio em apiKey abaixo.
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    // Monta o payload com system instruction + histórico completo
+                    const payload = {
+                        system_instruction: {
+                            parts: [{ text: SYSTEM_PROMPT }]
+                        },
+                        contents: chatHistory,
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 500,
+                        }
+                    };
+
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    if (!response.ok) throw new Error(`Erro: ${response.status}`);
+
+                    if (!response.ok) {
+                        const errData = await response.json().catch(() => ({}));
+                        throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+                    }
+
                     const result = await response.json();
-                    const botResponseText = result.candidates[0].content.parts[0].text;
+                    const botResponseText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (!botResponseText) throw new Error('Resposta vazia da API');
+
+                    // Adiciona resposta ao histórico para manter contexto na próxima mensagem
                     chatHistory.push({ role: "model", parts: [{ text: botResponseText }] });
+
                     const botMessage = document.createElement('div');
                     botMessage.classList.add('chatbot-message');
                     botMessage.textContent = botResponseText;
                     chatBody.appendChild(botMessage);
+
                 } catch (error) {
+                    // Remove a mensagem do usuário do histórico se falhou
+                    chatHistory.pop();
+
                     const errorMessage = document.createElement('div');
                     errorMessage.classList.add('chatbot-message');
-                    // MUDANÇA: Mensagem de erro mais informativa e amigável
-                    errorMessage.textContent = 'Desculpe, o assistente está temporariamente indisponível. Entre em contato pelo formulário abaixo.';
+                    errorMessage.textContent = 'Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente ou use o formulário de contato.';
                     chatBody.appendChild(errorMessage);
-                    console.warn('Chatbot error:', error);
+                    console.error('Chatbot error:', error.message);
                 } finally {
                     loadingIndicator.style.display = 'none';
                     chatInput.disabled = false;
