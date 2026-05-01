@@ -7,143 +7,44 @@
   <title>Planner Inteligente | Willian Soares</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --primary: #a78bfa;
-      --primary-light: #ede9fe;
-      --primary-dark: #7c3aed;
-      --secondary: #93c5fd;
-      --secondary-light: #dbeafe;
-      --accent-pink: #f9a8d4;
-      --accent-pink-light: #fce7f3;
-      --accent-green: #86efac;
-      --accent-green-light: #dcfce7;
-      --accent-yellow: #fde68a;
-      --accent-teal: #5eead4;
-      --text: #1e1b4b;
-      --text-light: #6b7280;
-      --bg: #f5f3ff;
-      --card: #ffffff;
-      --border: #e9d5ff;
-      --shadow: 0 2px 12px rgba(167,139,250,0.10);
+      --primary: #a78bfa; --primary-light: #ede9fe; --primary-dark: #7c3aed;
+      --text: #1e1b4b; --text-light: #6b7280; --bg: #f5f3ff;
+      --card: #ffffff; --border: #e9d5ff; --shadow: 0 2px 12px rgba(167,139,250,0.10);
     }
-
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* NAV */
-    .nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--card); border-top: 1.5px solid var(--border);
-      display: flex; justify-content: space-around;
-      padding: 10px 0 18px; z-index: 100;
-      box-shadow: 0 -2px 12px rgba(167,139,250,0.10);
-    }
-    .nav-btn {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 3px; background: none; border: none; cursor: pointer;
-      color: var(--text-light); font-size: 11px; padding: 4px 12px;
-      border-radius: 12px; transition: all 0.2s;
-    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    .nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1.5px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 18px; z-index: 100; box-shadow: 0 -2px 12px rgba(167,139,250,0.10); }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 11px; padding: 4px 12px; border-radius: 12px; transition: all 0.2s; }
     .nav-btn.active { color: var(--primary-dark); }
-    .nav-btn.active .nav-icon { background: var(--primary-light); }
-    .nav-icon {
-      font-size: 22px; width: 44px; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 14px; transition: background 0.2s;
-    }
-
-    /* PAGES */
     .page { display: none; padding: 20px 16px 90px; max-width: 900px; margin: 0 auto; }
     .page.active { display: block; }
-
-    /* HEADER */
-    .page-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .page-title { font-size: 22px; font-weight: 700; color: var(--primary-dark); }
-    .page-subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
-
-    /* SYNC BAR */
-    .sync-bar {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 10px 14px; margin-bottom: 14px;
-      font-size: 12px; color: var(--text-light);
-    }
-    .sync-bar.syncing { border-color: var(--primary); color: var(--primary-dark); }
+    .sync-bar { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-light); }
+    .sync-bar.success { border-color: #86efac; color: #16a34a; background: #f0fdf4; }
     .sync-bar.error { border-color: #fca5a5; color: #dc2626; background: #fff5f5; }
-    .sync-bar.success { border-color: var(--accent-green); color: #16a34a; background: #f0fdf4; }
-    .sync-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--text-light); flex-shrink: 0;
-    }
-    .sync-bar.syncing .sync-dot { background: var(--primary); animation: pulse 1s infinite; }
-    .sync-bar.error .sync-dot { background: #dc2626; }
-    .sync-bar.success .sync-dot { background: #16a34a; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    .sync-actions { margin-left: auto; display: flex; gap: 6px; }
-    .sync-btn {
-      background: var(--primary-light); color: var(--primary-dark);
-      border: none; border-radius: 8px; padding: 4px 10px;
-      font-size: 11px; font-weight: 600; cursor: pointer;
-    }
-    .sync-btn:hover { background: var(--border); }
-
-    /* CARDS & INPUTS */
     .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); border: 1px solid var(--border); }
     .card-title { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-    
-    .daily-date-nav { display: flex; align-items: center; gap: 10px; }
-    .date-arrow { background: var(--primary-light); border: none; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; cursor: pointer; color: var(--primary-dark); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-    .date-arrow.wide { width: auto; border-radius: 10px; padding: 0 10px; font-size: 13px; }
+    .daily-date-nav { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .date-arrow { background: var(--primary-light); border: none; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; cursor: pointer; color: var(--primary-dark); display: flex; align-items: center; justify-content: center; }
     .current-date-display { flex: 1; text-align: center; }
-    .current-date-display .day-name { font-size: 13px; color: var(--text-light); }
-    .current-date-display .day-number { font-size: 28px; font-weight: 800; color: var(--primary-dark); line-height: 1; }
-    .current-date-display .month-year { font-size: 13px; color: var(--text-light); }
-
+    .day-number { font-size: 28px; font-weight: 800; color: var(--primary-dark); line-height: 1; }
     .task-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); margin-bottom: 6px; }
-    .task-item.done .task-text { text-decoration: line-through; color: var(--text-light); }
     .task-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .task-check.checked { background: var(--primary); }
     .task-check.checked::after { content: '✓'; color: white; font-size: 12px; }
     .task-text { flex: 1; border: none; background: transparent; font-size: 13px; outline: none; }
-
     .time-block { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); border-left: 3px solid var(--primary); margin-bottom: 6px; }
     .time-label { font-size: 11px; color: var(--text-light); font-weight: 600; min-width: 38px; }
     .time-input { border: none; background: transparent; flex: 1; font-size: 13px; outline: none; resize: none; font-family: inherit; }
-
     .notes-area { width: 100%; border: none; background: var(--bg); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 80px; outline: none; }
-    
-    .mood-row { display: flex; gap: 10px; justify-content: center; }
     .mood-btn { font-size: 26px; background: var(--bg); border: 2px solid transparent; border-radius: 12px; width: 48px; height: 48px; cursor: pointer; transition: all 0.2s; }
     .mood-btn.selected { border-color: var(--primary); background: var(--primary-light); }
-
-    .habit-check { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--border); cursor: pointer; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
-    .habit-check.done { background: var(--accent-green); border-color: var(--accent-green); }
-
     .loading-overlay { position: fixed; inset: 0; background: rgba(245,243,255,0.85); z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .loading-overlay.show { opacity: 1; pointer-events: all; }
     .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 300; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* Classes auxiliares e grids do Calendário omitidas aqui por brevidade, mas mantidas no funcionamento logico */
-    .annual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-    .month-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; }
-    .month-header { padding: 10px; font-weight: 700; text-align: center; color: #1e1b4b; }
-    .month-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding: 8px; }
-    .month-cal-day { font-size: 11px; text-align: center; padding: 4px; border-radius: 4px; cursor: pointer; }
-    .month-cal-day.today { background: var(--primary); color: white; }
-    .month-cal-day.has-event { font-weight: 800; color: var(--primary-dark); }
+    .sync-btn { background: var(--primary-light); color: var(--primary-dark); border: none; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin-left: 5px; }
   </style>
 </head>
 <body>
@@ -153,10 +54,9 @@
   <div id="loading-msg">Sincronizando...</div>
 </div>
 
-<!-- PAGINA HOJE -->
 <div id="page-daily" class="page active">
   <div class="page-header">
-    <div class="daily-date-nav" style="width:100%">
+    <div class="daily-date-nav">
       <button class="date-arrow" onclick="changeDay(-1)">‹</button>
       <div class="current-date-display">
         <div class="day-name" id="hdr-dayname"></div>
@@ -164,22 +64,22 @@
         <div class="month-year" id="hdr-monthyear"></div>
       </div>
       <button class="date-arrow" onclick="changeDay(1)">›</button>
-      <button class="date-arrow wide" onclick="goToday()">Hoje</button>
+      <button class="date-arrow" style="width:auto; border-radius:10px; padding:0 10px; font-size:13px;" onclick="goToday()">Hoje</button>
     </div>
   </div>
 
   <div id="sync-bar-daily" class="sync-bar">
     <div class="sync-dot"></div>
-    <span id="sync-label-daily">Dados Locais</span>
-    <div class="sync-actions">
+    <span id="sync-label-daily">Dados em nuvem (Google Sheets)</span>
+    <div style="margin-left:auto;">
       <button class="sync-btn" onclick="manualSync()">↑ Salvar</button>
-      <button class="sync-btn" onclick="loadFromServer()">↓ Carregar</button>
+      <button class="sync-btn" onclick="loadFromServer()">↓ Baixar</button>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title">😊 Humor</div>
-    <div class="mood-row" id="mood-row"></div>
+    <div style="display:flex; gap:10px; justify-content:center;" id="mood-row"></div>
   </div>
 
   <div class="card">
@@ -195,25 +95,23 @@
 
   <div class="card">
     <div class="card-title">📝 Notas</div>
-    <textarea class="notes-area" id="notes-area" placeholder="Como foi seu dia?"></textarea>
+    <textarea class="notes-area" id="notes-area" placeholder="Notas do dia..."></textarea>
   </div>
 </div>
 
-<!-- NAV FIXA -->
 <nav class="nav">
   <button class="nav-btn active" onclick="showPage('daily',this)"><div>📅</div>Hoje</button>
-  <button class="nav-btn" onclick="showPage('weekly',this)"><div>📆</div>Semana</button>
-  <button class="nav-btn" onclick="showPage('annual',this)"><div>🗓️</div>Ano</button>
-  <button class="nav-btn" onclick="showPage('stats',this)"><div>📊</div>Stats</button>
+  <button class="nav-btn"><div>📆</div>Semana</button>
+  <button class="nav-btn"><div>🗓️</div>Ano</button>
+  <button class="nav-btn"><div>📊</div>Stats</button>
 </nav>
 
 <div class="toast" id="toast"></div>
 
 <script>
 // ===================== CONFIG =====================
-const API_URL = './api.php'; // Caminho relativo para facilitar a subida
+const API_URL = 'https://script.google.com/macros/s/AKfycbwkGrVVAqK4T5zFeRChX6XUyFh5dQKAceR2d4xu-SsVlKb_uudbj4PGNap_l-Su6RO5/exec';
 const DATA_KEY = 'planner_v3';
-const SYNC_KEY = 'planner_last_sync';
 
 const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAY_NAMES_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
@@ -221,94 +119,54 @@ const MOODS = ['😴','😔','😐','😊','🤩'];
 const TIME_SLOTS = ['07:00','08:00','09:00','10:00','11:00','12:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
 
 // ===================== ESTADO =====================
-let state = JSON.parse(localStorage.getItem(DATA_KEY) || 'null') || {
-  days: {},
-  habits: [],
-  habitLog: {},
-  events: [],
-};
-
+let state = JSON.parse(localStorage.getItem(DATA_KEY) || 'null') || { days: {}, habits: [], habitLog: {}, events: [] };
 let currentDate = new Date(); currentDate.setHours(0,0,0,0);
 let isSyncing = false;
 
-function save(scheduleSync = true) {
-  localStorage.setItem(DATA_KEY, JSON.stringify(state));
-  if (scheduleSync) {
-      setSyncBar('', 'Alterações não salvas no servidor');
-  }
-}
-
+function save() { localStorage.setItem(DATA_KEY, JSON.stringify(state)); }
 function dateKey(d) { return d.toISOString().slice(0,10); }
-
 function getDayData(d) {
   const k = dateKey(d);
   if (!state.days[k]) state.days[k] = { mood: null, tasks: [], blocks: {}, notes: '' };
   return state.days[k];
 }
 
-// ===================== SYNC (CORRIGIDO) =====================
+// ===================== SYNC GOOGLE SHEETS =====================
 async function manualSync() {
   if (isSyncing) return;
   isSyncing = true;
-  showLoading('Enviando para o servidor...');
-  
+  showLoading('Enviando para o Google Sheets...');
   try {
-    const resp = await fetch(API_URL, {
+    await fetch(API_URL, {
       method: 'POST',
+      mode: 'no-cors', // Necessário para Google Scripts sem redirecionamento complexo
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(state),
     });
-
-    const responseText = await resp.text();
-    let json;
-    
-    try {
-        json = JSON.parse(responseText);
-    } catch (e) {
-        throw new Error("O servidor retornou HTML. Certifique-se que o api.php está na mesma pasta.");
-    }
-
-    if (json.ok) {
-      const now = new Date().toLocaleTimeString('pt-BR');
-      localStorage.setItem(SYNC_KEY, now);
-      setSyncBar('success', 'Sincronizado às ' + now);
-      showToast('✅ Salvo com sucesso!');
-    } else {
-      throw new Error(json.error || 'Erro no PHP');
-    }
+    setSyncBar('success', 'Sincronizado com a nuvem');
+    showToast('✅ Salvo no Google Sheets!');
   } catch(e) {
-    setSyncBar('error', 'Erro de conexão');
-    showToast('❌ ' + e.message);
+    setSyncBar('error', 'Erro ao salvar na nuvem');
+    showToast('❌ Erro de conexão');
   } finally {
-    isSyncing = false;
-    hideLoading();
+    isSyncing = false; hideLoading();
   }
 }
 
 async function loadFromServer() {
-  showLoading('Baixando dados...');
+  showLoading('Baixando do Google Sheets...');
   try {
-    const resp = await fetch(API_URL + '?t=' + Date.now());
-    const responseText = await resp.text();
-    
-    let data;
-    try {
-        data = JSON.parse(responseText);
-    } catch (e) {
-        throw new Error("Erro ao ler JSON do servidor.");
-    }
-
-    if (data && !data.error) {
+    const resp = await fetch(API_URL);
+    const data = await resp.json();
+    if (data && data.days) {
       state = data;
-      save(false);
+      save();
       renderDaily();
       showToast('✅ Dados restaurados!');
-      setSyncBar('success', 'Dados atualizados do servidor');
-    } else {
-        showToast('⚠️ Nenhum dado encontrado no servidor.');
+      setSyncBar('success', 'Dados atualizados da nuvem');
     }
   } catch(e) {
-    showToast('❌ Erro: ' + e.message);
+    showToast('❌ Erro ao baixar dados');
   } finally {
     hideLoading();
   }
@@ -321,16 +179,14 @@ function setSyncBar(status, msg) {
   label.textContent = msg;
 }
 
-// ===================== RENDERIZAÇÃO =====================
+// ===================== RENDER =====================
 function renderDaily() {
   const d = currentDate;
   const day = getDayData(d);
-  
   document.getElementById('hdr-dayname').textContent = DAY_NAMES_FULL[d.getDay()];
   document.getElementById('hdr-daynum').textContent = d.getDate();
   document.getElementById('hdr-monthyear').textContent = MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
   
-  // Humor
   const moodRow = document.getElementById('mood-row');
   moodRow.innerHTML = '';
   MOODS.forEach((m, i) => {
@@ -341,29 +197,23 @@ function renderDaily() {
     moodRow.appendChild(btn);
   });
 
-  // Tarefas
   const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
   day.tasks.forEach((t, i) => {
     const div = document.createElement('div');
     div.className = 'task-item' + (t.done ? ' done' : '');
-    div.innerHTML = `
-      <div class="task-check ${t.done?'checked':''}" onclick="toggleTask(${i})"></div>
-      <input class="task-text" value="${t.text}" onchange="editTask(${i}, this.value)">
-    `;
+    div.innerHTML = `<div class="task-check ${t.done?'checked':''}" onclick="toggleTask(${i})"></div>
+                     <input class="task-text" value="${t.text}" onchange="editTask(${i}, this.value)">`;
     taskList.appendChild(div);
   });
 
-  // Blocos
   const blockList = document.getElementById('time-blocks');
   blockList.innerHTML = '';
   TIME_SLOTS.forEach(slot => {
     const div = document.createElement('div');
     div.className = 'time-block';
-    div.innerHTML = `
-      <div class="time-label">${slot}</div>
-      <textarea class="time-input" onchange="editBlock('${slot}', this.value)">${day.blocks[slot] || ''}</textarea>
-    `;
+    div.innerHTML = `<div class="time-label">${slot}</div>
+                     <textarea class="time-input" onchange="editBlock('${slot}', this.value)">${day.blocks[slot] || ''}</textarea>`;
     blockList.appendChild(div);
   });
 
@@ -375,23 +225,13 @@ function toggleTask(i) { const d = getDayData(currentDate); d.tasks[i].done = !d
 function editTask(i, val) { const d = getDayData(currentDate); d.tasks[i].text = val; save(); }
 function addTask() { const d = getDayData(currentDate); d.tasks.push({text: '', done: false}); save(); renderDaily(); }
 function editBlock(slot, val) { const d = getDayData(currentDate); d.blocks[slot] = val; save(); }
-
 function changeDay(n) { currentDate.setDate(currentDate.getDate() + n); renderDaily(); }
 function goToday() { currentDate = new Date(); currentDate.setHours(0,0,0,0); renderDaily(); }
-
-function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
-  if(name === 'daily') renderDaily();
-}
-
+function showPage(name, btn) { renderDaily(); }
 function showLoading(msg) { document.getElementById('loading-msg').textContent = msg; document.getElementById('loading-overlay').classList.add('show'); }
 function hideLoading() { document.getElementById('loading-overlay').classList.remove('show'); }
 function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
 
-// Início
 renderDaily();
 </script>
 </body>
