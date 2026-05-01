@@ -403,7 +403,7 @@
     </div>
   </div>
 
-  <!-- NUVEM SYNC (Injetado de forma não destrutiva) -->
+  <!-- NUVEM SYNC -->
   <div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;">
     <div style="font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em;">
       ☁️ Nuvem Sheets
@@ -571,15 +571,15 @@ function save() {
   localStorage.setItem('planner_v2', JSON.stringify(state));
 }
 
-// ===================== SYNC GOOGLE SHEETS =====================
+// ===================== SYNC GOOGLE SHEETS (FIXED NO-CORS) =====================
 async function saveToCloud() {
   showToast('Enviando para a nuvem...');
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' }, // Resolve o erro de preflight do CORS
-      body: JSON.stringify(state)
+      body: JSON.stringify(state) 
     });
+    
     const result = await response.json();
     if (result.ok) {
       showToast('✅ Dados salvos com sucesso!');
@@ -587,8 +587,8 @@ async function saveToCloud() {
       showToast('❌ Erro no script do Google.');
     }
   } catch (error) {
-    console.error(error);
-    showToast('❌ Falha na comunicação.');
+    console.error("Erro no Salvar:", error);
+    showToast('❌ Falha na comunicação com servidor.');
   }
 }
 
@@ -597,6 +597,7 @@ async function loadFromCloud() {
   try {
     const response = await fetch(API_URL + "?t=" + new Date().getTime());
     const text = await response.text();
+    
     try {
       const data = JSON.parse(text);
       if (data && data.days) {
@@ -608,11 +609,11 @@ async function loadFromCloud() {
         showToast('⚠️ Planilha vazia ou dados inválidos.');
       }
     } catch (parseError) {
-      console.error("Erro ao converter JSON:", text);
-      showToast('❌ O servidor retornou um erro HTML.');
+      console.error("Erro ao converter JSON recebido:", text);
+      showToast('❌ O servidor não retornou dados válidos.');
     }
   } catch (error) {
-    console.error(error);
+    console.error("Erro no Baixar:", error);
     showToast('❌ Erro de conexão.');
   }
 }
