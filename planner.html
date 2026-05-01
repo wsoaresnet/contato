@@ -30,7 +30,32 @@
     .card { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 var(--shadow-color); }
     .card-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-cyan-300); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; border-bottom: 1px solid var(--border-cyan-700); padding-bottom: 8px; }
 
-    /* Estilo do Calendário Corrigido */
+    /* =========================================================
+       SEMANA & HÁBITOS (RESTOURO COMPLETO DO CSS)
+       ========================================================= */
+    .week-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 24px; }
+    .week-day-col { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px 4px; text-align: center; border: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 85px; }
+    .week-day-col:hover { border-color: var(--text-cyan-400); background: rgba(34,211,238,0.05); }
+    .week-day-col.selected { border-color: var(--text-cyan-300); background: rgba(34,211,238,0.1); box-shadow: inset 0 0 10px rgba(34,211,238,0.1); }
+    .week-day-col.today { border-color: var(--accent-pink); }
+    .wdc-name { font-size: 10px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .wdc-num { font-size: 22px; font-weight: 800; font-family: var(--font-display); color: var(--text-light); margin: 4px 0; }
+    
+    .habit-table-wrapper { overflow-x: auto; padding-bottom: 10px; }
+    .habit-table { width: 100%; border-collapse: collapse; min-width: 500px; }
+    .habit-table th { font-size: 10px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; padding: 8px 4px; text-align: center; border-bottom: 1px solid var(--glass-border); }
+    .habit-table td { padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.02); text-align: center; }
+    .habit-name-cell { font-size: 13px; font-weight: 600; color: var(--text-light); white-space: nowrap; text-align: left !important; padding-right: 15px !important; }
+    .habit-check { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); cursor: pointer; margin: 0 auto; display: flex; align-items: center; justify-content: center; transition: 0.2s; color: var(--bg-gradient-start); font-size: 14px; }
+    .habit-check.done { background: var(--text-cyan-400); border-color: var(--text-cyan-400); font-weight: 800; box-shadow: 0 0 10px rgba(34,211,238,0.4); }
+    
+    .add-habit-row { display: flex; gap: 10px; margin-top: 16px; }
+    .habit-input { flex: 1; border: 1px solid var(--glass-border); border-radius: 8px; padding: 10px 14px; font-size: 13px; outline: none; background: rgba(0,0,0,0.2); color: var(--text-light); }
+    .habit-input:focus { border-color: var(--text-cyan-400); }
+
+    /* =========================================================
+       CALENDÁRIO & DASHBOARD
+       ========================================================= */
     .annual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
     .month-card { background: rgba(0,0,0,0.2); border-radius: 14px; border: 1px solid var(--glass-border); overflow: hidden; }
     .month-header { padding: 12px; font-weight: 800; font-size: 15px; text-align: center; color: var(--text-cyan-400); font-family: var(--font-display); text-transform: uppercase; background: rgba(34, 211, 238, 0.05); border-bottom: 1px solid var(--glass-border); }
@@ -41,13 +66,14 @@
     .month-cal-day.today { background: var(--text-cyan-400); color: var(--bg-gradient-start); font-weight: 800; }
     .month-cal-day.has-event { border: 1px solid var(--text-cyan-400); }
 
-    /* Dashboard UI */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
     .stat-card { background: rgba(34, 211, 238, 0.03); border-radius: 16px; padding: 24px; border: 1px solid var(--border-cyan-700); text-align: center; }
     .stat-value { font-size: 42px; font-weight: 800; font-family: var(--font-display); color: var(--text-cyan-400); line-height: 1; margin-bottom: 8px; }
     .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Botões & Nav */
+    /* =========================================================
+       NAVEGAÇÃO E UTILITÁRIOS
+       ========================================================= */
     .sync-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(10,22,40,0.6); border: 1px solid var(--border-cyan-700); border-radius: 12px; padding: 12px 16px; margin-bottom: 24px; }
     .btn-primary { background: linear-gradient(135deg, #06b6d4, #0891b2); border: none; border-radius: 8px; color: white; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-body); transition: 0.3s; }
     .btn-primary.alt { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-cyan-300); }
@@ -57,7 +83,6 @@
     .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 11px; padding: 6px; border-radius: 12px; transition: 0.3s; font-family: var(--font-body); }
     .nav-btn.active { color: var(--text-cyan-400); }
 
-    /* Mood, Tasks, Inputs */
     .daily-date-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .day-number { font-family: var(--font-display); font-size: 40px; font-weight: 800; color: var(--text-light); }
     .task-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; background: rgba(0,0,0,0.2); margin-bottom: 8px; }
@@ -115,7 +140,18 @@
 <div id="page-weekly" class="page">
   <div class="page-header"><div class="page-title">Sincronia Semanal</div></div>
   <div class="week-days-grid" id="week-days-grid"></div>
-  <div class="card"><div class="card-title">Habit Tracker</div><div style="overflow-x:auto"><table class="habit-table" id="habit-table"></table></div></div>
+  
+  <div class="card">
+    <div class="card-title">Habit Tracker</div>
+    <div class="habit-table-wrapper">
+      <table class="habit-table" id="habit-table"></table>
+    </div>
+    <div class="add-habit-row">
+      <input class="habit-input" id="new-habit-name" placeholder="Novo hábito...">
+      <input class="habit-input" id="new-habit-icon" placeholder="Ícone" style="max-width: 60px; text-align: center;">
+      <button class="btn-primary" onclick="addHabit()" style="padding: 10px 16px;">Add</button>
+    </div>
+  </div>
 </div>
 
 <div id="page-annual" class="page">
@@ -149,7 +185,12 @@ let state = JSON.parse(localStorage.getItem('planner_v3') || 'null') || { days: 
 let currentDate = new Date(); currentDate.setHours(0,0,0,0);
 
 function saveLocal() { localStorage.setItem('planner_v3', JSON.stringify(state)); }
-function dateKey(d) { return d.toISOString().split('T')[0]; }
+
+// Função utilitária para garantir formatação YYYY-MM-DD sem bug de Timezone
+function dateKey(d) { 
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
 function getDayData(d) { const k = dateKey(d); if(!state.days[k]) state.days[k] = { mood: null, tasks: [], blocks: {}, notes: '' }; return state.days[k]; }
 
 // RENDERS
@@ -168,6 +209,7 @@ function renderDaily() {
 function renderWeekly() {
   const grid = document.getElementById('week-days-grid'); grid.innerHTML = '';
   const start = new Date(currentDate); start.setDate(start.getDate() - start.getDay());
+  
   for(let i=0; i<7; i++) {
     const d = new Date(start); d.setDate(d.getDate()+i); const isT = d.toDateString()===new Date().toDateString();
     const col = document.createElement('div'); col.className = `week-day-col ${isT?'today':''} ${d.toDateString()===currentDate.toDateString()?'selected':''}`;
@@ -175,6 +217,25 @@ function renderWeekly() {
     col.onclick = () => { currentDate = d; showPage('daily', document.querySelector('.nav-btn')); };
     grid.appendChild(col);
   }
+  renderHabits();
+}
+
+function renderHabits() {
+    const table = document.getElementById('habit-table');
+    let html = '<tr><th style="text-align:left">Hábito</th>' + DAY_NAMES.map(n => `<th>${n}</th>`).join('') + '</tr>';
+    const start = new Date(currentDate); start.setDate(start.getDate() - start.getDay());
+
+    state.habits.forEach(h => {
+        html += `<tr><td class="habit-name-cell">${h.icon} ${h.name} <span onclick="removeHabit('${h.id}')" style="color:#ef4444; font-size:10px; cursor:pointer; margin-left:8px;">✕</span></td>`;
+        for(let i=0; i<7; i++) {
+            const d = new Date(start); d.setDate(d.getDate() + i);
+            const k = dateKey(d);
+            const done = state.habitLog[k] && state.habitLog[k][h.id];
+            html += `<td><div class="habit-check ${done?'done':''}" onclick="toggleHabit('${h.id}','${k}')">${done?'✓':''}</div></td>`;
+        }
+        html += '</tr>';
+    });
+    table.innerHTML = html;
 }
 
 function renderAnnual() {
@@ -202,7 +263,6 @@ function renderStats() {
   const yearMonthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   let total = 0, done = 0;
   
-  // CORREÇÃO: Filtra apenas as tarefas DO MÊS ATUAL
   Object.keys(state.days).forEach(key => {
     if(key.startsWith(yearMonthPrefix)) {
       state.days[key].tasks.forEach(t => {
@@ -225,6 +285,23 @@ function updateTask(i, v) { getDayData(currentDate).tasks[i].text = v; saveLocal
 function addTask() { getDayData(currentDate).tasks.push({text:'', done:false}); saveLocal(); renderDaily(); }
 function updateBlock(s, el) { getDayData(currentDate).blocks[s] = el.value; saveLocal(); }
 document.getElementById('notes-area').oninput = (e) => { getDayData(currentDate).notes = e.target.value; saveLocal(); };
+
+function toggleHabit(id, k) {
+    if(!state.habitLog[k]) state.habitLog[k] = {};
+    state.habitLog[k][id] = !state.habitLog[k][id];
+    saveLocal(); renderHabits();
+}
+
+function addHabit() {
+    const name = document.getElementById('new-habit-name').value;
+    const icon = document.getElementById('new-habit-icon').value || '⭐';
+    if(name) {
+        state.habits.push({id:'h'+Date.now(), name, icon});
+        document.getElementById('new-habit-name').value = '';
+        saveLocal(); renderHabits();
+    }
+}
+function removeHabit(id) { state.habits = state.habits.filter(h => h.id !== id); saveLocal(); renderHabits(); }
 
 // CLOUD
 async function saveToCloud() {
