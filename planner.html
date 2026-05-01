@@ -1,156 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#a78bfa" />
-  <title>Planner 2026 Inteligente</title>
-  <style>
-    /* Estilos Originais Preservados */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #a78bfa; --primary-light: #ede9fe; --primary-dark: #7c3aed;
-      --text: #1e1b4b; --text-light: #6b7280; --bg: #f5f3ff;
-      --card: #ffffff; --border: #e9d5ff; --shadow: 0 2px 12px rgba(167,139,250,0.10);
-      --accent-pink: #f9a8d4; --accent-green: #86efac;
-    }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-    
-    .nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1.5px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 18px; z-index: 100; box-shadow: 0 -2px 12px rgba(167,139,250,0.10); }
-    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 11px; padding: 4px 12px; border-radius: 12px; transition: all 0.2s; }
-    .nav-btn.active { color: var(--primary-dark); }
-    .nav-btn.active .nav-icon { background: var(--primary-light); }
-    .nav-icon { font-size: 22px; width: 44px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 14px; transition: background 0.2s; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#a78bfa" />
+    <title>Planner 2026 Inteligente</title>
+    <style>
+        /* CSS INTEGRAL RESTAURADO DO ORIGINAL */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #a78bfa; --primary-light: #ede9fe; --primary-dark: #7c3aed;
+            --secondary: #93c5fd; --secondary-light: #dbeafe;
+            --accent-pink: #f9a8d4; --accent-green: #86efac; --accent-yellow: #fde68a;
+            --text: #1e1b4b; --text-light: #6b7280; --bg: #f5f3ff;
+            --card: #ffffff; --border: #e9d5ff; --shadow: 0 2px 12px rgba(167,139,250,0.10);
+        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        
+        /* NAV */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1.5px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 18px; z-index: 100; box-shadow: 0 -2px 12px rgba(167,139,250,0.10); }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 11px; padding: 4px 12px; border-radius: 12px; transition: all 0.2s; }
+        .nav-btn.active { color: var(--primary-dark); }
+        .nav-btn.active .nav-icon { background: var(--primary-light); }
+        .nav-icon { font-size: 22px; width: 44px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 14px; transition: background 0.2s; }
 
-    .page { display: none; padding: 20px 16px 90px; max-width: 900px; margin: 0 auto; }
-    .page.active { display: block; }
+        /* PAGES */
+        .page { display: none; padding: 20px 16px 90px; max-width: 900px; margin: 0 auto; }
+        .page.active { display: block; }
 
-    .sync-bar { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-light); }
-    .sync-bar.success { border-color: #86efac; color: #16a34a; background: #f0fdf4; }
-    .sync-btn { background: var(--primary-light); color: var(--primary-dark); border: none; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin-left: 5px; }
+        /* SYNC BAR */
+        .sync-bar { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-light); }
+        .sync-bar.success { border-color: var(--accent-green); color: #16a34a; background: #f0fdf4; }
+        .sync-bar.error { border-color: #fca5a5; color: #dc2626; background: #fff5f5; }
+        .sync-btn { background: var(--primary-light); color: var(--primary-dark); border: none; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
-    .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-    .card-title { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+        /* CARDS */
+        .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .card-title { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
 
-    .daily-date-nav { display: flex; align-items: center; gap: 10px; }
-    .date-arrow { background: var(--primary-light); border: none; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; cursor: pointer; color: var(--primary-dark); display: flex; align-items: center; justify-content: center; }
-    .current-date-display { flex: 1; text-align: center; }
-    .day-number { font-size: 28px; font-weight: 800; color: var(--primary-dark); line-height: 1; }
+        /* DAILY */
+        .daily-date-nav { display: flex; align-items: center; gap: 10px; width: 100%; }
+        .date-arrow { background: var(--primary-light); border: none; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; cursor: pointer; color: var(--primary-dark); display: flex; align-items: center; justify-content: center; }
+        .current-date-display { flex: 1; text-align: center; }
+        .day-number { font-size: 28px; font-weight: 800; color: var(--primary-dark); line-height: 1; }
 
-    .time-block { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); border-left: 3px solid var(--primary); margin-bottom: 6px; }
-    .time-label { font-size: 11px; color: var(--text-light); font-weight: 600; min-width: 38px; }
-    .time-input { border: none; background: transparent; flex: 1; font-size: 13px; outline: none; resize: none; font-family: inherit; }
+        /* TIME BLOCKS */
+        .time-block { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); border-left: 3px solid var(--primary); margin-bottom: 6px; }
+        .time-label { font-size: 11px; color: var(--text-light); font-weight: 600; min-width: 38px; padding-top: 2px; }
+        .time-input { border: none; background: transparent; flex: 1; font-size: 13px; color: var(--text); outline: none; resize: none; font-family: inherit; }
 
-    .task-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); margin-bottom: 6px; }
-    .task-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .task-check.checked { background: var(--primary); }
-    .task-check.checked::after { content: '✓'; color: white; font-size: 12px; }
-    .task-text { flex: 1; border: none; background: transparent; font-size: 13px; outline: none; }
-    .task-item.done .task-text { text-decoration: line-through; color: var(--text-light); }
+        /* TASKS */
+        .task-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--bg); margin-bottom: 6px; }
+        .task-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .task-check.checked { background: var(--primary); }
+        .task-check.checked::after { content: '✓'; color: white; font-size: 12px; font-weight: 700; }
+        .task-text { flex: 1; border: none; background: transparent; font-size: 13px; color: var(--text); outline: none; }
+        .task-item.done .task-text { text-decoration: line-through; color: var(--text-light); }
 
-    .notes-area { width: 100%; border: none; background: var(--bg); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 80px; outline: none; }
-    .mood-btn { font-size: 26px; background: var(--bg); border: 2px solid transparent; border-radius: 12px; width: 48px; height: 48px; cursor: pointer; transition: all 0.2s; }
-    .mood-btn.selected { border-color: var(--primary); background: var(--primary-light); }
+        /* HABIT TRACKER */
+        .habit-grid { overflow-x: auto; margin-bottom: 10px; }
+        .habit-table { width: 100%; border-collapse: collapse; min-width: 400px; }
+        .habit-table th { font-size: 10px; color: var(--text-light); padding: 4px; text-align: center; }
+        .habit-check { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--border); cursor: pointer; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .habit-check.done { background: var(--accent-green); border-color: var(--accent-green); color: #14532d; }
 
-    .week-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
-    .week-day-col { background: var(--card); border-radius: 12px; padding: 8px 4px; text-align: center; border: 1px solid var(--border); cursor: pointer; min-height: 80px; }
-    .week-day-col.today { border-color: var(--primary); background: var(--primary-light); }
-    .wdc-num { font-size: 20px; font-weight: 800; color: var(--primary-dark); }
+        /* ANNUAL */
+        .annual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+        .month-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+        .month-header { padding: 10px; font-weight: 700; font-size: 14px; text-align: center; color: var(--text); }
+        .month-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding: 8px; }
+        .month-cal-day { font-size: 11px; text-align: center; padding: 4px 0; border-radius: 6px; cursor: pointer; }
+        .month-cal-day.today { background: var(--primary); color: white; font-weight: 700; }
 
-    .annual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-    .month-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
-    .month-header { padding: 10px; font-weight: 700; text-align: center; }
-    .month-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding: 8px; }
-    .month-cal-day { font-size: 11px; text-align: center; padding: 4px; border-radius: 4px; cursor: pointer; }
-    .month-cal-day.today { background: var(--primary); color: white; }
-
-    .loading-overlay { position: fixed; inset: 0; background: rgba(245,243,255,0.85); z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-    .loading-overlay.show { opacity: 1; pointer-events: all; }
-    .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 300; }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  </style>
+        /* LOADING & UTILS */
+        .loading-overlay { position: fixed; inset: 0; background: rgba(245,243,255,0.85); z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        .loading-overlay.show { opacity: 1; pointer-events: all; }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 300; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
 </head>
 <body>
 
 <div class="loading-overlay" id="loading-overlay">
-  <div class="spinner"></div>
-  <div id="loading-msg">Sincronizando...</div>
+    <div class="spinner"></div>
+    <div id="loading-msg">Sincronizando...</div>
 </div>
 
-<!-- PAGE: DAILY -->
+<!-- PAGES -->
 <div id="page-daily" class="page active">
-  <div class="page-header">
-    <div class="daily-date-nav" style="width:100%">
-      <button class="date-arrow" onclick="changeDay(-1)">‹</button>
-      <div class="current-date-display">
-        <div class="day-name" id="hdr-dayname"></div>
-        <div class="day-number" id="hdr-daynum"></div>
-        <div class="month-year" id="hdr-monthyear"></div>
-      </div>
-      <button class="date-arrow" onclick="changeDay(1)">›</button>
-      <button class="date-arrow" style="width:auto; border-radius:10px; padding:0 10px; font-size:13px;" onclick="goToday()">Hoje</button>
+    <div class="page-header">
+        <div class="daily-date-nav">
+            <button class="date-arrow" onclick="changeDay(-1)">‹</button>
+            <div class="current-date-display">
+                <div id="hdr-dayname" style="font-size:13px; color:var(--text-light)"></div>
+                <div id="hdr-daynum" class="day-number"></div>
+                <div id="hdr-monthyear" style="font-size:13px; color:var(--text-light)"></div>
+            </div>
+            <button class="date-arrow" onclick="changeDay(1)">›</button>
+            <button class="date-arrow" style="width:auto; border-radius:10px; padding:0 10px; font-size:13px;" onclick="goToday()">Hoje</button>
+        </div>
     </div>
-  </div>
 
-  <div id="sync-bar-daily" class="sync-bar">
-    <span>☁️ Google Sheets</span>
-    <div style="margin-left:auto;">
-      <button class="sync-btn" onclick="manualSync()">↑ Salvar</button>
-      <button class="sync-btn" onclick="loadFromServer()">↓ Baixar</button>
+    <div id="sync-bar-daily" class="sync-bar">
+        <span>☁️ Google Sheets</span>
+        <div style="margin-left:auto;">
+            <button class="sync-btn" onclick="manualSync()">↑ Salvar</button>
+            <button class="sync-btn" onclick="loadFromServer()">↓ Baixar</button>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-title">😊 Como você está?</div>
-    <div class="mood-row" id="mood-row"></div>
-  </div>
+    <div class="card">
+        <div class="card-title">😊 Como você está?</div>
+        <div class="mood-row" style="display:flex; gap:10px; justify-content:center;" id="mood-row"></div>
+    </div>
 
-  <div class="card">
-    <div class="card-title">✅ Tarefas do dia</div>
-    <div class="task-list" id="task-list"></div>
-    <button style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; margin-top:10px" onclick="addTask()">＋ Adicionar tarefa</button>
-  </div>
+    <div class="card">
+        <div class="card-title">✅ Tarefas do dia</div>
+        <div id="task-list"></div>
+        <button style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; margin-top:10px" onclick="addTask()">＋ Adicionar tarefa</button>
+    </div>
 
-  <div class="card">
-    <div class="card-title">🕐 Blocos de tempo</div>
-    <div class="time-block-list" id="time-blocks"></div>
-  </div>
+    <div class="card">
+        <div class="card-title">🕐 Blocos de tempo</div>
+        <div id="time-blocks"></div>
+    </div>
 
-  <div class="card">
-    <div class="card-title">📝 Notas do dia</div>
-    <textarea class="notes-area" id="notes-area" placeholder="Escreva algo..."></textarea>
-  </div>
+    <div class="card">
+        <div class="card-title">📝 Notas do dia</div>
+        <textarea class="notes-area" id="notes-area" style="width:100%; min-height:80px; background:var(--bg); border:none; border-radius:10px; padding:10px; font-family:inherit; outline:none;" placeholder="Escreva algo..."></textarea>
+    </div>
 </div>
 
-<!-- PAGE: WEEKLY -->
 <div id="page-weekly" class="page">
-  <div class="page-header"><div class="page-title">Semana</div></div>
-  <div class="week-days-grid" id="week-days-grid"></div>
-  <div class="card"><div class="card-title">🌱 Hábitos</div><div id="habit-table">Em desenvolvimento...</div></div>
+    <div class="page-header"><div class="page-title">Semana</div></div>
+    <div class="week-days-grid" id="week-days-grid"></div>
+    <div class="card">
+        <div class="card-title">🌱 Tracker de Hábitos</div>
+        <div class="habit-grid"><table class="habit-table" id="habit-table"></table></div>
+    </div>
 </div>
 
-<!-- PAGE: ANNUAL -->
 <div id="page-annual" class="page">
-  <div class="page-header"><div class="page-title">Calendário 2026</div></div>
-  <div class="annual-grid" id="annual-grid"></div>
+    <div class="page-header"><div class="page-title">Calendário 2026</div></div>
+    <div class="annual-grid" id="annual-grid"></div>
 </div>
 
-<!-- PAGE: STATS -->
 <div id="page-stats" class="page">
-  <div class="page-header"><div class="page-title">Estatísticas</div></div>
-  <div id="stats-content">
-    <div class="card">Carregue os dados para ver as estatísticas.</div>
-  </div>
+    <div class="page-header"><div class="page-title">Estatísticas</div></div>
+    <div id="stats-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;"></div>
 </div>
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="showPage('daily',this)"><div class="nav-icon">📅</div>Hoje</button>
-  <button class="nav-btn" onclick="showPage('weekly',this)"><div class="nav-icon">📆</div>Semana</button>
-  <button class="nav-btn" onclick="showPage('annual',this)"><div class="nav-icon">🗓️</div>Ano</button>
-  <button class="nav-btn" onclick="showPage('stats',this)"><div class="nav-icon">📊</div>Stats</button>
+    <button class="nav-btn active" onclick="showPage('daily',this)"><div class="nav-icon">📅</div>Hoje</button>
+    <button class="nav-btn" onclick="showPage('weekly',this)"><div class="nav-icon">📆</div>Semana</button>
+    <button class="nav-btn" onclick="showPage('annual',this)"><div class="nav-icon">🗓️</div>Ano</button>
+    <button class="nav-btn" onclick="showPage('stats',this)"><div class="nav-icon">📊</div>Stats</button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -160,196 +167,201 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbwkGrVVAqK4T5zFeRChX6XUyFh5dQKAceR2d4xu-SsVlKb_uudbj4PGNap_l-Su6RO5/exec';
 
 let state = JSON.parse(localStorage.getItem('planner_v3') || 'null') || {
-  days: {}, habits: [], habitLog: {}, events: []
+    days: {},
+    habits: [
+        { id: 'h1', name: 'Leitura', icon: '📚' },
+        { id: 'h2', name: 'Estudos', icon: '🎓' },
+        { id: 'h3', name: 'Exercício', icon: '🏃' },
+        { id: 'h4', name: 'Água', icon: '💧' }
+    ],
+    habitLog: {},
+    events: []
 };
 
 const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DAY_NAMES_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const DAY_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const MOODS = ['😴','😔','😐','😊','🤩'];
-// CORREÇÃO: Incluído 13:00 explicitamente
 const TIME_SLOTS = ['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
 
 let currentDate = new Date(); currentDate.setHours(0,0,0,0);
 let isSyncing = false;
 
-// ===================== NAVEGAÇÃO (RESTAURADA) =====================
-function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
-  
-  if (name === 'daily') renderDaily();
-  if (name === 'weekly') renderWeekly();
-  if (name === 'annual') renderAnnual();
-  if (name === 'stats') renderStats();
-}
-
-// ===================== SYNC (GOOGLE SHEETS) =====================
+// ===================== SYNC ENGINE (FIXED) =====================
 async function manualSync() {
-  if (isSyncing) return;
-  isSyncing = true;
-  showLoading('Enviando para Nuvem...');
-  try {
-    await fetch(API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(state),
-    });
-    showToast('✅ Salvo no Google Sheets!');
-    setSyncBar('success', 'Sincronizado');
-  } catch(e) {
-    showToast('❌ Erro na conexão');
-  } finally {
-    isSyncing = false; hideLoading();
-  }
+    if (isSyncing) return;
+    isSyncing = true;
+    showLoading('Sincronizando...');
+    try {
+        // Usamos no-cors para evitar erros de pré-verificação no Google
+        await fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(state)
+        });
+        showToast('✅ Salvo na nuvem!');
+        setSyncBar('success');
+    } catch(e) {
+        showToast('❌ Erro de sincronização');
+        setSyncBar('error');
+    } finally {
+        isSyncing = false; hideLoading();
+    }
 }
 
 async function loadFromServer() {
-  showLoading('Baixando dados...');
-  try {
-    const resp = await fetch(API_URL);
-    if (!resp.ok) throw new Error();
-    const data = await resp.json();
-    if (data && data.days) {
-      state = data;
-      localStorage.setItem('planner_v3', JSON.stringify(state));
-      renderDaily();
-      showToast('✅ Dados baixados!');
+    showLoading('Baixando dados...');
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        if (data && typeof data === 'object') {
+            state = data;
+            localStorage.setItem('planner_v3', JSON.stringify(state));
+            renderDaily();
+            showToast('✅ Dados restaurados!');
+        }
+    } catch(e) {
+        showToast('❌ Erro ao baixar dados');
+        console.error(e);
+    } finally {
+        hideLoading();
     }
-  } catch(e) {
-    showToast('❌ Erro ao baixar dados');
-  } finally {
-    hideLoading();
-  }
 }
 
 // ===================== RENDERS =====================
 function renderDaily() {
-  const d = currentDate;
-  const day = getDayData(d);
-  
-  document.getElementById('hdr-dayname').textContent = DAY_NAMES_FULL[d.getDay()];
-  document.getElementById('hdr-daynum').textContent = d.getDate();
-  document.getElementById('hdr-monthyear').textContent = MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
-  
-  // Render Mood
-  const moodRow = document.getElementById('mood-row');
-  moodRow.innerHTML = '';
-  MOODS.forEach((m, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'mood-btn' + (day.mood === i ? ' selected' : '');
-    btn.textContent = m;
-    btn.onclick = () => { day.mood = i; saveLocal(); renderDaily(); };
-    moodRow.appendChild(btn);
-  });
+    const day = getDayData(currentDate);
+    document.getElementById('hdr-dayname').textContent = new Intl.DateTimeFormat('pt-BR', {weekday:'long'}).format(currentDate);
+    document.getElementById('hdr-daynum').textContent = currentDate.getDate();
+    document.getElementById('hdr-monthyear').textContent = `${MONTH_NAMES[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+    
+    // Mood
+    const moodRow = document.getElementById('mood-row');
+    moodRow.innerHTML = MOODS.map((m, i) => `
+        <button class="mood-btn ${day.mood === i ? 'selected' : ''}" onclick="setMood(${i})">${m}</button>
+    `).join('');
 
-  // Render Tasks
-  const taskList = document.getElementById('task-list');
-  taskList.innerHTML = '';
-  day.tasks.forEach((t, i) => {
-    const div = document.createElement('div');
-    div.className = 'task-item' + (t.done ? ' done' : '');
-    div.innerHTML = `
-      <div class="task-check ${t.done?'checked':''}" onclick="toggleTask(${i})"></div>
-      <input class="task-text" value="${t.text}" oninput="editTask(${i}, this.value)">
-      <button onclick="deleteTask(${i})" style="background:none; border:none; color:#fca5a5; cursor:pointer;">✕</button>
-    `;
-    taskList.appendChild(div);
-  });
+    // Tasks
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = day.tasks.map((t, i) => `
+        <div class="task-item ${t.done ? 'done' : ''}">
+            <div class="task-check ${t.done ? 'checked' : ''}" onclick="toggleTask(${i})"></div>
+            <input class="task-text" value="${t.text}" oninput="updateTask(${i}, this.value)">
+            <button onclick="deleteTask(${i})" style="border:none; background:none; color:#fca5a5; cursor:pointer;">✕</button>
+        </div>
+    `).join('');
 
-  // Render Time Blocks
-  const blockList = document.getElementById('time-blocks');
-  blockList.innerHTML = '';
-  TIME_SLOTS.forEach(slot => {
-    const div = document.createElement('div');
-    div.className = 'time-block';
-    div.innerHTML = `
-      <div class="time-label">${slot}</div>
-      <textarea class="time-input" oninput="editBlock('${slot}', this)">${day.blocks[slot] || ''}</textarea>
-    `;
-    blockList.appendChild(div);
-  });
-
-  document.getElementById('notes-area').value = day.notes || '';
-  document.getElementById('notes-area').oninput = (e) => { day.notes = e.target.value; saveLocal(); };
+    // Blocks
+    const timeBlocks = document.getElementById('time-blocks');
+    timeBlocks.innerHTML = TIME_SLOTS.map(slot => `
+        <div class="time-block">
+            <div class="time-label">${slot}</div>
+            <textarea class="time-input" oninput="updateBlock('${slot}', this)">${day.blocks[slot] || ''}</textarea>
+        </div>
+    `).join('');
+    
+    document.getElementById('notes-area').value = day.notes || '';
 }
 
 function renderWeekly() {
-  const grid = document.getElementById('week-days-grid');
-  grid.innerHTML = '';
-  const start = new Date(currentDate);
-  start.setDate(start.getDate() - start.getDay());
+    const grid = document.getElementById('week-days-grid');
+    grid.innerHTML = '';
+    const start = new Date(currentDate);
+    start.setDate(start.getDate() - start.getDay());
 
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(start); d.setDate(d.getDate() + i);
-    const col = document.createElement('div');
-    col.className = 'week-day-col' + (d.toDateString() === new Date().toDateString() ? ' today' : '');
-    col.innerHTML = `<div>${d.getDate()}</div><div style="font-size:10px">${MONTH_NAMES[d.getMonth()].slice(0,3)}</div>`;
-    col.onclick = () => { currentDate = d; showPage('daily', document.querySelector('.nav-btn')); };
-    grid.appendChild(col);
-  }
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(start); d.setDate(d.getDate() + i);
+        const k = dateKey(d);
+        const col = document.createElement('div');
+        col.className = 'week-day-col' + (d.toDateString() === new Date().toDateString() ? ' today' : '');
+        col.innerHTML = `<div class="wdc-num">${d.getDate()}</div><div style="font-size:10px">${DAY_NAMES[i]}</div>`;
+        col.onclick = () => { currentDate = d; showPage('daily', document.querySelector('.nav-btn')); };
+        grid.appendChild(col);
+    }
+    renderHabits();
+}
+
+function renderHabits() {
+    const table = document.getElementById('habit-table');
+    const start = new Date(currentDate);
+    start.setDate(start.getDate() - start.getDay());
+    
+    let html = '<tr><th>Hábito</th>' + DAY_NAMES.map(n => `<th>${n}</th>`).join('') + '</tr>';
+    state.habits.forEach(h => {
+        html += `<tr><td style="font-size:12px">${h.icon} ${h.name}</td>`;
+        for(let i=0; i<7; i++) {
+            const d = new Date(start); d.setDate(d.getDate() + i);
+            const k = dateKey(d);
+            const done = state.habitLog[k] && state.habitLog[k][h.id];
+            html += `<td><div class="habit-check ${done?'done':''}" onclick="toggleHabit('${h.id}','${k}')">${done?'✓':''}</div></td>`;
+        }
+        html += '</tr>';
+    });
+    table.innerHTML = html;
 }
 
 function renderAnnual() {
-  const grid = document.getElementById('annual-grid');
-  grid.innerHTML = '';
-  for (let m = 0; m < 12; m++) {
-    const card = document.createElement('div');
-    card.className = 'month-card';
-    card.innerHTML = `<div class="month-header" style="background:var(--primary-light)">${MONTH_NAMES[m]}</div>`;
-    const calGrid = document.createElement('div');
-    calGrid.className = 'month-cal-grid';
-    const daysInMonth = new Date(2026, m + 1, 0).getDate();
-    for(let i=1; i<=daysInMonth; i++) {
-      const d = document.createElement('div');
-      d.className = 'month-cal-day';
-      d.textContent = i;
-      calGrid.appendChild(d);
+    const grid = document.getElementById('annual-grid');
+    grid.innerHTML = '';
+    for (let m = 0; m < 12; m++) {
+        const card = document.createElement('div');
+        card.className = 'month-card';
+        card.innerHTML = `<div class="month-header" style="background:var(--primary-light)">${MONTH_NAMES[m]}</div>`;
+        const cal = document.createElement('div');
+        cal.className = 'month-cal-grid';
+        const days = new Date(2026, m + 1, 0).getDate();
+        const start = new Date(2026, m, 1).getDay();
+        for(let b=0; b<start; b++) cal.appendChild(document.createElement('div'));
+        for(let d=1; d<=days; d++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'month-cal-day' + (new Date(2026,m,d).toDateString() === new Date().toDateString() ? ' today' : '');
+            dayDiv.textContent = d;
+            dayDiv.onclick = () => { currentDate = new Date(2026,m,d); showPage('daily', document.querySelector('.nav-btn')); };
+            cal.appendChild(dayDiv);
+        }
+        card.appendChild(cal);
+        grid.appendChild(card);
     }
-    card.appendChild(calGrid);
-    grid.appendChild(card);
-  }
 }
 
 function renderStats() {
-  const content = document.getElementById('stats-content');
-  let total = 0, done = 0;
-  Object.values(state.days).forEach(day => {
-    day.tasks.forEach(t => { total++; if(t.done) done++; });
-  });
-  const pct = total === 0 ? 0 : Math.round((done/total)*100);
-  content.innerHTML = `
-    <div class="card" style="text-align:center">
-      <div style="font-size:32px; font-weight:800; color:var(--primary-dark)">${pct}%</div>
-      <div style="font-size:12px; color:var(--text-light)">Produtividade Geral (Tarefas)</div>
-    </div>
-  `;
+    const grid = document.getElementById('stats-grid');
+    let total = 0, done = 0;
+    Object.values(state.days).forEach(d => d.tasks.forEach(t => { total++; if(t.done) done++; }));
+    const pct = total ? Math.round((done/total)*100) : 0;
+    grid.innerHTML = `
+        <div class="stat-card"><div class="stat-value">${done}</div><div class="stat-label">Tarefas Feitas</div></div>
+        <div class="stat-card"><div class="stat-value">${pct}%</div><div class="stat-label">Produtividade</div></div>
+    `;
 }
 
-// ===================== HELPER FUNCTIONS =====================
+// ===================== LOGIC =====================
 function getDayData(d) {
-  const k = d.toISOString().slice(0,10);
-  if (!state.days[k]) state.days[k] = { mood: null, tasks: [], blocks: {}, notes: '' };
-  return state.days[k];
+    const k = dateKey(d);
+    if (!state.days[k]) state.days[k] = { mood: null, tasks: [], blocks: {}, notes: '' };
+    return state.days[k];
 }
+function dateKey(d) { return d.toISOString().split('T')[0]; }
 function saveLocal() { localStorage.setItem('planner_v3', JSON.stringify(state)); }
+function setMood(i) { getDayData(currentDate).mood = i; saveLocal(); renderDaily(); }
 function toggleTask(i) { const d = getDayData(currentDate); d.tasks[i].done = !d.tasks[i].done; saveLocal(); renderDaily(); }
-function editTask(i, val) { const d = getDayData(currentDate); d.tasks[i].text = val; saveLocal(); }
-function deleteTask(i) { const d = getDayData(currentDate); d.tasks.splice(i, 1); saveLocal(); renderDaily(); }
-function addTask() { const d = getDayData(currentDate); d.tasks.push({text: '', done: false}); saveLocal(); renderDaily(); }
-function editBlock(slot, el) { 
-  const d = getDayData(currentDate); d.blocks[slot] = el.value; 
-  el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px';
-  saveLocal(); 
-}
+function updateTask(i, v) { getDayData(currentDate).tasks[i].text = v; saveLocal(); }
+function deleteTask(i) { getDayData(currentDate).tasks.splice(i,1); saveLocal(); renderDaily(); }
+function addTask() { getDayData(currentDate).tasks.push({text:'', done:false}); saveLocal(); renderDaily(); }
+function updateBlock(s, el) { getDayData(currentDate).blocks[s] = el.value; saveLocal(); }
+function toggleHabit(id, k) { if(!state.habitLog[k]) state.habitLog[k] = {}; state.habitLog[k][id] = !state.habitLog[k][id]; saveLocal(); renderHabits(); }
 function changeDay(n) { currentDate.setDate(currentDate.getDate() + n); renderDaily(); }
 function goToday() { currentDate = new Date(); currentDate.setHours(0,0,0,0); renderDaily(); }
-function setSyncBar(status, msg) { document.getElementById('sync-bar-daily').className = 'sync-bar ' + status; }
-function showLoading(msg) { document.getElementById('loading-msg').textContent = msg; document.getElementById('loading-overlay').classList.add('show'); }
+function showPage(n, b) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('page-'+n).classList.add('active'); b.classList.add('active');
+    if(n === 'daily') renderDaily(); if(n === 'weekly') renderWeekly(); if(n === 'annual') renderAnnual(); if(n === 'stats') renderStats();
+}
+function showLoading(m) { document.getElementById('loading-msg').textContent = m; document.getElementById('loading-overlay').classList.add('show'); }
 function hideLoading() { document.getElementById('loading-overlay').classList.remove('show'); }
-function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+function setSyncBar(s) { document.getElementById('sync-bar-daily').className = 'sync-bar ' + s; }
 
 // INIT
 renderDaily();
