@@ -1,321 +1,443 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Diário da Enxaqueca | Willian Soares</title>
   
-  <!-- Configurações PWA e Favicon -->
+  <!-- PWA & Meta Tags -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b0f19">
+  <meta name="theme-color" content="#0d1117">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Enxaqueca">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   
-  <!-- Fontes Google & jsPDF CDN -->
+  <!-- Bootstrap 5.3 CSS & Bootstrap Icons (Identidade visual williansoares.net.br) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Fonte Google: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- jsPDF & autoTable para Relatório Médico -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-  <!-- CSS Principal -->
+  <!-- Estilo Customizado Liquid Glass sob Bootstrap -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <!-- Fundo Animado e Luzes de Vidro Líquido -->
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
+<body class="bg-dark text-light">
 
-  <!-- CONTAINER TELA DE LOGIN (PROTEGIDA) -->
-  <section id="login-view" class="view-screen">
-    <div class="login-card glass-panel">
-      <div class="brand-header">
-        <div class="brand-icon">🧠</div>
-        <h2>Diário da Enxaqueca</h2>
-        <p class="brand-subtitle">williansoares.net.br/diario</p>
+  <!-- Fundo Animado com Gradientes Fluídos (Liquid Glass Ambient) -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- TELA 0: LOGIN (PROTEGIDA POR USUÁRIO E SENHA) -->
+  <section id="login-view" class="d-flex align-items-center justify-content-center min-vh-100 p-3">
+    <div class="card glass-card border-0 shadow-lg p-4 p-md-5 w-100" style="max-width: 420px;">
+      <div class="text-center mb-4">
+        <!-- Logo WS com a identidade de Willian Soares -->
+        <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white fw-bold rounded-3 mb-3 px-3 py-2 fs-3 shadow">
+          WS
+        </div>
+        <h3 class="fw-bold m-0 text-white">Diário da Enxaqueca</h3>
+        <p class="text-muted small mt-1 mb-0">williansoares.net.br/diario</p>
       </div>
 
       <form id="login-form" onsubmit="handleLogin(event)">
-        <div class="input-group">
-          <label for="username">Usuário</label>
-          <input type="text" id="username" value="Willian" required autocomplete="username">
+        <div class="mb-3">
+          <label for="username" class="form-label text-light-50 small fw-medium">Usuário</label>
+          <div class="input-group">
+            <span class="input-group-text glass-input-text"><i class="bi bi-person"></i></span>
+            <input type="text" class="form-control glass-input" id="username" placeholder="digite seu usuário" value="" required autocomplete="username" autocapitalize="none">
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="password">Senha</label>
-          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        <div class="mb-4">
+          <label for="password" class="form-label text-light-50 small fw-medium">Senha</label>
+          <div class="input-group">
+            <span class="input-group-text glass-input-text"><i class="bi bi-lock"></i></span>
+            <input type="password" class="form-control glass-input" id="password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
         </div>
 
-        <div id="login-error" class="error-message hidden">
-          ⚠️ Usuário ou senha incorretos.
+        <div id="login-error" class="alert alert-danger py-2 small d-none" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i> <span id="login-error-text">Usuário ou senha incorretos.</span>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">
-          <span>Acessar Meu Diário</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <button type="submit" class="btn btn-primary w-100 py-2.5 fw-semibold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2" id="login-btn">
+          <span>Acessar Diário</span>
+          <i class="bi bi-arrow-right"></i>
         </button>
       </form>
     </div>
   </section>
 
-  <!-- CONTAINER DASHBOARD PRINCIPAL -->
-  <section id="app-view" class="view-screen hidden">
-    <!-- Header Navegação superior -->
-    <header class="app-header glass-panel">
-      <div class="user-info">
-        <div class="avatar">W</div>
-        <div>
-          <h1 class="user-greeting">Olá, Willian</h1>
-          <span class="pwa-badge" id="pwa-status">⚡ PWA On-Device • Offline Ativo</span>
-        </div>
-      </div>
-      <button class="btn btn-icon-text btn-glass" onclick="handleLogout()" title="Sair do Sistema">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span>Sair</span>
-      </button>
-    </header>
+  <!-- TELA PRINCIPAL: DASHBOARD -->
+  <section id="app-view" class="d-none">
+    <!-- Navbar Superior com Identidade do Site -->
+    <nav class="navbar navbar-expand-lg glass-navbar sticky-top border-bottom border-white border-opacity-10 px-3 px-md-4 py-2.5">
+      <div class="container-fluid p-0">
+        <a class="navbar-brand d-flex align-items-center fw-bold text-white fs-5 m-0" href="#">
+          <span class="badge bg-primary text-white me-2 px-2.5 py-1.5 rounded-2 fw-bold">WS</span>
+          <span>Willian Soares</span>
+          <span class="ms-2 text-white-50 fw-normal fs-6 d-none d-sm-inline">| Diário de Crises</span>
+        </a>
 
-    <!-- Barra de Ações Principais -->
-    <div class="action-bar">
-      <button class="btn btn-primary btn-lg" onclick="openWizard()">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        <span>Novo Lançamento</span>
-      </button>
-
-      <button class="btn btn-secondary btn-lg" onclick="openReportModal()">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        <span>Gerar Relatório PDF</span>
-      </button>
-    </div>
-
-    <!-- Filtro de Período e Resumo de Métricas -->
-    <div class="dashboard-section glass-panel">
-      <div class="section-header">
-        <h3>📊 Resumo das Crises</h3>
-        <div class="month-picker-wrap">
-          <label for="filter-month">Mês:</label>
-          <input type="month" id="filter-month" onchange="renderDashboard()">
-        </div>
-      </div>
-
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <span class="kpi-title">Dias com Dor</span>
-          <span class="kpi-value" id="kpi-days-pain">0</span>
-          <span class="kpi-desc">no mês selecionado</span>
-        </div>
-
-        <div class="kpi-card" id="kpi-med-card">
-          <span class="kpi-title">Uso de Medicação</span>
-          <span class="kpi-value" id="kpi-days-med">0</span>
-          <span class="kpi-desc" id="kpi-med-desc">dias com analgésico</span>
-        </div>
-
-        <div class="kpi-card">
-          <span class="kpi-title">Média de Intensidade</span>
-          <span class="kpi-value" id="kpi-avg-pain">0.0</span>
-          <span class="kpi-desc">escala 1 a 10</span>
-        </div>
-
-        <div class="kpi-card">
-          <span class="kpi-title">Índice SBCe</span>
-          <span class="kpi-value" id="kpi-sbce-index">0</span>
-          <span class="kpi-desc">Soc. Bras. de Cefaleia</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Guia de Cores das Intensidades -->
-    <div class="color-scale-bar glass-panel">
-      <span class="scale-label">Escala de Cor:</span>
-      <div class="scale-items">
-        <span class="scale-pill lvl-1" title="Nível 1: Muito Leve">1 Azul</span>
-        <span class="scale-pill lvl-2-4" title="Níveis 2 a 4: Leve/Moderada">2-4 Verde</span>
-        <span class="scale-pill lvl-5-7" title="Níveis 5 a 7: Moderada/Forte">5-7 Amarelo</span>
-        <span class="scale-pill lvl-8-10" title="Níveis 8 a 10: Forte/Extrema">8-10 Vermelho</span>
-      </div>
-    </div>
-
-    <!-- Feed / Timeline de Cards de Crise -->
-    <div class="timeline-section">
-      <div class="timeline-header">
-        <h3>🗓️ Histórico de Crises Registradas</h3>
-        <span class="count-badge" id="crisis-count">0 registros</span>
-      </div>
-
-      <div id="crisis-cards-container" class="cards-grid">
-        <!-- Inserido dinamicamente via JS -->
-      </div>
-    </div>
-  </section>
-
-  <!-- MODAL: WIZARD DE NOVO LANÇAMENTO / EDIÇÃO (MULTI-ETAPAS) -->
-  <div id="wizard-modal" class="modal-overlay hidden">
-    <div class="modal-container glass-panel">
-      <div class="modal-header">
-        <h3 id="wizard-title">➕ Novo Registro de Crise</h3>
-        <button class="btn-close" onclick="closeWizard()">&times;</button>
-      </div>
-
-      <!-- Indicador de Passos -->
-      <div class="wizard-steps-nav">
-        <div class="step-dot active" data-step="1">1. Data & Horário</div>
-        <div class="step-dot" data-step="2">2. Intensidade & Local</div>
-        <div class="step-dot" data-step="3">3. Sintomas & Gatilhos</div>
-        <div class="step-dot" data-step="4">4. Remédio & Alívio</div>
-      </div>
-
-      <form id="wizard-form" onsubmit="handleSaveCrisis(event)">
-        <!-- PASSO 1: DATA E HORÁRIO -->
-        <div class="wizard-step step-1 active">
-          <p class="step-help">Você pode selecionar datas retroativas para passar seu histórico do diário impresso/físico.</p>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-3 py-1.5 d-none d-md-inline-block small" id="pwa-status">
+            <i class="bi bi-cloud-check-fill me-1"></i> Supabase Conectado
+          </span>
           
-          <div class="form-row">
-            <div class="input-group">
-              <label for="crisis-date">Data da Crise *</label>
-              <input type="date" id="crisis-date" required>
-            </div>
-            
-            <div class="input-group">
-              <label for="crisis-time">Horário de Início *</label>
-              <input type="time" id="crisis-time" required>
-            </div>
-          </div>
+          <!-- Botão Admin (Visível apenas para usuários admin) -->
+          <button class="btn btn-outline-primary btn-sm rounded-3 px-3 py-1.5 glass-btn d-none" id="admin-panel-btn" onclick="openAdminModal()" title="Painel de Usuários Admin">
+            <i class="bi bi-people-fill me-1"></i> Usuários
+          </button>
 
-          <div class="input-group">
-            <label for="crisis-duration">Duração Aproximada (Horas / Minutos)</label>
-            <input type="text" id="crisis-duration" placeholder="Ex: 4 horas, 30 min, o dia todo...">
+          <button class="btn btn-outline-light btn-sm rounded-3 px-3 py-1.5 glass-btn" onclick="handleLogout()" title="Sair do App">
+            <i class="bi bi-box-arrow-right me-1"></i> Sair
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <!-- Barra de Ações Principais -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-md-6">
+          <button class="btn btn-primary btn-lg w-100 py-3 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="openWizard()">
+            <i class="bi bi-plus-circle-fill fs-5"></i>
+            <span>Novo Lançamento de Crise</span>
+          </button>
+        </div>
+        <div class="col-12 col-md-6">
+          <button class="btn btn-outline-light btn-lg w-100 py-3 rounded-3 shadow-sm glass-btn d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="openReportModal()">
+            <i class="bi bi-file-earmark-pdf-fill fs-5 text-primary"></i>
+            <span>Gerar Relatório Médico PDF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumo do Mês & KPIs -->
+      <div class="card glass-card border-0 shadow-sm p-3 p-md-4 mb-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom border-white border-opacity-10">
+          <h5 class="fw-bold m-0 text-white d-flex align-items-center gap-2">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i> Resumo Epidemiológico de Crises
+          </h5>
+          <div class="d-flex align-items-center gap-2">
+            <label for="filter-month" class="small text-white-50 fw-medium m-0">Filtrar Mês:</label>
+            <input type="month" id="filter-month" class="form-control form-control-sm glass-input w-auto" onchange="renderDashboard()">
           </div>
         </div>
 
-        <!-- PASSO 2: INTENSIDADE E LOCALIZAÇÃO DA DOR -->
-        <div class="wizard-step step-2">
-          <div class="input-group">
-            <label>Intensidade da Dor (0 a 10) *</label>
-            <div class="pain-slider-wrap">
-              <input type="range" id="crisis-intensity" min="1" max="10" value="5" oninput="updatePainDisplay(this.value)">
-              <div class="pain-badge-display" id="pain-badge">5 - Moderada</div>
+        <!-- KPI Grid -->
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+          <div class="col">
+            <div class="p-3 rounded-3 glass-kpi-box text-center">
+              <span class="d-block text-white-50 small fw-medium mb-1">Dias com Dor</span>
+              <h2 class="fw-extrabold text-white m-0" id="kpi-days-pain">0</h2>
+              <span class="text-white-50 xx-small">no mês selecionado</span>
             </div>
-            <p class="pain-guide-text" id="pain-guide">Moderada: dor que atrapalha e dificulta atividades cotidianas.</p>
           </div>
-
-          <div class="form-row">
-            <div class="input-group">
-              <label for="crisis-type">Tipo da Dor</label>
-              <select id="crisis-type">
-                <option value="Pulsátil / Latejante">Pulsátil / Latejante</option>
-                <option value="Aperto / Peso">Aperto / Peso / Pressão</option>
-                <option value="Pontadas / Fisgadas">Pontadas / Fisgadas</option>
-                <option value="Outro">Outro</option>
-              </select>
+          <div class="col">
+            <div class="p-3 rounded-3 glass-kpi-box text-center" id="kpi-med-card">
+              <span class="d-block text-white-50 small fw-medium mb-1">Uso de Medicação</span>
+              <h2 class="fw-extrabold text-white m-0" id="kpi-days-med">0</h2>
+              <span class="text-white-50 xx-small d-block" id="kpi-med-desc">dias com analgésicos</span>
             </div>
-
-            <div class="input-group">
-              <label for="crisis-location">Localização da Dor</label>
-              <select id="crisis-location">
-                <option value="Unilateral Direita">Lado Direito (Unilateral)</option>
-                <option value="Unilateral Esquerda">Lado Esquerdo (Unilateral)</option>
-                <option value="Bilateral (Ambos os lados)">Bilateral (Ambos os lados)</option>
-                <option value="Testa / Atrás dos Olhos">Testa / Atrás dos Olhos</option>
-                <option value="Nuca / Pescoço">Nuca / Pescoço</option>
-              </select>
+          </div>
+          <div class="col">
+            <div class="p-3 rounded-3 glass-kpi-box text-center">
+              <span class="d-block text-white-50 small fw-medium mb-1">Média Intensidade</span>
+              <h2 class="fw-extrabold text-white m-0" id="kpi-avg-pain">0.0</h2>
+              <span class="text-white-50 xx-small">Escala 1 a 10</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="p-3 rounded-3 glass-kpi-box text-center">
+              <span class="d-block text-white-50 small fw-medium mb-1">Índice SBCe</span>
+              <h2 class="fw-extrabold text-primary m-0" id="kpi-sbce-index">0</h2>
+              <span class="text-white-50 xx-small">Soc. Bras. Cefaleia</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- PASSO 3: SINTOMAS E GATILHOS -->
-        <div class="wizard-step step-3">
-          <label class="group-title">Sintomas Acompanhantes (Dra. Karin Corrêa):</label>
-          <div class="checkbox-grid">
-            <label class="check-btn"><input type="checkbox" name="symptom" value="E"> <span><b>E</b> - Enjoo / Náusea</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="V"> <span><b>V</b> - Vômito</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="L"> <span><b>L</b> - Sensib. à Luz (Fotofobia)</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="B"> <span><b>B</b> - Sensib. ao Barulho (Fonofobia)</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="C"> <span><b>C</b> - Sensib. ao Cheiro (Osmofobia)</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="A"> <span><b>A</b> - Aura (Visão/Formigamento)</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="Tontura"> <span><b>T</b> - Tontura / Vertigem</span></label>
-            <label class="check-btn"><input type="checkbox" name="symptom" value="Pescoço"> <span><b>P</b> - Rigidez no Pescoço</span></label>
-          </div>
-
-          <label class="group-title" style="margin-top:15px;">Gatilhos Desencadeantes (O que veio antes?):</label>
-          <div class="checkbox-grid">
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Dormi pouco/demais"> <span>Dormi pouco/demais</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Jejum prolongado"> <span>Fiquei sem comer (Jejum)</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Bebi pouca água"> <span>Bebi pouca água</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Estresse/Preocupação"> <span>Estresse / Preocupação</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Menstruação"> <span>Menstruação (Ciclo)</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Bebida alcoólica"> <span>Bebida alcoólica</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Café demais/falta"> <span>Café demais ou falta</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Telas/Luz forte"> <span>Telas / Luz forte</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Mudança de tempo/calor"> <span>Mudança de tempo/calor</span></label>
-            <label class="check-btn"><input type="checkbox" name="trigger" value="Alimento específico"> <span>Alimento específico</span></label>
+      <!-- Guia Visual de Cores da Intensidade -->
+      <div class="card glass-card border-0 p-3 mb-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <span class="small fw-semibold text-white-50"><i class="bi bi-palette me-1"></i> Escala de Dor e Mapeamento de Cores:</span>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge badge-lvl-1 px-2.5 py-1.5 rounded-2">1 Azul (Muito Leve)</span>
+            <span class="badge badge-lvl-2-4 px-2.5 py-1.5 rounded-2">2-4 Verde (Leve/Mod.)</span>
+            <span class="badge badge-lvl-5-7 px-2.5 py-1.5 rounded-2">5-7 Amarelo (Mod./Forte)</span>
+            <span class="badge badge-lvl-8-10 px-2.5 py-1.5 rounded-2">8-10 Vermelho (Forte/Extrema)</span>
           </div>
         </div>
+      </div>
 
-        <!-- PASSO 4: TRATAMENTO E MEDICAMENTOS -->
-        <div class="wizard-step step-4">
-          <div class="input-group">
-            <label for="crisis-medication">Medicamento e Dose Utilizados</label>
-            <input type="text" id="crisis-medication" placeholder="Ex: Sumatriptana 50mg, Dipirona 1g...">
-          </div>
+      <!-- Feed Cronológico de Crises -->
+      <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="fw-bold m-0 text-white d-flex align-items-center gap-2">
+            <i class="bi bi-journal-medical text-primary"></i> Histórico de Registros
+          </h5>
+          <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 rounded-pill px-3 py-1" id="crisis-count">0 registros</span>
+        </div>
 
-          <div class="input-group">
-            <label>O medicamento aliviou a dor?</label>
-            <div class="radio-group">
-              <label class="radio-btn"><input type="radio" name="relief" value="sim" checked> <span>Sim (Alívio completo)</span></label>
-              <label class="radio-btn"><input type="radio" name="relief" value="pouco"> <span>Pouco (Parcial)</span></label>
-              <label class="radio-btn"><input type="radio" name="relief" value="nao"> <span>Não aliviou</span></label>
+        <div id="crisis-cards-container" class="row g-3">
+          <!-- Inserido dinamicamente via JS -->
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- MODAL: WIZARD DE NOVO LANÇAMENTO (MULTI-ETAPAS) -->
+  <div class="modal fade" id="wizardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white" id="wizard-title">
+            <i class="bi bi-plus-circle text-primary me-2"></i>Novo Registro de Crise
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 py-3">
+          <!-- Wizard Steps Nav -->
+          <ul class="nav nav-pills nav-justified wizard-steps-nav mb-4 gap-1 p-1 rounded-3 glass-kpi-box">
+            <li class="nav-item"><a class="nav-link active small py-2 rounded-2" data-step="1">1. Data & Horário</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="2">2. Intensidade</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="3">3. Sintomas & Gatilhos</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="4">4. Remédio & Alívio</a></li>
+          </ul>
+
+          <form id="wizard-form" onsubmit="handleSaveCrisis(event)">
+            <!-- PASSO 1: DATA E HORÁRIO -->
+            <div class="wizard-step step-1">
+              <p class="text-white-50 small mb-3">
+                <i class="bi bi-info-circle me-1 text-primary"></i> Permite lançar datas retroativas para transcrever o histórico do seu diário em papel físico.
+              </p>
+              <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                  <label for="crisis-date" class="form-label small fw-medium text-white-50">Data da Crise *</label>
+                  <input type="date" class="form-control glass-input" id="crisis-date" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="crisis-time" class="form-label small fw-medium text-white-50">Horário de Início *</label>
+                  <input type="time" class="form-control glass-input" id="crisis-time" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="crisis-duration" class="form-label small fw-medium text-white-50">Duração Aproximada</label>
+                <input type="text" class="form-control glass-input" id="crisis-duration" placeholder="Ex: 4 horas, 30 minutos, o dia todo...">
+              </div>
             </div>
-          </div>
 
-          <div class="input-group">
-            <label for="crisis-notes">Observações / Anotações do Diário</label>
-            <textarea id="crisis-notes" rows="3" placeholder="Anotações adicionais sobre o dia, fatores emocionais, etc."></textarea>
-          </div>
-        </div>
+            <!-- PASSO 2: INTENSIDADE DA DOR (1 A 10) -->
+            <div class="wizard-step step-2 d-none">
+              <div class="mb-4">
+                <label class="form-label small fw-medium text-white-50 mb-2">Intensidade da Dor (Escala 1 a 10) *</label>
+                <div class="p-3 rounded-3 glass-kpi-box text-center mb-3">
+                  <input type="range" class="form-range" id="crisis-intensity" min="1" max="10" value="5" oninput="updatePainDisplay(this.value)">
+                  <div class="mt-2">
+                    <span class="badge fs-5 px-3 py-2 rounded-3" id="pain-badge">5 - Moderada</span>
+                  </div>
+                  <p class="text-white-50 small mt-2 mb-0" id="pain-guide">Moderada: dor que atrapalha e dificulta atividades cotidianas.</p>
+                </div>
+              </div>
 
-        <!-- Botões de Navegação do Wizard -->
-        <div class="wizard-footer">
-          <button type="button" class="btn btn-glass" id="btn-prev" onclick="prevWizardStep()" disabled>Anterior</button>
-          <button type="button" class="btn btn-primary" id="btn-next" onclick="nextWizardStep()">Próximo Passo</button>
-          <button type="submit" class="btn btn-success hidden" id="btn-save">Salvar Lançamento</button>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="crisis-type" class="form-label small fw-medium text-white-50">Tipo da Dor</label>
+                  <select class="form-select glass-input" id="crisis-type">
+                    <option value="Pulsátil / Latejante">Pulsátil / Latejante</option>
+                    <option value="Aperto / Peso">Aperto / Peso / Pressão</option>
+                    <option value="Pontadas / Fisgadas">Pontadas / Fisgadas</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="crisis-location" class="form-label small fw-medium text-white-50">Localização da Dor</label>
+                  <select class="form-select glass-input" id="crisis-location">
+                    <option value="Unilateral Direita">Lado Direito (Unilateral)</option>
+                    <option value="Unilateral Esquerda">Lado Esquerdo (Unilateral)</option>
+                    <option value="Bilateral (Ambos os lados)">Bilateral (Ambos os lados)</option>
+                    <option value="Testa / Atrás dos Olhos">Testa / Atrás dos Olhos</option>
+                    <option value="Nuca / Pescoço">Nuca / Pescoço</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- PASSO 3: SINTOMAS E GATILHOS -->
+            <div class="wizard-step step-3 d-none">
+              <label class="form-label fw-bold text-white small mb-2">Sintomas Acompanhantes (Diário Dra. Karin Corrêa):</label>
+              <div class="row row-cols-2 row-cols-md-3 g-2 mb-4">
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="E" class="me-1"> <b>E</b> - Enjoo / Náusea</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="V" class="me-1"> <b>V</b> - Vômito</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="L" class="me-1"> <b>L</b> - Sens. Luz (Fotofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="B" class="me-1"> <b>B</b> - Sens. Som (Fonofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="C" class="me-1"> <b>C</b> - Sens. Cheiro (Osmofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="A" class="me-1"> <b>A</b> - Aura (Visão/Formigam.)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Tontura" class="me-1"> <b>T</b> - Tontura / Vertigem</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Pescoço" class="me-1"> <b>P</b> - Rigidez no Pescoço</label></div>
+              </div>
+
+              <label class="form-label fw-bold text-white small mb-2">Gatilhos Desencadeantes (O que veio antes?):</label>
+              <div class="row row-cols-2 row-cols-md-3 g-2">
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Dormi pouco/demais" class="me-1"> Sono irregular</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Jejum prolongado" class="me-1"> Jejum prolongado</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Bebi pouca água" class="me-1"> Pouca água</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Estresse/Preocupação" class="me-1"> Estresse</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Menstruação" class="me-1"> Ciclo Menstrual</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Bebida alcoólica" class="me-1"> Álcool</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Café demais/falta" class="me-1"> Café (excesso/falta)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Telas/Luz forte" class="me-1"> Telas / Luz forte</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Mudança de tempo/calor" class="me-1"> Clima / Calor</label></div>
+              </div>
+            </div>
+
+            <!-- PASSO 4: TRATAMENTO E MEDICAMENTOS -->
+            <div class="wizard-step step-4 d-none">
+              <div class="mb-3">
+                <label for="crisis-medication" class="form-label small fw-medium text-white-50">Medicamento e Dose Utilizados</label>
+                <input type="text" class="form-control glass-input" id="crisis-medication" placeholder="Ex: Sumatriptana 50mg, Dipirona 1g...">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-medium text-white-50 d-block">O medicamento aliviou a dor?</label>
+                <div class="btn-group w-100" role="group">
+                  <input type="radio" class="btn-check" name="relief" id="relief-sim" value="sim" checked>
+                  <label class="btn btn-outline-light glass-check" for="relief-sim">✅ Sim (Completo)</label>
+
+                  <input type="radio" class="btn-check" name="relief" id="relief-pouco" value="pouco">
+                  <label class="btn btn-outline-light glass-check" for="relief-pouco">🟡 Pouco (Parcial)</label>
+
+                  <input type="radio" class="btn-check" name="relief" id="relief-nao" value="nao">
+                  <label class="btn btn-outline-light glass-check" for="relief-nao">❌ Não aliviou</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="crisis-notes" class="form-label small fw-medium text-white-50">Observações / Anotações do Diário</label>
+                <textarea class="form-control glass-input" id="crisis-notes" rows="3" placeholder="Anotações sobre o dia, fatores emocionais, transição do diário físico, etc."></textarea>
+              </div>
+            </div>
+
+            <!-- Rodapé do Wizard -->
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-white border-opacity-10">
+              <button type="button" class="btn btn-outline-light px-4 rounded-3 glass-btn" id="btn-prev" onclick="prevWizardStep()" disabled>Anterior</button>
+              <div>
+                <button type="button" class="btn btn-primary px-4 rounded-3" id="btn-next" onclick="nextWizardStep()">Próximo Passo</button>
+                <button type="submit" class="btn btn-success px-4 rounded-3 d-none" id="btn-save"><i class="bi bi-check-lg me-1"></i>Salvar Registro</button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
-  <!-- MODAL: PREVIEW E GERADOR DE RELATÓRIO PDF -->
-  <div id="report-modal" class="modal-overlay hidden">
-    <div class="modal-container glass-panel">
-      <div class="modal-header">
-        <h3>📄 Gerar Relatório Médico em PDF</h3>
-        <button class="btn-close" onclick="closeReportModal()">&times;</button>
-      </div>
-
-      <div class="report-options">
-        <p>Este relatório compila seus dados no formato padrão aceito por neurologistas (Sociedade Brasileira de Cefaleia), pronto para baixar e enviar no WhatsApp da médica ou imprimir.</p>
-
-        <div class="input-group">
-          <label for="report-month">Selecione o Mês para o Relatório:</label>
-          <input type="month" id="report-month">
+  <!-- MODAL: ADMIN GERENCIAMENTO DE USUÁRIOS -->
+  <div class="modal fade" id="adminUsersModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-shield-lock-fill text-primary me-2"></i>Gerenciamento de Usuários (Admin)
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <div class="input-group">
-          <label for="doctor-notes">Dúvidas ou Anotações para a Consulta:</label>
-          <textarea id="doctor-notes" rows="3" placeholder="Ex: Perguntar sobre o aumento da dosagem do preventivo, eficácia do triptano..."></textarea>
-        </div>
+        <div class="modal-body px-4 py-3">
+          <!-- Formulário de Criação de Novo Usuário -->
+          <div class="card glass-card border-0 p-3 mb-4">
+            <h6 class="fw-bold text-white mb-2"><i class="bi bi-person-plus-fill me-1 text-primary"></i> Cadastrar Novo Usuário</h6>
+            <form id="create-user-form" onsubmit="handleCreateUser(event)" class="row g-2">
+              <div class="col-12 col-md-4">
+                <input type="text" class="form-control form-control-sm glass-input" id="new-username" placeholder="nome de usuário" required autocapitalize="none">
+              </div>
+              <div class="col-12 col-md-4">
+                <input type="password" class="form-control form-control-sm glass-input" id="new-password" placeholder="senha do usuário" required>
+              </div>
+              <div class="col-12 col-md-2">
+                <select class="form-select form-select-sm glass-input" id="new-role">
+                  <option value="user">Usuário</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-primary btn-sm w-100 rounded-2 fw-semibold">Criar</button>
+              </div>
+            </form>
+          </div>
 
-        <button class="btn btn-primary btn-block btn-lg" onclick="generatePDFReport()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Baixar Relatório PDF Completo</span>
-        </button>
+          <!-- Tabela de Usuários Registrados -->
+          <h6 class="fw-bold text-white mb-2"><i class="bi bi-people-fill me-1 text-primary"></i> Usuários Cadastrados no Supabase</h6>
+          <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle glass-table mb-0">
+              <thead>
+                <tr>
+                  <th>Usuário</th>
+                  <th>Nível</th>
+                  <th>Data Cadastro</th>
+                  <th class="text-end">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-list-body">
+                <!-- Preenchido via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Script Principal -->
+  <!-- MODAL: RELATÓRIO MÉDICO PDF -->
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-file-earmark-pdf-fill text-primary me-2"></i>Gerar Relatório Médico em PDF
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 py-3">
+          <p class="text-white-50 small mb-3">
+            O relatório compila suas crises no padrão da Sociedade Brasileira de Cefaleia, pronto para baixar e enviar à sua médica neurologista por WhatsApp ou imprimir.
+          </p>
+
+          <div class="mb-3">
+            <label for="report-month" class="form-label small fw-medium text-white-50">Selecione o Mês do Relatório:</label>
+            <input type="month" class="form-control glass-input" id="report-month">
+          </div>
+
+          <div class="mb-4">
+            <label for="doctor-notes" class="form-label small fw-medium text-white-50">Dúvidas ou Observações para a Consulta:</label>
+            <textarea class="form-control glass-input" id="doctor-notes" rows="3" placeholder="Ex: Perguntar sobre eficácia da dosagem do preventivo..."></textarea>
+          </div>
+
+          <button class="btn btn-primary w-100 py-2.5 rounded-3 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2" onclick="generatePDFReport()">
+            <i class="bi bg-download"></i>
+            <span>Baixar Relatório PDF Completo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts Bootstrap & App -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
