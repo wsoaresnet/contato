@@ -205,11 +205,13 @@ function updateOnlineStatus() {
   const statusEl = document.getElementById("pwa-status");
   if (statusEl) {
     if (navigator.onLine) {
-      statusEl.innerHTML = '<i class="bi bi-cloud-check-fill me-1"></i> Conectado';
-      statusEl.className = "badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-2.5 py-0.5 d-none d-lg-inline-block xx-small";
+      statusEl.innerHTML = '<i class="bi bi-cloud-check-fill" style="font-size: 0.7rem;"></i>';
+      statusEl.className = "badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-2 py-0 d-none d-xxl-inline-block";
+      statusEl.setAttribute('style', 'font-size: 0.65rem; line-height: 1.2;');
     } else {
-      statusEl.innerHTML = '<i class="bi bi-wifi-off me-1"></i> Offline';
-      statusEl.className = "badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30 rounded-pill px-2.5 py-0.5 d-none d-lg-inline-block xx-small";
+      statusEl.innerHTML = '<i class="bi bi-wifi-off" style="font-size: 0.7rem;"></i>';
+      statusEl.className = "badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30 rounded-pill px-2 py-0 d-none d-xxl-inline-block";
+      statusEl.setAttribute('style', 'font-size: 0.65rem; line-height: 1.2;');
     }
   }
 }
