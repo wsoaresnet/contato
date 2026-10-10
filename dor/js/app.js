@@ -279,6 +279,21 @@ function calculateKPIs(crises) {
 }
 
 // RENDER DE CARD INDIVIDUAL DE CRISE
+
+function getSymptomLabel(code) {
+  const map = {
+    'E': 'E - Enjoo',
+    'V': 'V - Vômito',
+    'L': 'L - Sens. Luz',
+    'B': 'B - Sens. Som',
+    'C': 'C - Sens. Cheiro',
+    'A': 'A - Aura',
+    'Tontura': 'T - Tontura',
+    'Pescoço': 'P - Pescoço'
+  };
+  return map[code] || code;
+}
+
 function renderCrisisCard(c) {
   const colorHex = getIntensityColorHex(c.intensity);
   const colorBadgeClass = getIntensityColorBadgeClass(c.intensity);
@@ -288,11 +303,12 @@ function renderCrisisCard(c) {
   const triggersList = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
 
   const symptomsHtml = symptomsList.map(s => {
-    return `<span class="badge bg-secondary bg-opacity-30 text-white border border-white border-opacity-10 me-1 mb-1">${s}</span>`;
+    const label = getSymptomLabel(s);
+    return `<span class="badge bg-secondary bg-opacity-40 text-white border border-white border-opacity-20 me-1 mb-1 px-2 py-1.5 fw-medium"><i class="bi bi-activity text-info me-1"></i>${label}</span>`;
   }).join("");
 
   const triggersHtml = triggersList.map(t => {
-    return `<span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-20 me-1 mb-1">⚡ ${t}</span>`;
+    return `<span class="badge bg-primary bg-opacity-25 text-white border border-primary border-opacity-40 me-1 mb-1 px-2 py-1.5 fw-medium"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>${t}</span>`;
   }).join("");
 
   return `
