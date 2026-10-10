@@ -1,79 +1,56 @@
 /* ==========================================================================
-   LÓGICA PRINCIPAL - DIÁRIO DA ENXAQUECA (PWA)
-   Willian Soares • williansoares.net.br/diario
+   DIÁRIO DA ENXAQUECA - SUPABASE CLOUD SYNC
+   Willian Soares (williansoares.net.br/diario)
    ========================================================================== */
 
-// STATE DA APLICAÇÃO
-const AUTH_USER = "Willian";
-const AUTH_PASS = "wSB@0610";
-const STORAGE_AUTH_KEY = "diario_enxaqueca_auth";
-const STORAGE_DATA_KEY = "diario_enxaqueca_crises_v1";
+// CONFIGURAÇÃO DO SUPABASE
+const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
+const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
+
+let supabaseClient = null;
+let currentUser = null;
 let currentWizardStep = 1;
 let editingCrisisId = null;
-
-// DADOS DE EXEMPLO RETROATIVOS (Se o banco estiver vazio na primeira execução)
-const SAMPLE_CRISES = [
-  {
-    id: "sample-1",
-    date: "2026-10-05",
-    time: "14:30",
-    duration: "6 horas",
-    intensity: 8,
-    type: "Pulsátil / Latejante",
-    location: "Unilateral Esquerda",
-    symptoms: ["E", "L", "B"],
-    triggers: ["Estresse/Preocupação", "Telas/Luz forte"],
-    medication: "Sumatriptana 50mg",
-    relief: "sim",
-    notes: "Crise iniciada após reunião de trabalho longa na tela."
-  },
-  {
-    id: "sample-2",
-    date: "2026-09-28",
-    time: "08:15",
-    duration: "4 horas",
-    intensity: 5,
-    type: "Aperto / Peso",
-    location: "Bilateral (Ambos os lados)",
-    symptoms: ["E", "A"],
-    triggers: ["Dormi pouco/demais", "Café demais/falta"],
-    medication: "Dipirona 1g",
-    relief: "pouco",
-    notes: "Acordei com dor leve que foi aumentando."
-  },
-  {
-    id: "sample-3",
-    date: "2026-09-15",
-    time: "19:00",
-    duration: "12 horas",
-    intensity: 9,
-    type: "Pulsátil / Latejante",
-    location: "Testa / Atrás dos Olhos",
-    symptoms: ["E", "V", "L", "B", "C", "A"],
-    triggers: ["Jejum prolongado", "Mudança de tempo/calor"],
-    medication: "Triptano + Anti-inflamatório",
-    relief: "sim",
-    notes: "Crise forte com aura visual. Precisei deitar no escuro."
-  }
-];
+let wizardModalInstance = null;
+let reportModalInstance = null;
+let adminModalInstance = null;
 
 // INICIALIZAÇÃO DA APLICAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
+  initSupabase();
   initPWA();
   checkAuth();
   setDefaultDates();
+
+  // Instâncias dos Modais Bootstrap
+  const wizardModalEl = document.getElementById('wizardModal');
+  if (wizardModalEl) wizardModalInstance = new bootstrap.Modal(wizardModalEl);
+
+  const reportModalEl = document.getElementById('reportModal');
+  if (reportModalEl) reportModalInstance = new bootstrap.Modal(reportModalEl);
+
+  const adminModalEl = document.getElementById('adminUsersModal');
+  if (adminModalEl) adminModalInstance = new bootstrap.Modal(adminModalEl);
 });
 
-// REGISTRO DO SERVICE WORKER (PWA OFFLINE)
+function initSupabase() {
+  if (window.supabase) {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } else {
+    console.error("SDK do Supabase não foi carregado.");
+  }
+}
+
+// SERVICE WORKER & STATUS DE CONEXÃO
 function initPWA() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js")
-      .then(() => console.log("Service Worker registrado com sucesso."))
-      .catch(err => console.log("Falha ao registrar Service Worker:", err));
+      .then(() => console.log("Service Worker ativo."))
+      .catch(err => console.log("Erro SW:", err));
   }
-  
-  // Atualiza badge de conexão
+
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
   updateOnlineStatus();
@@ -83,64 +60,105 @@ function updateOnlineStatus() {
   const statusEl = document.getElementById("pwa-status");
   if (statusEl) {
     if (navigator.onLine) {
-      statusEl.innerHTML = "⚡ PWA On-Device • Online";
-      statusEl.style.color = "var(--accent-green)";
+      statusEl.innerHTML = '<i class="bi bi-cloud-check-fill me-1"></i> Supabase Conectado';
+      statusEl.className = "badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-3 py-1.5 d-none d-md-inline-block small";
     } else {
-      statusEl.innerHTML = "📶 Modo Offline • Armazenado Localmente";
-      statusEl.style.color = "var(--accent-yellow)";
+      statusEl.innerHTML = '<i class="bi bi-wifi-off me-1"></i> Offline';
+      statusEl.className = "badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30 rounded-pill px-3 py-1.5 d-none d-md-inline-block small";
     }
   }
 }
 
-// MÓDULO DE AUTENTICAÇÃO
+// SESSÃO E AUTENTICAÇÃO
 function checkAuth() {
-  const isAuth = localStorage.getItem(STORAGE_AUTH_KEY) === "true";
+  const storedUser = localStorage.getItem(STORAGE_USER_KEY);
   const loginView = document.getElementById("login-view");
   const appView = document.getElementById("app-view");
+  const adminBtn = document.getElementById("admin-panel-btn");
 
-  if (isAuth) {
-    loginView.classList.add("hidden");
-    appView.classList.remove("hidden");
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    loginView.classList.add("d-none");
+    appView.classList.remove("d-none");
+
+    if (currentUser.role === "admin") {
+      adminBtn.classList.remove("d-none");
+    } else {
+      adminBtn.classList.add("d-none");
+    }
+
     renderDashboard();
   } else {
-    loginView.classList.remove("hidden");
-    appView.classList.add("hidden");
+    currentUser = null;
+    loginView.classList.remove("d-none");
+    appView.classList.add("d-none");
   }
 }
 
-function handleLogin(event) {
+async function handleLogin(event) {
   event.preventDefault();
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value;
+  const loginBtn = document.getElementById("login-btn");
   const errorEl = document.getElementById("login-error");
+  const errorText = document.getElementById("login-error-text");
 
-  if (user === AUTH_USER && pass === AUTH_PASS) {
-    localStorage.setItem(STORAGE_AUTH_KEY, "true");
-    errorEl.classList.add("hidden");
-    checkAuth();
-  } else {
-    errorEl.classList.remove("hidden");
+  const usernameInput = document.getElementById("username").value.trim().toLowerCase();
+  const passwordInput = document.getElementById("password").value;
+
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Entrando...';
+  errorEl.classList.add("d-none");
+
+  try {
+    if (!supabaseClient) {
+      throw new Error("Conexão com o Supabase indisponível.");
+    }
+
+    // Consulta usuário no banco Supabase
+    let { data: userRecord, error } = await supabaseClient
+      .from('users')
+      .select('*')
+      .eq('username', usernameInput)
+      .maybeSingle();
+
+    // Fallback inicial para usuário admin Willian se a tabela estiver criada mas vazia
+    if (!userRecord && usernameInput === "willian" && passwordInput === "wSB@0610") {
+      const { data: newUser, error: createErr } = await supabaseClient
+        .from('users')
+        .upsert([{ username: "willian", password: "wSB@0610", role: "admin" }])
+        .select()
+        .single();
+      
+      if (!createErr && newUser) {
+        userRecord = newUser;
+      } else {
+        userRecord = { username: "willian", password: "wSB@0610", role: "admin" };
+      }
+    }
+
+    if (userRecord && userRecord.password === passwordInput) {
+      const sessionData = {
+        username: userRecord.username,
+        role: userRecord.role || "user"
+      };
+      localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(sessionData));
+      checkAuth();
+    } else {
+      errorText.innerText = "Usuário ou senha incorretos.";
+      errorEl.classList.remove("d-none");
+    }
+  } catch (err) {
+    console.error("Erro no login:", err);
+    errorText.innerText = "Erro ao conectar com o banco. Verifique suas tabelas no Supabase.";
+    errorEl.classList.remove("d-none");
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<span>Acessar Diário</span><i class="bi bi-arrow-right"></i>';
   }
 }
 
 function handleLogout() {
-  localStorage.removeItem(STORAGE_AUTH_KEY);
+  localStorage.removeItem(STORAGE_USER_KEY);
   checkAuth();
-}
-
-// GERENCIAMENTO DE DADOS (LOCALSTORAGE / INDEXEDDB)
-function getCrises() {
-  const data = localStorage.getItem(STORAGE_DATA_KEY);
-  if (!data) {
-    // Inicializa com dados de exemplo
-    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(SAMPLE_CRISES));
-    return SAMPLE_CRISES;
-  }
-  return JSON.parse(data);
-}
-
-function saveCrises(crises) {
-  localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(crises));
 }
 
 function setDefaultDates() {
@@ -150,61 +168,86 @@ function setDefaultDates() {
   document.getElementById("filter-month").value = currentMonth;
   document.getElementById("report-month").value = currentMonth;
   document.getElementById("crisis-date").value = today;
-  
+
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
   document.getElementById("crisis-time").value = `${hours}:${minutes}`;
 }
 
-// RENDERIZAÇÃO DA DASHBOARD E CARDS
-function renderDashboard() {
-  const selectedMonth = document.getElementById("filter-month").value; // YYYY-MM
-  const allCrises = getCrises();
+// CARREGAMENTO DAS CRISES DO BANCO DE DADOS (SUPABASE)
+async function renderDashboard() {
+  if (!currentUser || !supabaseClient) return;
 
-  // Filtra por mês
-  const filteredCrises = allCrises.filter(c => c.date.startsWith(selectedMonth));
-  
-  // Ordena por data/hora mais recente primeiro
-  filteredCrises.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
-
-  // Atualiza Métricas (KPIs)
-  calculateKPIs(filteredCrises);
-
-  // Renderiza Cards
+  const selectedMonth = document.getElementById("filter-month").value;
   const container = document.getElementById("crisis-cards-container");
   const countEl = document.getElementById("crisis-count");
-  countEl.innerText = `${filteredCrises.length} registro(s)`;
 
-  if (filteredCrises.length === 0) {
+  container.innerHTML = `
+    <div class="col-12 text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="text-white-50 small mt-2">Sincronizando crises do banco em nuvem...</p>
+    </div>
+  `;
+
+  try {
+    const { data: crises, error } = await supabaseClient
+      .from('crises')
+      .select('*')
+      .eq('username', currentUser.username);
+
+    if (error) throw error;
+
+    const allCrises = crises || [];
+    const filtered = allCrises.filter(c => c.date && c.date.startsWith(selectedMonth));
+    
+    // Ordena da mais recente para a mais antiga
+    filtered.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
+
+    calculateKPIs(filtered);
+
+    countEl.innerText = `${filtered.length} registro(s)`;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="col-12">
+          <div class="card glass-card border-0 text-center p-5">
+            <i class="bi bi-calendar-check text-primary display-4 mb-3"></i>
+            <h5 class="fw-bold text-white">Nenhum registro em ${formatMonthLabel(selectedMonth)}</h5>
+            <p class="text-white-50 small">Clique no botão acima para registrar um novo dia com enxaqueca.</p>
+            <div class="mt-2">
+              <button class="btn btn-primary rounded-3 px-4 py-2" onclick="openWizard()">➕ Registrar Novo Dia</button>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(c => renderCrisisCard(c)).join("");
+  } catch (err) {
+    console.error("Erro ao carregar crises:", err);
     container.innerHTML = `
-      <div class="empty-state glass-panel">
-        <span style="font-size: 2.5rem;">🧘</span>
-        <p>Nenhuma crise de enxaqueca registrada no mês de <b>${formatMonthLabel(selectedMonth)}</b>.</p>
-        <button class="btn btn-primary" style="margin-top:14px;" onclick="openWizard()">➕ Registrar Novo Dia</button>
+      <div class="col-12">
+        <div class="alert alert-warning text-center p-4">
+          <i class="bi bi-exclamation-triangle fs-3 d-block mb-2"></i>
+          <b>Atenção:</b> Não foi possível carregar os dados da nuvem. Certifique-se de que criou as tabelas no seu painel do Supabase.
+        </div>
       </div>
     `;
-    return;
   }
-
-  container.innerHTML = filteredCrises.map(crisis => renderCrisisCard(crisis)).join("");
 }
 
 // CÁLCULO DE KPIS E ÍNDICE DE DOR DA SBCe
 function calculateKPIs(crises) {
   const daysPain = new Set(crises.map(c => c.date)).size;
-  
-  // Dias com medicação utilizada
   const medCrises = crises.filter(c => c.medication && c.medication.trim() !== "");
   const daysMed = new Set(medCrises.map(c => c.date)).size;
 
-  // Média de intensidade
   const avgPain = crises.length > 0
     ? (crises.reduce((acc, c) => acc + Number(c.intensity), 0) / crises.length).toFixed(1)
     : "0.0";
 
-  // ÍNDICE MÊS DE DOR (Sociedade Brasileira de Cefaleia - SBCe):
-  // Formula: (1 * fracas[1-3]) + (2 * moderadas[4-6]) + (3 * fortes[7-10])
   let sbceIndex = 0;
   crises.forEach(c => {
     const lvl = Number(c.intensity);
@@ -214,140 +257,132 @@ function calculateKPIs(crises) {
   });
 
   document.getElementById("kpi-days-pain").innerText = daysPain;
-  
+
   const daysMedEl = document.getElementById("kpi-days-med");
   const medCardEl = document.getElementById("kpi-med-card");
   const medDescEl = document.getElementById("kpi-med-desc");
-  
+
   daysMedEl.innerText = daysMed;
-  
-  // Alerta clínico se dias com analgésico >= 10 (risco de cefaleia por reboque/uso excessivo)
+
   if (daysMed >= 10) {
-    medCardEl.classList.add("kpi-alert");
-    medDescEl.innerText = "⚠️ Risco de cefaleia rebote (≥10 dias/mês)";
+    medCardEl.classList.add("kpi-alert-card");
+    medDescEl.innerText = "⚠️ Alerta: ≥10 dias/mês (risco de rebote)";
+    medDescEl.classList.add("text-danger");
   } else {
-    medCardEl.classList.remove("kpi-alert");
+    medCardEl.classList.remove("kpi-alert-card");
     medDescEl.innerText = "dias com medicação de resgate";
+    medDescEl.classList.remove("text-danger");
   }
 
   document.getElementById("kpi-avg-pain").innerText = avgPain;
   document.getElementById("kpi-sbce-index").innerText = sbceIndex;
 }
 
-// RENDER DE CARD DE CRISE INDIVIDUAL
+// RENDER DE CARD INDIVIDUAL DE CRISE
 function renderCrisisCard(c) {
-  const colorClass = getIntensityColorClass(c.intensity);
   const colorHex = getIntensityColorHex(c.intensity);
+  const colorBadgeClass = getIntensityColorBadgeClass(c.intensity);
   const dateFormatted = formatDate(c.date);
-  
-  const symptomsHtml = (c.symptoms || []).map(s => {
-    const label = getSymptomLabel(s);
-    return `<span class="badge-tag" title="${label}">${s}</span>`;
+
+  const symptomsList = Array.isArray(c.symptoms) ? c.symptoms : (c.symptoms ? JSON.parse(c.symptoms) : []);
+  const triggersList = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
+
+  const symptomsHtml = symptomsList.map(s => {
+    return `<span class="badge bg-secondary bg-opacity-30 text-white border border-white border-opacity-10 me-1 mb-1">${s}</span>`;
   }).join("");
 
-  const triggersHtml = (c.triggers || []).map(t => `<span class="badge-tag">⚡ ${t}</span>`).join("");
+  const triggersHtml = triggersList.map(t => {
+    return `<span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-20 me-1 mb-1">⚡ ${t}</span>`;
+  }).join("");
 
   return `
-    <div class="crisis-card" style="border-left-color: ${colorHex};">
-      <div class="crisis-card-header">
-        <div class="crisis-date-time">
-          <span class="crisis-date">🗓️ ${dateFormatted}</span>
-          <span class="crisis-subinfo">⏰ Início: ${c.time || 'Não inf.'} • Duração: ${c.duration || 'N/A'}</span>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card glass-card crisis-item-card h-100 p-3" style="border-left-color: ${colorHex} !important;">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div>
+            <h6 class="fw-bold text-white mb-0"><i class="bi bi-calendar3 me-1.5 text-primary"></i>${dateFormatted}</h6>
+            <span class="text-white-50 xx-small"><i class="bi bi-clock me-1"></i>Início: ${c.time || 'N/I'} • ${c.duration || 'N/A'}</span>
+          </div>
+          <span class="badge ${colorBadgeClass} px-2.5 py-1.5 rounded-2 fs-6">
+            Dor ${c.intensity}/10
+          </span>
         </div>
-        <div class="pain-badge-card ${colorClass}">
-          Dor ${c.intensity}/10
+
+        <div class="small text-white-50 mb-2">
+          <div><b>Tipo:</b> ${c.type || 'Pulsátil'}</div>
+          <div><b>Local:</b> ${c.location || 'Não informado'}</div>
         </div>
-      </div>
 
-      <div class="crisis-details">
-        <div class="detail-item"><b>Tipo:</b> ${c.type || 'Pulsátil'}</div>
-        <div class="detail-item"><b>Local:</b> ${c.location || 'Não informado'}</div>
-      </div>
+        ${symptomsList.length > 0 ? `
+          <div class="mb-2">
+            <span class="xx-small text-white-50 d-block mb-1">Sintomas:</span>
+            <div>${symptomsHtml}</div>
+          </div>
+        ` : ''}
 
-      ${c.symptoms && c.symptoms.length > 0 ? `
-        <div>
-          <span class="group-title" style="font-size:0.75rem; margin-bottom:2px;">Sintomas Acompanhantes:</span>
-          <div class="symptom-badges">${symptomsHtml}</div>
+        ${triggersList.length > 0 ? `
+          <div class="mb-2">
+            <span class="xx-small text-white-50 d-block mb-1">Gatilhos Notados:</span>
+            <div>${triggersHtml}</div>
+          </div>
+        ` : ''}
+
+        ${c.medication ? `
+          <div class="p-2 rounded-2 glass-kpi-box mb-2 small">
+            <div>💊 <b>Remédio:</b> ${c.medication}</div>
+            <div><b>Alívio:</b> ${c.relief === 'sim' ? '✅ Sim' : c.relief === 'pouco' ? '🟡 Pouco' : '❌ Não'}</div>
+          </div>
+        ` : ''}
+
+        ${c.notes ? `<div class="xx-small text-white-50 fst-italic mb-3">📝 "${c.notes}"</div>` : ''}
+
+        <div class="d-flex justify-content-end gap-2 mt-auto pt-2 border-top border-white border-opacity-10">
+          <button class="btn btn-sm btn-outline-light rounded-2 glass-btn py-1 px-2.5" onclick="editCrisis('${c.id}')"><i class="bi bi-pencil me-1"></i>Editar</button>
+          <button class="btn btn-sm btn-outline-danger rounded-2 py-1 px-2.5" onclick="deleteCrisis('${c.id}')"><i class="bi bi-trash me-1"></i>Excluir</button>
         </div>
-      ` : ''}
-
-      ${c.triggers && c.triggers.length > 0 ? `
-        <div>
-          <span class="group-title" style="font-size:0.75rem; margin-bottom:2px;">Gatilhos Notados:</span>
-          <div class="symptom-badges">${triggersHtml}</div>
-        </div>
-      ` : ''}
-
-      ${c.medication ? `
-        <div class="crisis-details" style="background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px;">
-          <div>💊 <b>Remédio:</b> ${c.medication}</div>
-          <div><b>Alívio:</b> ${c.relief === 'sim' ? '✅ Sim' : c.relief === 'pouco' ? '🟡 Pouco' : '❌ Não'}</div>
-        </div>
-      ` : ''}
-
-      ${c.notes ? `<div class="crisis-subinfo" style="font-style: italic;">📝 "${c.notes}"</div>` : ''}
-
-      <div class="crisis-actions">
-        <button class="btn-card-action" onclick="editCrisis('${c.id}')">✏️ Editar</button>
-        <button class="btn-card-action delete" onclick="deleteCrisis('${c.id}')">🗑️ Excluir</button>
       </div>
     </div>
   `;
 }
 
-// COR DA ESCALA DE DOR (1 a 10)
-function getIntensityColorClass(level) {
-  const lvl = Number(level);
-  if (lvl === 1) return "lvl-1";
-  if (lvl <= 4) return "lvl-2-4";
-  if (lvl <= 7) return "lvl-5-7";
-  return "lvl-8-10";
-}
-
+// CORES DAS INTENSIDADES
 function getIntensityColorHex(level) {
   const lvl = Number(level);
-  if (lvl === 1) return "#3b82f6";      // Azul
-  if (lvl <= 4) return "#10b981";      // Verde
-  if (lvl <= 7) return "#f59e0b";      // Amarelo
-  return "#ef4444";                     // Vermelho Escuro
+  if (lvl === 1) return "#3b82f6";
+  if (lvl <= 4) return "#10b981";
+  if (lvl <= 7) return "#f59e0b";
+  return "#ef4444";
 }
 
-function getSymptomLabel(code) {
-  const map = {
-    'E': 'Enjoo / Náusea',
-    'V': 'Vômito',
-    'L': 'Sensibilidade à Luz (Fotofobia)',
-    'B': 'Sensibilidade ao Barulho (Fonofobia)',
-    'C': 'Sensibilidade ao Cheiro (Osmofobia)',
-    'A': 'Aura (Pontos luminosos / formigamento)',
-    'Tontura': 'Tontura / Vertigem',
-    'Pescoço': 'Rigidez no Pescoço'
-  };
-  return map[code] || code;
+function getIntensityColorBadgeClass(level) {
+  const lvl = Number(level);
+  if (lvl === 1) return "badge-lvl-1";
+  if (lvl <= 4) return "badge-lvl-2-4";
+  if (lvl <= 7) return "badge-lvl-5-7";
+  return "badge-lvl-8-10";
 }
 
-// GERENCIAMENTO DO WIZARD DE NOVO LANÇAMENTO
+// WIZARD CONTROLS
 function openWizard(crisisId = null) {
   editingCrisisId = crisisId;
   currentWizardStep = 1;
   updateWizardStepsUI();
 
-  const modal = document.getElementById("wizard-modal");
   const titleEl = document.getElementById("wizard-title");
 
   if (crisisId) {
-    titleEl.innerText = "✏️ Editar Lançamento de Crise";
+    titleEl.innerHTML = '<i class="bi bi-pencil-square text-primary me-2"></i>Editar Lançamento de Crise';
     populateWizardForEdit(crisisId);
   } else {
-    titleEl.innerText = "➕ Novo Registro de Crise";
+    titleEl.innerHTML = '<i class="bi bi-plus-circle text-primary me-2"></i>Novo Registro de Crise';
     resetWizardForm();
   }
 
-  modal.classList.remove("hidden");
+  if (wizardModalInstance) wizardModalInstance.show();
 }
 
 function closeWizard() {
-  document.getElementById("wizard-modal").classList.add("hidden");
+  if (wizardModalInstance) wizardModalInstance.hide();
   editingCrisisId = null;
 }
 
@@ -356,31 +391,33 @@ function updatePainDisplay(val) {
   const guide = document.getElementById("pain-guide");
   const num = Number(val);
 
-  badge.className = "pain-badge-display " + getIntensityColorClass(num);
+  badge.className = "badge fs-5 px-3 py-2 rounded-3 " + getIntensityColorBadgeClass(num);
 
   if (num === 1) {
     badge.innerText = "1 - Muito Leve";
-    guide.innerText = "Dor muito leve, mero desconforto imperceptível.";
+    guide.innerText = "Muito Leve: mero desconforto quase imperceptível.";
   } else if (num <= 4) {
     badge.innerText = `${num} - Leve / Moderada`;
-    guide.innerText = "Leve a moderada: suportável, não impede atividades diárias.";
+    guide.innerText = "Leve a Moderada: dor suportável que não impede tarefas rotineiras.";
   } else if (num <= 7) {
     badge.innerText = `${num} - Moderada / Forte`;
-    guide.innerText = "Moderada a forte: atrapalha significativamente as atividades.";
+    guide.innerText = "Moderada a Forte: atrapalha e dificulta significativamente as atividades.";
   } else {
     badge.innerText = `${num} - Forte / Extrema`;
-    guide.innerText = "Dor intensa / extrema: incapacitante, necessita parar e deitar.";
+    guide.innerText = "Forte a Extrema: dor incapacitante que exige parar todas as atividades e deitar.";
   }
 }
 
 function updateWizardStepsUI() {
-  document.querySelectorAll(".wizard-step").forEach(step => step.classList.remove("active"));
-  document.querySelector(`.wizard-step.step-${currentWizardStep}`).classList.add("active");
+  document.querySelectorAll(".wizard-step").forEach((step, idx) => {
+    if (idx + 1 === currentWizardStep) step.classList.remove("d-none");
+    else step.classList.add("d-none");
+  });
 
-  document.querySelectorAll(".step-dot").forEach(dot => {
-    const stepNum = Number(dot.getAttribute("data-step"));
-    if (stepNum === currentWizardStep) dot.classList.add("active");
-    else dot.classList.remove("active");
+  document.querySelectorAll(".wizard-steps-nav .nav-link").forEach(link => {
+    const stepNum = Number(link.getAttribute("data-step"));
+    if (stepNum === currentWizardStep) link.classList.add("active");
+    else link.classList.remove("active");
   });
 
   const btnPrev = document.getElementById("btn-prev");
@@ -390,11 +427,11 @@ function updateWizardStepsUI() {
   btnPrev.disabled = (currentWizardStep === 1);
 
   if (currentWizardStep === 4) {
-    btnNext.classList.add("hidden");
-    btnSave.classList.remove("hidden");
+    btnNext.classList.add("d-none");
+    btnSave.classList.remove("d-none");
   } else {
-    btnNext.classList.remove("hidden");
-    btnSave.classList.add("hidden");
+    btnNext.classList.remove("d-none");
+    btnSave.classList.add("d-none");
   }
 }
 
@@ -418,41 +455,54 @@ function resetWizardForm() {
   updatePainDisplay(5);
 }
 
-function populateWizardForEdit(id) {
-  const crises = getCrises();
-  const c = crises.find(x => x.id === id);
-  if (!c) return;
+async function populateWizardForEdit(id) {
+  try {
+    const { data: c, error } = await supabaseClient
+      .from('crises')
+      .select('*')
+      .eq('id', id)
+      .single();
 
-  document.getElementById("crisis-date").value = c.date;
-  document.getElementById("crisis-time").value = c.time;
-  document.getElementById("crisis-duration").value = c.duration || "";
-  document.getElementById("crisis-intensity").value = c.intensity;
-  updatePainDisplay(c.intensity);
+    if (error || !c) return;
 
-  document.getElementById("crisis-type").value = c.type || "Pulsátil / Latejante";
-  document.getElementById("crisis-location").value = c.location || "Unilateral Direita";
+    document.getElementById("crisis-date").value = c.date;
+    document.getElementById("crisis-time").value = c.time;
+    document.getElementById("crisis-duration").value = c.duration || "";
+    document.getElementById("crisis-intensity").value = c.intensity;
+    updatePainDisplay(c.intensity);
 
-  // Checkboxes Sintomas
-  document.querySelectorAll('input[name="symptom"]').forEach(cb => {
-    cb.checked = (c.symptoms || []).includes(cb.value);
-  });
+    document.getElementById("crisis-type").value = c.type || "Pulsátil / Latejante";
+    document.getElementById("crisis-location").value = c.location || "Unilateral Direita";
 
-  // Checkboxes Gatilhos
-  document.querySelectorAll('input[name="trigger"]').forEach(cb => {
-    cb.checked = (c.triggers || []).includes(cb.value);
-  });
+    const symptomsList = Array.isArray(c.symptoms) ? c.symptoms : (c.symptoms ? JSON.parse(c.symptoms) : []);
+    const triggersList = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
 
-  document.getElementById("crisis-medication").value = c.medication || "";
-  
-  // Radio Alívio
-  const reliefRadio = document.querySelector(`input[name="relief"][value="${c.relief || 'sim'}"]`);
-  if (reliefRadio) reliefRadio.checked = true;
+    document.querySelectorAll('input[name="symptom"]').forEach(cb => {
+      cb.checked = symptomsList.includes(cb.value);
+    });
 
-  document.getElementById("crisis-notes").value = c.notes || "";
+    document.querySelectorAll('input[name="trigger"]').forEach(cb => {
+      cb.checked = triggersList.includes(cb.value);
+    });
+
+    document.getElementById("crisis-medication").value = c.medication || "";
+    
+    const reliefRadio = document.querySelector(`input[name="relief"][value="${c.relief || 'sim'}"]`);
+    if (reliefRadio) reliefRadio.checked = true;
+
+    document.getElementById("crisis-notes").value = c.notes || "";
+  } catch (err) {
+    console.error("Erro ao buscar registro para edição:", err);
+  }
 }
 
-function handleSaveCrisis(event) {
+async function handleSaveCrisis(event) {
   event.preventDefault();
+  if (!currentUser || !supabaseClient) return;
+
+  const btnSave = document.getElementById("btn-save");
+  btnSave.disabled = true;
+  btnSave.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Salvando...';
 
   const date = document.getElementById("crisis-date").value;
   const time = document.getElementById("crisis-time").value;
@@ -468,168 +518,272 @@ function handleSaveCrisis(event) {
   const relief = document.querySelector('input[name="relief"]:checked').value;
   const notes = document.getElementById("crisis-notes").value.trim();
 
-  let crises = getCrises();
+  const crisisRecord = {
+    id: editingCrisisId || ("crisis-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4)),
+    username: currentUser.username,
+    date,
+    time,
+    duration,
+    intensity,
+    type,
+    location,
+    symptoms,
+    triggers,
+    medication,
+    relief,
+    notes
+  };
 
-  if (editingCrisisId) {
-    crises = crises.map(c => c.id === editingCrisisId ? {
-      id: editingCrisisId, date, time, duration, intensity, type, location, symptoms, triggers, medication, relief, notes
-    } : c);
-  } else {
-    const newCrisis = {
-      id: "crisis-" + Date.now(),
-      date, time, duration, intensity, type, location, symptoms, triggers, medication, relief, notes
-    };
-    crises.push(newCrisis);
-  }
+  try {
+    const { error } = await supabaseClient
+      .from('crises')
+      .upsert([crisisRecord]);
 
-  saveCrises(crises);
-  closeWizard();
-  renderDashboard();
-}
+    if (error) throw error;
 
-function editCrisis(id) {
-  openWizard(id);
-}
-
-function deleteCrisis(id) {
-  if (confirm("Tem certeza que deseja excluir este registro de crise?")) {
-    let crises = getCrises();
-    crises = crises.filter(c => c.id !== id);
-    saveCrises(crises);
+    closeWizard();
     renderDashboard();
+  } catch (err) {
+    console.error("Erro ao salvar no Supabase:", err);
+    alert("Erro ao salvar a crise no banco de dados. Verifique a estrutura de tabelas no Supabase.");
+  } finally {
+    btnSave.disabled = false;
+    btnSave.innerHTML = '<i class="bi bi-check-lg me-1"></i>Salvar Registro';
   }
 }
 
-// GERADOR DE RELATÓRIO MÉDICO EM PDF (jsPDF)
+async function deleteCrisis(id) {
+  if (confirm("Tem certeza que deseja excluir este registro de crise do banco?")) {
+    try {
+      const { error } = await supabaseClient
+        .from('crises')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      renderDashboard();
+    } catch (err) {
+      console.error("Erro ao excluir crise:", err);
+      alert("Erro ao excluir o registro.");
+    }
+  }
+}
+
+// PAINEL ADMIN DE USUÁRIOS
+async function openAdminModal() {
+  if (!currentUser || currentUser.role !== "admin") return;
+  
+  if (adminModalInstance) adminModalInstance.show();
+  renderAdminUsers();
+}
+
+async function renderAdminUsers() {
+  const tbody = document.getElementById("admin-users-list-body");
+  tbody.innerHTML = `<tr><td colspan="4" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Carregando...</td></tr>`;
+
+  try {
+    const { data: usersList, error } = await supabaseClient
+      .from('users')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!usersList || usersList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" class="text-center text-white-50">Nenhum usuário cadastrado.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = usersList.map(u => `
+      <tr>
+        <td class="fw-semibold text-white"><i class="bi bi-person-circle me-1 text-primary"></i>${u.username}</td>
+        <td><span class="badge ${u.role === 'admin' ? 'bg-primary' : 'bg-secondary'}">${u.role || 'user'}</span></td>
+        <td class="small text-white-50">${u.created_at ? new Date(u.created_at).toLocaleDateString('pt-BR') : 'Sem data'}</td>
+        <td class="text-end">
+          ${u.username !== 'willian' ? `
+            <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="deleteAdminUser('${u.username}')"><i class="bi bi-trash"></i></button>
+          ` : '<span class="badge bg-dark border border-white border-opacity-10 text-white-50">Admin Principal</span>'}
+        </td>
+      </tr>
+    `).join("");
+  } catch (err) {
+    console.error("Erro ao listar usuários:", err);
+    tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Erro ao carregar lista de usuários.</td></tr>`;
+  }
+}
+
+async function handleCreateUser(event) {
+  event.preventDefault();
+  const newUsername = document.getElementById("new-username").value.trim().toLowerCase();
+  const newPassword = document.getElementById("new-password").value;
+  const newRole = document.getElementById("new-role").value;
+
+  try {
+    const { error } = await supabaseClient
+      .from('users')
+      .upsert([{ username: newUsername, password: newPassword, role: newRole }]);
+
+    if (error) throw error;
+
+    document.getElementById("create-user-form").reset();
+    renderAdminUsers();
+  } catch (err) {
+    console.error("Erro ao criar usuário:", err);
+    alert("Erro ao criar usuário no Supabase.");
+  }
+}
+
+async function deleteAdminUser(uname) {
+  if (confirm(`Tem certeza que deseja excluir o usuário "${uname}" e seus registros?`)) {
+    try {
+      await supabaseClient.from('crises').delete().eq('username', uname);
+      await supabaseClient.from('users').delete().eq('username', uname);
+      renderAdminUsers();
+    } catch (err) {
+      console.error("Erro ao excluir usuário:", err);
+      alert("Erro ao excluir o usuário.");
+    }
+  }
+}
+
+// RELATÓRIO PDF (JSPDF)
 function openReportModal() {
-  document.getElementById("report-modal").classList.remove("hidden");
+  if (reportModalInstance) reportModalInstance.show();
 }
 
-function closeReportModal() {
-  document.getElementById("report-modal").classList.add("hidden");
-}
-
-function generatePDFReport() {
+async function generatePDFReport() {
   const selectedMonth = document.getElementById("report-month").value;
   const doctorNotes = document.getElementById("doctor-notes").value.trim();
-  
-  const allCrises = getCrises();
-  const filteredCrises = allCrises.filter(c => c.date.startsWith(selectedMonth));
 
-  if (filteredCrises.length === 0) {
-    alert("Não há registros de crises de enxaqueca para o mês selecionado.");
-    return;
-  }
+  if (!currentUser || !supabaseClient) return;
 
-  filteredCrises.sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`));
+  try {
+    const { data: crises, error } = await supabaseClient
+      .from('crises')
+      .select('*')
+      .eq('username', currentUser.username);
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+    if (error) throw error;
 
-  // CABEÇALHO DO DOCUMENTO CLÍNICO
-  doc.setFillColor(11, 15, 25); // Dark navy header
-  doc.rect(0, 0, 210, 36, "F");
+    const filtered = (crises || []).filter(c => c.date && c.date.startsWith(selectedMonth));
 
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(16);
-  doc.setFont("helvetica", "bold");
-  doc.text("RELATÓRIO CLÍNICO DE ACOMPANHAMENTO DE ENXAQUECA", 14, 16);
-
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Paciente: Willian Soares | Período: ${formatMonthLabel(selectedMonth)} | Emissão: ${new Date().toLocaleDateString('pt-BR')}`, 14, 26);
-
-  // KPIS E RESUMO
-  const daysPain = new Set(filteredCrises.map(c => c.date)).size;
-  const medCrises = filteredCrises.filter(c => c.medication && c.medication.trim() !== "");
-  const daysMed = new Set(medCrises.map(c => c.date)).size;
-  const avgPain = (filteredCrises.reduce((acc, c) => acc + Number(c.intensity), 0) / filteredCrises.length).toFixed(1);
-
-  let sbceIndex = 0;
-  filteredCrises.forEach(c => {
-    const lvl = Number(c.intensity);
-    if (lvl <= 3) sbceIndex += 1;
-    else if (lvl <= 6) sbceIndex += 2;
-    else sbceIndex += 3;
-  });
-
-  doc.setTextColor(15, 23, 42);
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("1. Resumo Epidemiológico Mês", 14, 46);
-
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.text(`• Total de dias com dor: ${daysPain} dia(s)`, 14, 53);
-  doc.text(`• Dias com uso de medicação de resgate: ${daysMed} dia(s) ${daysMed >= 10 ? '(⚠️ ALERTA: ≥10 dias/mês)' : ''}`, 14, 59);
-  doc.text(`• Média de intensidade da dor: ${avgPain} / 10`, 110, 53);
-  doc.text(`• Índice Mês de Dor (SBCe): ${sbceIndex}`, 110, 59);
-
-  // TABELA DE REGISTRO DETALHADO DE CRISES
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("2. Histórico Cronológico das Crises", 14, 70);
-
-  const tableData = filteredCrises.map(c => [
-    formatDateShort(c.date),
-    c.time || '-',
-    `${c.intensity}/10`,
-    (c.symptoms || []).join(", "),
-    (c.triggers || []).join(", "),
-    c.medication || 'Nenhum',
-    c.relief === 'sim' ? 'Sim' : c.relief === 'pouco' ? 'Pouco' : 'Não'
-  ]);
-
-  doc.autoTable({
-    startY: 74,
-    head: [['Data', 'Início', 'Dor', 'Sintomas', 'Gatilhos', 'Medicamento', 'Alívio']],
-    body: tableData,
-    theme: 'grid',
-    headStyles: { fillColor: [59, 130, 246], textColor: 255, fontSize: 8, fontStyle: 'bold' },
-    bodyStyles: { fontSize: 7, textColor: [30, 41, 59] },
-    columnStyles: {
-      0: { cellWidth: 20 },
-      1: { cellWidth: 15 },
-      2: { cellWidth: 14 },
-      3: { cellWidth: 35 },
-      4: { cellWidth: 40 },
-      5: { cellWidth: 38 },
-      6: { cellWidth: 18 }
+    if (filtered.length === 0) {
+      alert("Não há registros de crise no mês selecionado.");
+      return;
     }
-  });
 
-  let finalY = doc.lastAutoTable.finalY + 12;
+    filtered.sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`));
 
-  // DÚVIDAS / ANOTAÇÕES PARA O NEUROLOGISTA
-  if (doctorNotes) {
-    if (finalY > 250) { doc.addPage(); finalY = 20; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Cabeçalho
+    doc.setFillColor(13, 17, 23);
+    doc.rect(0, 0, 210, 36, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(15);
+    doc.setFont("helvetica", "bold");
+    doc.text("RELATÓRIO CLÍNICO DE ACOMPANHAMENTO DE ENXAQUECA", 14, 16);
+
+    doc.setFontSize(9.5);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Paciente: ${currentUser.username.toUpperCase()} | Período: ${formatMonthLabel(selectedMonth)} | Emissão: ${new Date().toLocaleDateString('pt-BR')}`, 14, 26);
+
+    const daysPain = new Set(filtered.map(c => c.date)).size;
+    const medCrises = filtered.filter(c => c.medication && c.medication.trim() !== "");
+    const daysMed = new Set(medCrises.map(c => c.date)).size;
+    const avgPain = (filtered.reduce((acc, c) => acc + Number(c.intensity), 0) / filtered.length).toFixed(1);
+
+    let sbceIndex = 0;
+    filtered.forEach(c => {
+      const lvl = Number(c.intensity);
+      if (lvl <= 3) sbceIndex += 1;
+      else if (lvl <= 6) sbceIndex += 2;
+      else sbceIndex += 3;
+    });
+
+    doc.setTextColor(15, 23, 42);
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.text("3. Dúvidas e Anotações do Paciente para a Consulta", 14, finalY);
-    
+    doc.text("1. Resumo Epidemiológico das Crises", 14, 46);
+
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    const splitNotes = doc.splitTextToSize(doctorNotes, 180);
-    doc.text(splitNotes, 14, finalY + 6);
-    finalY += (splitNotes.length * 5) + 10;
-  }
+    doc.text(`• Total de dias com dor: ${daysPain} dia(s)`, 14, 53);
+    doc.text(`• Dias com uso de medicação: ${daysMed} dia(s) ${daysMed >= 10 ? '(⚠️ ALERTA: ≥10 dias/mês)' : ''}`, 14, 59);
+    doc.text(`• Média de intensidade: ${avgPain} / 10`, 110, 53);
+    doc.text(`• Índice Mês de Dor (SBCe): ${sbceIndex}`, 110, 59);
 
-  // RODAPÉ CLINICO
-  const pageCount = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(148, 163, 184);
-    doc.text("Diário de Enxaqueca • Documento gerado para auxílio de diagnóstico e tratamento de cefaleias.", 14, 288);
-    doc.text(`Página ${i} de ${pageCount}`, 180, 288);
-  }
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("2. Histórico Cronológico de Crises", 14, 70);
 
-  // Baixar Arquivo PDF
-  doc.save(`Relatorio_Enxaqueca_Willian_${selectedMonth}.pdf`);
-  closeReportModal();
+    const tableData = filtered.map(c => {
+      const syms = Array.isArray(c.symptoms) ? c.symptoms : (c.symptoms ? JSON.parse(c.symptoms) : []);
+      const trigs = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
+
+      return [
+        formatDateShort(c.date),
+        c.time || '-',
+        `${c.intensity}/10`,
+        syms.join(", "),
+        trigs.join(", "),
+        c.medication || 'Nenhum',
+        c.relief === 'sim' ? 'Sim' : c.relief === 'pouco' ? 'Pouco' : 'Não'
+      ];
+    });
+
+    doc.autoTable({
+      startY: 74,
+      head: [['Data', 'Início', 'Dor', 'Sintomas', 'Gatilhos', 'Medicamento', 'Alívio']],
+      body: tableData,
+      theme: 'grid',
+      headStyles: { fillColor: [13, 110, 253], textColor: 255, fontSize: 8, fontStyle: 'bold' },
+      bodyStyles: { fontSize: 7, textColor: [30, 41, 59] },
+      columnStyles: {
+        0: { cellWidth: 20 },
+        1: { cellWidth: 15 },
+        2: { cellWidth: 14 },
+        3: { cellWidth: 35 },
+        4: { cellWidth: 40 },
+        5: { cellWidth: 38 },
+        6: { cellWidth: 18 }
+      }
+    });
+
+    let finalY = doc.lastAutoTable.finalY + 12;
+
+    if (doctorNotes) {
+      if (finalY > 250) { doc.addPage(); finalY = 20; }
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text("3. Observações / Dúvidas para a Consulta", 14, finalY);
+
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      const splitNotes = doc.splitTextToSize(doctorNotes, 180);
+      doc.text(splitNotes, 14, finalY + 6);
+    }
+
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184);
+      doc.text("Diário de Enxaqueca • Documento gerado para auxílio do tratamento neurológico.", 14, 288);
+      doc.text(`Página ${i} de ${pageCount}`, 180, 288);
+    }
+
+    doc.save(`Relatorio_Enxaqueca_${currentUser.username}_${selectedMonth}.pdf`);
+    if (reportModalInstance) reportModalInstance.hide();
+  } catch (err) {
+    console.error("Erro ao gerar PDF:", err);
+    alert("Erro ao gerar relatório PDF.");
+  }
 }
 
-// AUXILIARES DE FORMATAÇÃO
+// AUXILIARES
 function formatDate(dateStr) {
   if (!dateStr) return "";
   const [y, m, d] = dateStr.split("-");
