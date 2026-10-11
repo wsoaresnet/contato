@@ -362,12 +362,43 @@ function handleLogout() {
   checkAuth();
 }
 
+function dateNDaysAgo(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().split("T")[0];
+}
+
+function setDashboardRange(days) {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("filter-date-from").value = dateNDaysAgo(days);
+  document.getElementById("filter-date-to").value = today;
+  // Marca o botão ativo
+  document.querySelectorAll('.period-preset-btn').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.days) === days);
+  });
+  renderDashboard();
+}
+
+function setReportRange(days) {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("report-date-from").value = dateNDaysAgo(days);
+  document.getElementById("report-date-to").value = today;
+  document.querySelectorAll('.report-preset-btn').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.days) === days);
+  });
+}
+
 function setDefaultDates() {
   const today = new Date().toISOString().split("T")[0];
-  const currentMonth = today.substring(0, 7);
 
-  document.getElementById("filter-month").value = currentMonth;
-  document.getElementById("report-month").value = currentMonth;
+  // Dashboard: últimos 30 dias por padrão
+  document.getElementById("filter-date-from").value = dateNDaysAgo(30);
+  document.getElementById("filter-date-to").value = today;
+
+  // Relatório: últimos 30 dias por padrão
+  document.getElementById("report-date-from").value = dateNDaysAgo(30);
+  document.getElementById("report-date-to").value = today;
+
   document.getElementById("crisis-date").value = today;
 
   const now = new Date();
@@ -380,7 +411,8 @@ function setDefaultDates() {
 async function renderDashboard() {
   if (!currentUser || !supabaseClient) return;
 
-  const selectedMonth = document.getElementById("filter-month").value;
+  const dateFrom = document.getElementById("filter-date-from").value;
+  const dateTo = document.getElementById("filter-date-to").value;
   const container = document.getElementById("crisis-cards-container");
   const countEl = document.getElementById("crisis-count");
 
@@ -400,8 +432,13 @@ async function renderDashboard() {
     if (error) throw error;
 
     const allCrises = crises || [];
-    const filtered = allCrises.filter(c => c.date && c.date.startsWith(selectedMonth));
-    
+    const filtered = allCrises.filter(c => {
+      if (!c.date) return false;
+      if (dateFrom && c.date < dateFrom) return false;
+      if (dateTo && c.date > dateTo) return false;
+      return true;
+    });
+
     // Ordena da mais recente para a mais antiga
     filtered.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
 
@@ -414,7 +451,7 @@ async function renderDashboard() {
         <div class="col-12">
           <div class="card glass-card border-0 text-center p-5">
             <i class="bi bi-calendar-check text-primary display-4 mb-3"></i>
-            <h5 class="fw-bold text-white">Nenhum registro em ${formatMonthLabel(selectedMonth)}</h5>
+            <h5 class="fw-bold text-white">Nenhum registro no período ${dateFrom ? formatDate(dateFrom) : ''} até ${dateTo ? formatDate(dateTo) : ''}</h5>
             <p class="text-white-50 small">Clique no botão acima para registrar um novo dia com enxaqueca.</p>
             <div class="mt-2">
               <button class="btn btn-primary rounded-3 px-4 py-2" onclick="openWizard()">➕ Registrar Novo Dia</button>
@@ -1086,8 +1123,18 @@ function openReportModal() {
 }
 
 async function generatePDFReport() {
-  const selectedMonth = document.getElementById("report-month").value;
+  const reportFrom = document.getElementById("report-date-from").value;
+  const reportTo = document.getElementById("report-date-to").value;
   const doctorNotes = document.getElementById("doctor-notes").value.trim();
+
+  if (!reportFrom || !reportTo) {
+    alert("Selecione o período inicial e final do relatório.");
+    return;
+  }
+  if (reportFrom > reportTo) {
+    alert("A data inicial deve ser anterior à data final.");
+    return;
+  }
 
   if (!currentUser || !supabaseClient) return;
 
@@ -1099,10 +1146,13 @@ async function generatePDFReport() {
 
     if (error) throw error;
 
-    const filtered = (crises || []).filter(c => c.date && c.date.startsWith(selectedMonth));
+    const filtered = (crises || []).filter(c => {
+      if (!c.date) return false;
+      return c.date >= reportFrom && c.date <= reportTo;
+    });
 
     if (filtered.length === 0) {
-      alert("Não há registros de crise no mês selecionado.");
+      alert(`Não há registros de crise no período ${formatDate(reportFrom)} a ${formatDate(reportTo)}.`);
       return;
     }
 
@@ -1142,7 +1192,7 @@ async function generatePDFReport() {
 
     doc.setFontSize(9.5);
     doc.setFont("helvetica", "normal");
-    doc.text(`Paciente: ${currentUser.username.toUpperCase()} | Período: ${formatMonthLabel(selectedMonth)} | Emissão: ${new Date().toLocaleDateString('pt-BR')}`, 14, 53);
+    doc.text(`Paciente: ${currentUser.username.toUpperCase()} | Período: ${formatDate(reportFrom)} a ${formatDate(reportTo)} | Emissão: ${new Date().toLocaleDateString('pt-BR')}`, 14, 53);
 
     const daysPain = new Set(filtered.map(c => c.date)).size;
     const medCrises = filtered.filter(c => c.medication && c.medication.trim() !== "");
@@ -1265,7 +1315,7 @@ async function generatePDFReport() {
       doc.text(`Página ${i} de ${pageCount}`, 180, 291);
     }
 
-    doc.save(`Relatorio_Enxaqueca_${currentUser.username}_${selectedMonth}.pdf`);
+    doc.save(`Relatorio_Enxaqueca_${currentUser.username}_${reportFrom}_a_${reportTo}.pdf`);
     if (reportModalInstance) reportModalInstance.hide();
   } catch (err) {
     console.error("Erro ao gerar PDF:", err);
