@@ -104,91 +104,125 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// AUTOCOMPLETE DE MEDICAMENTOS
+// MÚLTIPLOS MEDICAMENTOS - gerenciamento de linhas dinâmicas
+function addMedicationRow(value = '') {
+  const list = document.getElementById('medications-list');
+  if (!list) return;
+
+  const rowId = 'med-row-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+  const row = document.createElement('div');
+  row.className = 'medication-row d-flex gap-2 mb-2 align-items-center';
+  row.id = rowId;
+  row.innerHTML = `
+    <div class="crisis-medication-wrapper position-relative flex-grow-1">
+      <input type="text" class="form-control glass-input medication-input"
+             placeholder="Medicamento e dose... (ex: Sumatriptana 50mg)" autocomplete="off">
+    </div>
+    <button type="button" class="btn btn-outline-danger btn-sm rounded-2 flex-shrink-0" onclick="removeMedicationRow('${rowId}')">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  `;
+  list.appendChild(row);
+
+  const input = row.querySelector('.medication-input');
+  if (value) input.value = value;
+  initSingleMedicationAutocomplete(input);
+}
+
+function removeMedicationRow(rowId) {
+  const list = document.getElementById('medications-list');
+  if (!list) return;
+  if (list.children.length <= 1) {
+    const input = list.querySelector('.medication-input');
+    if (input) input.value = '';
+    return;
+  }
+  const row = document.getElementById(rowId);
+  if (row) row.remove();
+}
+
+function getMedicationsFromForm() {
+  return Array.from(document.querySelectorAll('#medications-list .medication-input'))
+    .map(inp => inp.value.trim())
+    .filter(v => v !== '');
+}
+
+function resetMedicationRows() {
+  const list = document.getElementById('medications-list');
+  if (!list) return;
+  list.innerHTML = '';
+  addMedicationRow();
+}
+
+// AUTOCOMPLETE DE MEDICAMENTOS (adaptado para funcionar por input individual)
 function initMedicationAutocomplete() {
-  const medicationInput = document.getElementById('crisis-medication');
+  // Inicializa a primeira linha que já existe
+  const firstInput = document.querySelector('#medications-list .medication-input');
+  if (firstInput) initSingleMedicationAutocomplete(firstInput);
+}
 
-  if (!medicationInput) return;
+function initSingleMedicationAutocomplete(inputEl) {
+  if (!inputEl) return;
 
-  medicationInput.addEventListener('input', (e) => {
+  inputEl.addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase().trim();
+    if (value.length < 1) { hideMedicationSuggestions(); return; }
 
-    if (value.length < 1) {
-      hideMedicationSuggestions();
-      return;
-    }
-
-    // Filtrar medicamentos baseado no input
-    const filtered = COMMON_MEDICATIONS.filter(med =>
-      med.toLowerCase().includes(value)
-    );
-
-    // Adicionar histórico do usuário
+    const filtered = COMMON_MEDICATIONS.filter(med => med.toLowerCase().includes(value));
     const userMeds = userMedicationHistory.filter(med =>
-      med.toLowerCase().includes(value) &&
-      !filtered.includes(med)
+      med.toLowerCase().includes(value) && !filtered.includes(med)
     );
-
     const combined = [...userMeds, ...filtered].slice(0, 8);
 
-    if (combined.length > 0) {
-      showMedicationSuggestions(combined, value);
-    } else {
-      hideMedicationSuggestions();
-    }
+    if (combined.length > 0) showMedicationSuggestions(combined, value, inputEl);
+    else hideMedicationSuggestions();
   });
 
-  medicationInput.addEventListener('blur', () => {
+  inputEl.addEventListener('blur', () => {
     setTimeout(() => hideMedicationSuggestions(), 200);
   });
 }
 
-function showMedicationSuggestions(suggestions, searchTerm) {
-  let suggestionsBox = document.getElementById('medication-suggestions');
+function showMedicationSuggestions(suggestions, searchTerm, inputEl) {
+  hideMedicationSuggestions();
 
-  if (!suggestionsBox) {
-    const medicationInput = document.getElementById('crisis-medication');
-    suggestionsBox = document.createElement('div');
-    suggestionsBox.id = 'medication-suggestions';
-    suggestionsBox.className = 'medication-suggestions-box';
-    medicationInput.parentElement.appendChild(suggestionsBox);
-  }
+  const suggestionsBox = document.createElement('div');
+  suggestionsBox.id = 'medication-suggestions';
+  suggestionsBox.className = 'medication-suggestions-box';
 
-  suggestionsBox.innerHTML = suggestions.map((med, idx) => {
+  suggestionsBox.innerHTML = suggestions.map((med) => {
     const highlightedMed = med.replace(
-      new RegExp(searchTerm, 'gi'),
+      new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
       match => `<strong>${match}</strong>`
     );
-    return `
-      <div class="medication-suggestion-item" onclick="selectMedication('${med}')">
-        <i class="bi bi-capsule text-warning"></i>
-        ${highlightedMed}
-      </div>
-    `;
+    return `<div class="medication-suggestion-item" onmousedown="selectMedication('${med}', this)">
+      <i class="bi bi-capsule text-warning"></i> ${highlightedMed}
+    </div>`;
   }).join('');
 
+  const wrapper = inputEl ? inputEl.closest('.crisis-medication-wrapper') : null;
+  if (wrapper) wrapper.appendChild(suggestionsBox);
   suggestionsBox.style.display = 'block';
 }
 
 function hideMedicationSuggestions() {
-  const suggestionsBox = document.getElementById('medication-suggestions');
-  if (suggestionsBox) {
-    suggestionsBox.style.display = 'none';
-  }
+  document.querySelectorAll('#medication-suggestions').forEach(el => el.remove());
 }
 
-function selectMedication(medication) {
-  const medicationInput = document.getElementById('crisis-medication');
-  medicationInput.value = medication;
+function selectMedication(medication, clickedEl) {
+  const wrapper = clickedEl ? clickedEl.closest('.crisis-medication-wrapper') : null;
+  const inputEl = wrapper ? wrapper.querySelector('.medication-input') : document.querySelector('#medications-list .medication-input');
+  if (inputEl) inputEl.value = medication;
+
+  hideMedicationSuggestions();
 
   // Adicionar ao histórico do usuário
   if (!userMedicationHistory.includes(medication)) {
     userMedicationHistory.unshift(medication);
-    userMedicationHistory = userMedicationHistory.slice(0, 20); // Manter últimos 20
+    userMedicationHistory = userMedicationHistory.slice(0, 20);
   }
 
-  hideMedicationSuggestions();
-  medicationInput.focus();
+  if (inputEl) inputEl.focus();
 }
 
 function initSupabase() {
@@ -299,7 +333,16 @@ async function handleLogin(event) {
         role: userRecord.role || "user"
       };
       localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(sessionData));
-      checkAuth();
+      // Limpa caches do Service Worker para carregar arquivos mais recentes
+      (async () => {
+        try {
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+          }
+        } catch (e) { /* ignora erros de cache */ }
+        window.location.reload();
+      })();
     } else {
       errorText.innerText = "Usuário ou senha incorretos.";
       errorEl.classList.remove("d-none");
@@ -399,7 +442,11 @@ async function renderDashboard() {
 // CÁLCULO DE KPIS E ÍNDICE DE DOR DA SBCe
 function calculateKPIs(crises) {
   const daysPain = new Set(crises.map(c => c.date)).size;
-  const medCrises = crises.filter(c => c.medication && c.medication.trim() !== "");
+  const medCrises = crises.filter(c => {
+    if (!c.medication) return false;
+    try { const a = JSON.parse(c.medication); return Array.isArray(a) ? a.some(m => m.trim()) : !!c.medication.trim(); }
+    catch { return !!c.medication.trim(); }
+  });
   const daysMed = new Set(medCrises.map(c => c.date)).size;
 
   const avgPain = crises.length > 0
@@ -640,15 +687,22 @@ function renderCrisisCard(c) {
           </div>
         ` : ''}
 
-        ${c.medication ? `
+        ${(() => {
+          let meds = [];
+          try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+          if (!Array.isArray(meds)) meds = meds ? [String(meds)] : [];
+          meds = meds.filter(m => m && m.trim());
+          if (meds.length === 0) return '';
+          const medsHtml = meds.map(m => `<span class="d-block text-white fw-semibold">${m}</span>`).join('');
+          return `
           <div class="medication-card mb-3 p-3 rounded-3" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border: 2px solid rgba(245, 158, 11, 0.4);">
             <div class="d-flex align-items-start gap-2 mb-2">
               <div class="p-2 rounded-2" style="background: rgba(245, 158, 11, 0.2);">
                 <i class="bi bi-capsule fs-5 text-warning"></i>
               </div>
               <div class="flex-grow-1">
-                <span class="text-white-50 xx-small d-block fw-medium">Medicação Utilizada</span>
-                <span class="text-white fw-semibold d-block">${c.medication}</span>
+                <span class="text-white-50 xx-small d-block fw-medium">Medicação${meds.length > 1 ? 'ções' : ''} Utilizada${meds.length > 1 ? 's' : ''}</span>
+                ${medsHtml}
               </div>
             </div>
             <div class="d-flex align-items-center gap-2 pt-2 border-top border-warning border-opacity-20">
@@ -658,8 +712,8 @@ function renderCrisisCard(c) {
                 ${c.relief === 'sim' ? '✅ Completo' : c.relief === 'pouco' ? '🟡 Parcial' : '❌ Sem alívio'}
               </span>
             </div>
-          </div>
-        ` : ''}
+          </div>`;
+        })()}
 
         ${c.notes ? `<div class="xx-small text-white-50 fst-italic mb-3 p-2 glass-kpi-box rounded-2">📝 <i>"${c.notes}"</i></div>` : ''}
 
@@ -784,6 +838,7 @@ function resetWizardForm() {
   document.getElementById("wizard-form").reset();
   setDefaultDates();
   updatePainDisplay(5);
+  resetMedicationRows();
 }
 
 async function populateWizardForEdit(id) {
@@ -820,8 +875,17 @@ async function populateWizardForEdit(id) {
       cb.checked = triggersList.includes(cb.value);
     });
 
-    document.getElementById("crisis-medication").value = c.medication || "";
-    
+    // Múltiplos medicamentos: parseia JSON array ou string simples
+    const list = document.getElementById('medications-list');
+    if (list) {
+      list.innerHTML = '';
+      let meds = [];
+      try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+      if (!Array.isArray(meds)) meds = meds ? [meds] : [];
+      if (meds.length === 0) meds = [''];
+      meds.forEach(m => addMedicationRow(m));
+    }
+
     const reliefRadio = document.querySelector(`input[name="relief"][value="${c.relief || 'sim'}"]`);
     if (reliefRadio) reliefRadio.checked = true;
 
@@ -849,7 +913,8 @@ async function handleSaveCrisis(event) {
   const symptoms = Array.from(document.querySelectorAll('input[name="symptom"]:checked')).map(cb => cb.value);
   const triggers = Array.from(document.querySelectorAll('input[name="trigger"]:checked')).map(cb => cb.value);
 
-  const medication = document.getElementById("crisis-medication").value.trim();
+  const medications = getMedicationsFromForm();
+  const medication = JSON.stringify(medications);
   const relief = document.querySelector('input[name="relief"]:checked').value;
   const notes = document.getElementById("crisis-notes").value.trim();
 

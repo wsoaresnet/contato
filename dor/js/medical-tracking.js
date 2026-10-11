@@ -13,14 +13,31 @@ let editingPrescriptionId = null;
 
 // Inicializar instâncias de modais
 function initMedicalModals() {
+  console.log('initMedicalModals iniciando...');
+
   const doctorModalEl = document.getElementById('doctorModal');
-  if (doctorModalEl) doctorModalInstance = new bootstrap.Modal(doctorModalEl);
+  if (doctorModalEl) {
+    doctorModalInstance = new bootstrap.Modal(doctorModalEl);
+    console.log('✓ doctorModalInstance inicializado');
+  } else {
+    console.error('✗ doctorModal elemento não encontrado!');
+  }
 
   const appointmentModalEl = document.getElementById('appointmentModal');
-  if (appointmentModalEl) appointmentModalInstance = new bootstrap.Modal(appointmentModalEl);
+  if (appointmentModalEl) {
+    appointmentModalInstance = new bootstrap.Modal(appointmentModalEl);
+    console.log('✓ appointmentModalInstance inicializado');
+  } else {
+    console.error('✗ appointmentModal elemento não encontrado!');
+  }
 
   const prescriptionModalEl = document.getElementById('prescriptionModal');
-  if (prescriptionModalEl) prescriptionModalInstance = new bootstrap.Modal(prescriptionModalEl);
+  if (prescriptionModalEl) {
+    prescriptionModalInstance = new bootstrap.Modal(prescriptionModalEl);
+    console.log('✓ prescriptionModalInstance inicializado');
+  } else {
+    console.error('✗ prescriptionModal elemento não encontrado!');
+  }
 }
 
 // ============================================================
@@ -28,6 +45,7 @@ function initMedicalModals() {
 // ============================================================
 
 async function openDoctorModal(doctorId = null) {
+  console.log('🔵 openDoctorModal chamada', { doctorId, instanceExists: !!doctorModalInstance });
   editingDoctorId = doctorId;
 
   if (doctorId) {
