@@ -165,7 +165,7 @@ async function renderDoctors() {
           <h6 class="fw-bold text-white mb-0">
             <i class="bi bi-hospital text-primary me-1"></i>${doctor.name}
           </h6>
-          <span class="badge text-white small" style="background: rgba(13,110,253,0.35); border: 1px solid rgba(13,110,253,0.5);">${doctor.specialty || 'N/A'}</span>
+          <span style="display:inline-block;padding:3px 8px;border-radius:6px;font-size:0.75em;font-weight:600;color:#ffffff !important;background:rgba(13,110,253,0.4);border:1px solid rgba(13,110,253,0.6);">${doctor.specialty || 'N/A'}</span>
         </div>
         <p class="text-white-50 small mb-2"><i class="bi bi-building me-1"></i>${doctor.clinic_name || 'Clínica não informada'}</p>
         ${doctor.phone ? `<p class="text-white-50 small mb-1"><i class="bi bi-telephone me-1"></i>${doctor.phone}</p>` : ''}
@@ -308,10 +308,11 @@ async function renderAppointments() {
   }
 
   container.innerHTML = data.map(apt => {
+    const BADGE_STYLE = 'display:inline-block;padding:3px 8px;border-radius:6px;font-size:0.75em;font-weight:600;color:#ffffff !important;';
     const statusBadge = {
-      'scheduled': '<span class="badge text-white" style="background:rgba(13,202,240,0.4);border:1px solid rgba(13,202,240,0.5);">Agendada</span>',
-      'completed': '<span class="badge text-white" style="background:rgba(25,135,84,0.4);border:1px solid rgba(25,135,84,0.5);">Realizada</span>',
-      'cancelled': '<span class="badge text-white" style="background:rgba(220,53,69,0.4);border:1px solid rgba(220,53,69,0.5);">Cancelada</span>'
+      'scheduled': `<span style="${BADGE_STYLE}background:rgba(13,202,240,0.45);border:1px solid rgba(13,202,240,0.6);">Agendada</span>`,
+      'completed':  `<span style="${BADGE_STYLE}background:rgba(25,135,84,0.45);border:1px solid rgba(25,135,84,0.6);">Realizada</span>`,
+      'cancelled':  `<span style="${BADGE_STYLE}background:rgba(220,53,69,0.45);border:1px solid rgba(220,53,69,0.6);">Cancelada</span>`
     }[apt.status] || '';
 
     return `
@@ -487,7 +488,7 @@ async function renderPrescriptions() {
             <h6 class="fw-bold text-white mb-0">
               <i class="bi bi-capsule text-primary me-1"></i>${rx.medication_name}
             </h6>
-            <span class="badge text-white small" style="background:rgba(${statusColor==='success'?'25,135,84':statusColor==='warning'?'255,193,7':statusColor==='danger'?'220,53,69':'108,117,125'},0.4);border:1px solid rgba(${statusColor==='success'?'25,135,84':statusColor==='warning'?'255,193,7':statusColor==='danger'?'220,53,69':'108,117,125'},0.5);">
+            <span style="display:inline-block;padding:3px 8px;border-radius:6px;font-size:0.75em;font-weight:600;color:#ffffff !important;background:rgba(${statusColor==='success'?'25,135,84':statusColor==='warning'?'255,193,7':statusColor==='danger'?'220,53,69':'108,117,125'},0.45);border:1px solid rgba(${statusColor==='success'?'25,135,84':statusColor==='warning'?'255,193,7':statusColor==='danger'?'220,53,69':'108,117,125'},0.6);">
               ${rx.adherence_status === 'active' ? 'Em Uso' : rx.adherence_status === 'discontinued' ? 'Descontinuado' : 'Pausado'}
             </span>
           </div>

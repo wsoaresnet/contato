@@ -411,8 +411,19 @@ function setDefaultDates() {
 async function renderDashboard() {
   if (!currentUser || !supabaseClient) return;
 
-  const dateFrom = document.getElementById("filter-date-from").value;
-  const dateTo = document.getElementById("filter-date-to").value;
+  // Suporte ao novo range (filter-date-from/to) e fallback para o antigo filter-month
+  const dateFromEl = document.getElementById("filter-date-from");
+  const dateToEl   = document.getElementById("filter-date-to");
+  const monthEl    = document.getElementById("filter-month");
+  let dateFrom, dateTo;
+  if (dateFromEl && dateToEl) {
+    dateFrom = dateFromEl.value || "";
+    dateTo   = dateToEl.value   || "";
+  } else if (monthEl && monthEl.value) {
+    const m = monthEl.value; // "YYYY-MM"
+    dateFrom = m + "-01";
+    dateTo   = m + "-31";
+  }
   const container = document.getElementById("crisis-cards-container");
   const countEl = document.getElementById("crisis-count");
 
