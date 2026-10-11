@@ -91,6 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const adminModalEl = document.getElementById('adminUsersModal');
   if (adminModalEl) adminModalInstance = new bootstrap.Modal(adminModalEl);
+
+  // Inicializar modais do Medical Tracking System
+  initMedicalModals();
+
+  // Listener para aba médica
+  const tabMedical = document.getElementById('tab-medical');
+  if (tabMedical) {
+    tabMedical.addEventListener('shown.bs.tab', () => {
+      if (currentUser) loadMedicalTab();
+    });
+  }
 });
 
 // AUTOCOMPLETE DE MEDICAMENTOS
