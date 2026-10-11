@@ -859,12 +859,12 @@ html {
 }
 
 .pill-pane {
-  animation: fadeIn 0.3s ease;
+  display: none;
 }
 
-.pill-pane.fade.show.active {
-  opacity: 1;
-  visibility: visible;
+.pill-pane.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
