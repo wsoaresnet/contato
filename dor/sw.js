@@ -1,9 +1,10 @@
-const CACHE_NAME = 'diario-enxaqueca-ws-v3';
+const CACHE_NAME = 'diario-enxaqueca-ws-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './css/style.css',
   './js/app.js',
+  './js/medical-tracking.js',
   './manifest.json',
   './assets/icon-192.png',
   './assets/icon-512.png',

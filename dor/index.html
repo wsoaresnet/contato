@@ -58,26 +58,57 @@
 
       <!-- Logo e Branding -->
       <div class="text-center mb-5 pt-4 px-4">
-        <!-- Logo Customizado com ícone T.I. -->
+        <!-- Logo: Cérebro + Circuitos (TI + Mente) -->
         <div class="login-logo-container mb-4">
           <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- Background circle -->
-            <circle cx="50" cy="50" r="48" fill="url(#logoGradient)" opacity="0.1" stroke="url(#logoGradient)" stroke-width="2"/>
-
-            <!-- Código/T.I. symbol -->
-            <g class="logo-code">
-              <path d="M30 40 L20 50 L30 60" stroke="#0d6efd" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M70 40 L80 50 L70 60" stroke="#0d6efd" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <line x1="40" y1="35" x2="60" y2="65" stroke="#0d6efd" stroke-width="2.5" stroke-linecap="round"/>
-            </g>
-
-            <!-- Definição do gradiente -->
             <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+              <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1"/>
               </linearGradient>
+              <filter id="brainGlow">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
             </defs>
+            <!-- Halo externo -->
+            <circle cx="50" cy="46" r="34" fill="none" stroke="url(#brainGrad)" stroke-width="1" opacity="0.25"/>
+            <!-- Hemisférios do cérebro -->
+            <g filter="url(#brainGlow)" stroke="url(#brainGrad)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Hemisfério esquerdo -->
+              <path d="M50 22 C37 20 22 29 21 43 C19 56 26 65 34 68 C40 70 46 69 50 65"/>
+              <!-- Hemisfério direito -->
+              <path d="M50 22 C63 20 78 29 79 43 C81 56 74 65 66 68 C60 70 54 69 50 65"/>
+              <!-- Linha central (fissura longitudinal) -->
+              <line x1="50" y1="22" x2="50" y2="65" stroke-dasharray="3,2.5" stroke-width="1.2"/>
+              <!-- Giros esquerdos -->
+              <path d="M28 36 C33 33 37 38 33 41" stroke-width="1.1"/>
+              <path d="M25 50 C30 47 34 52 30 55" stroke-width="1.1"/>
+              <path d="M30 62 C35 59 38 63 36 67" stroke-width="1.1"/>
+              <!-- Giros direitos -->
+              <path d="M72 36 C67 33 63 38 67 41" stroke-width="1.1"/>
+              <path d="M75 50 C70 47 66 52 70 55" stroke-width="1.1"/>
+              <path d="M70 62 C65 59 62 63 64 67" stroke-width="1.1"/>
+            </g>
+            <!-- Traços de circuito -->
+            <g stroke="#60a5fa" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round">
+              <polyline points="34,70 28,78 16,78"/>
+              <polyline points="43,71 43,82 30,82"/>
+              <polyline points="66,70 72,78 84,78"/>
+              <polyline points="57,71 57,82 70,82"/>
+              <line x1="16" y1="78" x2="16" y2="82"/>
+              <line x1="84" y1="78" x2="84" y2="82"/>
+            </g>
+            <!-- Nós de circuito -->
+            <circle cx="16" cy="78" r="2.5" fill="#0d6efd"/>
+            <circle cx="30" cy="82" r="1.8" fill="#60a5fa"/>
+            <circle cx="70" cy="82" r="1.8" fill="#60a5fa"/>
+            <circle cx="84" cy="78" r="2.5" fill="#0d6efd"/>
+            <!-- Pulsos neurais (pontos luminosos) -->
+            <circle cx="41" cy="38" r="2" fill="url(#brainGrad)" opacity="0.9"/>
+            <circle cx="58" cy="45" r="1.6" fill="url(#brainGrad)" opacity="0.8"/>
+            <circle cx="38" cy="55" r="1.5" fill="url(#brainGrad)" opacity="0.7"/>
+            <circle cx="62" cy="35" r="1.5" fill="url(#brainGrad)" opacity="0.8"/>
           </svg>
         </div>
 
@@ -499,20 +530,18 @@
             <!-- PASSO 4: TRATAMENTO E MEDICAMENTOS -->
             <div class="wizard-step step-4 d-none">
               <div class="mb-3">
-                <label for="crisis-medication" class="form-label small fw-medium text-white-50">
-                  <i class="bi bi-capsule text-warning me-1"></i>Medicamento e Dose Utilizados
+                <label class="form-label small fw-medium text-white-50">
+                  <i class="bi bi-capsule text-warning me-1"></i>Medicamentos Utilizados
                 </label>
-                <div class="crisis-medication-wrapper position-relative">
-                  <input
-                    type="text"
-                    class="form-control glass-input"
-                    id="crisis-medication"
-                    placeholder="Comece a digitar... (ex: Sumatriptana, Dipirona, Ibuprofeno)"
-                    autocomplete="off">
-                  <small class="text-white-50 d-block mt-1">
-                    <i class="bi bi-lightbulb-fill text-info me-1"></i>Dica: Digite o nome do medicamento para ver sugestões
-                  </small>
+                <div id="medications-list">
+                  <!-- Linhas de medicamento inseridas dinamicamente -->
                 </div>
+                <button type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-3" onclick="addMedicationRow()">
+                  <i class="bi bi-plus-lg me-1"></i>Adicionar Medicamento
+                </button>
+                <small class="text-white-50 d-block mt-2">
+                  <i class="bi bi-lightbulb-fill text-info me-1"></i>Dica: Digite para ver sugestões. Adicione quantos medicamentos quiser.
+                </small>
               </div>
 
               <div class="mb-3">
