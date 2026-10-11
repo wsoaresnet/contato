@@ -208,7 +208,7 @@
         </div>
       </div>
 
-      <!-- Abas: Dashboard vs Histórico -->
+      <!-- Abas: Dashboard vs Histórico vs Médico -->
       <ul class="nav nav-tabs nav-fill dashboard-tabs mb-4 gap-2" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active dashboard-tab-btn" id="tab-dashboard" data-bs-toggle="tab" data-bs-target="#content-dashboard" type="button" role="tab" aria-controls="content-dashboard" aria-selected="true">
@@ -218,6 +218,11 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link dashboard-tab-btn" id="tab-history" data-bs-toggle="tab" data-bs-target="#content-history" type="button" role="tab" aria-controls="content-history" aria-selected="false">
             <i class="bi bi-clock-history me-2"></i> Histórico de Registros
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link dashboard-tab-btn" id="tab-medical" data-bs-toggle="tab" data-bs-target="#content-medical" type="button" role="tab" aria-controls="content-medical" aria-selected="false">
+            <i class="bi bi-hospital me-2"></i> Acompanhamento Médico
           </button>
         </li>
       </ul>
@@ -316,6 +321,69 @@
           </div>
           <div id="crisis-cards-container" class="row g-3">
             <!-- Inserido dinamicamente via JS -->
+          </div>
+        </div>
+
+        <!-- TAB 3: ACOMPANHAMENTO MÉDICO (v10) -->
+        <div class="tab-pane fade" id="content-medical" role="tabpanel" aria-labelledby="tab-medical">
+          <!-- Sub-abas: Médicos | Consultas | Receitas -->
+          <ul class="nav nav-pills nav-fill medical-subtabs mb-3 gap-2 p-2 rounded-3 glass-card" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active small py-2 rounded-2" id="subtab-doctors" data-bs-toggle="pill" data-bs-target="#subcontent-doctors" type="button" role="tab" aria-controls="subcontent-doctors" aria-selected="true">
+                <i class="bi bi-hospital me-1"></i> Médicos
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link small py-2 rounded-2" id="subtab-appointments" data-bs-toggle="pill" data-bs-target="#subcontent-appointments" type="button" role="tab" aria-controls="subcontent-appointments" aria-selected="false">
+                <i class="bi bi-calendar-event me-1"></i> Consultas
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link small py-2 rounded-2" id="subtab-prescriptions" data-bs-toggle="pill" data-bs-target="#subcontent-prescriptions" type="button" role="tab" aria-controls="subcontent-prescriptions" aria-selected="false">
+                <i class="bi bi-capsule me-1"></i> Receitas
+              </button>
+            </li>
+          </ul>
+
+          <div class="pill-content">
+            <!-- MÉDICOS -->
+            <div class="pill-pane fade show active" id="subcontent-doctors" role="tabpanel" aria-labelledby="subtab-doctors">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Meus Médicos</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openDoctorModal()">
+                  <i class="bi bi-plus-lg"></i> Novo Médico
+                </button>
+              </div>
+              <div id="doctors-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
+
+            <!-- CONSULTAS -->
+            <div class="pill-pane fade" id="subcontent-appointments" role="tabpanel" aria-labelledby="subtab-appointments">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Agenda de Consultas</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openAppointmentModal()">
+                  <i class="bi bi-plus-lg"></i> Nova Consulta
+                </button>
+              </div>
+              <div id="appointments-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
+
+            <!-- RECEITAS -->
+            <div class="pill-pane fade" id="subcontent-prescriptions" role="tabpanel" aria-labelledby="subtab-prescriptions">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Receitas Médicas</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openPrescriptionModal()">
+                  <i class="bi bi-plus-lg"></i> Nova Receita
+                </button>
+              </div>
+              <div id="prescriptions-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -572,8 +640,270 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       MODAIS: SISTEMA DE ACOMPANHAMENTO MÉDICO v10
+       ============================================================ -->
+
+  <!-- MODAL: CADASTRO/EDIÇÃO DE MÉDICOS -->
+  <div class="modal fade" id="doctorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-hospital text-primary me-2"></i><span id="doctor-modal-title">Novo Médico</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="doctor-form" onsubmit="handleSaveDoctor(event)">
+            <input type="hidden" id="doctor-id">
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="doctor-name" class="form-label small fw-medium text-white-50">Nome Completo *</label>
+                <input type="text" class="form-control glass-input" id="doctor-name" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-specialty" class="form-label small fw-medium text-white-50">Especialidade</label>
+                <select class="form-select glass-input" id="doctor-specialty">
+                  <option>Neurologia</option>
+                  <option>Oftalmologia</option>
+                  <option>Cardiologia</option>
+                  <option>Clínico Geral</option>
+                  <option>Outra</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-crm" class="form-label small fw-medium text-white-50">CRM</label>
+                <input type="text" class="form-control glass-input" id="doctor-crm" placeholder="Ex: 123456-SP">
+              </div>
+              <div class="col-12">
+                <label for="doctor-clinic" class="form-label small fw-medium text-white-50">Clínica/Consultório</label>
+                <input type="text" class="form-control glass-input" id="doctor-clinic" placeholder="Nome do local">
+              </div>
+              <div class="col-12">
+                <label for="doctor-address" class="form-label small fw-medium text-white-50">Endereço</label>
+                <input type="text" class="form-control glass-input" id="doctor-address">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-phone" class="form-label small fw-medium text-white-50">Telefone</label>
+                <input type="tel" class="form-control glass-input" id="doctor-phone" placeholder="(XX) XXXXX-XXXX">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-email" class="form-label small fw-medium text-white-50">Email</label>
+                <input type="email" class="form-control glass-input" id="doctor-email">
+              </div>
+              <div class="col-12">
+                <label for="doctor-notes" class="form-label small fw-medium text-white-50">Notas</label>
+                <textarea class="form-control glass-input" id="doctor-notes" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4" id="doctor-submit-btn">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="doctor-delete-btn" onclick="deleteDoctorWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CADASTRO/EDIÇÃO DE CONSULTAS -->
+  <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-calendar-event text-primary me-2"></i><span id="appointment-modal-title">Nova Consulta</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="appointment-form" onsubmit="handleSaveAppointment(event)">
+            <input type="hidden" id="appointment-id">
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="appointment-doctor" class="form-label small fw-medium text-white-50">Médico *</label>
+                <select class="form-select glass-input" id="appointment-doctor" required>
+                  <option value="">Selecione um médico...</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-date" class="form-label small fw-medium text-white-50">Data *</label>
+                <input type="date" class="form-control glass-input" id="appointment-date" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-time" class="form-label small fw-medium text-white-50">Horário</label>
+                <input type="time" class="form-control glass-input" id="appointment-time">
+              </div>
+              <div class="col-12">
+                <label for="appointment-reason" class="form-label small fw-medium text-white-50">Motivo da Consulta</label>
+                <input type="text" class="form-control glass-input" id="appointment-reason">
+              </div>
+              <div class="col-12">
+                <label for="appointment-symptoms" class="form-label small fw-medium text-white-50">Sintomas Apresentados</label>
+                <textarea class="form-control glass-input" id="appointment-symptoms" rows="2" placeholder="Descreva os sintomas..."></textarea>
+              </div>
+              <div class="col-12">
+                <label for="appointment-diagnosis" class="form-label small fw-medium text-white-50">Diagnóstico</label>
+                <textarea class="form-control glass-input" id="appointment-diagnosis" rows="2" placeholder="Diagnóstico informado pelo médico..."></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-followup-date" class="form-label small fw-medium text-white-50">Próxima Consulta</label>
+                <input type="date" class="form-control glass-input" id="appointment-followup-date">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-status" class="form-label small fw-medium text-white-50">Status</label>
+                <select class="form-select glass-input" id="appointment-status">
+                  <option value="scheduled">Agendada</option>
+                  <option value="completed">Realizada</option>
+                  <option value="cancelled">Cancelada</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="appointment-delete-btn" onclick="deleteAppointmentWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CADASTRO/EDIÇÃO DE RECEITAS -->
+  <div class="modal fade" id="prescriptionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-capsule text-primary me-2"></i><span id="prescription-modal-title">Nova Receita Médica</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="prescription-form" onsubmit="handleSavePrescription(event)">
+            <input type="hidden" id="prescription-id">
+
+            <h6 class="fw-bold text-primary mb-2">Informações Básicas</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12 col-md-6">
+                <label for="prescription-doctor" class="form-label small fw-medium text-white-50">Médico *</label>
+                <select class="form-select glass-input" id="prescription-doctor" required>
+                  <option value="">Selecione...</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-date" class="form-label small fw-medium text-white-50">Data da Receita *</label>
+                <input type="date" class="form-control glass-input" id="prescription-date" required>
+              </div>
+            </div>
+
+            <h6 class="fw-bold text-primary mb-2">Medicamento</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <label for="prescription-medication" class="form-label small fw-medium text-white-50">Nome do Medicamento *</label>
+                <input type="text" class="form-control glass-input" id="prescription-medication" placeholder="Ex: Sumatriptana" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-dosage" class="form-label small fw-medium text-white-50">Dosagem *</label>
+                <input type="text" class="form-control glass-input" id="prescription-dosage" placeholder="Ex: 50mg" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-form" class="form-label small fw-medium text-white-50">Forma Farmacêutica</label>
+                <select class="form-select glass-input" id="prescription-form">
+                  <option>Comprimido</option>
+                  <option>Cápsula</option>
+                  <option>Injeção</option>
+                  <option>Spray</option>
+                  <option>Líquido</option>
+                </select>
+              </div>
+            </div>
+
+            <h6 class="fw-bold text-primary mb-2">Modo de Uso</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12 col-md-6">
+                <label for="prescription-frequency" class="form-label small fw-medium text-white-50">Frequência de Uso</label>
+                <input type="text" class="form-control glass-input" id="prescription-frequency" placeholder="Ex: 1x ao dia, conforme necessário">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-duration-type" class="form-label small fw-medium text-white-50">Tipo de Uso</label>
+                <select class="form-select glass-input" id="prescription-duration-type">
+                  <option value="continuous">Contínuo</option>
+                  <option value="as_needed">Conforme Necessário</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="prescription-instructions" class="form-label small fw-medium text-white-50">Instruções Detalhadas</label>
+                <textarea class="form-control glass-input" id="prescription-instructions" rows="2" placeholder="Como usar o medicamento..."></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-start-date" class="form-label small fw-medium text-white-50">Data Início</label>
+                <input type="date" class="form-control glass-input" id="prescription-start-date">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-end-date" class="form-label small fw-medium text-white-50">Data Fim (se aplica)</label>
+                <input type="date" class="form-control glass-input" id="prescription-end-date">
+              </div>
+            </div>
+
+            <h6 class="fw-bold text-primary mb-2">Indicação</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <label for="prescription-indication" class="form-label small fw-medium text-white-50">Indicação Médica</label>
+                <select class="form-select glass-input" id="prescription-indication">
+                  <option>Dor de Enxaqueca (Resgate)</option>
+                  <option>Prevenção de Enxaqueca</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-preventive"> É medicação preventiva?
+                </label>
+              </div>
+            </div>
+
+            <h6 class="fw-bold text-primary mb-2">Monitoramento</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <label for="prescription-adherence" class="form-label small fw-medium text-white-50">Status de Adesão</label>
+                <select class="form-select glass-input" id="prescription-adherence">
+                  <option value="active">Em Uso</option>
+                  <option value="paused">Pausado</option>
+                  <option value="discontinued">Descontinuado</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="prescription-efficacy" class="form-label small fw-medium text-white-50">Notas sobre Eficácia</label>
+                <textarea class="form-control glass-input" id="prescription-efficacy" rows="2" placeholder="Como o medicamento está funcionando..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-helps"> Ajuda a prevenir crises?
+                </label>
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-triggers"> Pode gatilhar crises?
+                </label>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="prescription-delete-btn" onclick="deletePrescriptionWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts Bootstrap & App -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/medical-tracking.js"></script>
 </body>
 </html>
