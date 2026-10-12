@@ -10,7 +10,7 @@ const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 // OpenRouter AI - Análise Inteligente de Enxaqueca
 const GROQ_API_KEY  = 'sk-or-' + 'v1-e2351c4dcd06abbdc5e5a1aa66ffb71fbecc9424e7a7316c8592f83f3f0bb1dd';
 const GROQ_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-const GROQ_MODEL    = "nvidia/nemotron-3.5-lightning:free";
+const GROQ_MODEL    = "openrouter/free";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
