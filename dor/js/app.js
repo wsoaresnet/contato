@@ -10,7 +10,7 @@ const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 // OpenRouter AI - Análise Inteligente de Enxaqueca
 const GROQ_API_KEY  = 'sk-or-' + 'v1-e2351c4dcd06abbdc5e5a1aa66ffb71fbecc9424e7a7316c8592f83f3f0bb1dd';
 const GROQ_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-const GROQ_MODEL    = "mistralai/mistral-7b-instruct:free";
+const GROQ_MODEL    = "nvidia/nemotron-3.5-lightning:free";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
@@ -1045,7 +1045,7 @@ function renderGeminiSectionInPDF(doc, text, finalY) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (OpenRouter / Mistral 7B)', INNER_X, finalY + 4);
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (OpenRouter / Nemotron)', INNER_X, finalY + 4);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
