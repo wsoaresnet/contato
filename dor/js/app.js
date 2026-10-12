@@ -855,16 +855,13 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
   }
 }
 
-async function addGeminiSectionToPDF(doc, crises, prescriptions, finalY, formatDateFn) {
-  const dateFrom = document.getElementById("report-date-from")?.value || "";
-  const dateTo   = document.getElementById("report-date-to")?.value   || "";
-
+// Chama a API Gemini e retorna o texto do parecer. Lança erro se falhar.
+async function fetchGeminiAnalysis(crises, prescriptions, dateFrom, dateTo) {
   const daysPain = new Set(crises.map(c => c.date)).size;
   const totalCrises = crises.length;
   const avgIntensity = totalCrises > 0
     ? (crises.reduce((a, c) => a + Number(c.intensity), 0) / totalCrises).toFixed(1) : 0;
 
-  // Gatilhos mais frequentes
   const trigCounts = {};
   crises.forEach(c => {
     const t = Array.isArray(c.triggers) ? c.triggers : [];
@@ -872,7 +869,6 @@ async function addGeminiSectionToPDF(doc, crises, prescriptions, finalY, formatD
   });
   const topTriggers = Object.entries(trigCounts).sort((a,b) => b[1]-a[1]).slice(0,5);
 
-  // Estatísticas de eficácia por medicamento
   const medStats = {};
   crises.forEach(c => {
     let meds = [];
@@ -890,17 +886,14 @@ async function addGeminiSectionToPDF(doc, crises, prescriptions, finalY, formatD
   const medEfficacyLines = Object.entries(medStats).sort((a,b) => b[1].uses - a[1].uses).slice(0,6)
     .map(([name, s]) => `${name}: ${s.uses} usos, alívio total ${s.relieved}x, parcial ${s.partial}x, sem alívio ${s.none}x`);
 
-  // Medicamentos de uso contínuo (prescritos)
   const continuousMeds = (prescriptions||[]).filter(p => p.duration_type === 'continuous').map(p => p.medication_name);
   const allPrescribed  = (prescriptions||[]).map(p => `${p.medication_name} (${p.duration_type === 'continuous' ? 'contínuo' : 'sob demanda'})`);
 
-  // Dias com medicação (risco de abuso)
   const daysWithMed = new Set(crises.filter(c => {
     try { const m = JSON.parse(c.medication||'[]'); return Array.isArray(m) ? m.length > 0 : !!c.medication; }
     catch { return !!c.medication; }
   }).map(c => c.date)).size;
 
-  // Sono e estresse médios (se disponíveis)
   const sleepData  = crises.filter(c => c.sleep_hours != null).map(c => Number(c.sleep_hours));
   const stressData = crises.filter(c => c.stress_level != null).map(c => Number(c.stress_level));
   const avgSleep   = sleepData.length  > 0 ? (sleepData.reduce((a,b) => a+b, 0)  / sleepData.length).toFixed(1)  : null;
@@ -924,58 +917,62 @@ ${medEfficacyLines.join('\n') || 'sem dados suficientes'}
 
 Redija o parecer agora, em texto corrido, iniciando diretamente com a análise:`;
 
-  try {
-    const response = await fetch(GEMINI_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 600 } })
-    });
-    if (!response.ok) return finalY;
-    const jsonResp = await response.json();
-    const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const text = rawText.replace(/\*+/g, '').replace(/#{1,6}\s?/g, '').replace(/\n{3,}/g, '\n\n').trim();
-    if (!text) return finalY;
+  const response = await fetch(GEMINI_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.4, maxOutputTokens: 600 } })
+  });
 
-    if (finalY > 220) { doc.addPage(); finalY = 20; }
+  if (!response.ok) {
+    const errBody = await response.text().catch(() => String(response.status));
+    throw new Error(`HTTP ${response.status} — ${errBody.slice(0, 200)}`);
+  }
 
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    const splitText = doc.splitTextToSize(text, 172);
-    const lineH = 5;
-    const blockH = 12 + splitText.length * lineH + 6; // título + texto + padding
+  const jsonResp = await response.json();
+  const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const text = rawText.replace(/\*+/g, '').replace(/#{1,6}\s?/g, '').replace(/\n{3,}/g, '\n\n').trim();
+  if (!text) throw new Error('A API retornou uma resposta vazia.');
+  return text;
+}
 
-    if (finalY + blockH > 280) { doc.addPage(); finalY = 20; }
+// Renderiza a seção do Gemini no PDF com o texto pré-carregado.
+function renderGeminiSectionInPDF(doc, text, finalY) {
+  if (finalY > 220) { doc.addPage(); finalY = 20; }
 
-    doc.setFillColor(240, 245, 255);
-    doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2, 'F');
-    doc.setDrawColor(13, 110, 253);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  const splitText = doc.splitTextToSize(text, 172);
+  const lineH = 5;
+  const blockH = 12 + splitText.length * lineH + 6;
 
-    // Linha decorativa azul lateral
-    doc.setFillColor(13, 110, 253);
-    doc.rect(14, finalY - 2, 3, blockH, 'F');
+  if (finalY + blockH > 280) { doc.addPage(); finalY = 20; }
 
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(13, 110, 253);
-    doc.text("Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)", 20, finalY + 4);
+  doc.setFillColor(240, 245, 255);
+  doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2, 'F');
+  doc.setDrawColor(13, 110, 253);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2);
 
-    doc.setFontSize(7.5);
-    doc.setFont("helvetica", "italic");
-    doc.setTextColor(100, 116, 139);
-    doc.text("Este parecer e gerado por IA com base nos dados registrados. Deve ser interpretado pelo medico responsavel.", 20, finalY + 9);
+  doc.setFillColor(13, 110, 253);
+  doc.rect(14, finalY - 2, 3, blockH, 'F');
 
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(30, 41, 59);
-    doc.text(splitText, 20, finalY + 15);
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(13, 110, 253);
+  doc.text("Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)", 20, finalY + 4);
 
-    finalY += blockH + 6;
-  } catch (e) { /* silently skip if AI fails */ }
+  doc.setFontSize(7.5);
+  doc.setFont("helvetica", "italic");
+  doc.setTextColor(100, 116, 139);
+  doc.text("Este parecer e gerado por IA com base nos dados registrados. Deve ser interpretado pelo medico responsavel.", 20, finalY + 9);
 
-  return finalY;
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(30, 41, 59);
+  doc.text(splitText, 20, finalY + 15);
+
+  return finalY + blockH + 6;
 }
 
 // 1. CORRELAÇÃO MEDICAMENTO × EFICÁCIA
@@ -1687,6 +1684,24 @@ async function generatePDFReport() {
 
     filtered.sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`));
 
+    // Pré-carrega a análise do Gemini antes de montar o PDF
+    const { data: rxForGemini } = await supabaseClient
+      .from('prescriptions')
+      .select('medication_name,dosage,adherence_status,duration_type,helps_prevent,efficacy_notes')
+      .eq('username', currentUser.username)
+      .in('adherence_status', ['active', 'paused']);
+
+    let geminiText = null;
+    try {
+      geminiText = await fetchGeminiAnalysis(filtered, rxForGemini || [], reportFrom, reportTo);
+    } catch (geminiErr) {
+      console.error('[Gemini]', geminiErr);
+      const continuar = window.confirm(
+        `A análise do Gemini AI falhou.\n\nErro: ${geminiErr.message}\n\nDeseja gerar o relatório sem a análise de IA?`
+      );
+      if (!continuar) return;
+    }
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
@@ -1801,15 +1816,9 @@ async function generatePDFReport() {
 
     let finalY = doc.lastAutoTable.finalY + 12;
 
-    // GEMINI AI: Resumo clínico no PDF (se checkbox marcado)
-    const includeAI = document.getElementById('pdf-include-ai')?.checked !== false;
-    if (includeAI) {
-      try {
-        const { data: rxForPDF } = await supabaseClient
-          .from('prescriptions').select('medication_name,dosage,adherence_status')
-          .eq('username', currentUser.username).in('adherence_status', ['active']);
-        finalY = await addGeminiSectionToPDF(doc, filtered, rxForPDF || [], finalY, formatDate);
-      } catch(e) { /* ignora se AI falhar */ }
+    // GEMINI AI: Renderiza a seção com o texto pré-carregado (se disponível)
+    if (geminiText) {
+      finalY = renderGeminiSectionInPDF(doc, geminiText, finalY);
     }
 
     // 6. Seção de Medicamentos em Uso
