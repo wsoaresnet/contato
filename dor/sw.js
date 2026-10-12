@@ -1,4 +1,4 @@
-const CACHE_NAME = 'diario-enxaqueca-ws-v4';
+const CACHE_NAME = 'diario-enxaqueca-ws-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

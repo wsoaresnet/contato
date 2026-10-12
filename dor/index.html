@@ -222,6 +222,9 @@
       </div>
     </nav>
 
+    <!-- 3. Banner: Próxima Consulta -->
+    <div id="next-apt-banner" class="d-none container-fluid pt-3 px-3 px-md-4"></div>
+
     <main class="container-fluid py-4">
       <!-- Barra de Ações Principais -->
       <div class="row g-3 mb-4">
@@ -287,7 +290,8 @@
               <div class="kpi-card glass-card border-0 p-3 rounded-3 text-center h-100">
                 <span class="text-white-50 small fw-medium d-block mb-1">Dias com Dor</span>
                 <h3 class="fw-extrabold text-primary m-0 fs-2" id="kpi-days-pain">0</h3>
-                <span class="text-white-50 xx-small d-block mt-1">mês selecionado</span>
+                <span class="text-white-50 xx-small d-block mt-1">período selecionado</span>
+                <span class="kpi-delta-slot d-block"></span>
               </div>
             </div>
             <div class="col-6 col-md-3">
@@ -295,6 +299,7 @@
                 <span class="text-white-50 small fw-medium d-block mb-1">Uso de Medicação</span>
                 <h3 class="fw-extrabold text-warning m-0 fs-2" id="kpi-days-med">0</h3>
                 <span class="text-white-50 xx-small d-block mt-1" id="kpi-med-desc">dias com analgésicos</span>
+                <span class="kpi-delta-slot d-block"></span>
               </div>
             </div>
             <div class="col-6 col-md-3">
@@ -302,6 +307,7 @@
                 <span class="text-white-50 small fw-medium d-block mb-1">Média Intensidade</span>
                 <h3 class="fw-extrabold text-success m-0 fs-2" id="kpi-avg-pain">0.0</h3>
                 <span class="text-white-50 xx-small d-block mt-1">escala 1-10</span>
+                <span class="kpi-delta-slot d-block"></span>
               </div>
             </div>
             <div class="col-6 col-md-3">
@@ -309,6 +315,7 @@
                 <span class="text-white-50 small fw-medium d-block mb-1">Índice SBCe</span>
                 <h3 class="fw-extrabold text-info m-0 fs-2" id="kpi-sbce-index">0</h3>
                 <span class="text-white-50 xx-small d-block mt-1">Soc. Bras. Cefaleia</span>
+                <span class="kpi-delta-slot d-block"></span>
               </div>
             </div>
           </div>
@@ -341,6 +348,40 @@
             </div>
           </div>
 
+          <!-- GEMINI AI: Análise Inteligente -->
+          <div class="card glass-card border-0 p-4 rounded-3 mb-4" style="border: 1px solid rgba(13,110,253,0.25) !important;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <h6 class="fw-bold text-white mb-0">
+                <i class="bi bi-stars text-primary me-2"></i>Análise Clínica com Inteligência Artificial
+                <span class="badge x-small ms-2" style="background:rgba(13,110,253,0.2);color:#60a5fa;border:1px solid rgba(13,110,253,0.3);">Gemini AI</span>
+              </h6>
+              <button id="gemini-analyze-btn" class="btn btn-primary btn-sm rounded-3 px-3" onclick="generateGeminiAnalysis()">
+                <i class="bi bi-stars me-2"></i>Analisar com IA
+              </button>
+            </div>
+            <p class="text-white-50 x-small mb-3">
+              Envia os dados do período selecionado para o Gemini e recebe um resumo clínico, padrões e sugestões para sua próxima consulta.
+            </p>
+            <div id="gemini-result-card" class="d-none">
+              <div class="p-3 rounded-3" style="background:rgba(13,110,253,0.06);border:1px solid rgba(13,110,253,0.18);">
+                <div id="gemini-result-text" class="small text-white lh-lg"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. Correlação Medicamento × Eficácia -->
+          <div class="card glass-card border-0 p-4 rounded-3 mb-4" id="med-correlation-card">
+            <h6 class="fw-bold text-white mb-3"><i class="bi bi-bar-chart-line text-info me-2"></i>Eficácia dos Medicamentos no Período</h6>
+            <div id="med-correlation-container">
+              <p class="text-white-50 text-center small py-2 mb-0">Nenhum medicamento registrado no período.</p>
+            </div>
+            <div class="d-flex gap-3 mt-3 pt-2 border-top border-white border-opacity-10">
+              <span class="x-small text-white-50"><span style="color:#10b981">■</span> Alívio completo</span>
+              <span class="x-small text-white-50"><span style="color:#f59e0b">■</span> Parcial</span>
+              <span class="x-small text-white-50"><span style="color:#ef4444">■</span> Sem efeito</span>
+            </div>
+          </div>
+
           <!-- Escala Visual -->
           <div class="card glass-card border-0 p-3 rounded-3">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
@@ -363,6 +404,32 @@
             </h5>
             <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 rounded-pill px-3 py-1" id="crisis-count">0 registros</span>
           </div>
+
+          <!-- 5. Filtros do Histórico -->
+          <div class="history-filter-bar mb-3">
+            <div class="row g-2 align-items-end">
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Intensidade mínima: <strong id="history-intensity-val">1</strong></label>
+                <input type="range" class="form-range" id="history-filter-intensity" min="1" max="10" value="1"
+                  oninput="document.getElementById('history-intensity-val').textContent=this.value; filterHistory()">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Com medicamento</label>
+                <select class="form-select form-select-sm glass-input" id="history-filter-med" onchange="filterHistory()">
+                  <option value="all">Todos os registros</option>
+                  <option value="yes">Com medicamento</option>
+                  <option value="no">Sem medicamento</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Gatilho específico</label>
+                <select class="form-select form-select-sm glass-input" id="history-filter-trigger" onchange="filterHistory()">
+                  <option value="">Qualquer gatilho</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div id="crisis-cards-container" class="row g-3">
             <!-- Inserido dinamicamente via JS -->
           </div>
@@ -474,6 +541,24 @@
                 <label for="crisis-duration" class="form-label small fw-medium text-white-50">Duração Aproximada</label>
                 <input type="text" class="form-control glass-input" id="crisis-duration" placeholder="Ex: 4 horas, 30 minutos, o dia todo...">
               </div>
+
+              <!-- 2. Sono e Estresse -->
+              <div class="row g-3 mb-1">
+                <div class="col-12 col-md-6">
+                  <label class="form-label small fw-medium text-white-50">
+                    <i class="bi bi-moon-stars text-info me-1"></i>Horas de Sono (noite anterior): <strong id="sleep-hours-val">7</strong>h
+                  </label>
+                  <input type="range" class="form-range" id="crisis-sleep-hours" min="2" max="12" step="0.5" value="7"
+                    oninput="document.getElementById('sleep-hours-val').textContent=this.value">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label small fw-medium text-white-50">
+                    <i class="bi bi-emoji-expressionless text-warning me-1"></i>Nível de Estresse: <strong id="stress-level-val">2</strong>/5
+                  </label>
+                  <input type="range" class="form-range" id="crisis-stress-level" min="0" max="5" step="1" value="2"
+                    oninput="document.getElementById('stress-level-val').textContent=this.value">
+                </div>
+              </div>
             </div>
 
             <!-- PASSO 2: INTENSIDADE DA DOR (1 A 10) -->
@@ -524,6 +609,14 @@
                 <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="A" class="me-1"> <b>A</b> - Aura (Visão/Formigam.)</label></div>
                 <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Tontura" class="me-1"> <b>T</b> - Tontura / Vertigem</label></div>
                 <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Pescoço" class="me-1"> <b>P</b> - Rigidez no Pescoço</label></div>
+              </div>
+
+              <!-- 8. Gatilhos mais frequentes do usuário (sugestão inteligente) -->
+              <div id="quick-triggers-section" class="d-none mb-3">
+                <label class="form-label small fw-medium text-info mb-2">
+                  <i class="bi bi-star-fill me-1"></i>Seus gatilhos mais frequentes — clique para marcar:
+                </label>
+                <div id="quick-triggers" class="d-flex flex-wrap gap-2 mb-1"></div>
               </div>
 
               <label class="form-label fw-bold text-white small mb-2">Gatilhos Desencadeantes (O que veio antes?):</label>
@@ -684,8 +777,15 @@
             <textarea class="form-control glass-input" id="doctor-notes" rows="3" placeholder="Ex: Perguntar sobre eficácia da dosagem do preventivo..."></textarea>
           </div>
 
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="pdf-include-ai" checked>
+            <label class="form-check-label small text-white-50" for="pdf-include-ai">
+              <i class="bi bi-stars text-primary me-1"></i>Incluir análise clínica do Gemini AI no relatório
+            </label>
+          </div>
+
           <button class="btn btn-primary w-100 py-2.5 rounded-3 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2" onclick="generatePDFReport()">
-            <i class="bi bg-download"></i>
+            <i class="bi bi-download me-1"></i>
             <span>Baixar Relatório PDF Completo</span>
           </button>
         </div>
@@ -838,6 +938,7 @@
         <div class="modal-body px-4 py-4">
           <form id="prescription-form" onsubmit="handleSavePrescription(event)">
             <input type="hidden" id="prescription-id">
+            <input type="hidden" id="prescription-group-ids" value="">
 
             <h6 class="fw-bold text-primary mb-2">Informações Básicas</h6>
             <div class="row g-3 mb-3">
@@ -853,53 +954,15 @@
               </div>
             </div>
 
-            <h6 class="fw-bold text-primary mb-2">Medicamento</h6>
-            <div class="row g-3 mb-3">
-              <div class="col-12">
-                <label for="prescription-medication" class="form-label small fw-medium text-white-50">Nome do Medicamento *</label>
-                <input type="text" class="form-control glass-input" id="prescription-medication" placeholder="Ex: Sumatriptana" required>
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="prescription-dosage" class="form-label small fw-medium text-white-50">Dosagem *</label>
-                <input type="text" class="form-control glass-input" id="prescription-dosage" placeholder="Ex: 50mg" required>
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="prescription-form" class="form-label small fw-medium text-white-50">Forma Farmacêutica</label>
-                <select class="form-select glass-input" id="prescription-form">
-                  <option>Comprimido</option>
-                  <option>Cápsula</option>
-                  <option>Injeção</option>
-                  <option>Spray</option>
-                  <option>Líquido</option>
-                </select>
-              </div>
+            <!-- LISTA DINÂMICA DE MEDICAMENTOS -->
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="fw-bold text-primary mb-0">Medicamentos da Receita</h6>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-3" onclick="addRxMedRow()">
+                <i class="bi bi-plus-lg me-1"></i>Adicionar Medicamento
+              </button>
             </div>
-
-            <h6 class="fw-bold text-primary mb-2">Modo de Uso</h6>
-            <div class="row g-3 mb-3">
-              <div class="col-12 col-md-6">
-                <label for="prescription-frequency" class="form-label small fw-medium text-white-50">Frequência de Uso</label>
-                <input type="text" class="form-control glass-input" id="prescription-frequency" placeholder="Ex: 1x ao dia, conforme necessário">
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="prescription-duration-type" class="form-label small fw-medium text-white-50">Tipo de Uso</label>
-                <select class="form-select glass-input" id="prescription-duration-type">
-                  <option value="continuous">Contínuo</option>
-                  <option value="as_needed">Conforme Necessário</option>
-                </select>
-              </div>
-              <div class="col-12">
-                <label for="prescription-instructions" class="form-label small fw-medium text-white-50">Instruções Detalhadas</label>
-                <textarea class="form-control glass-input" id="prescription-instructions" rows="2" placeholder="Como usar o medicamento..."></textarea>
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="prescription-start-date" class="form-label small fw-medium text-white-50">Data Início</label>
-                <input type="date" class="form-control glass-input" id="prescription-start-date">
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="prescription-end-date" class="form-label small fw-medium text-white-50">Data Fim (se aplica)</label>
-                <input type="date" class="form-control glass-input" id="prescription-end-date">
-              </div>
+            <div id="rx-meds-list" class="mb-3">
+              <!-- Linhas de medicamento inseridas dinamicamente -->
             </div>
 
             <h6 class="fw-bold text-primary mb-2">Indicação</h6>
