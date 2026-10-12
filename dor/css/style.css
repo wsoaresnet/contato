@@ -853,6 +853,9 @@ html {
   box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
 }
 
+/* RECEITA: cor de texto mais suave para detalhes */
+.text-white-25 { color: rgba(255,255,255,0.4) !important; }
+
 /* BOTÕES DE PRESET DE PERÍODO */
 .period-preset-btn.active,
 .report-preset-btn.active {
@@ -959,4 +962,59 @@ html {
   border-color: rgba(255, 255, 255, 0.3) !important;
   transform: translateY(-2px);
 }
+}
+
+/* ============================================================
+   MELHORIAS v2
+   ============================================================ */
+
+/* 3. Banner próxima consulta */
+.next-apt-banner {
+  background: linear-gradient(135deg, rgba(13,202,240,0.10) 0%, rgba(13,110,253,0.07) 100%);
+  border: 1px solid rgba(13,202,240,0.22);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+
+/* 4. KPI comparação de períodos */
+.kpi-delta { font-size: 0.68rem; font-weight: 700; display: block; margin-top: 2px; }
+.kpi-delta-up   { color: #ef4444; }
+.kpi-delta-down { color: #10b981; }
+.kpi-delta-same { color: rgba(255,255,255,0.28); }
+
+/* 1. Barras de eficácia de medicamento */
+.med-eff-bar {
+  height: 7px; border-radius: 4px; overflow: hidden;
+  display: flex; background: rgba(255,255,255,0.07);
+}
+
+/* 7. Tag de vencimento de receita */
+.rx-expiry-tag {
+  background: rgba(245,158,11,0.18);
+  border: 1px solid rgba(245,158,11,0.40);
+  border-radius: 5px; padding: 2px 8px;
+  font-size: 0.71em; font-weight: 600; color: #f59e0b;
+}
+.rx-expiry-expired { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #ef4444; }
+
+/* 8. Botões de gatilho rápido */
+.quick-trigger-btn { transition: all 0.15s ease; }
+.quick-trigger-btn.selected {
+  background: rgba(245,158,11,0.25) !important;
+  color: #ffc107 !important; border-color: #ffc107 !important;
+}
+
+/* Gemini AI result card */
+#gemini-result-text {
+  line-height: 1.7;
+}
+#gemini-result-text strong {
+  color: #60a5fa;
+}
+
+/* 5. Filtros do histórico */
+.history-filter-bar {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 0.75rem 1rem;
 }
