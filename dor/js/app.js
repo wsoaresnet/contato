@@ -7,11 +7,10 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
-// Cloudflare Workers AI - Análise Inteligente de Enxaqueca
-const CF_TOKEN    = 'cfut_' + 'hTXGXEeHq5DuHXi51ScA38qeqfLWF9rrLQxT2N4a30fb8c2e';
-const CF_ENDPOINT = 'https://api.cloudflare.com/client/v4/accounts/2d45602d56254249b4c76b477eda6847/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast';
-const GROQ_API_KEY  = CF_TOKEN;
-const GROQ_ENDPOINT = CF_ENDPOINT;
+// AI via proxy PHP (token fica no servidor, fora do JS)
+const CF_TOKEN    = '';
+const GROQ_API_KEY  = '';
+const GROQ_ENDPOINT = 'https://diario-ai.willansoares0610.workers.dev';
 const GROQ_MODEL    = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
@@ -821,7 +820,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 800,
@@ -941,7 +940,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
+      headers: { 'Content-Type': 'application/json' },
       body
     });
 
