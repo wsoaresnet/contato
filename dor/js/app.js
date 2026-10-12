@@ -10,7 +10,7 @@ const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 // GROQ AI - Análise Inteligente de Enxaqueca
 const GROQ_API_KEY  = "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";
 const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL    = "llama-3.3-70b-versatile";
+const GROQ_MODEL    = "llama3-70b-8192";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
