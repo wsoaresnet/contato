@@ -1,1998 +1,1022 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-bs-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Diário da Enxaqueca | Willian Soares</title>
+  
+  <!-- PWA & Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Enxaqueca">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  
+  <!-- Bootstrap 5.3 CSS & Bootstrap Icons (Identidade visual williansoares.net.br) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Fonte Google: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <title>Willian Soares | Analista de TI & Consultor</title>
+  <!-- jsPDF & autoTable para Relatório Médico -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-    <!-- SEO E META TAGS -->
-    <meta name="description" content="Portfólio de Willian Soares, profissional de TI com mais de 3 anos de experiência em suporte, redes, gestão de projetos e segurança. Conheça minhas habilidades e projetos.">
-    <meta name="author" content="Willian Soares">
+  <!-- Chart.js para Gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Willian Soares | Analista de TI & Consultor">
-    <meta property="og:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
-    <meta property="og:image" content="https://williansoares.net.br/img/og-image.jpg">
-    <meta property="og:url" content="https://williansoares.net.br/">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Willian Soares | Analista de TI & Consultor">
-    <meta name="twitter:description" content="Portfólio profissional de Willian Soares, especialista em soluções de TI.">
-    <meta name="twitter:image" content="https://williansoares.net.br/img/og-image.jpg">
-
-    <!-- PWA -->
-    <meta name="theme-color" content="#082f49">
-    <link rel="manifest" href="manifest.json">
-
-    <!-- 
-        MUDANÇA: Trocado Inter (genérica, sinalizada como "AI slop" em guidelines de design) 
-        por Syne (display bold moderno) + DM Sans (body legível e distinto).
-        Isso melhora a personalidade visual do site sem custo de performance relevante.
-    -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='15' fill='%23111827'/%3e%3ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='50' font-family='Syne, sans-serif' fill='%2322d3ee' font-weight='bold'%3eWS%3c/text%3e%3c/svg%3e">
-
-    <style>
-        /* ===== VARIÁVEIS DE TEMA ===== */
-        :root {
-            --bg-gradient-start: #0a1628;
-            --bg-gradient-mid: #082f49;
-            --bg-gradient-end: #0e3a5a;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --text-light: #f1f5f9;
-            --text-cyan-400: #22d3ee;
-            --text-cyan-300: #67e8f9;
-            --border-cyan-700: #0e7490;
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --progress-bar-bg: rgba(255, 255, 255, 0.1);
-            --form-control-bg: rgba(255, 255, 255, 0.07);
-            --btn-outline-color: var(--text-light);
-            --btn-outline-hover-bg: var(--text-light);
-            --btn-outline-hover-color: var(--bg-gradient-start);
-            --stats-bg: rgba(34, 211, 238, 0.05);
-            --stats-border: rgba(34, 211, 238, 0.15);
-            /* NOVO: variável para facilitar edição de fonte principal */
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-        }
-
-        [data-theme="light"] {
-            --bg-gradient-start: #f0f4f8;
-            --bg-gradient-mid: #e8f0f7;
-            --bg-gradient-end: #dde8f2;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-light: #334155;
-            --text-cyan-400: #0891b2;
-            --text-cyan-300: #06b6d4;
-            --border-cyan-700: #155e75;
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(0, 0, 0, 0.08);
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --progress-bar-bg: rgba(0, 0, 0, 0.08);
-            --form-control-bg: rgba(255, 255, 255, 0.8);
-            --btn-outline-color: var(--text-secondary);
-            --btn-outline-hover-bg: var(--text-secondary);
-            --bs-btn-hover-color: var(--bg-gradient-start);
-            --stats-bg: rgba(8, 145, 178, 0.06);
-            --stats-border: rgba(8, 145, 178, 0.18);
-        }
-
-        /* ===== BASE ===== */
-        html { scroll-behavior: smooth; }
-        body {
-            /*
-                MUDANÇA: Fonte trocada de 'Inter' para var(--font-body).
-                MUDANÇA: Removido user-select: none do body inteiro.
-                Isso estava impedindo usuários de copiar o email e telefone de contato,
-                o que é um crime de usabilidade em site de portfólio.
-            */
-            font-family: var(--font-body);
-            min-height: 100vh;
-            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 55%, var(--bg-gradient-end) 100%);
-            background-attachment: fixed;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
-            padding-top: 5rem;
-        }
-
-        /* ===== GLASS ===== */
-        .glass-section {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 var(--shadow-color);
-            /*
-                MUDANÇA: Seções começam com opacity:0 e animam para 1 via IntersectionObserver.
-                Mantido exatamente o mesmo comportamento original.
-            */
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.7s ease, transform 0.7s ease, background 0.3s ease, border 0.3s ease;
-        }
-        .glass-section.visible { opacity: 1; transform: translateY(0); }
-
-        /* ===== UTILITÁRIOS ===== */
-        .text-cyan-400 { color: var(--text-cyan-400) !important; }
-        .text-cyan-300 { color: var(--text-cyan-300) !important; }
-        .border-cyan-700 { border-color: var(--border-cyan-700); }
-        .text-light { color: var(--text-light) !important; }
-        p, .fs-5 { color: var(--text-primary); }
-        .card-text, .service-card p { color: var(--text-secondary) !important; }
-        footer p { color: var(--text-secondary) !important; }
-
-        /* NOVO: Fontes de display (headings) usam Syne */
-        h1, h2, h3, h4, h5, h6,
-        .section-heading,
-        .navbar-brand,
-        .hero-name {
-            font-family: var(--font-display);
-        }
-
-        /* ===== NAVBAR ===== */
-        .navbar-glass {
-            background: rgba(10, 22, 40, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--stats-border);
-            transition: background 0.3s ease;
-        }
-        [data-theme="light"] .navbar-glass {
-            background: rgba(240, 244, 248, 0.92);
-        }
-        .navbar-glass .navbar-brand {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--text-cyan-300) !important;
-            letter-spacing: 2px;
-        }
-        .navbar-glass .nav-link {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.83rem;
-            transition: color 0.2s ease;
-            padding: 0.5rem 0.6rem;
-        }
-        .navbar-glass .nav-link:hover,
-        .navbar-glass .nav-link.active { color: var(--text-cyan-400); }
-
-        .navbar-toggler { border-color: rgba(103,232,249,0.4); }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2834, 211, 238, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        #theme-switcher {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 1.1rem;
-            padding: 0.25rem 0.5rem;
-            transition: color 0.2s ease;
-        }
-        #theme-switcher:hover { color: var(--text-cyan-400); }
-
-        .navbar-cta {
-            background: var(--text-cyan-400);
-            color: #0a1628 !important;
-            border-radius: 20px;
-            padding: 0.35rem 1rem !important;
-            font-weight: 700 !important;
-            font-size: 0.8rem !important;
-            font-family: var(--font-display);
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-        .navbar-cta:hover {
-            background: var(--text-cyan-300);
-            transform: scale(1.04);
-        }
-
-        /* ===== HERO ===== */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-            padding: 5rem 1rem 4rem;
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -80px; left: 50%; transform: translateX(-50%);
-            width: 700px; height: 700px;
-            background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-avatar-wrap {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--text-cyan-400);
-            box-shadow: 0 0 0 8px rgba(34,211,238,0.08), 0 0 40px rgba(34,211,238,0.2);
-            overflow: hidden;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #082f49, #0e7490);
-            display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-display);
-            font-size: 2.2rem; font-weight: 800; color: var(--text-cyan-400);
-            /*
-                MUDANÇA: Adicionado transition para o efeito de hover no avatar.
-            */
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-        .hero-avatar-wrap:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 0 10px rgba(34,211,238,0.12), 0 0 60px rgba(34,211,238,0.3);
-        }
-        .hero-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
-
-        .hero-role {
-            font-size: 0.95rem;
-            letter-spacing: 0.1em;
-            color: var(--text-cyan-400);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
-        /* NOVO: linha separadora decorativa no hero */
-        .hero-divider {
-            width: 48px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--text-cyan-400), transparent);
-            margin: 1rem auto;
-            border-radius: 2px;
-        }
-
-        /* ===== STATS STRIP ===== */
-        .stats-strip {
-            background: var(--stats-bg);
-            border-top: 1px solid var(--stats-border);
-            border-bottom: 1px solid var(--stats-border);
-            padding: 1.5rem 0;
-        }
-        .stats-strip .stat-item { text-align: center; }
-        .stats-strip .stat-number {
-            display: block;
-            font-size: 2rem;
-            font-weight: 800;
-            font-family: var(--font-display);
-            color: var(--text-cyan-400);
-            line-height: 1;
-        }
-        .stats-strip .stat-label {
-            display: block;
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            margin-top: 0.35rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        /* ===== CARDS ===== */
-        .blog-card, .case-card, .service-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-        }
-        .blog-card:hover, .case-card:hover, .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 32px var(--shadow-color);
-            /*
-                MUDANÇA: Borda ganha destaque no hover para feedback visual melhor.
-            */
-            border-color: rgba(34,211,238,0.25);
-        }
-        .blog-card img, .case-card img { 
-            aspect-ratio: 16/9; 
-            object-fit: cover;
-            /*
-                MUDANÇA: Adicionado transition na imagem para efeito de zoom sutil no hover.
-            */
-            transition: transform 0.4s ease;
-        }
-        .blog-card:hover img, .case-card:hover img {
-            transform: scale(1.03);
-        }
-        .blog-card .card-img-top, .case-card .card-img-top {
-            overflow: hidden;
-        }
-
-        @media (max-width: 575.98px) {
-            .case-card { display: flex !important; flex-direction: row; }
-            .case-card .case-card-img-wrap {
-                width: 110px;
-                min-width: 110px;
-                flex-shrink: 0;
-                overflow: hidden;
-                border-radius: 0.375rem 0 0 0.375rem;
-            }
-            .case-card .case-card-img-wrap img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                aspect-ratio: unset;
-            }
-            .case-card .card-body { padding: 0.85rem; }
-        }
-
-        /* ===== SOBRE - IMAGEM ===== */
-        .about-img-frame {
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 2px solid var(--border-cyan-700);
-            box-shadow: 0 8px 32px var(--shadow-color), 0 0 0 6px rgba(34,211,238,0.05);
-        }
-        .about-img-frame img { width: 100%; object-fit: cover; display: block; }
-
-        /* ===== SKILL BARS ===== */
-        .skill-bar .progress { 
-            background-color: var(--progress-bar-bg); 
-            height: 8px; 
-            border-radius: 4px; 
-        }
-        .skill-bar .progress-bar {
-            background: linear-gradient(90deg, #22d3ee, #00c3ff);
-            width: 0%;
-            border-radius: 4px;
-            position: relative;
-            /*
-                MUDANÇA: Adicionado transition para animação suave das barras de habilidade.
-            */
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .skill-bar .progress-bar-text {
-            position: absolute; right: 0; top: -1.5rem;
-            font-size: 0.78rem; color: var(--text-cyan-300); font-weight: 600;
-        }
-        .skill-bar p { font-size: 0.95rem; }
-
-        /* ===== TESTIMONIAL ===== */
-        .testimonial { background: var(--glass-bg); border-left: 4px solid #00c3ff; }
-
-        /* ===== FORM ===== */
-        .form-control-glass {
-            background: var(--form-control-bg) !important;
-            border: 1px solid var(--glass-border) !important;
-            color: var(--text-primary) !important;
-            /*
-                MUDANÇA: Adicionado font-family para garantir consistência tipográfica nos inputs.
-            */
-            font-family: var(--font-body) !important;
-        }
-        .form-control-glass::placeholder { color: var(--text-secondary); opacity: 0.8; }
-        .form-control-glass:focus {
-            border-color: var(--text-cyan-400) !important;
-            box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2) !important;
-            background: rgba(34, 211, 238, 0.04) !important;
-        }
-
-        /* ===== EASTER EGG ===== */
-        .easter-egg-active { transition: filter 0.5s ease; filter: hue-rotate(180deg) invert(1); }
-
-        /* ===== BACK TO TOP ===== */
-        #back-to-top-btn {
-            position: fixed; bottom: 90px; right: 20px;
-            width: 44px; height: 44px;
-            background-color: var(--text-cyan-400);
-            color: var(--bg-gradient-start);
-            border-radius: 50%; display: none; place-items: center;
-            z-index: 1030; opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-            /*
-                MUDANÇA: Movido de bottom:20px para bottom:90px para não sobrepor o botão
-                do chatbot, que fica em bottom:20px, right:20px. Os dois estavam colados.
-            */
-        }
-        #back-to-top-btn.show { display: grid; opacity: 1; }
-        #back-to-top-btn:hover { transform: scale(1.1); background-color: var(--text-cyan-300); }
-
-        /* ===== PARTÍCULAS ===== */
-        .particles-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
-        }
-
-        /* ===== LIGHTBOX ===== */
-        .lightbox {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); z-index: 1050;
-            display: flex; justify-content: center; align-items: center; padding: 2rem;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out;
-        }
-        .lightbox.active { opacity: 1; pointer-events: all; }
-        .lightbox img {
-            max-width: 90vw; max-height: 90vh; object-fit: contain;
-            border-radius: 0.75rem; box-shadow: 0 0 4rem rgba(34,211,238,0.4);
-        }
-        .lightbox .close-button {
-            position: absolute; top: 1.5rem; right: 1.5rem; font-size: 2.5rem;
-            color: white; cursor: pointer; line-height: 1; transition: transform 0.3s ease;
-        }
-        .lightbox .close-button:hover { transform: rotate(90deg) scale(1.2); }
-
-        /* ===== BOTÕES ===== */
-        .btn-cta {
-            background: linear-gradient(135deg, #06b6d4, #0891b2);
-            border: none;
-            color: white;
-            font-family: var(--font-display);
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            transition: all 0.3s ease;
-            /*
-                MUDANÇA: CTA principal ganhou gradiente para se destacar mais visualmente
-                e separar hierarquia de botões primário vs secundário.
-            */
-        }
-        .btn-cta:hover { 
-            background: linear-gradient(135deg, #22d3ee, #06b6d4); 
-            color: white; 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 24px rgba(6,182,212,0.4);
-        }
-        .social-icons a { transition: transform 0.2s ease-in-out, color 0.2s ease; }
-        .social-icons a:hover { transform: scale(1.25); color: var(--text-cyan-300) !important; }
-        .btn-outline-light {
-            --bs-btn-color: var(--btn-outline-color);
-            --bs-btn-border-color: var(--btn-outline-color);
-            --bs-btn-hover-bg: var(--btn-outline-hover-bg);
-            --bs-btn-hover-border-color: var(--btn-outline-hover-bg);
-            --bs-btn-hover-color: var(--bg-gradient-start);
-            font-family: var(--font-body);
-        }
-
-        /* ===== TIMELINE ===== */
-        .timeline { list-style: none; padding: 1rem 0; position: relative; }
-        .timeline:before {
-            content: ''; position: absolute; top: 0; left: 18px;
-            height: 100%; width: 3px;
-            background: linear-gradient(to bottom, var(--text-cyan-400), transparent);
-            border-radius: 2px;
-        }
-        .timeline-item { margin-bottom: 2.25rem; position: relative; padding-left: 52px; }
-        .timeline-item:before {
-            content: ''; position: absolute; left: 10px; top: 6px;
-            width: 18px; height: 18px; border-radius: 50%;
-            background: var(--text-cyan-400);
-            border: 3px solid var(--bg-gradient-start);
-            box-shadow: 0 0 10px rgba(34,211,238,0.5);
-        }
-        .timeline-item-title { font-weight: 700; color: var(--text-primary); font-size: 1.05rem; }
-        .timeline-item-subtitle { font-weight: 600; color: var(--text-cyan-300); font-size: 0.95rem; }
-        .timeline-item-period { font-size: 0.83rem; color: var(--text-secondary); margin-top: 0.2rem; }
-
-        /* ===== CARROSSEL ===== */
-        .carousel-container { position: relative; }
-        .carousel-track {
-            display: flex; overflow-x: auto; gap: 1rem;
-            scroll-snap-type: x mandatory; padding-bottom: 1rem;
-            margin-left: 1rem; margin-right: 1rem;
-            /*
-                MUDANÇA: Adicionado scroll-padding-left para o snap funcionar
-                corretamente com as margens laterais do carrossel.
-            */
-            scroll-padding-left: 1rem;
-        }
-        .carousel-track::-webkit-scrollbar { display: none; }
-        .carousel-track { -ms-overflow-style: none; scrollbar-width: none; }
-        .carousel-track > div { scroll-snap-align: start; flex-shrink: 0; width: 300px; }
-        /*
-            MUDANÇA: Adicionado min-height nos cards do blog para evitar layout shift
-            quando imagens demoram a carregar.
-        */
-        .carousel-track .blog-card { min-height: 340px; }
-
-        .carousel-control-prev, .carousel-control-next {
-            position: absolute; top: 50%; transform: translateY(-60%);
-            background-color: rgba(34,211,238,0.12);
-            border: 1px solid rgba(34,211,238,0.25);
-            color: var(--text-cyan-300); font-size: 1.4rem;
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10; cursor: pointer; opacity: 0.85;
-            transition: opacity 0.3s ease, background-color 0.3s ease;
-        }
-        .carousel-control-prev:hover, .carousel-control-next:hover {
-            opacity: 1; background-color: rgba(34,211,238,0.28);
-        }
-        .carousel-control-prev { left: -0.5rem; }
-        .carousel-control-next { right: -0.5rem; }
-
-        /* ===== GALERIA ===== */
-        .gallery-image { cursor: zoom-in; transition: transform 0.3s ease; }
-        .gallery-image:hover { transform: scale(1.04); }
-
-        /* ===== PRELOADER ===== */
-        .preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-gradient-start); z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease-in-out;
-        }
-        .preloader-hidden { opacity: 0; pointer-events: none; }
-        .preloader-spinner {
-            width: 50px; height: 50px;
-            border: 4px solid var(--glass-border);
-            border-top-color: var(--text-cyan-400);
-            border-radius: 50%; animation: spin 0.9s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ===== CHATBOT ===== */
-        #chatbot-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 56px; height: 56px;
-            background-color: #25d366;
-            color: white; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.75rem;
-            box-shadow: 0 4px 16px rgba(37,211,102,0.4);
-            cursor: pointer; z-index: 1030;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        #chatbot-btn:hover { 
-            transform: scale(1.1); 
-            box-shadow: 0 6px 24px rgba(37,211,102,0.55);
-        }
-        .chatbot-container {
-            position: fixed; bottom: 90px; right: 20px;
-            width: 90vw; max-width: 350px; height: 70vh; max-height: 500px;
-            background: var(--bg-gradient-start);
-            border: 1px solid var(--glass-border); border-radius: 1rem;
-            box-shadow: 0 8px 32px 0 var(--shadow-color);
-            display: none; flex-direction: column; z-index: 1040; overflow: hidden;
-        }
-        .chatbot-header {
-            background: linear-gradient(135deg, var(--text-cyan-400), #0891b2);
-            color: white; padding: 1rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-top-left-radius: 1rem; border-top-right-radius: 1rem;
-            font-family: var(--font-display);
-            font-weight: 700;
-        }
-        .chatbot-body {
-            flex-grow: 1; padding: 1rem; overflow-y: auto;
-            background-color: var(--bg-gradient-mid);
-            display: flex; flex-direction: column;
-        }
-        .chatbot-message {
-            background-color: var(--glass-bg); padding: 0.75rem 1rem;
-            border-radius: 1rem; margin-bottom: 0.75rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 85%;
-            font-size: 0.9rem; line-height: 1.5;
-        }
-        .user-message {
-            background: linear-gradient(135deg, var(--text-cyan-400), #0891b2);
-            color: white;
-            align-self: flex-end; margin-left: auto;
-        }
-        .chatbot-loading-dots { width: 40px; text-align: center; }
-        .chatbot-loading-dots::after {
-            content: '...'; display: inline-block; overflow: hidden;
-            vertical-align: bottom; animation: loading-dots 1.2s infinite;
-        }
-        @keyframes loading-dots { 0% { width: 0; } 50% { width: 1.5ch; } 100% { width: 0; } }
-        .chatbot-input {
-            display: flex; padding: 0.75rem 1rem;
-            border-top: 1px solid var(--glass-border);
-            background-color: var(--bg-gradient-start);
-            gap: 0.5rem;
-        }
-        .chatbot-input input {
-            flex-grow: 1; border-radius: 1.5rem;
-            background-color: var(--form-control-bg);
-            border: 1px solid var(--glass-border); color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-        }
-        .chatbot-input input::placeholder { color: var(--text-secondary); }
-        /*
-            MUDANÇA: Adicionado outline: none para remover foco padrão no input do chatbot
-            e usar nossa própria estilização de focus.
-        */
-        .chatbot-input input:focus { 
-            outline: none; 
-            border-color: var(--text-cyan-400);
-        }
-        .chatbot-input button {
-            background: linear-gradient(135deg, var(--text-cyan-400), #0891b2);
-            color: white; border: none;
-            border-radius: 50%; width: 40px; height: 40px;
-            display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; transition: transform 0.2s ease-in-out, opacity 0.2s ease;
-            cursor: pointer;
-        }
-        .chatbot-input button:hover { transform: scale(1.1); }
-
-        /* ===== FORMAÇÃO ===== */
-        .cert-item {
-            display: flex; align-items: flex-start; gap: 0.75rem;
-            padding: 0.85rem 1rem; border-radius: 0.5rem;
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            margin-bottom: 0.6rem;
-            transition: background 0.2s ease, border-color 0.2s ease;
-        }
-        .cert-item:hover { 
-            background: rgba(34,211,238,0.06); 
-            border-color: rgba(34,211,238,0.2);
-        }
-        .cert-icon { color: var(--text-cyan-400); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
-        .cert-item p { margin: 0; font-size: 0.95rem; }
-
-        /* ===== SEÇÃO HEADING ===== */
-        .section-heading {
-            display: flex; align-items: center; gap: 0.75rem;
-            font-size: clamp(1.4rem, 4vw, 2rem);
-            font-weight: 800; color: var(--text-cyan-400);
-            margin-bottom: 1.75rem; padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-cyan-700);
-            font-family: var(--font-display);
-        }
-
-        /* ===== FOOTER ===== */
-        footer { 
-            background: rgba(0,0,0,0.25) !important; 
-            border-top: 1px solid var(--glass-border); 
-        }
-        [data-theme="light"] footer { background: rgba(0,0,0,0.04) !important; }
-        footer a { text-decoration: none; transition: color 0.2s ease; }
-        footer a:hover { color: var(--text-cyan-400) !important; }
-        footer ul a { color: var(--text-secondary); }
-
-        /* ===== CONTADOR DE VISITAS ===== */
-        #visitor-counter {
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.05em;
-            font-family: var(--font-display);
-        }
-        .counter-status {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            margin-left: 4px;
-            vertical-align: middle;
-        }
-        .counter-status.online  { color: #22d3ee; }
-        .counter-status.offline { color: #6b7280; }
-
-        /* 
-            NOVO: Estilos para o feedback de envio do formulário.
-            Em vez de redirecionar para a página do Formspree (UX quebrada),
-            exibimos uma mensagem inline de sucesso/erro.
-        */
-        #form-feedback {
-            display: none;
-            padding: 1rem 1.25rem;
-            border-radius: 0.75rem;
-            margin-top: 1rem;
-            font-weight: 500;
-        }
-        #form-feedback.success {
-            background: rgba(34,211,238,0.1);
-            border: 1px solid rgba(34,211,238,0.3);
-            color: var(--text-cyan-300);
-        }
-        #form-feedback.error {
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            color: #fca5a5;
-        }
-
-        /* ===== RESPONSIVIDADE MOBILE ===== */
-        @media (max-width: 767.98px) {
-            body { padding-top: 4.5rem; }
-            .hero-section { padding: 3rem 1rem 2.5rem; }
-            .hero-avatar-wrap { width: 96px; height: 96px; font-size: 1.9rem; }
-            .stats-strip .stat-number { font-size: 1.5rem; }
-            .stats-strip .stat-label { font-size: 0.65rem; }
-            .section-heading { font-size: 1.35rem; }
-
-            .about-row { flex-direction: column !important; }
-            .about-img-col { order: -1; margin-bottom: 1.5rem; }
-            .about-img-frame { max-height: 260px; }
-            .about-img-frame img { max-height: 260px; width: 100%; }
-
-            .service-card-mobile {
-                display: flex !important;
-                flex-direction: row;
-                align-items: center;
-                text-align: left;
-                padding: 1rem !important;
-                gap: 1rem;
-            }
-            .service-card-mobile .service-icon { font-size: 1.75rem; flex-shrink: 0; margin: 0 !important; }
-            .service-card-mobile .btn { margin-top: 0.5rem; }
-
-            .carousel-track > div { width: 260px; }
-            .carousel-track .blog-card { min-height: 300px; }
-
-            /*
-                MUDANÇA MOBILE: Botões do hero em coluna no mobile para não
-                quebrarem em 2 linhas e ficarem pequenos demais.
-            */
-            .hero-btns { flex-direction: column !important; align-items: center !important; }
-            .hero-btns .btn { width: 100%; max-width: 280px; }
-        }
-
-        /* ===== SKIP LINK para acessibilidade ===== */
-        /*
-            NOVO: Skip-to-content link para usuários de teclado e leitores de tela.
-            Fica invisível até receber foco — padrão de acessibilidade WCAG 2.1.
-        */
-        .skip-link {
-            position: absolute;
-            top: -60px; left: 1rem;
-            background: var(--text-cyan-400);
-            color: #0a1628;
-            padding: 0.5rem 1rem;
-            border-radius: 0 0 0.5rem 0.5rem;
-            font-weight: 700;
-            z-index: 99999;
-            transition: top 0.2s ease;
-            text-decoration: none;
-        }
-        .skip-link:focus { top: 0; }
-
-        /* ===== FOCUS VISÍVEL (acessibilidade teclado) ===== */
-        /*
-            NOVO: Remove o outline padrão feio do navegador e substitui por
-            um outline com a cor do tema. Melhora navegação por teclado.
-        */
-        :focus-visible {
-            outline: 2px solid var(--text-cyan-400);
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-        a:focus-visible, button:focus-visible { outline: 2px solid var(--text-cyan-400); }
-
-        /* ===== DESTAQUE SECTION ===== */
-        /*
-            MUDANÇA: Seção "Destaque" tinha texto idêntico ao hero subtitle.
-            Reposicionada como uma seção de "O que eu ofereço" com badges.
-            Nenhum conteúdo foi removido.
-        */
-        .badge-oferta {
-            background: rgba(34,211,238,0.1);
-            color: var(--text-cyan-300);
-            border: 1px solid rgba(34,211,238,0.22);
-            font-size: 0.82rem;
-            font-weight: 500;
-            font-family: var(--font-body);
-        }
-    </style>
+  <!-- Estilo Customizado Liquid Glass sob Bootstrap -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
+<body class="bg-dark text-light">
 
-<!-- 
-    NOVO: Skip link de acessibilidade. Invisível para usuários normais,
-    aparece quando alguém navega com Tab. Obrigatório para WCAG 2.1 AA.
--->
-<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  <!-- Fundo Animado com Gradientes Fluídos (Liquid Glass Ambient) -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-<!-- Preloader -->
-<div id="preloader" class="preloader" role="status" aria-label="Carregando página">
-    <div class="preloader-spinner"></div>
-</div>
+  <!-- TELA 0: LOGIN (PROTEGIDA POR USUÁRIO E SENHA) - REDESIGN PROFISSIONAL -->
+  <section id="login-view" class="login-section d-flex align-items-center justify-content-center min-vh-100 p-3 position-relative overflow-hidden">
+    <!-- Fundo com Gradiente Animado -->
+    <div class="login-gradient-bg"></div>
+    <div class="login-floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
 
-<!-- Fundo de partículas -->
-<div id="particles-background" class="particles-container" aria-hidden="true"></div>
+    <!-- Card de Login -->
+    <div class="login-card glass-card border-0 shadow-xl w-100 position-relative" style="max-width: 450px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+      <!-- Orla Decorativa Top -->
+      <div class="login-card-top"></div>
 
-<!-- NAVBAR -->
-<!--
-    MUDANÇA: Removido "Lista de Presentes" (link do Mercado Livre) da navbar.
-    Isso destrói a credibilidade profissional. Um visitante potencial cliente que vê
-    "Lista de Presentes" ao lado de "Cases de Sucesso" sai sem contratar.
-    Se quiser manter o link, coloque no footer ou numa seção separada.
--->
-<nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav" aria-label="Navegação principal">
-    <div class="container">
-        <a class="navbar-brand" href="#" aria-label="Willian Soares - Início">WS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menu de navegação">
-            <span class="navbar-toggler-icon"></span>
+      <!-- Logo e Branding -->
+      <div class="text-center mb-5 pt-4 px-4">
+        <!-- Logo: Cérebro + Circuitos (TI + Mente) -->
+        <div class="login-logo-container mb-4">
+          <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1"/>
+              </linearGradient>
+              <filter id="brainGlow">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Halo externo -->
+            <circle cx="50" cy="46" r="34" fill="none" stroke="url(#brainGrad)" stroke-width="1" opacity="0.25"/>
+            <!-- Hemisférios do cérebro -->
+            <g filter="url(#brainGlow)" stroke="url(#brainGrad)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Hemisfério esquerdo -->
+              <path d="M50 22 C37 20 22 29 21 43 C19 56 26 65 34 68 C40 70 46 69 50 65"/>
+              <!-- Hemisfério direito -->
+              <path d="M50 22 C63 20 78 29 79 43 C81 56 74 65 66 68 C60 70 54 69 50 65"/>
+              <!-- Linha central (fissura longitudinal) -->
+              <line x1="50" y1="22" x2="50" y2="65" stroke-dasharray="3,2.5" stroke-width="1.2"/>
+              <!-- Giros esquerdos -->
+              <path d="M28 36 C33 33 37 38 33 41" stroke-width="1.1"/>
+              <path d="M25 50 C30 47 34 52 30 55" stroke-width="1.1"/>
+              <path d="M30 62 C35 59 38 63 36 67" stroke-width="1.1"/>
+              <!-- Giros direitos -->
+              <path d="M72 36 C67 33 63 38 67 41" stroke-width="1.1"/>
+              <path d="M75 50 C70 47 66 52 70 55" stroke-width="1.1"/>
+              <path d="M70 62 C65 59 62 63 64 67" stroke-width="1.1"/>
+            </g>
+            <!-- Traços de circuito -->
+            <g stroke="#60a5fa" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round">
+              <polyline points="34,70 28,78 16,78"/>
+              <polyline points="43,71 43,82 30,82"/>
+              <polyline points="66,70 72,78 84,78"/>
+              <polyline points="57,71 57,82 70,82"/>
+              <line x1="16" y1="78" x2="16" y2="82"/>
+              <line x1="84" y1="78" x2="84" y2="82"/>
+            </g>
+            <!-- Nós de circuito -->
+            <circle cx="16" cy="78" r="2.5" fill="#0d6efd"/>
+            <circle cx="30" cy="82" r="1.8" fill="#60a5fa"/>
+            <circle cx="70" cy="82" r="1.8" fill="#60a5fa"/>
+            <circle cx="84" cy="78" r="2.5" fill="#0d6efd"/>
+            <!-- Pulsos neurais (pontos luminosos) -->
+            <circle cx="41" cy="38" r="2" fill="url(#brainGrad)" opacity="0.9"/>
+            <circle cx="58" cy="45" r="1.6" fill="url(#brainGrad)" opacity="0.8"/>
+            <circle cx="38" cy="55" r="1.5" fill="url(#brainGrad)" opacity="0.7"/>
+            <circle cx="62" cy="35" r="1.5" fill="url(#brainGrad)" opacity="0.8"/>
+          </svg>
+        </div>
+
+        <!-- Nome com Destaque -->
+        <div class="mb-3">
+          <h1 class="login-title fw-800 m-0 text-white">
+            Willian<span class="text-primary"> Soares</span>
+          </h1>
+          <p class="login-subtitle text-white-50 small fw-medium mt-2 mb-0">
+            <i class="bi bi-shield-check text-primary me-1"></i>Diário de Enxaquecas
+          </p>
+        </div>
+
+        <!-- Descrição -->
+        <p class="text-white-50 x-small mt-3 mb-0">
+          Acompanhamento seguro e profissional de crises de cefaleia
+        </p>
+      </div>
+
+      <!-- Formulário -->
+      <form id="login-form" onsubmit="handleLogin(event)" class="px-4 px-md-5 pb-5">
+        <!-- Campo Usuário -->
+        <div class="mb-3">
+          <label for="username" class="form-label text-white-50 small fw-600 text-uppercase letter-spacing">Usuário</label>
+          <div class="input-group login-input-group">
+            <span class="input-group-text login-input-icon">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control login-input"
+              id="username"
+              placeholder="seu nome de usuário"
+              value=""
+              required
+              autocomplete="username"
+              autocapitalize="none">
+          </div>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="mb-4">
+          <label for="password" class="form-label text-white-50 small fw-600 text-uppercase letter-spacing">Senha</label>
+          <div class="input-group login-input-group">
+            <span class="input-group-text login-input-icon">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              type="password"
+              class="form-control login-input"
+              id="password"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password">
+          </div>
+        </div>
+
+        <!-- Erro -->
+        <div id="login-error" class="alert alert-danger border-0 rounded-2 py-2.5 small d-none mb-4" role="alert" style="background: rgba(239, 68, 68, 0.15); backdrop-filter: blur(10px);">
+          <i class="bi bi-exclamation-circle-fill me-2"></i> <span id="login-error-text">Usuário ou senha incorretos.</span>
+        </div>
+
+        <!-- Botão Login -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100 py-3 fw-600 rounded-2 shadow-lg login-btn d-flex align-items-center justify-content-center gap-2 position-relative overflow-hidden"
+          id="login-btn">
+          <span class="btn-text">Acessar Diário</span>
+          <i class="bi bi-arrow-right-short fs-5"></i>
+          <span class="btn-shimmer"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#blog">Artigos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
-                <li class="nav-item"><a class="nav-link" href="#trajetoria">Trajetória</a></li>
-                <li class="nav-item"><a class="nav-link" href="#cases">Cases</a></li>
-                <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
-                <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
-                <li class="nav-item"><a class="nav-link" href="#formacao">Formação</a></li>
-                <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-            </ul>
-            <div class="d-flex align-items-center gap-2">
-                <button id="theme-switcher" aria-label="Alternar tema de cores">
-                    <i class="bi bi-moon-stars-fill"></i>
-                </button>
-                <a href="#contato" class="nav-link navbar-cta d-none d-lg-inline-block">
-                    <i class="bi bi-envelope-fill me-1"></i>Contato
-                </a>
-            </div>
-        </div>
+
+        <!-- Footer -->
+        <p class="text-center text-white-50 x-small mt-4 mb-0">
+          <i class="bi bi-shield-check text-success me-1"></i>Conexão segura com Supabase
+        </p>
+      </form>
     </div>
-</nav>
 
-<!-- HERO -->
-<header class="py-5 text-center hero-section" id="main-content">
-    <div class="container">
-        <div class="hero-avatar-wrap" role="img" aria-label="Foto de Willian Soares">
-            <img src="img/foto-perfil.jpg" alt="Willian Soares - Analista de TI" loading="eager" onerror="this.style.display='none';this.parentElement.textContent='WS'">
-        </div>
-        <p class="hero-role">Analista de TI &nbsp;·&nbsp; Consultor &nbsp;·&nbsp; Educador</p>
-        <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-2">Willian Soares</h1>
-        <div class="hero-divider" aria-hidden="true"></div>
-        <p id="animated-subtitle" class="lead fs-5 text-light mb-4">Transformando desafios tecnológicos em soluções eficientes</p>
-        <!--
-            MUDANÇA: Classe hero-btns adicionada para aplicar flex-direction:column no mobile.
-            Isso evita que os dois botões fiquem muito pequenos lado a lado em telas estreitas.
-        -->
-        <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap hero-btns">
-            <a href="#contato" class="btn btn-cta btn-lg rounded-pill px-4">
-                <i class="bi bi-envelope-fill me-2" aria-hidden="true"></i>Entrar em Contato
-            </a>
-            <a href="#servicos" class="btn btn-outline-light btn-lg rounded-pill px-4">
-                <i class="bi bi-gear-fill me-2" aria-hidden="true"></i>Meus Serviços
-            </a>
-        </div>
+    <!-- Informações de Rodapé -->
+    <div class="login-footer position-absolute bottom-0 start-0 end-0 p-3 text-center text-white-50 x-small">
+      <p class="mb-0">williansoares.net.br/diario</p>
     </div>
-</header>
+  </section>
 
-<!-- STATS STRIP -->
-<div class="stats-strip" aria-label="Estatísticas profissionais">
-    <div class="container">
-        <div class="row g-2 justify-content-center">
-            <div class="col-6 col-sm-3 stat-item">
-                <span class="stat-number" aria-label="Mais de 3 anos de experiência">3+</span>
-                <span class="stat-label">Anos de Experiência</span>
-            </div>
-            <div class="col-6 col-sm-3 stat-item">
-                <span class="stat-number" aria-label="Mais de 200 alunos capacitados">200+</span>
-                <span class="stat-label">Alunos Capacitados</span>
-            </div>
-            <div class="col-6 col-sm-3 stat-item">
-                <span class="stat-number" aria-label="19 filiais atendidas">19</span>
-                <span class="stat-label">Filiais Atendidas</span>
-            </div>
-            <div class="col-6 col-sm-3 stat-item">
-                <span class="stat-number" aria-label="40% de redução de downtime">40%</span>
-                <span class="stat-label">Redução de Downtime</span>
-            </div>
+  <!-- TELA PRINCIPAL: DASHBOARD -->
+  <section id="app-view" class="d-none">
+    <!-- Navbar Superior com Identidade do Site -->
+    <nav class="navbar navbar-expand-lg glass-navbar sticky-top border-bottom border-white border-opacity-10 px-3 px-md-4 py-2.5">
+      <div class="container-fluid p-0">
+        <a class="navbar-brand d-flex align-items-center fw-bold text-white fs-5 m-0" href="#">
+          <span class="badge bg-primary text-white me-2 px-2.5 py-1.5 rounded-2 fw-bold">WS</span>
+          <span>Willian Soares</span>
+          <span class="ms-2 text-white-50 fw-normal fs-6 d-none d-sm-inline">| Diário de Crises</span>
+        </a>
+
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-2 py-0 d-none d-xxl-inline-block" style="font-size: 0.65rem; line-height: 1.2;" id="pwa-status">
+            <i class="bi bi-cloud-check-fill" style="font-size: 0.7rem;"></i>
+          </span>
+          
+          <!-- Botão Admin (Visível apenas para usuários admin) -->
+          <button class="btn btn-outline-primary btn-sm rounded-3 px-3 py-1.5 glass-btn d-none" id="admin-panel-btn" onclick="openAdminModal()" title="Painel de Usuários Admin">
+            <i class="bi bi-people-fill me-1"></i> Usuários
+          </button>
+
+          <button class="btn btn-outline-light btn-sm rounded-3 px-3 py-1.5 glass-btn" onclick="handleLogout()" title="Sair do App">
+            <i class="bi bi-box-arrow-right me-1"></i> Sair
+          </button>
         </div>
-    </div>
-</div>
+      </div>
+    </nav>
 
-<main class="container my-5">
+    <!-- 3. Banner: Próxima Consulta -->
+    <div id="next-apt-banner" class="d-none container-fluid pt-3 px-3 px-md-4"></div>
 
-    <!-- DESTAQUE -->
-    <!--
-        MUDANÇA: Seção destaque tinha o mesmo texto do hero subtitle ("Transformando desafios...").
-        Texto principal substituído por proposta de valor mais específica.
-        Os badges e a estrutura foram preservados — apenas o h2 foi diferenciado.
-    -->
-    <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center visible" aria-labelledby="destaque-heading">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h2 id="destaque-heading" class="h4 fw-bold text-cyan-300 mb-2">O que eu entrego para você</h2>
-                <p class="fs-5 mb-4">Com mais de 3 anos de experiência em TI, ofereço soluções personalizadas que combinam conhecimento técnico com uma abordagem humana.</p>
-                <div class="d-flex justify-content-center gap-2 flex-wrap">
-                    <span class="badge badge-oferta py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Suporte Especializado
-                    </span>
-                    <span class="badge badge-oferta py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Soluções em Rede
-                    </span>
-                    <span class="badge badge-oferta py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Consultoria em TI
-                    </span>
-                </div>
-            </div>
+    <main class="container-fluid py-4">
+      <!-- Barra de Ações Principais -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-md-6">
+          <button class="btn btn-primary btn-lg w-100 py-3 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="openWizard()">
+            <i class="bi bi-plus-circle-fill fs-5"></i>
+            <span>Novo Lançamento de Crise</span>
+          </button>
         </div>
-    </section>
-
-    <!-- 1. MEUS ARTIGOS -->
-    <section id="blog" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="blog-heading">
-        <h2 id="blog-heading" class="section-heading">
-            <i class="bi bi-journal-richtext" aria-hidden="true"></i> Meus Artigos
-        </h2>
-        <div class="carousel-container" id="blog-carousel-container">
-            <div class="carousel-track" role="list" aria-label="Carrossel de artigos">
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <!--
-                        MUDANÇA: Adicionado loading="lazy" em todas as imagens de artigos e galeria.
-                        Isso evita carregar imagens fora da viewport na inicialização,
-                        melhorando o tempo de carregamento (menos KB na requisição inicial).
-                    -->
-                    <img src="img/artigo-comunidade.jpg" class="card-img-top" alt="Grupo de idosos em uma sala de aula aprendendo a usar um computador." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Ensinando Segurança Digital para a Melhor Idade</h5>
-                        <p class="card-text">Um relato sobre a experiência de ministrar uma palestra sobre segurança na internet para idosos do CRAS.</p>
-                        <a href="artigo-seguranca-digital.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Ensinando Segurança Digital para a Melhor Idade">Ler Mais</a>
-                    </div>
-                </div>
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <img src="img/artigo-redes.jpg" class="card-img-top" alt="Homem trabalhando em um servidor de redes." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">3 Dicas para Otimizar a Rede do seu Escritório</h5>
-                        <p class="card-text">Pequenos ajustes que podem fazer uma grande diferença na velocidade e estabilidade da sua conexão.</p>
-                        <a href="artigo-redes.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre 3 Dicas para Otimizar a Rede do seu Escritório">Ler Mais</a>
-                    </div>
-                </div>
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <img src="img/artigo-lgpd.jpg" class="card-img-top" alt="Cadeado digital simbolizando a Lei Geral de Proteção de Dados." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">LGPD na Prática: Por Onde Começar?</h5>
-                        <p class="card-text">Um guia inicial para pequenas e médias empresas se adequarem à Lei Geral de Proteção de Dados.</p>
-                        <a href="artigo-lgpd.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre LGPD na Prática: Por Onde Começar?">Ler Mais</a>
-                    </div>
-                </div>
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <img src="img/artigo-ia.jpg" class="card-img-top" alt="Cérebro digital com circuitos, representando Inteligência Artificial." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Como a IA está Revolucionando o Suporte de TI</h5>
-                        <p class="card-text">Descubra as ferramentas e tendências que estão mudando o futuro do helpdesk e do suporte técnico.</p>
-                        <a href="artigo-ia.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Como a IA está Revolucionando o Suporte de TI">Ler Mais</a>
-                    </div>
-                </div>
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <img src="img/artigo-carreira.jpg" class="card-img-top" alt="Escada de livros simbolizando o crescimento na carreira em TI." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Aprendizado Contínuo: A Chave para o Sucesso em TI</h5>
-                        <p class="card-text">Por que a atualização constante não é mais um diferencial, e sim um requisito essencial no mercado de trabalho.</p>
-                        <a href="artigo-informatica-mercado.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Aprendizado Contínuo: A Chave para o Sucesso em TI">Ler Mais</a>
-                    </div>
-                </div>
-                <div class="card blog-card h-100 rounded-3 overflow-hidden flex-shrink-0" style="scroll-snap-align:start;" role="listitem">
-                    <img src="img/artigo-automacao.jpg" class="card-img-top" alt="Casa com ícones de Wi-Fi e dispositivos inteligentes ao redor." loading="lazy">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Automação Residencial: O Futuro Bate à Porta</h5>
-                        <p class="card-text">Um guia prático para quem deseja começar a transformar sua casa ou escritório em um ambiente inteligente.</p>
-                        <a href="artigo-automacao.html" class="btn btn-outline-light mt-auto align-self-start" aria-label="Ler mais sobre Automação Residencial: O Futuro Bate à Porta">Ler Mais</a>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" id="blog-prev-btn" aria-label="Artigo anterior" type="button"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
-            <button class="carousel-control-next" id="blog-next-btn" aria-label="Próximo artigo" type="button"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+        <div class="col-12 col-md-6">
+          <button class="btn btn-outline-light btn-lg w-100 py-3 rounded-3 shadow-sm glass-btn d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="openReportModal()">
+            <i class="bi bi-file-earmark-pdf-fill fs-5 text-primary"></i>
+            <span>Gerar Relatório Médico PDF</span>
+          </button>
         </div>
-    </section>
+      </div>
 
-    <!-- 2. SOBRE MIM -->
-    <section id="sobre" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="sobre-heading">
-        <div class="row align-items-center about-row">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <h2 id="sobre-heading" class="section-heading">
-                    <i class="bi bi-person-workspace" aria-hidden="true"></i> Sobre Mim
-                </h2>
-                <p class="fs-5">Sou um profissional apaixonado por tecnologia, com mais de <strong class="text-cyan-300">3 anos de experiência formal</strong> na área de TI e atuando no setor desde os 17 anos.</p>
-                <p class="fs-5">Minha abordagem combina conhecimento técnico sólido com habilidades interpessoais, garantindo não apenas a resolução de problemas, mas também uma experiência positiva para clientes e colegas.</p>
-                <p class="fs-5">Acredito que a tecnologia deve ser acessível e compreensível para todos, e me dedico a traduzir conceitos complexos em soluções práticas.</p>
-                <div class="mt-4">
-                    <a href="Apresentacao.html" class="btn btn-outline-light" aria-label="Ver minha trajetória profissional em uma apresentação de slides">
-                        <i class="bi bi-clock-history me-2" aria-hidden="true"></i>Ver Minha Trajetória
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 about-img-col text-center">
-                <div class="about-img-frame mx-auto" style="max-width:380px;">
-                    <img src="img/foto-perfil.jpg" alt="Willian Soares - Profissional de TI" class="img-fluid" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
+      <!-- Abas: Dashboard vs Histórico vs Médico -->
+      <ul class="nav nav-tabs nav-fill dashboard-tabs mb-4 gap-2" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active dashboard-tab-btn" id="tab-dashboard" data-bs-toggle="tab" data-bs-target="#content-dashboard" type="button" role="tab" aria-controls="content-dashboard" aria-selected="true">
+            <i class="bi bi-graph-up me-2"></i> Dashboard Clínico
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link dashboard-tab-btn" id="tab-history" data-bs-toggle="tab" data-bs-target="#content-history" type="button" role="tab" aria-controls="content-history" aria-selected="false">
+            <i class="bi bi-clock-history me-2"></i> Histórico de Registros
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link dashboard-tab-btn" id="tab-medical" data-bs-toggle="tab" data-bs-target="#content-medical" type="button" role="tab" aria-controls="content-medical" aria-selected="false">
+            <i class="bi bi-hospital me-2"></i> Acompanhamento Médico
+          </button>
+        </li>
+      </ul>
 
-    <!-- 3. TRAJETÓRIA PROFISSIONAL -->
-    <section id="trajetoria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="trajetoria-heading">
-        <h2 id="trajetoria-heading" class="section-heading justify-content-center text-center">
-            <i class="bi bi-signpost-split-fill" aria-hidden="true"></i> A História Até Aqui...
-        </h2>
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <ul class="timeline" aria-label="Linha do tempo profissional">
-                    <li class="timeline-item">
-                        <h5 class="timeline-item-title">Analista de TI</h5>
-                        <h6 class="timeline-item-subtitle">Junitex</h6>
-                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1" aria-hidden="true"></i><time datetime="2023-03">Março 2023</time> – Presente</p>
-                    </li>
-                    <li class="timeline-item">
-                        <h5 class="timeline-item-title">Educador</h5>
-                        <h6 class="timeline-item-subtitle">Dreamschool Brasil</h6>
-                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1" aria-hidden="true"></i><time datetime="2020-02">Fevereiro 2020</time> – <time datetime="2023-03">Março 2023</time></p>
-                    </li>
-                    <li class="timeline-item">
-                        <h5 class="timeline-item-title">Instrutor</h5>
-                        <h6 class="timeline-item-subtitle">Mundial Informática</h6>
-                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1" aria-hidden="true"></i><time datetime="2013-01">Janeiro 2013</time> – <time datetime="2020-02">Fevereiro 2020</time></p>
-                    </li>
-                    <li class="timeline-item">
-                        <h5 class="timeline-item-title">Mídias Sociais</h5>
-                        <h6 class="timeline-item-subtitle">Academia Artforma</h6>
-                        <p class="timeline-item-period"><i class="bi bi-calendar3 me-1" aria-hidden="true"></i><time datetime="2017-02">Fevereiro 2017</time> – <time datetime="2019-08">Agosto 2019</time></p>
-                    </li>
-                </ul>
+      <!-- Conteúdo das Abas -->
+      <div class="tab-content">
+        <!-- TAB 1: DASHBOARD CLÍNICO -->
+        <div class="tab-pane fade show active" id="content-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+          <!-- Filtro de Período Elástico -->
+          <div class="mb-3 p-3 rounded-3 glass-card" style="border: 1px solid rgba(13,110,253,0.2);">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <span class="small text-white-50 fw-medium me-1 flex-shrink-0">Período:</span>
+              <div class="d-flex flex-wrap gap-1">
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 period-preset-btn px-2 py-1" onclick="setDashboardRange(30)" data-days="30">30d</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 period-preset-btn px-2 py-1" onclick="setDashboardRange(60)" data-days="60">60d</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 period-preset-btn px-2 py-1" onclick="setDashboardRange(90)" data-days="90">90d</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 period-preset-btn px-2 py-1" onclick="setDashboardRange(180)" data-days="180">6m</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 period-preset-btn px-2 py-1" onclick="setDashboardRange(365)" data-days="365">1 ano</button>
+              </div>
+              <div class="d-flex align-items-center gap-2 ms-auto flex-wrap">
+                <input type="date" id="filter-date-from" class="form-control form-control-sm glass-input" style="width:140px;" onchange="renderDashboard()">
+                <span class="text-white-50 small flex-shrink-0">até</span>
+                <input type="date" id="filter-date-to" class="form-control form-control-sm glass-input" style="width:140px;" onchange="renderDashboard()">
+              </div>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- 4. CASES DE SUCESSO -->
-    <section id="cases" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="cases-heading">
-        <h2 id="cases-heading" class="section-heading justify-content-center text-center">
-            <i class="bi bi-trophy-fill" aria-hidden="true"></i> Cases de Sucesso
-        </h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-sm-10 col-lg-6">
-                <div class="card case-card h-100 rounded-3 overflow-hidden">
-                    <div class="case-card-img-wrap overflow-hidden">
-                        <img src="img/case-junitex.jpg" class="card-img-top" alt="Cabos de rede organizados em um rack de servidor." loading="lazy">
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Reestruturação da Infraestrutura de Rede – Junitex</h5>
-                        <p class="card-text">Redução de 40% no tempo de inatividade da rede em 16 filiais através de um projeto completo de modernização.</p>
-                        <a href="case-junitex.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
-                    </div>
-                </div>
+          <!-- KPIs Principais em Grid -->
+          <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+              <div class="kpi-card glass-card border-0 p-3 rounded-3 text-center h-100">
+                <span class="text-white-50 small fw-medium d-block mb-1">Dias com Dor</span>
+                <h3 class="fw-extrabold text-primary m-0 fs-2" id="kpi-days-pain">0</h3>
+                <span class="text-white-50 xx-small d-block mt-1">período selecionado</span>
+                <span class="kpi-delta-slot d-block"></span>
+              </div>
             </div>
-            <div class="col-sm-10 col-lg-6">
-                <div class="card case-card h-100 rounded-3 overflow-hidden">
-                    <div class="case-card-img-wrap overflow-hidden">
-                        <img src="img/case-dreamschool.jpg" class="card-img-top" alt="Professor em frente a uma lousa ensinando sobre tecnologia." loading="lazy">
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold text-cyan-300">Capacitação Digital e Educacional – Dreamschool</h5>
-                        <p class="card-text">Desenvolvimento e aplicação de programas de treinamento que capacitaram mais de 200 alunos em diversas áreas da tecnologia.</p>
-                        <a href="case-dreamschool.html" class="btn btn-outline-light mt-auto align-self-start">Ver Detalhes do Projeto</a>
-                    </div>
-                </div>
+            <div class="col-6 col-md-3">
+              <div class="kpi-card glass-card border-0 p-3 rounded-3 text-center h-100" id="kpi-med-card">
+                <span class="text-white-50 small fw-medium d-block mb-1">Uso de Medicação</span>
+                <h3 class="fw-extrabold text-warning m-0 fs-2" id="kpi-days-med">0</h3>
+                <span class="text-white-50 xx-small d-block mt-1" id="kpi-med-desc">dias com analgésicos</span>
+                <span class="kpi-delta-slot d-block"></span>
+              </div>
             </div>
-        </div>
-    </section>
+            <div class="col-6 col-md-3">
+              <div class="kpi-card glass-card border-0 p-3 rounded-3 text-center h-100">
+                <span class="text-white-50 small fw-medium d-block mb-1">Média Intensidade</span>
+                <h3 class="fw-extrabold text-success m-0 fs-2" id="kpi-avg-pain">0.0</h3>
+                <span class="text-white-50 xx-small d-block mt-1">escala 1-10</span>
+                <span class="kpi-delta-slot d-block"></span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="kpi-card glass-card border-0 p-3 rounded-3 text-center h-100">
+                <span class="text-white-50 small fw-medium d-block mb-1">Índice SBCe</span>
+                <h3 class="fw-extrabold text-info m-0 fs-2" id="kpi-sbce-index">0</h3>
+                <span class="text-white-50 xx-small d-block mt-1">Soc. Bras. Cefaleia</span>
+                <span class="kpi-delta-slot d-block"></span>
+              </div>
+            </div>
+          </div>
 
-    <!-- 5. SERVIÇOS -->
-    <section id="servicos" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="servicos-heading">
-        <h2 id="servicos-heading" class="section-heading justify-content-center text-center">
-            <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> Meus Serviços
-        </h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
-                    <div class="card-body d-flex flex-column">
-                        <i class="bi bi-router-fill fs-1 text-cyan-300 mb-3 service-icon" aria-hidden="true"></i>
-                        <h5 class="card-title fw-bold">Consultoria em Infra & Redes</h5>
-                        <p class="card-text">Análise, planejamento e implementação de soluções de rede para garantir performance e segurança para sua empresa.</p>
-                        <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
-                    </div>
+          <!-- Gráficos -->
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-lg-6">
+              <div class="card glass-card border-0 p-3 rounded-3">
+                <h6 class="fw-bold text-white mb-3"><i class="bi bi-graph-up text-primary me-2"></i>Evolução de Intensidade</h6>
+                <div style="max-height: 300px;">
+                  <canvas id="chart-intensity"></canvas>
                 </div>
+              </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
-                    <div class="card-body d-flex flex-column">
-                        <i class="bi bi-headset fs-1 text-cyan-300 mb-3 service-icon" aria-hidden="true"></i>
-                        <h5 class="card-title fw-bold">Suporte de TI & Helpdesk</h5>
-                        <p class="card-text">Soluções rápidas e eficientes para problemas do dia a dia, garantindo a produtividade da sua equipe com suporte remoto ou presencial.</p>
-                        <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
-                    </div>
+            <div class="col-12 col-lg-6">
+              <div class="card glass-card border-0 p-3 rounded-3">
+                <h6 class="fw-bold text-white mb-3"><i class="bi bi-pie-chart text-primary me-2"></i>Distribuição por Intensidade</h6>
+                <div style="max-height: 300px;">
+                  <canvas id="chart-distribution"></canvas>
                 </div>
+              </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card service-card text-center h-100 p-4 rounded-3 service-card-mobile">
-                    <div class="card-body d-flex flex-column">
-                        <i class="bi bi-easel2-fill fs-1 text-cyan-300 mb-3 service-icon" aria-hidden="true"></i>
-                        <h5 class="card-title fw-bold">Palestras e Treinamentos</h5>
-                        <p class="card-text">Capacitação de equipes e grupos sobre temas como Segurança Digital, LGPD e as melhores práticas no uso da tecnologia.</p>
-                        <a href="#contato" class="btn btn-outline-light mt-auto">Solicitar Orçamento</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- 6. HABILIDADES TÉCNICAS -->
-    <section id="habilidades" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="habilidades-heading">
-        <h2 id="habilidades-heading" class="section-heading">
-            <i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> Habilidades Técnicas
-        </h2>
-        <!--
-            MUDANÇA: data-width agora inclui o percentual no span corretamente.
-            No código original o span .progress-bar-text estava vazio no HTML —
-            o texto do percentual nunca era injetado. Corrigido via JS abaixo.
-        -->
-        <div class="row g-4">
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Suporte e Helpdesk</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Suporte e Helpdesk" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="95%"><span class="progress-bar-text">95%</span></div>
-                </div>
+          <!-- Gatilhos Mais Comuns -->
+          <div class="card glass-card border-0 p-4 rounded-3 mb-4">
+            <h6 class="fw-bold text-white mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Gatilhos Mais Frequentes</h6>
+            <div id="triggers-stats" class="row g-2">
+              <!-- Preenchido via JS -->
             </div>
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Redes de Computadores</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Redes de Computadores" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="90%"><span class="progress-bar-text">90%</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Gestão de Projetos de TI</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Gestão de Projetos de TI" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="80%"><span class="progress-bar-text">80%</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Segurança (CFTV)</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Segurança (CFTV)" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="85%"><span class="progress-bar-text">85%</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Hardware (Montagem e Manutenção)</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Hardware (Montagem e Manutenção)" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="98%"><span class="progress-bar-text">98%</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 skill-bar">
-                <p class="fs-5 mb-2">Sistemas Operacionais e Software</p>
-                <div class="progress" role="progressbar" aria-label="Nível de habilidade em Sistemas Operacionais e Software" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar" data-width="90%"><span class="progress-bar-text">90%</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- 7. FORMAÇÃO ACADÊMICA -->
-    <section id="formacao" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="formacao-heading">
-        <h2 id="formacao-heading" class="section-heading">
-            <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Formação Acadêmica
-        </h2>
-        <div class="row g-2">
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Graduado em <strong>Gestão de TI</strong> e <strong>Redes de Computadores</strong> pela <strong class="text-cyan-300">UniCesumar</strong>.</p>
-                </div>
+          <!-- GEMINI AI: Análise Inteligente -->
+          <div class="card glass-card border-0 p-4 rounded-3 mb-4" style="border: 1px solid rgba(13,110,253,0.25) !important;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <h6 class="fw-bold text-white mb-0">
+                <i class="bi bi-stars text-primary me-2"></i>Análise Clínica com Inteligência Artificial
+                <span class="badge x-small ms-2" style="background:rgba(13,110,253,0.2);color:#60a5fa;border:1px solid rgba(13,110,253,0.3);">OpenRouter · Mistral 7B</span>
+              </h6>
+              <button id="gemini-analyze-btn" class="btn btn-primary btn-sm rounded-3 px-3" onclick="generateGeminiAnalysis()">
+                <i class="bi bi-stars me-2"></i>Analisar com IA
+              </button>
             </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Técnico em <strong>Web/Graphic Designer</strong> pela <strong class="text-cyan-300">Info Brasil</strong>.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Técnico em <strong>Edição de Vídeos e Manutenção</strong> pela <strong class="text-cyan-300">Dreamschool</strong>.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Certificações em <strong>Soft Skills</strong> (Comunicação, Oratória, Liderança, PNL, etc.) pela <strong class="text-cyan-300">Escola Conquer</strong>.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Certificado em <strong>LGPD</strong> pela <strong class="text-cyan-300">Intuix Academy</strong>.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Certificado em <strong>Inteligência Artificial</strong> pela <strong class="text-cyan-300">Hastag</strong> e <strong class="text-cyan-300">Tetra</strong>.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="cert-item">
-                    <i class="bi bi-patch-check-fill cert-icon" aria-hidden="true"></i>
-                    <p class="fs-5">Certificado em <strong>Python</strong> pela <strong class="text-cyan-300">Cloud Devops</strong> e <strong class="text-cyan-300">Hashtag Treinamentos</strong>.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. GALERIA -->
-    <section id="galeria" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="galeria-heading">
-        <h2 id="galeria-heading" class="section-heading justify-content-center text-center">
-            <i class="bi bi-camera-fill" aria-hidden="true"></i> Meu Dia a Dia
-        </h2>
-        <div class="carousel-container" id="galeria-carousel-container">
-            <div class="carousel-track" role="list" aria-label="Galeria de fotos">
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto1-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto1-medium.webp" type="image/webp">
-                        <img src="img/foto1.jpg" alt="Willian em um ambiente de trabalho de TI." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto2-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto2-medium.webp" type="image/webp">
-                        <img src="img/foto2.jpg" alt="Willian em um momento de lazer." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto3-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto3-medium.webp" type="image/webp">
-                        <img src="img/foto3.jpg" alt="Willian em um evento de tecnologia." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto4-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto4-medium.webp" type="image/webp">
-                        <img src="img/foto4.jpg" alt="Willian viajando." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto5-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto5-medium.webp" type="image/webp">
-                        <img src="img/foto5.jpg" alt="Willian com a equipe de trabalho." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto6-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto6-medium.webp" type="image/webp">
-                        <img src="img/foto6.jpg" alt="Willian em uma conferência." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto7-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto7-medium.webp" type="image/webp">
-                        <img src="img/foto7.jpg" alt="Willian em um projeto de infraestrutura." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto8-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto8-medium.webp" type="image/webp">
-                        <img src="img/foto8.jpg" alt="Retrato de Willian." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto10-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto10-medium.webp" type="image/webp">
-                        <img src="img/foto10.jpg" alt="Willian em um workshop." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto11-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto11-medium.webp" type="image/webp">
-                        <img src="img/foto11.jpg" alt="Willian em um momento casual." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto12-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto12-medium.webp" type="image/webp">
-                        <img src="img/foto12.jpg" alt="Willian explorando um novo lugar." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-                <div class="flex-shrink-0" style="scroll-snap-align:start;width:300px;" role="listitem">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/foto13-small.webp" type="image/webp">
-                        <source media="(max-width: 992px)" srcset="img/foto13-medium.webp" type="image/webp">
-                        <img src="img/foto13.jpg" alt="Willian em uma paisagem natural." class="img-fluid rounded-3 shadow gallery-image" style="height:200px;object-fit:cover;width:100%;" loading="lazy">
-                    </picture>
-                </div>
-            </div>
-            <button class="carousel-control-prev" id="galeria-prev-btn" aria-label="Imagem anterior" type="button"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
-            <button class="carousel-control-next" id="galeria-next-btn" aria-label="Próxima imagem" type="button"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-        </div>
-    </section>
-
-    <!-- 9. CONTATO -->
-    <section id="contato" class="glass-section my-5 p-4 p-md-5 rounded-4 shadow-lg" aria-labelledby="contato-heading">
-        <h2 id="contato-heading" class="section-heading justify-content-center text-center">
-            <i class="bi bi-envelope-paper-heart-fill" aria-hidden="true"></i> Entre em Contato
-        </h2>
-        <p class="fs-5 text-center mb-5">Tem alguma pergunta ou proposta? Preencha o formulário abaixo e entrarei em contato o mais breve possível.</p>
-
-        <div class="row justify-content-center g-5">
-            <div class="col-md-7">
-                <!--
-                    MUDANÇA: Formulário agora tem envio via fetch (AJAX) em vez de POST puro.
-                    Isso evita que o visitante seja redirecionado para a página do Formspree
-                    após clicar em "Enviar" — o que é uma experiência horrível que parece bug.
-                    O feedback de sucesso/erro é mostrado inline na página.
-                -->
-                <form id="contact-form" action="https://formspree.io/f/xjkogvkn" method="POST" novalidate>
-                    <div class="mb-3">
-                        <label for="name" class="form-label fw-semibold">Nome</label>
-                        <input type="text" class="form-control form-control-lg form-control-glass" id="name" name="name" placeholder="Seu nome completo" required autocomplete="name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label fw-semibold">Email</label>
-                        <input type="email" class="form-control form-control-lg form-control-glass" id="email" name="email" placeholder="seu.email@exemplo.com" required autocomplete="email">
-                    </div>
-                    <div class="mb-4">
-                        <label for="message" class="form-label fw-semibold">Mensagem</label>
-                        <textarea class="form-control form-control-lg form-control-glass" id="message" name="message" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-cta btn-lg rounded-pill fw-bold" id="submit-btn">
-                            <i class="bi bi-send-fill me-2" aria-hidden="true"></i>Enviar Mensagem
-                        </button>
-                    </div>
-                    <!-- NOVO: Área de feedback inline — antes o usuário era jogado para outra página -->
-                    <div id="form-feedback" role="alert" aria-live="polite"></div>
-                </form>
-            </div>
-            <div class="col-md-4 d-flex flex-column justify-content-center">
-                <p class="fs-5 mb-3 text-cyan-300 fw-bold">Ou me encontre nas redes sociais:</p>
-                <div class="d-flex flex-column gap-3">
-                    <!--
-                        MUDANÇA: Adicionado rel="noopener noreferrer" em todos os links externos
-                        (alguns estavam sem). Isso é segurança básica para links target="_blank".
-                    -->
-                    <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Instagram de Willian Soares">
-                        <i class="bi bi-instagram fs-5" aria-hidden="true"></i><span>@wsoares_</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="LinkedIn de Willian Soares">
-                        <i class="bi bi-linkedin fs-5" aria-hidden="true"></i><span>Willian Soares</span>
-                    </a>
-                    <a href="https://www.youtube.com/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Canal do YouTube de Willian Soares">
-                        <i class="bi bi-youtube fs-5" aria-hidden="true"></i><span>@wsoares_</span>
-                    </a>
-                    <a href="https://open.spotify.com/user/12146244709" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Perfil do Spotify de Willian Soares">
-                        <i class="bi bi-spotify fs-5" aria-hidden="true"></i><span>Spotify</span>
-                    </a>
-                    <a href="https://www.threads.net/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Perfil do Threads de Willian Soares">
-                        <i class="bi bi-threads fs-5" aria-hidden="true"></i><span>@wsoares_</span>
-                    </a>
-                    <a href="https://discordapp.com/users/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 text-decoration-none d-flex align-items-center gap-2" aria-label="Perfil do Discord de Willian Soares">
-                        <i class="bi bi-discord fs-5" aria-hidden="true"></i><span>wsoares_</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="py-5 mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4 mb-md-0">
-                <h3 class="h5 text-cyan-300 mb-3">Willian Soares</h3>
-                <p class="small text-secondary">Profissional de TI dedicado a transformar desafios tecnológicos em soluções eficientes e acessíveis.</p>
-                <div class="social-icons mt-3">
-                    <a href="https://instagram.com/wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 me-3" aria-label="Instagram de Willian Soares"><i class="bi bi-instagram fs-5" aria-hidden="true"></i></a>
-                    <a href="https://www.linkedin.com/in/williansoares0610/" target="_blank" rel="noopener noreferrer" class="text-cyan-300 me-3" aria-label="LinkedIn de Willian Soares"><i class="bi bi-linkedin fs-5" aria-hidden="true"></i></a>
-                    <a href="https://www.youtube.com/@wsoares_" target="_blank" rel="noopener noreferrer" class="text-cyan-300 me-3" aria-label="YouTube de Willian Soares"><i class="bi bi-youtube fs-5" aria-hidden="true"></i></a>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4 mb-md-0">
-                <h3 class="h5 text-cyan-300 mb-3">Links Rápidos</h3>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#sobre" class="text-secondary small">Sobre Mim</a></li>
-                    <li class="mb-2"><a href="#servicos" class="text-secondary small">Serviços</a></li>
-                    <li class="mb-2"><a href="#habilidades" class="text-secondary small">Habilidades</a></li>
-                    <li class="mb-2"><a href="#contato" class="text-secondary small">Contato</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h3 class="h5 text-cyan-300 mb-3">Contato</h3>
-                <!--
-                    MUDANÇA: Email agora está num <a href="mailto:"> clicável.
-                    Antes era só texto — o usuário precisava copiar manualmente.
-                    Facilitar o contato é o objetivo #1 de um portfólio profissional.
-                -->
-                <ul class="list-unstyled text-secondary small">
-                    <li class="mb-2">
-                        <i class="bi bi-envelope-fill text-cyan-300 me-2" aria-hidden="true"></i>
-                        <a href="mailto:contato@williansoares.net.br" class="text-secondary">contato@williansoares.net.br</a>
-                    </li>
-                    <li class="mb-2"><i class="bi bi-geo-alt-fill text-cyan-300 me-2" aria-hidden="true"></i>Itararé/SP, Brasil</li>
-                    <li class="mb-2"><i class="bi bi-people-fill text-cyan-300 me-2" aria-hidden="true"></i>Disponível para projetos</li>
-                </ul>
-            </div>
-        </div>
-        <hr class="my-4 border-secondary opacity-25">
-        <div class="text-center">
-            <!--
-                MUDANÇA: Ano do copyright atualizado de 2025 para dinâmico via JS.
-                Nunca mais vai ficar desatualizado.
-            -->
-            <p class="small text-secondary mb-1">© <span id="footer-year"></span> Willian Soares. Todos os direitos reservados.</p>
-            <p class="small text-secondary mb-1">Desenvolvido com <i class="bi bi-heart-fill text-danger" aria-hidden="true"></i> por Willian Soares</p>
-            <p class="small text-secondary mb-0">
-                Visitas:
-                <span id="visitor-counter" class="fw-bold text-cyan-300" aria-label="Contador de visitas">00000</span>
-                <span id="counter-status-icon" class="counter-status" title="Status do contador" aria-hidden="true">
-                    <i class="bi bi-circle-fill" style="font-size:0.5rem;"></i>
-                </span>
+            <p class="text-white-50 x-small mb-3">
+              Envia os dados do período selecionado para o OpenRouter (Mistral 7B) e recebe um resumo clínico, padrões e sugestões para sua próxima consulta.
             </p>
+            <div id="gemini-result-card" class="d-none">
+              <div class="p-3 rounded-3" style="background:rgba(13,110,253,0.06);border:1px solid rgba(13,110,253,0.18);">
+                <div id="gemini-result-text" class="small text-white lh-lg"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. Correlação Medicamento × Eficácia -->
+          <div class="card glass-card border-0 p-4 rounded-3 mb-4" id="med-correlation-card">
+            <h6 class="fw-bold text-white mb-3"><i class="bi bi-bar-chart-line text-info me-2"></i>Eficácia dos Medicamentos no Período</h6>
+            <div id="med-correlation-container">
+              <p class="text-white-50 text-center small py-2 mb-0">Nenhum medicamento registrado no período.</p>
+            </div>
+            <div class="d-flex gap-3 mt-3 pt-2 border-top border-white border-opacity-10">
+              <span class="x-small text-white-50"><span style="color:#10b981">■</span> Alívio completo</span>
+              <span class="x-small text-white-50"><span style="color:#f59e0b">■</span> Parcial</span>
+              <span class="x-small text-white-50"><span style="color:#ef4444">■</span> Sem efeito</span>
+            </div>
+          </div>
+
+          <!-- Escala Visual -->
+          <div class="card glass-card border-0 p-3 rounded-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <span class="small fw-semibold text-white-50"><i class="bi bi-palette me-1"></i> Escala de Dor:</span>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="badge badge-lvl-1 px-2.5 py-1.5 rounded-2">1 Muito Leve</span>
+                <span class="badge badge-lvl-2-4 px-2.5 py-1.5 rounded-2">2-4 Leve/Mod.</span>
+                <span class="badge badge-lvl-5-7 px-2.5 py-1.5 rounded-2">5-7 Mod./Forte</span>
+                <span class="badge badge-lvl-8-10 px-2.5 py-1.5 rounded-2">8-10 Forte/Extrema</span>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</footer>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
-    <span id="close-lightbox" class="close-button" role="button" tabindex="0" aria-label="Fechar imagem">×</span>
-    <img id="lightbox-image" src="" alt="Imagem em tela cheia">
-</div>
+        <!-- TAB 2: HISTÓRICO DE REGISTROS -->
+        <div class="tab-pane fade" id="content-history" role="tabpanel" aria-labelledby="tab-history">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="fw-bold m-0 text-white d-flex align-items-center gap-2">
+              <i class="bi bi-journal-medical text-primary"></i> Registro Cronológico de Crises
+            </h5>
+            <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 rounded-pill px-3 py-1" id="crisis-count">0 registros</span>
+          </div>
 
-<!-- VOLTAR AO TOPO -->
-<a href="#" id="back-to-top-btn" class="fs-4" aria-label="Voltar ao topo da página">
-    <i class="bi bi-arrow-up-short" aria-hidden="true"></i>
-</a>
+          <!-- 5. Filtros do Histórico -->
+          <div class="history-filter-bar mb-3">
+            <div class="row g-2 align-items-end">
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Intensidade mínima: <strong id="history-intensity-val">1</strong></label>
+                <input type="range" class="form-range" id="history-filter-intensity" min="1" max="10" value="1"
+                  oninput="document.getElementById('history-intensity-val').textContent=this.value; filterHistory()">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Com medicamento</label>
+                <select class="form-select form-select-sm glass-input" id="history-filter-med" onchange="filterHistory()">
+                  <option value="all">Todos os registros</option>
+                  <option value="yes">Com medicamento</option>
+                  <option value="no">Sem medicamento</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label small text-white-50 mb-1">Gatilho específico</label>
+                <select class="form-select form-select-sm glass-input" id="history-filter-trigger" onchange="filterHistory()">
+                  <option value="">Qualquer gatilho</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
-<!-- CHATBOT -->
-<button id="chatbot-btn" aria-label="Abrir assistente virtual" aria-expanded="false">
-    <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
-</button>
-<div id="chatbot-container" class="chatbot-container" role="dialog" aria-label="Chatbot assistente" aria-hidden="true">
-    <div class="chatbot-header">
-        <span>Assistente Virtual</span>
-        <button id="close-chatbot-btn" class="btn-close btn-close-white" aria-label="Fechar Chatbot"></button>
-    </div>
-    <div id="chatbot-body" class="chatbot-body" aria-live="polite">
-        <div class="chatbot-message">Olá! Sou o assistente virtual de Willian Soares. Como posso te ajudar hoje?</div>
-        <div id="loading-indicator" class="chatbot-message" style="display:none;" aria-label="Digitando...">
-            <div class="chatbot-loading-dots"></div>
+          <div id="crisis-cards-container" class="row g-3">
+            <!-- Inserido dinamicamente via JS -->
+          </div>
         </div>
+
+        <!-- TAB 3: ACOMPANHAMENTO MÉDICO (v10) -->
+        <div class="tab-pane fade" id="content-medical" role="tabpanel" aria-labelledby="tab-medical">
+          <!-- Sub-abas: Médicos | Consultas | Receitas -->
+          <ul class="nav nav-pills nav-fill medical-subtabs mb-3 gap-2 p-2 rounded-3 glass-card" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active small py-2 rounded-2" id="subtab-doctors" data-bs-toggle="pill" data-bs-target="#subcontent-doctors" type="button" role="tab" aria-controls="subcontent-doctors" aria-selected="true">
+                <i class="bi bi-hospital me-1"></i> Médicos
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link small py-2 rounded-2" id="subtab-appointments" data-bs-toggle="pill" data-bs-target="#subcontent-appointments" type="button" role="tab" aria-controls="subcontent-appointments" aria-selected="false">
+                <i class="bi bi-calendar-event me-1"></i> Consultas
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link small py-2 rounded-2" id="subtab-prescriptions" data-bs-toggle="pill" data-bs-target="#subcontent-prescriptions" type="button" role="tab" aria-controls="subcontent-prescriptions" aria-selected="false">
+                <i class="bi bi-capsule me-1"></i> Receitas
+              </button>
+            </li>
+          </ul>
+
+          <div class="pill-content">
+            <!-- MÉDICOS -->
+            <div class="pill-pane fade show active" id="subcontent-doctors" role="tabpanel" aria-labelledby="subtab-doctors">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Meus Médicos</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openDoctorModal()">
+                  <i class="bi bi-plus-lg"></i> Novo Médico
+                </button>
+              </div>
+              <div id="doctors-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
+
+            <!-- CONSULTAS -->
+            <div class="pill-pane fade" id="subcontent-appointments" role="tabpanel" aria-labelledby="subtab-appointments">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Agenda de Consultas</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openAppointmentModal()">
+                  <i class="bi bi-plus-lg"></i> Nova Consulta
+                </button>
+              </div>
+              <div id="appointments-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
+
+            <!-- RECEITAS -->
+            <div class="pill-pane fade" id="subcontent-prescriptions" role="tabpanel" aria-labelledby="subtab-prescriptions">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold m-0 text-white">Receitas Médicas</h5>
+                <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-2" onclick="openPrescriptionModal()">
+                  <i class="bi bi-plus-lg"></i> Nova Receita
+                </button>
+              </div>
+              <div id="prescriptions-container" class="row g-3">
+                <!-- Inserido dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- MODAL: WIZARD DE NOVO LANÇAMENTO (MULTI-ETAPAS) -->
+  <div class="modal fade" id="wizardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white" id="wizard-title">
+            <i class="bi bi-plus-circle text-primary me-2"></i>Novo Registro de Crise
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 py-3">
+          <!-- Wizard Steps Nav -->
+          <ul class="nav nav-pills nav-justified wizard-steps-nav mb-4 gap-1 p-1 rounded-3 glass-kpi-box">
+            <li class="nav-item"><a class="nav-link active small py-2 rounded-2" data-step="1">1. Data & Horário</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="2">2. Intensidade</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="3">3. Sintomas & Gatilhos</a></li>
+            <li class="nav-item"><a class="nav-link small py-2 rounded-2" data-step="4">4. Remédio & Alívio</a></li>
+          </ul>
+
+          <form id="wizard-form" onsubmit="handleSaveCrisis(event)">
+            <!-- PASSO 1: DATA E HORÁRIO -->
+            <div class="wizard-step step-1">
+              <p class="text-white-50 small mb-3">
+                <i class="bi bi-info-circle me-1 text-primary"></i> Permite lançar datas retroativas para transcrever o histórico do seu diário em papel físico.
+              </p>
+              <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                  <label for="crisis-date" class="form-label small fw-medium text-white-50">Data da Crise *</label>
+                  <input type="date" class="form-control glass-input" id="crisis-date" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="crisis-time" class="form-label small fw-medium text-white-50">Horário de Início *</label>
+                  <input type="time" class="form-control glass-input" id="crisis-time" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="crisis-duration" class="form-label small fw-medium text-white-50">Duração Aproximada</label>
+                <input type="text" class="form-control glass-input" id="crisis-duration" placeholder="Ex: 4 horas, 30 minutos, o dia todo...">
+              </div>
+
+              <!-- 2. Sono e Estresse -->
+              <div class="row g-3 mb-1">
+                <div class="col-12 col-md-6">
+                  <label class="form-label small fw-medium text-white-50">
+                    <i class="bi bi-moon-stars text-info me-1"></i>Horas de Sono (noite anterior): <strong id="sleep-hours-val">7</strong>h
+                  </label>
+                  <input type="range" class="form-range" id="crisis-sleep-hours" min="2" max="12" step="0.5" value="7"
+                    oninput="document.getElementById('sleep-hours-val').textContent=this.value">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label small fw-medium text-white-50">
+                    <i class="bi bi-emoji-expressionless text-warning me-1"></i>Nível de Estresse: <strong id="stress-level-val">2</strong>/5
+                  </label>
+                  <input type="range" class="form-range" id="crisis-stress-level" min="0" max="5" step="1" value="2"
+                    oninput="document.getElementById('stress-level-val').textContent=this.value">
+                </div>
+              </div>
+            </div>
+
+            <!-- PASSO 2: INTENSIDADE DA DOR (1 A 10) -->
+            <div class="wizard-step step-2 d-none">
+              <div class="mb-4">
+                <label class="form-label small fw-medium text-white-50 mb-2">Intensidade da Dor (Escala 1 a 10) *</label>
+                <div class="p-3 rounded-3 glass-kpi-box text-center mb-3">
+                  <input type="range" class="form-range" id="crisis-intensity" min="1" max="10" value="5" oninput="updatePainDisplay(this.value)">
+                  <div class="mt-2">
+                    <span class="badge fs-5 px-3 py-2 rounded-3" id="pain-badge">5 - Moderada</span>
+                  </div>
+                  <p class="text-white-50 small mt-2 mb-0" id="pain-guide">Moderada: dor que atrapalha e dificulta atividades cotidianas.</p>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="crisis-type" class="form-label small fw-medium text-white-50">Tipo da Dor</label>
+                  <select class="form-select glass-input" id="crisis-type">
+                    <option value="Pulsátil / Latejante">Pulsátil / Latejante</option>
+                    <option value="Aperto / Peso">Aperto / Peso / Pressão</option>
+                    <option value="Pontadas / Fisgadas">Pontadas / Fisgadas</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="crisis-location" class="form-label small fw-medium text-white-50">Localização da Dor</label>
+                  <select class="form-select glass-input" id="crisis-location">
+                    <option value="Unilateral Direita">Lado Direito (Unilateral)</option>
+                    <option value="Unilateral Esquerda">Lado Esquerdo (Unilateral)</option>
+                    <option value="Bilateral (Ambos os lados)">Bilateral (Ambos os lados)</option>
+                    <option value="Testa / Atrás dos Olhos">Testa / Atrás dos Olhos</option>
+                    <option value="Nuca / Pescoço">Nuca / Pescoço</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- PASSO 3: SINTOMAS E GATILHOS -->
+            <div class="wizard-step step-3 d-none">
+              <label class="form-label fw-bold text-white small mb-2">Sintomas Acompanhantes (Diário Dra. Karin Corrêa):</label>
+              <div class="row row-cols-2 row-cols-md-3 g-2 mb-4">
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="E" class="me-1"> <b>E</b> - Enjoo / Náusea</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="V" class="me-1"> <b>V</b> - Vômito</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="L" class="me-1"> <b>L</b> - Sens. Luz (Fotofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="B" class="me-1"> <b>B</b> - Sens. Som (Fonofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="C" class="me-1"> <b>C</b> - Sens. Cheiro (Osmofobia)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="A" class="me-1"> <b>A</b> - Aura (Visão/Formigam.)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Tontura" class="me-1"> <b>T</b> - Tontura / Vertigem</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="symptom" value="Pescoço" class="me-1"> <b>P</b> - Rigidez no Pescoço</label></div>
+              </div>
+
+              <!-- 8. Gatilhos mais frequentes do usuário (sugestão inteligente) -->
+              <div id="quick-triggers-section" class="d-none mb-3">
+                <label class="form-label small fw-medium text-info mb-2">
+                  <i class="bi bi-star-fill me-1"></i>Seus gatilhos mais frequentes — clique para marcar:
+                </label>
+                <div id="quick-triggers" class="d-flex flex-wrap gap-2 mb-1"></div>
+              </div>
+
+              <label class="form-label fw-bold text-white small mb-2">Gatilhos Desencadeantes (O que veio antes?):</label>
+              <div class="row row-cols-2 row-cols-md-3 g-2">
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Dormi pouco/demais" class="me-1"> Sono irregular</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Jejum prolongado" class="me-1"> Jejum prolongado</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Bebi pouca água" class="me-1"> Pouca água</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Estresse/Preocupação" class="me-1"> Estresse</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Menstruação" class="me-1"> Ciclo Menstrual</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Bebida alcoólica" class="me-1"> Álcool</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Café demais/falta" class="me-1"> Café (excesso/falta)</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Telas/Luz forte" class="me-1"> Telas / Luz forte</label></div>
+                <div class="col"><label class="btn btn-outline-light btn-sm w-100 text-start glass-check"><input type="checkbox" name="trigger" value="Mudança de tempo/calor" class="me-1"> Clima / Calor</label></div>
+              </div>
+            </div>
+
+            <!-- PASSO 4: TRATAMENTO E MEDICAMENTOS -->
+            <div class="wizard-step step-4 d-none">
+              <div class="mb-3">
+                <label class="form-label small fw-medium text-white-50">
+                  <i class="bi bi-capsule text-warning me-1"></i>Medicamentos Utilizados
+                </label>
+                <div id="medications-list">
+                  <!-- Linhas de medicamento inseridas dinamicamente -->
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-3" onclick="addMedicationRow()">
+                  <i class="bi bi-plus-lg me-1"></i>Adicionar Medicamento
+                </button>
+                <small class="text-white-50 d-block mt-2">
+                  <i class="bi bi-lightbulb-fill text-info me-1"></i>Dica: Digite para ver sugestões. Adicione quantos medicamentos quiser.
+                </small>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-medium text-white-50 d-block">O medicamento aliviou a dor?</label>
+                <div class="btn-group w-100" role="group">
+                  <input type="radio" class="btn-check" name="relief" id="relief-sim" value="sim" checked>
+                  <label class="btn btn-outline-light glass-check" for="relief-sim">✅ Sim (Completo)</label>
+
+                  <input type="radio" class="btn-check" name="relief" id="relief-pouco" value="pouco">
+                  <label class="btn btn-outline-light glass-check" for="relief-pouco">🟡 Pouco (Parcial)</label>
+
+                  <input type="radio" class="btn-check" name="relief" id="relief-nao" value="nao">
+                  <label class="btn btn-outline-light glass-check" for="relief-nao">❌ Não aliviou</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="crisis-notes" class="form-label small fw-medium text-white-50">Observações / Anotações do Diário</label>
+                <textarea class="form-control glass-input" id="crisis-notes" rows="3" placeholder="Anotações sobre o dia, fatores emocionais, transição do diário físico, etc."></textarea>
+              </div>
+            </div>
+
+            <!-- Rodapé do Wizard -->
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-white border-opacity-10">
+              <button type="button" class="btn btn-outline-light px-4 rounded-3 glass-btn" id="btn-prev" onclick="prevWizardStep()" disabled>Anterior</button>
+              <div>
+                <button type="button" class="btn btn-primary px-4 rounded-3" id="btn-next" onclick="nextWizardStep()">Próximo Passo</button>
+                <button type="submit" class="btn btn-success px-4 rounded-3 d-none" id="btn-save"><i class="bi bi-check-lg me-1"></i>Salvar Registro</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="chatbot-input">
-        <input type="text" id="chatbot-input-field" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem do chatbot">
-        <button id="chatbot-send-btn" aria-label="Enviar mensagem"><i class="bi bi-send-fill" aria-hidden="true"></i></button>
+  </div>
+
+  <!-- MODAL: ADMIN GERENCIAMENTO DE USUÁRIOS -->
+  <div class="modal fade" id="adminUsersModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-shield-lock-fill text-primary me-2"></i>Gerenciamento de Usuários (Admin)
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 py-3">
+          <!-- Formulário de Criação de Novo Usuário -->
+          <div class="card glass-card border-0 p-3 mb-4">
+            <h6 class="fw-bold text-white mb-2"><i class="bi bi-person-plus-fill me-1 text-primary"></i> Cadastrar Novo Usuário</h6>
+            <form id="create-user-form" onsubmit="handleCreateUser(event)" class="row g-2">
+              <div class="col-12 col-md-4">
+                <input type="text" class="form-control form-control-sm glass-input" id="new-username" placeholder="nome de usuário" required autocapitalize="none">
+              </div>
+              <div class="col-12 col-md-4">
+                <input type="password" class="form-control form-control-sm glass-input" id="new-password" placeholder="senha do usuário" required>
+              </div>
+              <div class="col-12 col-md-2">
+                <select class="form-select form-select-sm glass-input" id="new-role">
+                  <option value="user">Usuário</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-primary btn-sm w-100 rounded-2 fw-semibold">Criar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tabela de Usuários Registrados -->
+          <h6 class="fw-bold text-white mb-2"><i class="bi bi-people-fill me-1 text-primary"></i> Usuários Cadastrados no Supabase</h6>
+          <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle glass-table mb-0">
+              <thead>
+                <tr>
+                  <th>Usuário</th>
+                  <th>Nível</th>
+                  <th>Data Cadastro</th>
+                  <th class="text-end">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-list-body">
+                <!-- Preenchido via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script>
-    // ─────────────────────────────────────────────
-    // MUDANÇA: Unificado window.onload e DOMContentLoaded em um único
-    // DOMContentLoaded. Ter os dois causava inicialização dupla de funções.
-    // ─────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
+  <!-- MODAL: RELATÓRIO MÉDICO PDF -->
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-file-earmark-pdf-fill text-primary me-2"></i>Gerar Relatório Médico em PDF
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-        // ─────────────────────────────────────────────
-        // ANO DINÂMICO NO FOOTER
-        // Nunca mais o site vai mostrar o ano errado.
-        // ─────────────────────────────────────────────
-        const yearEl = document.getElementById('footer-year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
+        <div class="modal-body px-4 py-3">
+          <p class="text-white-50 small mb-3">
+            O relatório compila suas crises no padrão da Sociedade Brasileira de Cefaleia, pronto para baixar e enviar à sua médica neurologista por WhatsApp ou imprimir.
+          </p>
 
-        // ─────────────────────────────────────────────
-        // PRELOADER
-        // ─────────────────────────────────────────────
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-            window.addEventListener('load', () => {
-                preloader.classList.add('preloader-hidden');
-                setTimeout(() => preloader.remove(), 600);
-            });
-            // Fallback: remove após 4s para não travar a página
-            setTimeout(() => {
-                if (preloader && document.body.contains(preloader)) {
-                    preloader.classList.add('preloader-hidden');
-                    setTimeout(() => preloader.remove(), 600);
-                }
-            }, 4000);
-        }
+          <div class="mb-3">
+            <label class="form-label small fw-medium text-white-50">Período do Relatório:</label>
+            <div class="d-flex flex-wrap gap-1 mb-2">
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-2 report-preset-btn" onclick="setReportRange(30)" data-days="30">30 dias</button>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-2 report-preset-btn" onclick="setReportRange(60)" data-days="60">60 dias</button>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-2 report-preset-btn" onclick="setReportRange(90)" data-days="90">90 dias</button>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-2 report-preset-btn" onclick="setReportRange(180)" data-days="180">6 meses</button>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-2 report-preset-btn" onclick="setReportRange(365)" data-days="365">1 ano</button>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <input type="date" class="form-control glass-input flex-grow-1" id="report-date-from">
+              <span class="text-white-50 small flex-shrink-0">até</span>
+              <input type="date" class="form-control glass-input flex-grow-1" id="report-date-to">
+            </div>
+          </div>
 
-        // ─────────────────────────────────────────────
-        // ANIMAÇÃO DO TÍTULO (hero)
-        // ─────────────────────────────────────────────
-        function animateTitle() {
-            const el = document.getElementById('animated-title');
-            if (!el || typeof gsap === 'undefined') return;
-            gsap.from(el, { duration: 1, y: 30, opacity: 0, ease: 'power3.out', delay: 0.3 });
-        }
+          <div class="mb-4">
+            <label for="doctor-notes" class="form-label small fw-medium text-white-50">Dúvidas ou Observações para a Consulta:</label>
+            <textarea class="form-control glass-input" id="doctor-notes" rows="3" placeholder="Ex: Perguntar sobre eficácia da dosagem do preventivo..."></textarea>
+          </div>
 
-        function animateSubtitle() {
-            const el = document.getElementById('animated-subtitle');
-            if (!el || typeof gsap === 'undefined') return;
-            gsap.from(el, { duration: 1, y: 20, opacity: 0, ease: 'power2.out', delay: 0.6 });
-        }
+          <div class="mb-3 small text-white-50">
+            <i class="bi bi-stars text-primary me-1"></i>O relatório incluirá automaticamente um parecer clínico gerado por Inteligência Artificial (OpenRouter · Mistral 7B).
+          </div>
 
-        // ─────────────────────────────────────────────
-        // SCROLL: IntersectionObserver para animações de seção + skill bars
-        // ─────────────────────────────────────────────
-        function setupScrollFeatures() {
-            // Anima seções ao entrar na viewport
-            const sections = document.querySelectorAll('.glass-section');
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        sectionObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+          <button class="btn btn-primary w-100 py-2.5 rounded-3 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2" onclick="generatePDFReport()">
+            <i class="bi bi-download me-1"></i>
+            <span>Baixar Relatório PDF Completo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            sections.forEach(s => sectionObserver.observe(s));
+  <!-- ============================================================
+       MODAIS: SISTEMA DE ACOMPANHAMENTO MÉDICO v10
+       ============================================================ -->
 
-            // Anima skill bars quando a seção de habilidades entra na viewport
-            const skillSection = document.getElementById('habilidades');
-            if (skillSection) {
-                const skillObserver = new IntersectionObserver((entries) => {
-                    if (entries[0].isIntersecting) {
-                        document.querySelectorAll('.progress-bar').forEach(bar => {
-                            const targetWidth = bar.getAttribute('data-width');
-                            if (targetWidth) {
-                                // MUDANÇA: A animação agora usa a transition do CSS (cubic-bezier)
-                                // e seta a largura diretamente, em vez de setTimeout encadeados.
-                                requestAnimationFrame(() => {
-                                    bar.style.width = targetWidth;
-                                });
-                            }
-                        });
-                        skillObserver.unobserve(skillSection);
-                    }
-                }, { threshold: 0.3 });
-                skillObserver.observe(skillSection);
-            }
-        }
+  <!-- MODAL: CADASTRO/EDIÇÃO DE MÉDICOS -->
+  <div class="modal fade" id="doctorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-hospital text-primary me-2"></i><span id="doctor-modal-title">Novo Médico</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="doctor-form" onsubmit="handleSaveDoctor(event)">
+            <input type="hidden" id="doctor-id">
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="doctor-name" class="form-label small fw-medium text-white-50">Nome Completo *</label>
+                <input type="text" class="form-control glass-input" id="doctor-name" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-specialty" class="form-label small fw-medium text-white-50">Especialidade</label>
+                <select class="form-select glass-input" id="doctor-specialty">
+                  <option>Neurologia</option>
+                  <option>Oftalmologia</option>
+                  <option>Cardiologia</option>
+                  <option>Clínico Geral</option>
+                  <option>Outra</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-crm" class="form-label small fw-medium text-white-50">CRM</label>
+                <input type="text" class="form-control glass-input" id="doctor-crm" placeholder="Ex: 123456-SP">
+              </div>
+              <div class="col-12">
+                <label for="doctor-clinic" class="form-label small fw-medium text-white-50">Clínica/Consultório</label>
+                <input type="text" class="form-control glass-input" id="doctor-clinic" placeholder="Nome do local">
+              </div>
+              <div class="col-12">
+                <label for="doctor-address" class="form-label small fw-medium text-white-50">Endereço</label>
+                <input type="text" class="form-control glass-input" id="doctor-address">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-phone" class="form-label small fw-medium text-white-50">Telefone</label>
+                <input type="tel" class="form-control glass-input" id="doctor-phone" placeholder="(XX) XXXXX-XXXX">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="doctor-email" class="form-label small fw-medium text-white-50">Email</label>
+                <input type="email" class="form-control glass-input" id="doctor-email">
+              </div>
+              <div class="col-12">
+                <label for="doctor-notes" class="form-label small fw-medium text-white-50">Notas</label>
+                <textarea class="form-control glass-input" id="doctor-notes" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4" id="doctor-submit-btn">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="doctor-delete-btn" onclick="deleteDoctorWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // ─────────────────────────────────────────────
-        // CONTADOR DE VISITAS
-        // ─────────────────────────────────────────────
-        async function updateVisitorCounter() {
-            const counterEl = document.getElementById('visitor-counter');
-            const statusEl = document.getElementById('counter-status-icon');
-            if (!counterEl) return;
+  <!-- MODAL: CADASTRO/EDIÇÃO DE CONSULTAS -->
+  <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-calendar-event text-primary me-2"></i><span id="appointment-modal-title">Nova Consulta</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="appointment-form" onsubmit="handleSaveAppointment(event)">
+            <input type="hidden" id="appointment-id">
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="appointment-doctor" class="form-label small fw-medium text-white-50">Médico *</label>
+                <select class="form-select glass-input" id="appointment-doctor" required>
+                  <option value="">Selecione um médico...</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-date" class="form-label small fw-medium text-white-50">Data *</label>
+                <input type="date" class="form-control glass-input" id="appointment-date" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-time" class="form-label small fw-medium text-white-50">Horário</label>
+                <input type="time" class="form-control glass-input" id="appointment-time">
+              </div>
+              <div class="col-12">
+                <label for="appointment-reason" class="form-label small fw-medium text-white-50">Motivo da Consulta</label>
+                <input type="text" class="form-control glass-input" id="appointment-reason">
+              </div>
+              <div class="col-12">
+                <label for="appointment-symptoms" class="form-label small fw-medium text-white-50">Sintomas Apresentados</label>
+                <textarea class="form-control glass-input" id="appointment-symptoms" rows="2" placeholder="Descreva os sintomas..."></textarea>
+              </div>
+              <div class="col-12">
+                <label for="appointment-diagnosis" class="form-label small fw-medium text-white-50">Diagnóstico</label>
+                <textarea class="form-control glass-input" id="appointment-diagnosis" rows="2" placeholder="Diagnóstico informado pelo médico..."></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-followup-date" class="form-label small fw-medium text-white-50">Próxima Consulta</label>
+                <input type="date" class="form-control glass-input" id="appointment-followup-date">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="appointment-status" class="form-label small fw-medium text-white-50">Status</label>
+                <select class="form-select glass-input" id="appointment-status">
+                  <option value="scheduled">Agendada</option>
+                  <option value="completed">Realizada</option>
+                  <option value="cancelled">Cancelada</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="appointment-delete-btn" onclick="deleteAppointmentWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            const localKey = 'ws_visitor_count';
-            const localCount = parseInt(localStorage.getItem(localKey) || '0', 10);
-            if (localCount > 0) counterEl.textContent = String(localCount).padStart(5, '0');
+  <!-- MODAL: CADASTRO/EDIÇÃO DE RECEITAS -->
+  <div class="modal fade" id="prescriptionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content glass-card border-0 shadow-lg text-light">
+        <div class="modal-header border-bottom border-white border-opacity-10 px-4">
+          <h5 class="modal-title fw-bold text-white">
+            <i class="bi bi-capsule text-primary me-2"></i><span id="prescription-modal-title">Nova Receita Médica</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <form id="prescription-form" onsubmit="handleSavePrescription(event)">
+            <input type="hidden" id="prescription-id">
+            <input type="hidden" id="prescription-group-ids" value="">
 
-            try {
-                const res = await fetch('https://api.countapi.xyz/hit/williansoares.net.br/visits');
-                if (!res.ok) throw new Error('API indisponível');
-                const data = await res.json();
-                const count = data.value || localCount;
-                localStorage.setItem(localKey, count);
-                counterEl.textContent = String(count).padStart(5, '0');
-                if (statusEl) {
-                    statusEl.classList.add('online');
-                    statusEl.title = 'Contador online';
-                }
-            } catch {
-                if (statusEl) {
-                    statusEl.classList.add('offline');
-                    statusEl.title = 'Contador offline — exibindo valor local';
-                }
-            }
-        }
+            <h6 class="fw-bold text-primary mb-2">Informações Básicas</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12 col-md-6">
+                <label for="prescription-doctor" class="form-label small fw-medium text-white-50">Médico *</label>
+                <select class="form-select glass-input" id="prescription-doctor" required>
+                  <option value="">Selecione...</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="prescription-date" class="form-label small fw-medium text-white-50">Data da Receita *</label>
+                <input type="date" class="form-control glass-input" id="prescription-date" required>
+              </div>
+            </div>
 
-        // ─────────────────────────────────────────────
-        // VOLTAR AO TOPO
-        // ─────────────────────────────────────────────
-        function setupBackToTopButton() {
-            const btn = document.getElementById('back-to-top-btn');
-            if (!btn) return;
-            window.addEventListener('scroll', () => {
-                btn.classList.toggle('show', window.scrollY > 400);
-            }, { passive: true });
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
+            <!-- LISTA DINÂMICA DE MEDICAMENTOS -->
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="fw-bold text-primary mb-0">Medicamentos da Receita</h6>
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-3" onclick="addRxMedRow()">
+                <i class="bi bi-plus-lg me-1"></i>Adicionar Medicamento
+              </button>
+            </div>
+            <div id="rx-meds-list" class="mb-3">
+              <!-- Linhas de medicamento inseridas dinamicamente -->
+            </div>
 
-        // ─────────────────────────────────────────────
-        // PARTÍCULAS
-        // ─────────────────────────────────────────────
-        function setupParticles() {
-            const canvas = document.createElement('canvas');
-            const container = document.getElementById('particles-background');
-            if (!container) return;
-            canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
-            container.appendChild(canvas);
-            const ctx = canvas.getContext('2d');
-            const particles = [];
-            const PARTICLE_COUNT = 55;
+            <h6 class="fw-bold text-primary mb-2">Indicação</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <label for="prescription-indication" class="form-label small fw-medium text-white-50">Indicação Médica</label>
+                <select class="form-select glass-input" id="prescription-indication">
+                  <option>Dor de Enxaqueca (Resgate)</option>
+                  <option>Prevenção de Enxaqueca</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-preventive"> É medicação preventiva?
+                </label>
+              </div>
+            </div>
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize, { passive: true });
+            <h6 class="fw-bold text-primary mb-2">Monitoramento</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-12">
+                <label for="prescription-adherence" class="form-label small fw-medium text-white-50">Status de Adesão</label>
+                <select class="form-select glass-input" id="prescription-adherence">
+                  <option value="active">Em Uso</option>
+                  <option value="paused">Pausado</option>
+                  <option value="discontinued">Descontinuado</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="prescription-efficacy" class="form-label small fw-medium text-white-50">Notas sobre Eficácia</label>
+                <textarea class="form-control glass-input" id="prescription-efficacy" rows="2" placeholder="Como o medicamento está funcionando..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-helps"> Ajuda a prevenir crises?
+                </label>
+                <label class="form-check">
+                  <input type="checkbox" class="form-check-input" id="prescription-triggers"> Pode gatilhar crises?
+                </label>
+              </div>
+            </div>
 
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    r: Math.random() * 1.5 + 0.4,
-                    dx: (Math.random() - 0.5) * 0.4,
-                    dy: (Math.random() - 0.5) * 0.4,
-                    alpha: Math.random() * 0.5 + 0.1
-                });
-            }
-            return { canvas, ctx, particles };
-        }
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar</button>
+              <button type="button" class="btn btn-outline-light rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger rounded-3 px-4 ms-auto d-none" id="prescription-delete-btn" onclick="deletePrescriptionWithConfirm()">Deletar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function animateParticles() {
-            const container = document.getElementById('particles-background');
-            if (!container) return;
-            const canvas = container.querySelector('canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            // Retrieve particles from the data attribute or re-setup
-            const particles = [];
-            const PARTICLE_COUNT = 55;
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    r: Math.random() * 1.5 + 0.4,
-                    dx: (Math.random() - 0.5) * 0.4,
-                    dy: (Math.random() - 0.5) * 0.4,
-                    alpha: Math.random() * 0.5 + 0.1
-                });
-            }
-
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(34,211,238,${p.alpha})`;
-                    ctx.fill();
-                    p.x += p.dx; p.y += p.dy;
-                    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-                    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-        }
-
-        // ─────────────────────────────────────────────
-        // LIGHTBOX
-        // ─────────────────────────────────────────────
-        function setupLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImage = document.getElementById('lightbox-image');
-            const closeBtn = document.getElementById('close-lightbox');
-            if (!lightbox || !lightboxImage || !closeBtn) return;
-
-            document.querySelectorAll('.gallery-image').forEach(img => {
-                img.addEventListener('click', () => {
-                    lightboxImage.src = img.src;
-                    lightboxImage.alt = img.alt;
-                    lightbox.classList.add('active');
-                    // NOVO: Foca no botão de fechar para acessibilidade
-                    closeBtn.focus();
-                    // NOVO: Bloqueia scroll do body quando lightbox está aberto
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                lightboxImage.src = '';
-                document.body.style.overflow = '';
-            }
-
-            closeBtn.addEventListener('click', closeLightbox);
-            // NOVO: Fecha com tecla Escape (acessibilidade + padrão de UX)
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-            });
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-        }
-
-        // ─────────────────────────────────────────────
-        // EASTER EGG (Konami Code)
-        // ─────────────────────────────────────────────
-        function setupEasterEgg() {
-            const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-            let index = 0;
-            document.addEventListener('keydown', (e) => {
-                if (e.key.toLowerCase() === konamiCode[index].toLowerCase()) {
-                    index++;
-                    if (index === konamiCode.length) {
-                        document.body.classList.add('easter-egg-active');
-                        setTimeout(() => document.body.classList.remove('easter-egg-active'), 5000);
-                        index = 0;
-                    }
-                } else { index = 0; }
-            });
-        }
-
-        // ─────────────────────────────────────────────
-        // TEMA CLARO / ESCURO
-        // ─────────────────────────────────────────────
-        function setupThemeSwitcher() {
-            const switcher = document.getElementById('theme-switcher');
-            if (!switcher) return;
-            const icon = switcher.querySelector('i');
-            const html = document.documentElement;
-            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-            html.setAttribute('data-theme', savedTheme);
-            icon.classList.toggle('bi-sun-fill', savedTheme === 'light');
-            icon.classList.toggle('bi-moon-stars-fill', savedTheme === 'dark');
-            switcher.addEventListener('click', () => {
-                const currentTheme = html.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                icon.classList.toggle('bi-sun-fill', newTheme === 'light');
-                icon.classList.toggle('bi-moon-stars-fill', newTheme === 'dark');
-            });
-        }
-
-        // ─────────────────────────────────────────────
-        // FORMULÁRIO DE CONTATO (AJAX — sem redirect)
-        // ─────────────────────────────────────────────
-        function setupContactForm() {
-            const form = document.getElementById('contact-form');
-            const feedback = document.getElementById('form-feedback');
-            const submitBtn = document.getElementById('submit-btn');
-            if (!form || !feedback || !submitBtn) return;
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                // Validação básica antes de enviar
-                if (!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
-
-                // Estado de loading no botão
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Enviando...';
-
-                try {
-                    const formData = new FormData(form);
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (response.ok) {
-                        feedback.className = 'success';
-                        feedback.style.display = 'block';
-                        feedback.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Mensagem enviada com sucesso! Entrarei em contato em breve.';
-                        form.reset();
-                    } else {
-                        throw new Error('Resposta não OK');
-                    }
-                } catch {
-                    feedback.className = 'error';
-                    feedback.style.display = 'block';
-                    feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i>Ocorreu um erro. Tente novamente ou entre em contato pelas redes sociais.';
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Enviar Mensagem';
-                    feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            });
-        }
-
-        // ─────────────────────────────────────────────
-        // CHATBOT (Gemini 1.5 Flash — Free Tier)
-        //
-        // ▶ COMO CONFIGURAR:
-        //   1. Acesse: https://aistudio.google.com/app/apikey
-        //   2. Clique em "Create API key" → selecione um projeto Google
-        //   3. Copie a chave gerada (começa com "AIza...")
-        //   4. Cole no lugar de SUA_CHAVE_AQUI abaixo
-        //   5. Salve e faça upload do arquivo
-        //
-        // ▶ POR QUE gemini-1.5-flash?
-        //   O modelo gemini-2.5-flash-preview requer billing ativo no Google Cloud.
-        //   O gemini-1.5-flash funciona 100% no free tier (sem cartão de crédito),
-        //   com 15 requisições/minuto e 1 milhão de tokens/dia — mais que suficiente
-        //   para um chatbot de portfólio.
-        // ─────────────────────────────────────────────
-        const GEMINI_API_KEY = "AIzaSyCQGRslWX2xZoIZf-7M2ihwmH6WsyLxYbQ"; // ← COLE SUA CHAVE AQUI
-
-        function setupChatbot() {
-            const chatbotBtn       = document.getElementById('chatbot-btn');
-            const chatbotContainer = document.getElementById('chatbot-container');
-            const closeChatbotBtn  = document.getElementById('close-chatbot-btn');
-            const chatBody         = document.getElementById('chatbot-body');
-            const chatInput        = document.getElementById('chatbot-input-field');
-            const sendBtn          = document.getElementById('chatbot-send-btn');
-            const loadingIndicator = document.getElementById('loading-indicator');
-            if (!chatbotBtn || !chatbotContainer) return;
-
-            // System prompt: dá contexto ao modelo sobre quem é Willian
-            // para que as respostas sejam relevantes ao portfólio.
-            const SYSTEM_PROMPT = `Você é o assistente virtual do portfólio de Willian Soares, 
-um Analista de TI e Consultor com mais de 3 anos de experiência baseado em Itararé, SP, Brasil. 
-Responda perguntas sobre os serviços dele (Consultoria em Infra & Redes, Suporte TI & Helpdesk, 
-Palestras e Treinamentos), sua trajetória profissional (Junitex, Dreamschool, Mundial Informática), 
-habilidades técnicas e formas de contato (contato@williansoares.net.br). 
-Seja direto, simpático e profissional. Responda sempre em português. 
-Se a pergunta for completamente fora do contexto de TI ou do portfólio, redirecione gentilmente 
-para o formulário de contato.`;
-
-            // Histórico de conversa — começa com o contexto do sistema
-            const chatHistory = [];
-
-            chatbotBtn.addEventListener('click', () => {
-                const isOpen = chatbotContainer.style.display === 'flex';
-                chatbotContainer.style.display = isOpen ? 'none' : 'flex';
-                chatbotBtn.setAttribute('aria-expanded', String(!isOpen));
-                chatbotContainer.setAttribute('aria-hidden', String(isOpen));
-                if (!isOpen) chatInput.focus();
-            });
-
-            closeChatbotBtn.addEventListener('click', () => {
-                chatbotContainer.style.display = 'none';
-                chatbotBtn.setAttribute('aria-expanded', 'false');
-                chatbotContainer.setAttribute('aria-hidden', 'true');
-            });
-
-            async function sendMessage() {
-                const message = chatInput.value.trim();
-                if (!message) return;
-
-                // Avisa se a chave ainda não foi configurada
-                if (!GEMINI_API_KEY || GEMINI_API_KEY === "SUA_CHAVE_AQUI") {
-                    const warnMsg = document.createElement('div');
-                    warnMsg.classList.add('chatbot-message');
-                    warnMsg.innerHTML = '⚠️ Chatbot não configurado. Adicione sua chave do Google AI Studio no arquivo index.html.';
-                    chatBody.appendChild(warnMsg);
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                    return;
-                }
-
-                // Adiciona mensagem do usuário ao histórico e à UI
-                chatHistory.push({ role: "user", parts: [{ text: message }] });
-
-                const userMessage = document.createElement('div');
-                userMessage.classList.add('chatbot-message', 'user-message');
-                userMessage.textContent = message;
-                chatBody.appendChild(userMessage);
-                chatInput.value = '';
-                chatInput.disabled = true;
-                sendBtn.disabled = true;
-                loadingIndicator.style.display = 'block';
-                chatBody.scrollTop = chatBody.scrollHeight;
-
-                try {
-                    // Monta o payload com system instruction + histórico completo
-                    const payload = {
-                        system_instruction: {
-                            parts: [{ text: SYSTEM_PROMPT }]
-                        },
-                        contents: chatHistory,
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 500,
-                        }
-                    };
-
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        const errData = await response.json().catch(() => ({}));
-                        throw new Error(errData?.error?.message || `HTTP ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    const botResponseText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (!botResponseText) throw new Error('Resposta vazia da API');
-
-                    // Adiciona resposta ao histórico para manter contexto na próxima mensagem
-                    chatHistory.push({ role: "model", parts: [{ text: botResponseText }] });
-
-                    const botMessage = document.createElement('div');
-                    botMessage.classList.add('chatbot-message');
-                    botMessage.textContent = botResponseText;
-                    chatBody.appendChild(botMessage);
-
-                } catch (error) {
-                    // Remove a mensagem do usuário do histórico se falhou
-                    chatHistory.pop();
-
-                    const errorMessage = document.createElement('div');
-                    errorMessage.classList.add('chatbot-message');
-                    errorMessage.textContent = 'Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente ou use o formulário de contato.';
-                    chatBody.appendChild(errorMessage);
-                    console.error('Chatbot error:', error.message);
-                } finally {
-                    loadingIndicator.style.display = 'none';
-                    chatInput.disabled = false;
-                    sendBtn.disabled = false;
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                    chatInput.focus();
-                }
-            }
-
-            sendBtn.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) sendMessage(); });
-        }
-
-        // ─────────────────────────────────────────────
-        // CARROSSEL INFINITO
-        // ─────────────────────────────────────────────
-        function setupInfiniteCarousel(containerId, prevBtnId, nextBtnId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            const track = container.querySelector('.carousel-track');
-            const items = Array.from(track.children).filter(el => !el.classList.contains('carousel-control-prev') && !el.classList.contains('carousel-control-next'));
-            const prevBtn = document.getElementById(prevBtnId);
-            const nextBtn = document.getElementById(nextBtnId);
-            if (!track || !prevBtn || !nextBtn || items.length === 0) return;
-
-            const firstItem = items[0];
-            const scrollStep = firstItem.offsetWidth + 16;
-            const numClones = items.length;
-
-            items.forEach(item => track.appendChild(item.cloneNode(true)));
-            for (let i = items.length - 1; i >= 0; i--) track.insertBefore(items[i].cloneNode(true), track.firstChild);
-
-            track.scrollLeft = numClones * scrollStep;
-
-            prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep, behavior: 'smooth' }));
-            nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollStep, behavior: 'smooth' }));
-
-            // MUDANÇA: Debounce no scroll do carrossel para evitar múltiplos
-            // recalculos durante o scroll contínuo (melhora performance).
-            let scrollTimer;
-            track.addEventListener('scroll', () => {
-                clearTimeout(scrollTimer);
-                scrollTimer = setTimeout(() => {
-                    if (track.scrollLeft <= scrollStep * 0.5) {
-                        track.scrollLeft = numClones * scrollStep;
-                    } else if (track.scrollLeft >= track.scrollWidth - (numClones * scrollStep) - scrollStep * 0.5) {
-                        track.scrollLeft = numClones * scrollStep;
-                    }
-                }, 50);
-            }, { passive: true });
-        }
-
-        // ─────────────────────────────────────────────
-        // INICIALIZAÇÃO — ordem importa
-        // ─────────────────────────────────────────────
-        animateTitle();
-        animateSubtitle();
-        setupScrollFeatures();
-        updateVisitorCounter();
-        setupBackToTopButton();
-        setupEasterEgg();
-        setupThemeSwitcher();
-        setupContactForm();
-        setupLightbox();
-        setupChatbot();
-        setupParticles();
-        animateParticles();
-        setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
-        setupInfiniteCarousel('galeria-carousel-container', 'galeria-prev-btn', 'galeria-next-btn');
-
-    }); // fim DOMContentLoaded
-</script>
+  <!-- Scripts Bootstrap & App -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/medical-tracking.js"></script>
 </body>
 </html>
