@@ -860,53 +860,119 @@ async function addGeminiSectionToPDF(doc, crises, prescriptions, finalY, formatD
   const dateTo   = document.getElementById("report-date-to")?.value   || "";
 
   const daysPain = new Set(crises.map(c => c.date)).size;
-  const avgIntensity = crises.length > 0
-    ? (crises.reduce((a, c) => a + Number(c.intensity), 0) / crises.length).toFixed(1) : 0;
+  const totalCrises = crises.length;
+  const avgIntensity = totalCrises > 0
+    ? (crises.reduce((a, c) => a + Number(c.intensity), 0) / totalCrises).toFixed(1) : 0;
 
+  // Gatilhos mais frequentes
   const trigCounts = {};
   crises.forEach(c => {
-    const t = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers || '[]') : []);
+    const t = Array.isArray(c.triggers) ? c.triggers : [];
     t.forEach(tr => { trigCounts[tr] = (trigCounts[tr] || 0) + 1; });
   });
   const topTriggers = Object.entries(trigCounts).sort((a,b) => b[1]-a[1]).slice(0,5);
 
-  const prompt = `Você é um assistente médico especializado em cefaleia. Analise os dados clínicos abaixo e gere um RESUMO CLÍNICO CONCISO em português, com no máximo 5 linhas, para ser incluído em um relatório médico impresso. Inclua: padrão de crises, gatilhos principais, eficácia da medicação e alertas. Seja objetivo e profissional. Não use markdown.
+  // Estatísticas de eficácia por medicamento
+  const medStats = {};
+  crises.forEach(c => {
+    let meds = [];
+    try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+    if (!Array.isArray(meds)) meds = [String(meds)];
+    meds.filter(m => m && m.trim()).forEach(med => {
+      const k = med.trim();
+      if (!medStats[k]) medStats[k] = { uses: 0, relieved: 0, partial: 0, none: 0 };
+      medStats[k].uses++;
+      if (c.relief === 'sim') medStats[k].relieved++;
+      else if (c.relief === 'pouco') medStats[k].partial++;
+      else medStats[k].none++;
+    });
+  });
+  const medEfficacyLines = Object.entries(medStats).sort((a,b) => b[1].uses - a[1].uses).slice(0,6)
+    .map(([name, s]) => `${name}: ${s.uses} usos, alívio total ${s.relieved}x, parcial ${s.partial}x, sem alívio ${s.none}x`);
 
-PERÍODO: ${dateFrom} a ${dateTo} | Crises: ${crises.length} | Dias com dor: ${daysPain} | Intensidade média: ${avgIntensity}/10
-Gatilhos: ${topTriggers.map(([t,n]) => `${t}(${n}x)`).join(', ') || 'nenhum'}
-Medicamentos em uso: ${(prescriptions||[]).map(p => p.medication_name).join(', ') || 'nenhum'}`;
+  // Medicamentos de uso contínuo (prescritos)
+  const continuousMeds = (prescriptions||[]).filter(p => p.duration_type === 'continuous').map(p => p.medication_name);
+  const allPrescribed  = (prescriptions||[]).map(p => `${p.medication_name} (${p.duration_type === 'continuous' ? 'contínuo' : 'sob demanda'})`);
+
+  // Dias com medicação (risco de abuso)
+  const daysWithMed = new Set(crises.filter(c => {
+    try { const m = JSON.parse(c.medication||'[]'); return Array.isArray(m) ? m.length > 0 : !!c.medication; }
+    catch { return !!c.medication; }
+  }).map(c => c.date)).size;
+
+  // Sono e estresse médios (se disponíveis)
+  const sleepData  = crises.filter(c => c.sleep_hours != null).map(c => Number(c.sleep_hours));
+  const stressData = crises.filter(c => c.stress_level != null).map(c => Number(c.stress_level));
+  const avgSleep   = sleepData.length  > 0 ? (sleepData.reduce((a,b) => a+b, 0)  / sleepData.length).toFixed(1)  : null;
+  const avgStress  = stressData.length > 0 ? (stressData.reduce((a,b) => a+b, 0) / stressData.length).toFixed(1) : null;
+
+  const prompt = `Você é um neurologista experiente em cefaleias. Com base nos dados clínicos abaixo, escreva um PARECER PRÉ-CONSULTA em linguagem humanizada e natural, como se fosse uma carta breve de um colega especialista para o médico que irá atender este paciente. Redija em portugues. Escreva em prosa corrida (sem bullets, sem listas), com no máximo 10 frases. Analise: evolução das crises no período, se os medicamentos de uso contínuo parecem estar ajudando ou interferindo na frequência/intensidade das crises, quais medicamentos têm melhor eficácia, o que está indo bem no manejo, o que merece atenção ou ajuste, e alertas relevantes (abuso medicamentoso se dias com medicação for alto, gatilhos recorrentes, padrão preocupante). Use tom profissional mas acolhedor. Não use markdown, asteriscos, hashtags nem formatação especial — apenas texto corrido.
+
+DADOS DO PERÍODO (${dateFrom} a ${dateTo}):
+- Total de crises registradas: ${totalCrises} | Dias com dor: ${daysPain} | Intensidade média: ${avgIntensity}/10
+- Dias em que usou medicação de resgate: ${daysWithMed} (referência: >10 dias/mês = risco de abuso)
+${avgSleep  ? `- Média de horas de sono nas noites antes das crises: ${avgSleep}h` : ''}
+${avgStress ? `- Nível médio de estresse nos dias de crise: ${avgStress}/5` : ''}
+- Gatilhos mais frequentes: ${topTriggers.map(([t,n]) => `${t} (${n}x)`).join(', ') || 'não identificados'}
+
+MEDICAMENTOS PRESCRITOS ATUALMENTE:
+${allPrescribed.length > 0 ? allPrescribed.join(', ') : 'nenhum cadastrado'}
+${continuousMeds.length > 0 ? `Medicamentos de uso contínuo: ${continuousMeds.join(', ')}` : ''}
+
+EFICÁCIA DOS MEDICAMENTOS USADOS NAS CRISES:
+${medEfficacyLines.join('\n') || 'sem dados suficientes'}
+
+Redija o parecer agora, em texto corrido, iniciando diretamente com a análise:`;
 
   try {
     const response = await fetch(GEMINI_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.4, maxOutputTokens: 600 } })
     });
     if (!response.ok) return finalY;
-    const json = await response.json();
-    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text?.replace(/\*/g, '') || '';
+    const jsonResp = await response.json();
+    const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const text = rawText.replace(/\*+/g, '').replace(/#{1,6}\s?/g, '').replace(/\n{3,}/g, '\n\n').trim();
     if (!text) return finalY;
 
-    if (finalY > 240) { doc.addPage(); finalY = 20; }
+    if (finalY > 220) { doc.addPage(); finalY = 20; }
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    const splitText = doc.splitTextToSize(text, 172);
+    const lineH = 5;
+    const blockH = 12 + splitText.length * lineH + 6; // título + texto + padding
+
+    if (finalY + blockH > 280) { doc.addPage(); finalY = 20; }
 
     doc.setFillColor(240, 245, 255);
-    doc.rect(14, finalY - 2, 182, 35, 'F');
+    doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2, 'F');
     doc.setDrawColor(13, 110, 253);
-    doc.setLineWidth(0.4);
-    doc.rect(14, finalY - 2, 182, 35);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2);
+
+    // Linha decorativa azul lateral
+    doc.setFillColor(13, 110, 253);
+    doc.rect(14, finalY - 2, 3, blockH, 'F');
 
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(13, 110, 253);
-    doc.text("🤖 Análise Clínica — Gemini AI", 17, finalY + 3);
+    doc.text("Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)", 20, finalY + 4);
 
-    doc.setFontSize(8);
+    doc.setFontSize(7.5);
+    doc.setFont("helvetica", "italic");
+    doc.setTextColor(100, 116, 139);
+    doc.text("Este parecer e gerado por IA com base nos dados registrados. Deve ser interpretado pelo medico responsavel.", 20, finalY + 9);
+
+    doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(30, 41, 59);
-    const splitText = doc.splitTextToSize(text, 175);
-    doc.text(splitText.slice(0, 4), 17, finalY + 10);
+    doc.text(splitText, 20, finalY + 15);
 
-    finalY += 40;
+    finalY += blockH + 6;
   } catch (e) { /* silently skip if AI fails */ }
 
   return finalY;
@@ -1696,7 +1762,7 @@ async function generatePDFReport() {
         `${c.intensity}/10`,
         syms.join(", "),
         trigs.join(", "),
-        c.medication || 'Nenhum',
+        (() => { try { const m = JSON.parse(c.medication || '[]'); return Array.isArray(m) && m.length > 0 ? m.join(', ') : (c.medication || 'Nenhum'); } catch { return c.medication || 'Nenhum'; } })(),
         c.relief === 'sim' ? 'Sim' : c.relief === 'pouco' ? 'Pouco' : 'Não'
       ];
     });

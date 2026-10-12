@@ -35,6 +35,11 @@ function initMedicalModals() {
   if (prescriptionModalEl) {
     prescriptionModalInstance = new bootstrap.Modal(prescriptionModalEl);
     console.log('✓ prescriptionModalInstance inicializado');
+    // Garante que sempre haja pelo menos uma linha de medicamento visível ao abrir
+    prescriptionModalEl.addEventListener('shown.bs.modal', () => {
+      const list = document.getElementById('rx-meds-list');
+      if (list && list.children.length === 0) addRxMedRow();
+    });
   } else {
     console.error('✗ prescriptionModal elemento não encontrado!');
   }
