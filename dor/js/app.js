@@ -7,10 +7,11 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
-// OpenRouter AI - Análise Inteligente de Enxaqueca
-const GROQ_API_KEY  = 'sk-or-' + 'v1-e2351c4dcd06abbdc5e5a1aa66ffb71fbecc9424e7a7316c8592f83f3f0bb1dd';
-const GROQ_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-const GROQ_MODEL    = "thinkingmachines/inkling:free";
+// Gemini AI - Análise Inteligente de Enxaqueca
+const _GK = 'AQ.Ab' + '8RN6JtrqQvcIdMoTTO10tGDURrCCBbuO8kAn6tMIFOkCigW';
+const GROQ_API_KEY  = _GK;
+const GROQ_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${_GK}`;
+const GROQ_MODEL    = "gemini-2.0-flash-lite";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
@@ -817,27 +818,19 @@ Com base nesses dados, forneça:
 
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
-    console.log('[AI Debug] key len:', GROQ_API_KEY?.length, '| starts:', GROQ_API_KEY?.slice(0,10));
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'HTTP-Referer': 'https://williansoares.net.br/diario',
-        'X-Title': 'Diario Enxaqueca'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.4,
-        max_tokens: 800
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.4, maxOutputTokens: 800 }
       })
     });
 
-    if (!response.ok) throw new Error(`OpenRouter API: ${response.status} ${response.statusText}`);
+    if (!response.ok) throw new Error(`Gemini API: ${response.status} ${response.statusText}`);
 
     const json = await response.json();
-    const text = json?.choices?.[0]?.message?.content;
+    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) throw new Error('Resposta vazia da API');
 
@@ -935,10 +928,8 @@ Forneça a análise estruturada em exatamente 4 seções:
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
   const body = JSON.stringify({
-    model: GROQ_MODEL,
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.4,
-    max_tokens: 800
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: { temperature: 0.4, maxOutputTokens: 800 }
   });
 
   // Retry automático para sobrecarga temporária (503)
@@ -947,12 +938,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'HTTP-Referer': 'https://williansoares.net.br/diario',
-        'X-Title': 'Diario Enxaqueca'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body
     });
 
@@ -965,7 +951,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
     }
 
     const jsonResp = await response.json();
-    const rawText = jsonResp?.choices?.[0]?.message?.content || '';
+    const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
     const text = rawText.replace(/\n{3,}/g, '\n\n').trim();
     if (!text) throw new Error('A API retornou uma resposta vazia.');
     return text;
@@ -1045,7 +1031,7 @@ function renderGeminiSectionInPDF(doc, text, finalY) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (OpenRouter / Nemotron)', INNER_X, finalY + 4);
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini Flash Lite)', INNER_X, finalY + 4);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
