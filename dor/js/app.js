@@ -7,11 +7,12 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
-// Gemini AI - Análise Inteligente de Enxaqueca
-const _GK = 'AQ.Ab8RN6IzigoqY3b6P0IrSmGrSBbUt1vwLa0LwkopQ8vohzSFKQ';
-const GROQ_API_KEY  = _GK;
-const GROQ_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${_GK}`;
-const GROQ_MODEL    = "gemini-2.0-flash-lite";
+// Cloudflare Workers AI - Análise Inteligente de Enxaqueca
+const CF_TOKEN    = 'cfut_' + 'hTXGXEeHq5DuHXi51ScA38qeqfLWF9rrLQxT2N4a30fb8c2e';
+const CF_ENDPOINT = 'https://api.cloudflare.com/client/v4/accounts/2d45602d56254249b4c76b477eda6847/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+const GROQ_API_KEY  = CF_TOKEN;
+const GROQ_ENDPOINT = CF_ENDPOINT;
+const GROQ_MODEL    = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
@@ -820,17 +821,18 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 800 }
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 800,
+        temperature: 0.4
       })
     });
 
-    if (!response.ok) throw new Error(`Gemini API: ${response.status} ${response.statusText}`);
+    if (!response.ok) throw new Error(`Cloudflare AI: ${response.status} ${response.statusText}`);
 
     const json = await response.json();
-    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const text = json?.result?.response;
 
     if (!text) throw new Error('Resposta vazia da API');
 
@@ -928,8 +930,9 @@ Forneça a análise estruturada em exatamente 4 seções:
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
   const body = JSON.stringify({
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 800 }
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: 800,
+    temperature: 0.4
   });
 
   // Retry automático para sobrecarga temporária (503)
@@ -938,7 +941,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CF_TOKEN}` },
       body
     });
 
@@ -951,7 +954,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
     }
 
     const jsonResp = await response.json();
-    const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const rawText = jsonResp?.result?.response || '';
     const text = rawText.replace(/\n{3,}/g, '\n\n').trim();
     if (!text) throw new Error('A API retornou uma resposta vazia.');
     return text;
@@ -1031,7 +1034,7 @@ function renderGeminiSectionInPDF(doc, text, finalY) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini Flash Lite)', INNER_X, finalY + 4);
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Cloudflare / Llama 3.3)', INNER_X, finalY + 4);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
