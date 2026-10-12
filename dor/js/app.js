@@ -8,7 +8,7 @@ const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
 // GEMINI AI - Análise Inteligente de Enxaqueca
-const GEMINI_API_KEY = "AQ.Ab8RN6ILDCnp_AskB931YjoUF5Vr__-H-hHFwPQKYxIi4NaTkg";
+const GEMINI_API_KEY = "AIzaSyCQGRslWX2xZoIZf-7M2ihwmH6WsyLxYbQ";
 const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
