@@ -8,7 +8,7 @@ const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
 // OpenRouter AI - Análise Inteligente de Enxaqueca
-const GROQ_API_KEY  = "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";
+const GROQ_API_KEY  = "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";
 const GROQ_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 const GROQ_MODEL    = "google/gemma-4-26b-a4b-it:free";
 
