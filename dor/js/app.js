@@ -8,7 +8,7 @@ const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
 // Gemini AI - Análise Inteligente de Enxaqueca
-const _GK = 'QVEuQWI4Uk42SnRycVF2Y0lkTW9UVE8xMHRHRFVSckNDQmJ1TzhrQW42dE1JRk9rQ2lnV0E=';
+const _GK = 'AQ.Ab8RN6IzigoqY3b6P0IrSmGrSBbUt1vwLa0LwkopQ8vohzSFKQ';
 const GROQ_API_KEY  = _GK;
 const GROQ_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${_GK}`;
 const GROQ_MODEL    = "gemini-2.0-flash-lite";
