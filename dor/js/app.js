@@ -7,10 +7,10 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
-// GROQ AI - Análise Inteligente de Enxaqueca
-const GROQ_API_KEY  = "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";
-const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL    = "llama3-70b-8192";
+// OpenRouter AI - Análise Inteligente de Enxaqueca
+const GROQ_API_KEY  = "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";
+const GROQ_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
+const GROQ_MODEL    = "google/gemma-4-26b-a4b-it:free";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
@@ -819,7 +819,12 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'HTTP-Referer': 'https://williansoares.net.br/diario',
+        'X-Title': 'Diario Enxaqueca'
+      },
       body: JSON.stringify({
         model: GROQ_MODEL,
         messages: [{ role: 'user', content: prompt }],
@@ -828,7 +833,7 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
       })
     });
 
-    if (!response.ok) throw new Error(`Groq API: ${response.status} ${response.statusText}`);
+    if (!response.ok) throw new Error(`OpenRouter API: ${response.status} ${response.statusText}`);
 
     const json = await response.json();
     const text = json?.choices?.[0]?.message?.content;
@@ -941,7 +946,12 @@ Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnós
 
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'HTTP-Referer': 'https://williansoares.net.br/diario',
+        'X-Title': 'Diario Enxaqueca'
+      },
       body
     });
 
@@ -1034,7 +1044,7 @@ function renderGeminiSectionInPDF(doc, text, finalY) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Groq / Llama 3.3)', INNER_X, finalY + 4);
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (OpenRouter / Gemma 4)', INNER_X, finalY + 4);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
@@ -1800,7 +1810,7 @@ async function generatePDFReport() {
     } catch (geminiErr) {
       console.error('[Gemini]', geminiErr);
       const continuar = window.confirm(
-        `A análise de IA (Groq) falhou.\n\nErro: ${geminiErr.message}\n\nDeseja gerar o relatório sem a análise de IA?`
+        `A análise de IA (OpenRouter) falhou.\n\nErro: ${geminiErr.message}\n\nDeseja gerar o relatório sem a análise de IA?`
       );
       if (!continuar) return;
     }
