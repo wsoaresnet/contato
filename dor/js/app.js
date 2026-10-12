@@ -817,6 +817,7 @@ Com base nesses dados, forneça:
 
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
+    console.log('[AI Debug] key len:', GROQ_API_KEY?.length, '| starts:', GROQ_API_KEY?.slice(0,10));
     const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
       headers: {
