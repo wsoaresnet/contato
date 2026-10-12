@@ -7,9 +7,10 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
-// GEMINI AI - Análise Inteligente de Enxaqueca
-const GEMINI_API_KEY = "AQ.Ab8RN6Kzmq0Hs3EbecEiV0xWa6-pkox6x_hEoValkpQmhbGV8Q";
-const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent";
+// GROQ AI - Análise Inteligente de Enxaqueca
+const GROQ_API_KEY  = "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";
+const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+const GROQ_MODEL    = "llama-3.3-70b-versatile";
 
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
@@ -816,16 +817,21 @@ Com base nesses dados, forneça:
 
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
-    const response = await fetch(GEMINI_ENDPOINT, {
+    const response = await fetch(GROQ_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.4,
+        max_tokens: 800
+      })
     });
 
-    if (!response.ok) throw new Error(`Gemini API: ${response.status} ${response.statusText}`);
+    if (!response.ok) throw new Error(`Groq API: ${response.status} ${response.statusText}`);
 
     const json = await response.json();
-    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const text = json?.choices?.[0]?.message?.content;
 
     if (!text) throw new Error('Resposta vazia da API');
 
@@ -922,23 +928,39 @@ Forneça a análise estruturada em exatamente 4 seções:
 
 Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
-  const response = await fetch(GEMINI_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.4, maxOutputTokens: 600 } })
+  const body = JSON.stringify({
+    model: GROQ_MODEL,
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.4,
+    max_tokens: 800
   });
 
-  if (!response.ok) {
-    const errBody = await response.text().catch(() => String(response.status));
-    throw new Error(`HTTP ${response.status} — ${errBody.slice(0, 200)}`);
+  // Retry automático para sobrecarga temporária (503)
+  for (let attempt = 0; attempt <= 2; attempt++) {
+    if (attempt > 0) await new Promise(r => setTimeout(r, 2500 * attempt));
+
+    const response = await fetch(GROQ_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+      body
+    });
+
+    if (response.status === 503 && attempt < 2) continue; // retry
+
+    if (!response.ok) {
+      const errBody = await response.text().catch(() => String(response.status));
+      if (response.status === 503) throw new Error('Serviço temporariamente sobrecarregado. Tente novamente em instantes.');
+      throw new Error(`HTTP ${response.status} — ${errBody.slice(0, 200)}`);
+    }
+
+    const jsonResp = await response.json();
+    const rawText = jsonResp?.choices?.[0]?.message?.content || '';
+    const text = rawText.replace(/\n{3,}/g, '\n\n').trim();
+    if (!text) throw new Error('A API retornou uma resposta vazia.');
+    return text;
   }
 
-  const jsonResp = await response.json();
-  const rawText = jsonResp?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  const text = rawText.replace(/\*+/g, '').replace(/#{1,6}\s?/g, '').replace(/\n{3,}/g, '\n\n').trim();
-  if (!text) throw new Error('A API retornou uma resposta vazia.');
-  return text;
+  throw new Error('Serviço sobrecarregado após 3 tentativas. Tente novamente em instantes.');
 }
 
 // Renderiza a seção do Gemini no PDF com estrutura de seções (títulos + bullets + corpo).
@@ -1012,7 +1034,7 @@ function renderGeminiSectionInPDF(doc, text, finalY) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)', INNER_X, finalY + 4);
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Groq / Llama 3.3)', INNER_X, finalY + 4);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
@@ -1778,7 +1800,7 @@ async function generatePDFReport() {
     } catch (geminiErr) {
       console.error('[Gemini]', geminiErr);
       const continuar = window.confirm(
-        `A análise do Gemini AI falhou.\n\nErro: ${geminiErr.message}\n\nDeseja gerar o relatório sem a análise de IA?`
+        `A análise de IA (Groq) falhou.\n\nErro: ${geminiErr.message}\n\nDeseja gerar o relatório sem a análise de IA?`
       );
       if (!continuar) return;
     }
