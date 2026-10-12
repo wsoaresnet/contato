@@ -899,23 +899,28 @@ async function fetchGeminiAnalysis(crises, prescriptions, dateFrom, dateTo) {
   const avgSleep   = sleepData.length  > 0 ? (sleepData.reduce((a,b) => a+b, 0)  / sleepData.length).toFixed(1)  : null;
   const avgStress  = stressData.length > 0 ? (stressData.reduce((a,b) => a+b, 0) / stressData.length).toFixed(1) : null;
 
-  const prompt = `Você é um neurologista experiente em cefaleias. Com base nos dados clínicos abaixo, escreva um PARECER PRÉ-CONSULTA em linguagem humanizada e natural, como se fosse uma carta breve de um colega especialista para o médico que irá atender este paciente. Redija em portugues. Escreva em prosa corrida (sem bullets, sem listas), com no máximo 10 frases. Analise: evolução das crises no período, se os medicamentos de uso contínuo parecem estar ajudando ou interferindo na frequência/intensidade das crises, quais medicamentos têm melhor eficácia, o que está indo bem no manejo, o que merece atenção ou ajuste, e alertas relevantes (abuso medicamentoso se dias com medicação for alto, gatilhos recorrentes, padrão preocupante). Use tom profissional mas acolhedor. Não use markdown, asteriscos, hashtags nem formatação especial — apenas texto corrido.
+  const prompt = `Você é um assistente médico especializado em cefaleia e enxaqueca (especialidade neurológica). Analise os dados clínicos abaixo do paciente e gere um relatório de insights médicos CONCISO e PROFISSIONAL em português, estruturado em 4 seções numeradas.
 
 DADOS DO PERÍODO (${dateFrom} a ${dateTo}):
-- Total de crises registradas: ${totalCrises} | Dias com dor: ${daysPain} | Intensidade média: ${avgIntensity}/10
-- Dias em que usou medicação de resgate: ${daysWithMed} (referência: >10 dias/mês = risco de abuso)
-${avgSleep  ? `- Média de horas de sono nas noites antes das crises: ${avgSleep}h` : ''}
+- Total de crises: ${totalCrises} | Dias com dor: ${daysPain} | Intensidade média: ${avgIntensity}/10
+- Dias com uso de medicação de resgate: ${daysWithMed} (referência: >10 dias/mês = risco de abuso)
+${avgSleep  ? `- Média de horas de sono antes das crises: ${avgSleep}h` : ''}
 ${avgStress ? `- Nível médio de estresse nos dias de crise: ${avgStress}/5` : ''}
-- Gatilhos mais frequentes: ${topTriggers.map(([t,n]) => `${t} (${n}x)`).join(', ') || 'não identificados'}
+- Gatilhos mais frequentes: ${topTriggers.map(([t,n]) => `${t} (${n}x)`).join(', ') || 'nenhum registrado'}
 
 MEDICAMENTOS PRESCRITOS ATUALMENTE:
-${allPrescribed.length > 0 ? allPrescribed.join(', ') : 'nenhum cadastrado'}
-${continuousMeds.length > 0 ? `Medicamentos de uso contínuo: ${continuousMeds.join(', ')}` : ''}
+${allPrescribed.length > 0 ? allPrescribed.join('; ') : 'nenhum cadastrado'}
 
-EFICÁCIA DOS MEDICAMENTOS USADOS NAS CRISES:
+EFICÁCIA DOS MEDICAMENTOS NAS CRISES:
 ${medEfficacyLines.join('\n') || 'sem dados suficientes'}
 
-Redija o parecer agora, em texto corrido, iniciando diretamente com a análise:`;
+Forneça a análise estruturada em exatamente 4 seções:
+1. **Resumo Clínico** (2-3 frases objetivas para o neurologista)
+2. **Padrões Identificados** (máximo 3 bullets com os padrões mais relevantes)
+3. **Pontos de Atenção** (alertas médicos relevantes — abuso medicamentoso, gatilhos críticos, interação de medicamentos contínuos com as crises)
+4. **Sugestão de Pautas para a Próxima Consulta** (2-3 tópicos numerados)
+
+Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
 
   const response = await fetch(GEMINI_ENDPOINT, {
     method: 'POST',
@@ -936,43 +941,119 @@ Redija o parecer agora, em texto corrido, iniciando diretamente com a análise:`
   return text;
 }
 
-// Renderiza a seção do Gemini no PDF com o texto pré-carregado.
+// Renderiza a seção do Gemini no PDF com estrutura de seções (títulos + bullets + corpo).
 function renderGeminiSectionInPDF(doc, text, finalY) {
   if (finalY > 220) { doc.addPage(); finalY = 20; }
 
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  const splitText = doc.splitTextToSize(text, 172);
-  const lineH = 5;
-  const blockH = 12 + splitText.length * lineH + 6;
+  const INNER_X   = 20;   // x de início do conteúdo (após borda esquerda)
+  const BULLET_X  = 26;   // x após o símbolo de bullet
+  const BOX_W     = 182;
+  const TEXT_W    = BOX_W - (INNER_X - 14) - 6;  // largura de texto normal
+  const BULLET_W  = TEXT_W - (BULLET_X - INNER_X);
+  const LINE_H    = 4.6;
 
-  if (finalY + blockH > 280) { doc.addPage(); finalY = 20; }
+  // Limpa e divide em linhas
+  const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
 
+  // Classifica cada linha
+  const blocks = [];
+  for (const line of rawLines) {
+    const t = line.trim();
+    if (!t) continue;
+
+    // Título de seção: "1. **Resumo Clínico**" ou "## Resumo" ou "**1. Algo**"
+    if (/^#{1,3}\s/.test(t)) {
+      blocks.push({ type: 'title', text: t.replace(/^#{1,3}\s+/, '').replace(/\*\*/g, '').trim() });
+    } else if (/^\d+\.\s+\*\*/.test(t) || /^\*\*\d+\./.test(t)) {
+      const num = t.match(/(\d+)/)?.[1] || '';
+      const content = t.replace(/\*\*/g, '').replace(/^\d+\.\s*/, '').trim();
+      blocks.push({ type: 'title', text: num ? `${num}. ${content}` : content });
+    } else if (/^\d+\.\s+[A-ZÁÉÍÓÚ]/.test(t) && t.replace(/^\d+\.\s+/, '').split(' ').length <= 6) {
+      // Linha curta começando com número+maiúscula = provável título sem bold
+      const num = t.match(/^(\d+)/)[1];
+      const content = t.replace(/^\d+\.\s+/, '').replace(/\*\*/g, '').trim();
+      blocks.push({ type: 'title', text: `${num}. ${content}` });
+    } else if (/^[-*•]\s+/.test(t)) {
+      blocks.push({ type: 'bullet', text: t.replace(/^[-*•]\s+/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim() });
+    } else if (/^\d+\.\s+/.test(t)) {
+      const num = t.match(/^(\d+)/)[1];
+      const content = t.replace(/^\d+\.\s+/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+      blocks.push({ type: 'numbered', num, text: content });
+    } else {
+      blocks.push({ type: 'body', text: t.replace(/\*\*/g, '').replace(/\*/g, '').trim() });
+    }
+  }
+
+  // Pré-computa splits e alturas
+  const rendered = blocks.map(b => {
+    if (b.type === 'title') return { ...b, h: 7.5 };
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'normal');
+    const w = (b.type === 'bullet' || b.type === 'numbered') ? BULLET_W : TEXT_W;
+    const split = doc.splitTextToSize(b.text, w);
+    const extraSpacing = b.type === 'body' ? 2 : 1.5;
+    return { ...b, split, h: split.length * LINE_H + extraSpacing };
+  });
+
+  const totalH = 16 + rendered.reduce((sum, b) => sum + b.h, 0) + 6;
+
+  if (finalY + totalH > 280) { doc.addPage(); finalY = 20; }
+
+  // Caixa de fundo
   doc.setFillColor(240, 245, 255);
-  doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2, 'F');
+  doc.roundedRect(14, finalY - 2, BOX_W, totalH, 2, 2, 'F');
   doc.setDrawColor(13, 110, 253);
   doc.setLineWidth(0.5);
-  doc.roundedRect(14, finalY - 2, 182, blockH, 2, 2);
-
+  doc.roundedRect(14, finalY - 2, BOX_W, totalH, 2, 2);
   doc.setFillColor(13, 110, 253);
-  doc.rect(14, finalY - 2, 3, blockH, 'F');
+  doc.rect(14, finalY - 2, 3, totalH, 'F');
 
+  // Cabeçalho da caixa
   doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
+  doc.setFont('helvetica', 'bold');
   doc.setTextColor(13, 110, 253);
-  doc.text("Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)", 20, finalY + 4);
-
-  doc.setFontSize(7.5);
-  doc.setFont("helvetica", "italic");
+  doc.text('Parecer Pre-Consulta — Analise por Inteligencia Artificial (Gemini)', INNER_X, finalY + 4);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
-  doc.text("Este parecer e gerado por IA com base nos dados registrados. Deve ser interpretado pelo medico responsavel.", 20, finalY + 9);
+  doc.text('Gerado por IA com base nos dados registrados. Deve ser interpretado pelo medico responsavel.', INNER_X, finalY + 9);
 
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(30, 41, 59);
-  doc.text(splitText, 20, finalY + 15);
+  let y = finalY + 15;
 
-  return finalY + blockH + 6;
+  for (const block of rendered) {
+    if (block.type === 'title') {
+      if (y > finalY + 15) y += 1.5; // respiro extra antes de cada seção
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(13, 110, 253);
+      doc.text(block.text, INNER_X, y);
+      y += block.h;
+    } else if (block.type === 'bullet') {
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(30, 41, 59);
+      doc.text('•', INNER_X + 1, y);
+      doc.text(block.split, BULLET_X, y);
+      y += block.h;
+    } else if (block.type === 'numbered') {
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(13, 110, 253);
+      doc.text(`${block.num}.`, INNER_X + 1, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(30, 41, 59);
+      doc.text(block.split, BULLET_X, y);
+      y += block.h;
+    } else {
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 65, 80);
+      doc.text(block.split, INNER_X, y);
+      y += block.h;
+    }
+  }
+
+  return y + 6;
 }
 
 // 1. CORRELAÇÃO MEDICAMENTO × EFICÁCIA
