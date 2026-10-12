@@ -7,6 +7,10 @@
 const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
 
+// GEMINI AI - Análise Inteligente de Enxaqueca
+const GEMINI_API_KEY = "AQ.Ab8RN6ILDCnp_AskB931YjoUF5Vr__-H-hHFwPQKYxIi4NaTkg";
+const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
 const STORAGE_USER_KEY = "diario_enxaqueca_user_session_v1";
 
 let supabaseClient = null;
@@ -73,6 +77,7 @@ const COMMON_MEDICATIONS = [
 ];
 
 let userMedicationHistory = [];
+let lastLoadedCrises = [];   // all crises in current date range (for history tab filtering)
 
 // INICIALIZAÇÃO DA APLICAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
@@ -280,6 +285,7 @@ function checkAuth() {
     }
 
     renderDashboard();
+    renderNextAppointmentBanner();
   } else {
     currentUser = null;
     loginView.classList.remove("d-none");
@@ -443,6 +449,7 @@ async function renderDashboard() {
     if (error) throw error;
 
     const allCrises = crises || [];
+
     const filtered = allCrises.filter(c => {
       if (!c.date) return false;
       if (dateFrom && c.date < dateFrom) return false;
@@ -453,7 +460,27 @@ async function renderDashboard() {
     // Ordena da mais recente para a mais antiga
     filtered.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
 
-    calculateKPIs(filtered);
+    // Armazena para filtros do histórico
+    lastLoadedCrises = filtered;
+
+    // Período anterior (mesma duração, para comparação)
+    let previousFiltered = [];
+    if (dateFrom && dateTo) {
+      const fromDate = new Date(dateFrom + 'T00:00:00');
+      const toDate   = new Date(dateTo   + 'T00:00:00');
+      const daysDiff = Math.round((toDate - fromDate) / 86400000) + 1;
+      const prevToDate = new Date(fromDate); prevToDate.setDate(prevToDate.getDate() - 1);
+      const prevFromDate = new Date(prevToDate); prevFromDate.setDate(prevFromDate.getDate() - (daysDiff - 1));
+      const pFrom = prevFromDate.toISOString().split('T')[0];
+      const pTo   = prevToDate.toISOString().split('T')[0];
+      previousFiltered = allCrises.filter(c => c.date && c.date >= pFrom && c.date <= pTo);
+    }
+
+    calculateKPIs(filtered, previousFiltered);
+
+    // Popula filtros e gatilhos rápidos
+    populateHistoryTriggerFilter(filtered);
+    renderTopTriggersForWizard(allCrises);
 
     countEl.innerText = `${filtered.length} registro(s)`;
 
@@ -488,7 +515,7 @@ async function renderDashboard() {
 }
 
 // CÁLCULO DE KPIS E ÍNDICE DE DOR DA SBCe
-function calculateKPIs(crises) {
+function calculateKPIs(crises, prev = []) {
   const daysPain = new Set(crises.map(c => c.date)).size;
   const medCrises = crises.filter(c => {
     if (!c.medication) return false;
@@ -509,13 +536,44 @@ function calculateKPIs(crises) {
     else sbceIndex += 3;
   });
 
+  // Período anterior (para comparação)
+  const prevDaysPain = new Set(prev.map(c => c.date)).size;
+  const prevMedCrises = prev.filter(c => {
+    if (!c.medication) return false;
+    try { const a = JSON.parse(c.medication); return Array.isArray(a) ? a.some(m => m.trim()) : !!c.medication.trim(); }
+    catch { return !!c.medication.trim(); }
+  });
+  const prevDaysMed = new Set(prevMedCrises.map(c => c.date)).size;
+  const prevAvgPain = prev.length > 0
+    ? (prev.reduce((acc, c) => acc + Number(c.intensity), 0) / prev.length).toFixed(1)
+    : null;
+  let prevSbce = 0;
+  prev.forEach(c => {
+    const lvl = Number(c.intensity);
+    if (lvl <= 3) prevSbce += 1; else if (lvl <= 6) prevSbce += 2; else prevSbce += 3;
+  });
+
+  function deltaHtml(cur, old, lowerIsBetter = true) {
+    if (old === null || old === undefined || prev.length === 0) return '';
+    const diff = cur - old;
+    if (diff === 0) return `<span class="kpi-delta kpi-delta-same">= igual ao período ant.</span>`;
+    const up = diff > 0;
+    const bad = lowerIsBetter ? up : !up;
+    const cls = bad ? 'kpi-delta-up' : 'kpi-delta-down';
+    const arrow = up ? '▲' : '▼';
+    return `<span class="kpi-delta ${cls}">${arrow} ${Math.abs(diff)} vs período ant.</span>`;
+  }
+
   document.getElementById("kpi-days-pain").innerText = daysPain;
+  const painDeltaEl = document.getElementById("kpi-days-pain").parentElement.querySelector('.kpi-delta-slot');
+  if (painDeltaEl) painDeltaEl.innerHTML = deltaHtml(daysPain, prevDaysPain);
 
   const daysMedEl = document.getElementById("kpi-days-med");
   const medCardEl = document.getElementById("kpi-med-card");
   const medDescEl = document.getElementById("kpi-med-desc");
-
   daysMedEl.innerText = daysMed;
+  const medDeltaEl = daysMedEl.parentElement.querySelector('.kpi-delta-slot');
+  if (medDeltaEl) medDeltaEl.innerHTML = deltaHtml(daysMed, prevDaysMed);
 
   if (daysMed >= 10) {
     medCardEl.classList.add("kpi-alert-card");
@@ -528,11 +586,17 @@ function calculateKPIs(crises) {
   }
 
   document.getElementById("kpi-avg-pain").innerText = avgPain;
-  document.getElementById("kpi-sbce-index").innerText = sbceIndex;
+  const avgDeltaEl = document.getElementById("kpi-avg-pain").parentElement.querySelector('.kpi-delta-slot');
+  if (avgDeltaEl) avgDeltaEl.innerHTML = deltaHtml(Number(avgPain), prevAvgPain !== null ? Number(prevAvgPain) : null);
 
-  // Renderizar gráficos e estatísticas
+  document.getElementById("kpi-sbce-index").innerText = sbceIndex;
+  const sbceDeltaEl = document.getElementById("kpi-sbce-index").parentElement.querySelector('.kpi-delta-slot');
+  if (sbceDeltaEl) sbceDeltaEl.innerHTML = deltaHtml(sbceIndex, prevSbce);
+
+  // Renderizar gráficos, estatísticas e correlação de medicamentos
   renderCharts(crises);
   renderTriggerStats(crises);
+  renderMedicationEfficiencyChart(crises);
 }
 
 // RENDERIZAR GRÁFICOS COM CHART.JS
@@ -666,6 +730,369 @@ function renderTriggerStats(crises) {
       </div>
     `;
   }).join('');
+}
+
+// ============================================================
+// GEMINI AI - ANÁLISE INTELIGENTE DE CRISES
+// ============================================================
+
+async function generateGeminiAnalysis() {
+  if (!currentUser || !supabaseClient) return;
+
+  const btn = document.getElementById('gemini-analyze-btn');
+  const resultCard = document.getElementById('gemini-result-card');
+  const resultText = document.getElementById('gemini-result-text');
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Analisando com IA...';
+  }
+  if (resultCard) resultCard.classList.remove('d-none');
+  if (resultText) resultText.innerHTML = '<span class="text-white-50 small">Consultando Gemini AI...</span>';
+
+  try {
+    // Coleta dados do período atual
+    const dateFrom = document.getElementById("filter-date-from")?.value || "";
+    const dateTo   = document.getElementById("filter-date-to")?.value   || "";
+
+    const crises = lastLoadedCrises;
+
+    // Coleta receitas ativas
+    const { data: prescriptions } = await supabaseClient
+      .from('prescriptions')
+      .select('medication_name, dosage, usage_frequency, adherence_status, helps_prevent, efficacy_notes')
+      .eq('username', currentUser.username)
+      .in('adherence_status', ['active', 'paused']);
+
+    // Monta estatísticas resumidas para o prompt (evita payload gigante)
+    const daysPain = new Set(crises.map(c => c.date)).size;
+    const avgIntensity = crises.length > 0
+      ? (crises.reduce((a, c) => a + Number(c.intensity), 0) / crises.length).toFixed(1) : 0;
+
+    const trigCounts = {};
+    crises.forEach(c => {
+      const t = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers || '[]') : []);
+      t.forEach(tr => { trigCounts[tr] = (trigCounts[tr] || 0) + 1; });
+    });
+    const topTriggers = Object.entries(trigCounts).sort((a,b) => b[1]-a[1]).slice(0,5);
+
+    const medStats = {};
+    crises.forEach(c => {
+      let meds = []; try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+      meds.filter(m => m?.trim()).forEach(m => {
+        if (!medStats[m]) medStats[m] = { uses: 0, relieved: 0 };
+        medStats[m].uses++;
+        if (c.relief === 'sim') medStats[m].relieved++;
+      });
+    });
+
+    const weekdayCount = [0,0,0,0,0,0,0];
+    crises.forEach(c => { if (c.date) weekdayCount[new Date(c.date + 'T12:00:00').getDay()]++; });
+    const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const worstDay = days[weekdayCount.indexOf(Math.max(...weekdayCount))];
+
+    const prompt = `Você é um assistente médico especializado em cefaleia e enxaqueca (especialidade neurológica). Analise os dados clínicos abaixo do paciente e gere um relatório de insights médicos CONCISO e PROFISSIONAL em português.
+
+DADOS DO PERÍODO: ${dateFrom ? formatDate(dateFrom) : 'N/D'} a ${dateTo ? formatDate(dateTo) : 'N/D'}
+- Total de crises: ${crises.length}
+- Dias únicos com dor: ${daysPain}
+- Intensidade média: ${avgIntensity}/10
+- Dia da semana com mais crises: ${worstDay} (${weekdayCount[days.indexOf(worstDay)]} crises)
+
+GATILHOS MAIS FREQUENTES:
+${topTriggers.map(([t,n]) => `- ${t}: ${n}x`).join('\n') || 'Nenhum registrado'}
+
+MEDICAMENTOS UTILIZADOS NAS CRISES:
+${Object.entries(medStats).map(([m,s]) => `- ${m}: ${s.uses}x usado, ${s.uses>0?((s.relieved/s.uses)*100).toFixed(0):0}% com alívio completo`).join('\n') || 'Nenhum'}
+
+MEDICAMENTOS EM USO CONTÍNUO:
+${(prescriptions||[]).map(p => `- ${p.medication_name} ${p.dosage||''}: ${p.adherence_status==='active'?'Em uso':'Pausado'}${p.helps_prevent?' (preventivo)':''}`).join('\n') || 'Nenhum cadastrado'}
+
+Com base nesses dados, forneça:
+1. **Resumo Clínico** (2-3 frases objetivas para o neurologista)
+2. **Padrões Identificados** (máximo 3 bullets)
+3. **Pontos de Atenção** (alertas médicos relevantes, se houver)
+4. **Sugestão de Pautas para a Próxima Consulta** (2-3 perguntas/tópicos)
+
+Seja direto, clínico e baseado apenas nos dados fornecidos. Não faça diagnósticos definitivos.`;
+
+    const response = await fetch(GEMINI_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+
+    if (!response.ok) throw new Error(`Gemini API: ${response.status} ${response.statusText}`);
+
+    const json = await response.json();
+    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) throw new Error('Resposta vazia da API');
+
+    // Renderiza markdown simples (bold e listas)
+    const html = text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/^### (.+)$/gm, '<h6 class="fw-bold text-info mt-3 mb-1">$1</h6>')
+      .replace(/^## (.+)$/gm, '<h6 class="fw-bold text-primary mt-3 mb-1">$1</h6>')
+      .replace(/^# (.+)$/gm, '<h6 class="fw-bold text-primary mt-3 mb-1">$1</h6>')
+      .replace(/^(\d+)\. (.+)$/gm, '<div class="mb-1"><span class="badge bg-primary bg-opacity-25 text-primary me-1">$1</span> $2</div>')
+      .replace(/^- (.+)$/gm, '<div class="mb-1 ps-2"><i class="bi bi-arrow-right-short text-info me-1"></i>$1</div>')
+      .replace(/\n\n/g, '<br>')
+      .replace(/\n/g, ' ');
+
+    if (resultText) {
+      resultText.innerHTML = html;
+    }
+  } catch (err) {
+    console.error('Erro Gemini:', err);
+    if (resultText) resultText.innerHTML = `<span class="text-danger small"><i class="bi bi-exclamation-circle me-1"></i>Erro ao consultar IA: ${err.message}</span>`;
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-stars me-2"></i>Analisar com IA';
+    }
+  }
+}
+
+async function addGeminiSectionToPDF(doc, crises, prescriptions, finalY, formatDateFn) {
+  const dateFrom = document.getElementById("report-date-from")?.value || "";
+  const dateTo   = document.getElementById("report-date-to")?.value   || "";
+
+  const daysPain = new Set(crises.map(c => c.date)).size;
+  const avgIntensity = crises.length > 0
+    ? (crises.reduce((a, c) => a + Number(c.intensity), 0) / crises.length).toFixed(1) : 0;
+
+  const trigCounts = {};
+  crises.forEach(c => {
+    const t = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers || '[]') : []);
+    t.forEach(tr => { trigCounts[tr] = (trigCounts[tr] || 0) + 1; });
+  });
+  const topTriggers = Object.entries(trigCounts).sort((a,b) => b[1]-a[1]).slice(0,5);
+
+  const prompt = `Você é um assistente médico especializado em cefaleia. Analise os dados clínicos abaixo e gere um RESUMO CLÍNICO CONCISO em português, com no máximo 5 linhas, para ser incluído em um relatório médico impresso. Inclua: padrão de crises, gatilhos principais, eficácia da medicação e alertas. Seja objetivo e profissional. Não use markdown.
+
+PERÍODO: ${dateFrom} a ${dateTo} | Crises: ${crises.length} | Dias com dor: ${daysPain} | Intensidade média: ${avgIntensity}/10
+Gatilhos: ${topTriggers.map(([t,n]) => `${t}(${n}x)`).join(', ') || 'nenhum'}
+Medicamentos em uso: ${(prescriptions||[]).map(p => p.medication_name).join(', ') || 'nenhum'}`;
+
+  try {
+    const response = await fetch(GEMINI_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_API_KEY },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+    if (!response.ok) return finalY;
+    const json = await response.json();
+    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text?.replace(/\*/g, '') || '';
+    if (!text) return finalY;
+
+    if (finalY > 240) { doc.addPage(); finalY = 20; }
+
+    doc.setFillColor(240, 245, 255);
+    doc.rect(14, finalY - 2, 182, 35, 'F');
+    doc.setDrawColor(13, 110, 253);
+    doc.setLineWidth(0.4);
+    doc.rect(14, finalY - 2, 182, 35);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(13, 110, 253);
+    doc.text("🤖 Análise Clínica — Gemini AI", 17, finalY + 3);
+
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(30, 41, 59);
+    const splitText = doc.splitTextToSize(text, 175);
+    doc.text(splitText.slice(0, 4), 17, finalY + 10);
+
+    finalY += 40;
+  } catch (e) { /* silently skip if AI fails */ }
+
+  return finalY;
+}
+
+// 1. CORRELAÇÃO MEDICAMENTO × EFICÁCIA
+function renderMedicationEfficiencyChart(crises) {
+  const container = document.getElementById('med-correlation-container');
+  if (!container) return;
+
+  const medStats = {};
+  crises.forEach(c => {
+    let meds = [];
+    try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+    if (!Array.isArray(meds)) meds = [String(meds)];
+    meds = meds.filter(m => m && m.trim());
+    meds.forEach(med => {
+      const key = med.trim();
+      if (!medStats[key]) medStats[key] = { uses: 0, relieved: 0, partial: 0, none: 0 };
+      medStats[key].uses++;
+      if (c.relief === 'sim') medStats[key].relieved++;
+      else if (c.relief === 'pouco') medStats[key].partial++;
+      else medStats[key].none++;
+    });
+  });
+
+  const sorted = Object.entries(medStats).sort((a, b) => b[1].uses - a[1].uses).slice(0, 8);
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<p class="text-white-50 text-center small py-2 mb-0">Nenhum medicamento registrado no período.</p>';
+    return;
+  }
+
+  container.innerHTML = sorted.map(([name, s]) => {
+    const efficacy = s.uses > 0 ? ((s.relieved + s.partial * 0.5) / s.uses * 100).toFixed(0) : 0;
+    const effColor = efficacy >= 70 ? '#10b981' : efficacy >= 40 ? '#f59e0b' : '#ef4444';
+    const pctRelieved = (s.relieved / s.uses * 100).toFixed(0);
+    const pctPartial  = (s.partial  / s.uses * 100).toFixed(0);
+    const pctNone     = (s.none     / s.uses * 100).toFixed(0);
+    return `
+      <div class="med-eff-row mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="small text-white fw-medium"><i class="bi bi-capsule text-warning me-1"></i>${name}</span>
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-white-50 x-small">${s.uses}x usado</span>
+            <span class="badge x-small" style="background:${effColor}22;color:${effColor};border:1px solid ${effColor}44;padding:2px 7px;">${efficacy}% eficaz</span>
+          </div>
+        </div>
+        <div class="med-eff-bar">
+          <div style="width:${pctRelieved}%;background:#10b981;" title="Alívio completo: ${s.relieved}x"></div>
+          <div style="width:${pctPartial}%;background:#f59e0b;" title="Parcial: ${s.partial}x"></div>
+          <div style="width:${pctNone}%;background:#ef4444;" title="Sem efeito: ${s.none}x"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// 3. BANNER PRÓXIMA CONSULTA
+async function renderNextAppointmentBanner() {
+  if (!currentUser || !supabaseClient) return;
+  const banner = document.getElementById('next-apt-banner');
+  if (!banner) return;
+
+  const today = new Date().toISOString().split('T')[0];
+  try {
+    const { data } = await supabaseClient
+      .from('appointments')
+      .select('*, doctors(name, specialty)')
+      .eq('username', currentUser.username)
+      .eq('status', 'scheduled')
+      .gte('appointment_date', today)
+      .order('appointment_date', { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    if (!data) { banner.classList.add('d-none'); return; }
+
+    const aptDate = new Date(data.appointment_date + 'T00:00:00');
+    const todayDate = new Date(today + 'T00:00:00');
+    const daysUntil = Math.round((aptDate - todayDate) / 86400000);
+    const urgColor = daysUntil <= 2 ? '#f59e0b' : daysUntil <= 7 ? '#06b6d4' : '#0d6efd';
+    const daysLabel = daysUntil === 0 ? '<span style="background:rgba(245,158,11,0.3);color:#f59e0b;border-radius:5px;padding:1px 8px;font-weight:700;">HOJE!</span>'
+      : daysUntil === 1 ? '<span style="background:rgba(245,158,11,0.2);color:#f59e0b;border-radius:5px;padding:1px 8px;">Amanhã</span>'
+      : `<span class="text-white-50 small">em ${daysUntil} dias</span>`;
+
+    banner.className = 'next-apt-banner mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2';
+    banner.innerHTML = `
+      <div class="d-flex align-items-center gap-3">
+        <i class="bi bi-calendar-event-fill fs-4" style="color:${urgColor}"></i>
+        <div>
+          <div class="fw-semibold text-white small">Próxima Consulta</div>
+          <div class="text-white-50 x-small">
+            ${data.doctors?.name || 'Médico'} &bull; ${formatDate(data.appointment_date)}
+            ${data.appointment_time ? ` às ${data.appointment_time}` : ''} &bull; ${daysLabel}
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-outline-light rounded-2 glass-btn" onclick="switchToAppointments()">Ver Consultas</button>
+    `;
+  } catch (e) {
+    banner.classList.add('d-none');
+  }
+}
+
+function switchToAppointments() {
+  document.getElementById('tab-medical').click();
+  setTimeout(() => { const el = document.getElementById('subtab-appointments'); if (el) el.click(); }, 150);
+}
+
+// 5. FILTROS DO HISTÓRICO
+function populateHistoryTriggerFilter(crises) {
+  const sel = document.getElementById('history-filter-trigger');
+  if (!sel) return;
+  const triggers = new Set();
+  crises.forEach(c => {
+    const trigs = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
+    trigs.forEach(t => triggers.add(t));
+  });
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Qualquer gatilho</option>' +
+    Array.from(triggers).sort().map(t => `<option value="${t}">${t}</option>`).join('');
+  sel.value = cur;
+}
+
+function filterHistory() {
+  const minInt = Number(document.getElementById('history-filter-intensity')?.value || 1);
+  const medFilter = document.getElementById('history-filter-med')?.value || 'all';
+  const trigFilter = document.getElementById('history-filter-trigger')?.value || '';
+
+  const result = lastLoadedCrises.filter(c => {
+    if (Number(c.intensity) < minInt) return false;
+    if (medFilter !== 'all') {
+      let meds = [];
+      try { meds = JSON.parse(c.medication || '[]'); } catch { meds = c.medication ? [c.medication] : []; }
+      const hasMed = meds.some(m => m && m.trim());
+      if (medFilter === 'yes' && !hasMed) return false;
+      if (medFilter === 'no'  && hasMed) return false;
+    }
+    if (trigFilter) {
+      const trigs = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
+      if (!trigs.includes(trigFilter)) return false;
+    }
+    return true;
+  });
+
+  const container = document.getElementById('crisis-cards-container');
+  const countEl   = document.getElementById('crisis-count');
+  if (countEl) countEl.innerText = `${result.length} registro(s)`;
+  if (container) {
+    if (result.length === 0) {
+      container.innerHTML = `<div class="col-12"><div class="card glass-card border-0 text-center p-4"><i class="bi bi-funnel text-primary display-6 mb-2"></i><p class="text-white-50">Nenhum registro corresponde aos filtros selecionados.</p></div></div>`;
+    } else {
+      container.innerHTML = result.map(c => renderCrisisCard(c)).join('');
+    }
+  }
+}
+
+// 8. SUGESTÃO INTELIGENTE DE GATILHOS
+function renderTopTriggersForWizard(allCrises) {
+  const section = document.getElementById('quick-triggers-section');
+  const container = document.getElementById('quick-triggers');
+  if (!section || !container) return;
+
+  const trigCounts = {};
+  allCrises.forEach(c => {
+    const trigs = Array.isArray(c.triggers) ? c.triggers : (c.triggers ? JSON.parse(c.triggers) : []);
+    trigs.forEach(t => { trigCounts[t] = (trigCounts[t] || 0) + 1; });
+  });
+
+  const top = Object.entries(trigCounts).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([t]) => t);
+  if (top.length === 0) { section.classList.add('d-none'); return; }
+
+  section.classList.remove('d-none');
+  container.innerHTML = top.map(t => `
+    <button type="button" class="btn btn-outline-warning btn-sm rounded-pill quick-trigger-btn" onclick="toggleQuickTrigger('${t.replace(/'/g, "\\'")}', this)">
+      <i class="bi bi-lightning-charge-fill me-1" style="font-size:0.7em"></i>${t}
+    </button>
+  `).join('');
+}
+
+function toggleQuickTrigger(triggerValue, btn) {
+  const cb = document.querySelector(`input[name="trigger"][value="${CSS.escape(triggerValue)}"]`);
+  if (cb) {
+    cb.checked = !cb.checked;
+    btn.classList.toggle('selected', cb.checked);
+  }
 }
 
 // RENDER DE CARD INDIVIDUAL DE CRISE
@@ -887,6 +1314,13 @@ function resetWizardForm() {
   setDefaultDates();
   updatePainDisplay(5);
   resetMedicationRows();
+  // Reset sleep/stress sliders to defaults
+  const sleepEl = document.getElementById("crisis-sleep-hours");
+  if (sleepEl) { sleepEl.value = 7; document.getElementById("sleep-hours-val").textContent = 7; }
+  const stressEl = document.getElementById("crisis-stress-level");
+  if (stressEl) { stressEl.value = 2; document.getElementById("stress-level-val").textContent = 2; }
+  // Clear quick trigger selected state
+  document.querySelectorAll('.quick-trigger-btn').forEach(b => b.classList.remove('selected'));
 }
 
 async function populateWizardForEdit(id) {
@@ -938,6 +1372,19 @@ async function populateWizardForEdit(id) {
     if (reliefRadio) reliefRadio.checked = true;
 
     document.getElementById("crisis-notes").value = c.notes || "";
+
+    const sleepEl = document.getElementById("crisis-sleep-hours");
+    if (sleepEl && c.sleep_hours) {
+      sleepEl.value = c.sleep_hours;
+      const sleepVal = document.getElementById("sleep-hours-val");
+      if (sleepVal) sleepVal.textContent = c.sleep_hours;
+    }
+    const stressEl = document.getElementById("crisis-stress-level");
+    if (stressEl && c.stress_level !== null && c.stress_level !== undefined) {
+      stressEl.value = c.stress_level;
+      const stressVal = document.getElementById("stress-level-val");
+      if (stressVal) stressVal.textContent = c.stress_level;
+    }
   } catch (err) {
     console.error("Erro ao buscar registro para edição:", err);
   }
@@ -966,6 +1413,9 @@ async function handleSaveCrisis(event) {
   const relief = document.querySelector('input[name="relief"]:checked').value;
   const notes = document.getElementById("crisis-notes").value.trim();
 
+  const sleep_hours = parseFloat(document.getElementById("crisis-sleep-hours")?.value) || null;
+  const stress_level = parseInt(document.getElementById("crisis-stress-level")?.value) || null;
+
   const crisisRecord = {
     id: editingCrisisId || ("crisis-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4)),
     username: currentUser.username,
@@ -979,7 +1429,9 @@ async function handleSaveCrisis(event) {
     triggers,
     medication,
     relief,
-    notes
+    notes,
+    sleep_hours,
+    stress_level
   };
 
   try {
@@ -1283,6 +1735,58 @@ async function generatePDFReport() {
 
     let finalY = doc.lastAutoTable.finalY + 12;
 
+    // GEMINI AI: Resumo clínico no PDF (se checkbox marcado)
+    const includeAI = document.getElementById('pdf-include-ai')?.checked !== false;
+    if (includeAI) {
+      try {
+        const { data: rxForPDF } = await supabaseClient
+          .from('prescriptions').select('medication_name,dosage,adherence_status')
+          .eq('username', currentUser.username).in('adherence_status', ['active']);
+        finalY = await addGeminiSectionToPDF(doc, filtered, rxForPDF || [], finalY, formatDate);
+      } catch(e) { /* ignora se AI falhar */ }
+    }
+
+    // 6. Seção de Medicamentos em Uso
+    try {
+      const { data: prescriptions } = await supabaseClient
+        .from('prescriptions')
+        .select('*, doctors(name)')
+        .eq('username', currentUser.username)
+        .in('adherence_status', ['active', 'paused'])
+        .order('prescription_date', { ascending: false });
+
+      if (prescriptions && prescriptions.length > 0) {
+        if (finalY > 230) { doc.addPage(); finalY = 20; }
+
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(15, 23, 42);
+        doc.text("3. Medicamentos Atuais (Receitas em Uso)", 14, finalY);
+
+        const rxData = prescriptions.map(rx => [
+          rx.medication_name || '',
+          rx.dosage || '',
+          rx.usage_frequency || rx.form || '',
+          { active:'Em Uso', paused:'Pausado', discontinued:'Descontinuado' }[rx.adherence_status] || '',
+          rx.helps_prevent ? 'Sim' : 'Não',
+          (rx.efficacy_notes || '').substring(0, 35)
+        ]);
+
+        doc.autoTable({
+          startY: finalY + 4,
+          head: [['Medicamento', 'Dose', 'Frequência', 'Status', 'Preventivo?', 'Observação']],
+          body: rxData,
+          theme: 'grid',
+          headStyles: { fillColor: [16, 185, 129], textColor: 255, fontSize: 7.5, fontStyle: 'bold', cellPadding: 2.5 },
+          bodyStyles: { fontSize: 7, textColor: [30, 41, 59], cellPadding: 2 },
+          alternateRowStyles: { fillColor: [242, 253, 249] },
+          columnStyles: { 0:{cellWidth:38}, 1:{cellWidth:18}, 2:{cellWidth:38}, 3:{cellWidth:20}, 4:{cellWidth:20}, 5:{cellWidth:46} },
+          margin: { left: 14, right: 14 }
+        });
+        finalY = doc.lastAutoTable.finalY + 12;
+      }
+    } catch (e) { /* se tabela não existir, pula seção */ }
+
     if (doctorNotes) {
       if (finalY > 250) { doc.addPage(); finalY = 20; }
 
@@ -1295,7 +1799,7 @@ async function generatePDFReport() {
       doc.setFontSize(11);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(13, 110, 253);
-      doc.text("3. Observações / Dúvidas para a Consulta", 17, finalY + 3);
+      doc.text("4. Observações / Dúvidas para a Consulta", 17, finalY + 3);
 
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
