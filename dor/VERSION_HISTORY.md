@@ -181,7 +181,7 @@ function editCrisis(crisisId) { ... }
 
 ### Para Você (Admin)
 ```
-1. Faça login: willian / wSB@0610
+1. Faça login: willian / [REMOVIDO - ver arquivo de segredos]
 2. Veja o novo Dashboard com gráficos
 3. Clique em "Histórico" para ver cards antigos
 4. Crie usuários no painel "Usuários" ⚙️

@@ -320,21 +320,6 @@ async function handleLogin(event) {
       .eq('username', usernameInput)
       .maybeSingle();
 
-    // Fallback inicial para usuário admin Willian se a tabela estiver criada mas vazia
-    if (!userRecord && usernameInput === "willian" && passwordInput === "wSB@0610") {
-      const { data: newUser, error: createErr } = await supabaseClient
-        .from('users')
-        .upsert([{ username: "willian", password: "wSB@0610", role: "admin" }])
-        .select()
-        .single();
-      
-      if (!createErr && newUser) {
-        userRecord = newUser;
-      } else {
-        userRecord = { username: "willian", password: "wSB@0610", role: "admin" };
-      }
-    }
-
     if (userRecord && userRecord.password === passwordInput) {
       const sessionData = {
         username: userRecord.username,

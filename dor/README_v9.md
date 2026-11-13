@@ -284,7 +284,7 @@ https://williansoares.net.br/diario
 ### 3. Testar Login
 ```
 Usuário: willian
-Senha: wSB@0610
+Senha: [REMOVIDO - ver arquivo de segredos]
 ```
 
 ### 4. Experimentar Tela

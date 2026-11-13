@@ -87,7 +87,7 @@ Aguardar 1-2 minutos para o site atualizar.
 ```
 ✅ Abrir https://williansoares.net.br/diario
 ✅ Ver tela de login profissional
-✅ Fazer login: willian / wSB@0610
+✅ Fazer login: willian / [REMOVIDO - ver arquivo de segredos]
 ✅ Ver dashboard novo
 ✅ Testar gerar PDF
 ```

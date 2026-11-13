@@ -153,7 +153,7 @@ CREATE TABLE users (
 ```
 username | password      | role   | created_at
 ---------|---------------|--------|----------
-willian  | wSB@0610      | admin  | 2024-01-15
+willian  | [REMOVIDO - ver arquivo de segredos]      | admin  | 2024-01-15
 mae      | mae@2024      | user   | 2024-10-10
 filho    | filho123      | user   | 2024-10-10
 irma     | irma_diario   | user   | 2024-10-10
