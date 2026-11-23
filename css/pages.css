@@ -1,0 +1,45 @@
+/* Páginas internas (artigos e cases), alinhadas à home v2. Carregar depois de site.css. */
+body { font-family: var(--font-sans); background: var(--bg-gradient-start) !important; color: var(--text-primary); user-select: auto; -webkit-user-select: auto; }
+
+.pg-nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg-gradient-start) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
+.pg-wrap { width: min(1180px, 100% - 32px); height: 64px; margin-inline: auto; display: flex; align-items: center; gap: 24px; }
+.pg-nav .logo { font-family: var(--font-mono); font-weight: 500; color: var(--text-primary); text-decoration: none; margin-right: auto; }
+.pg-nav .logo b { color: var(--accent); font-weight: 500; }
+.pg-nav nav { display: flex; align-items: center; gap: 4px; }
+.pg-nav nav a { padding: 8px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9375rem; }
+.pg-nav nav a:hover { color: var(--text-primary); background: var(--surface-2); }
+.pg-nav nav a.pg-cta { background: var(--accent); color: var(--on-accent); font-weight: 500; margin-left: 8px; }
+.pg-nav nav a.pg-cta:hover { background: color-mix(in srgb, var(--accent) 88%, #fff); }
+
+main.pg-main { width: min(760px, 100% - 32px); margin: 56px auto 80px; padding: 0; }
+article.pg-article { background: none !important; border: 0 !important; padding: 0 !important; border-radius: 0 !important; opacity: 1 !important; transform: none !important; }
+.pg-article > header { text-align: left !important; margin-bottom: 40px !important; padding-bottom: 32px; border-bottom: 1px solid var(--glass-border); }
+.pg-article > header h1 { font-size: clamp(2rem, 4.6vw, 3rem); line-height: 1.12; letter-spacing: -0.02em; font-weight: 600 !important; color: var(--text-primary); margin: 0 0 16px; }
+.pg-meta { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted) !important; margin: 0; }
+.pg-back { display: inline-block; margin-bottom: 24px; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-secondary); text-decoration: none; }
+.pg-back:hover { color: var(--accent); }
+
+.article-body p, .case-body p { font-size: 1.125rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 20px; }
+.article-body p:first-child, .case-body > p:first-of-type { color: var(--text-primary); font-size: 1.25rem; }
+.article-body h3, .case-body h3, .article-body h3 { border: 0 !important; padding-left: 0 !important; }
+.article-body h3,.case-body h3 { font-size: 1.5rem; font-weight: 600 !important; letter-spacing: -0.01em; color: var(--text-primary); margin: 48px 0 16px; }
+.article-body ul, .case-body ul { padding-left: 0; margin: 0 0 24px; list-style: none; }
+.article-body li, .case-body li { padding: 14px 0 14px 28px; border-top: 1px solid var(--glass-border); color: var(--text-secondary); position: relative; line-height: 1.65; }
+.article-body li:last-child, .case-body li:last-child { border-bottom: 1px solid var(--glass-border); }
+.article-body li::before, .case-body li::before { content: ""; position: absolute; left: 4px; top: 25px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 0; }
+.article-body li strong, .case-body li strong { color: var(--text-primary); }
+.blockquote { border-left: 2px solid var(--accent); padding-left: 20px; color: var(--text-primary); }
+.result-card { background: var(--surface) !important; border: 1px solid var(--glass-border) !important; border-radius: 16px !important; box-shadow: none !important; }
+.result-card p { color: var(--text-secondary); margin: 0; font-size: 1rem; }
+.result-card p.display-4 { font-size: 2.75rem; color: var(--accent); line-height: 1.1; margin-bottom: 8px; }
+
+.pg-end { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--glass-border); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; text-align: left !important; }
+.pg-end p { margin: 0; color: var(--text-secondary); font-size: 1rem; }
+
+footer.pg-foot { border-top: 1px solid var(--glass-border); padding: 32px 0; background: none !important; text-align: center; }
+footer.pg-foot p { margin: 0; color: var(--text-muted) !important; font-size: 0.9375rem; }
+
+@media (max-width: 600px) {
+  .pg-nav nav a:not(.pg-cta) { display: none; }
+  main.pg-main { margin-top: 32px; }
+}

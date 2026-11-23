@@ -81,57 +81,50 @@
     }
   </style>
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
-  <header class="py-4 text-center">
-    <a href="index.html" class="text-decoration-none">
-      <h1 class="display-4 fw-bold text-cyan-400">Willian Soares</h1>
-      <p class="lead fs-5 text-light">Seu Próximo TI</p>
-    </a>
+  <header class="pg-nav">
+    <div class="pg-wrap">
+      <a class="logo" href="index.html" aria-label="Willian Soares, página inicial"><b>~/</b>willian</a>
+      <nav aria-label="Principal">
+        <a href="index.html#artigos">Artigos</a>
+        <a href="index.html#cases">Cases</a>
+        <a href="index.html#contato" class="pg-cta">Pedir orçamento</a>
+      </nav>
+    </div>
   </header>
-  <main class="container my-5">
-    <article class="glass-section p-4 p-md-5 rounded-4 shadow-lg">
+  <main class="pg-main" id="conteudo">
+    <article class="pg-article">
       <header class="text-center mb-5">
-        <h2 class="display-5 fw-bold text-cyan-400">Como a IA está mudando o suporte de TI</h2>
-        <p class="text-muted">Ferramentas e tendências do helpdesk e do suporte técnico</p>
+        <h1>Como a IA está mudando o suporte de TI</h1>
+        <p class="pg-meta">Publicado em 19 de Julho de 2025</p>
       </header>
       <div class="article-body">
-        <p>Quem trabalha com suporte sabe que boa parte dos chamados se repete: senha esquecida, impressora offline, acesso a uma pasta, dúvida sobre uma configuração. A inteligência artificial entrou justamente nesse ponto. Ela não substitui o técnico, mas tira dele o trabalho repetitivo e deixa mais tempo para o que exige análise.</p>
-
-        <h3>Onde a IA já ajuda hoje</h3>
-        <ul>
-            <li><strong>Triagem de chamados:</strong> classificar o assunto, a urgência e o setor responsável logo na abertura, para o chamado chegar à pessoa certa sem passar por várias mãos.</li>
-            <li><strong>Atendimento de primeiro nível:</strong> assistentes que respondem dúvidas comuns e guiam o usuário por passos simples, a qualquer hora, e encaminham ao técnico quando não resolvem.</li>
-            <li><strong>Base de conhecimento:</strong> busca que entende a pergunta em linguagem natural e encontra a solução já documentada, em vez de depender da palavra exata.</li>
-            <li><strong>Resumo e documentação:</strong> transformar a conversa de um atendimento em um registro claro, com o problema, a causa e a solução aplicada.</li>
-            <li><strong>Monitoramento:</strong> detectar padrões fora do normal em rede e servidores e avisar antes que o problema vire parada.</li>
-        </ul>
-
-        <h3>O que continua sendo trabalho humano</h3>
-        <p>A IA erra, e erra com confiança. Por isso, decisões que mexem em acessos, em dados ou na infraestrutura precisam de um profissional conferindo. Entender o contexto da empresa, tratar um usuário nervoso e explicar uma solução em palavras simples também continuam sendo atribuições de quem atende.</p>
-
-        <h3>Cuidados antes de adotar</h3>
-        <ul>
-            <li><strong>Dados e LGPD:</strong> não cole em ferramentas públicas dados pessoais, senhas, contratos ou informações de clientes. Defina o que pode e o que não pode ser enviado.</li>
-            <li><strong>Revisão:</strong> trate a resposta da IA como rascunho. Teste o comando ou o procedimento antes de aplicar em produção.</li>
-            <li><strong>Comece pequeno:</strong> escolha um processo repetitivo, como a triagem, meça o resultado e só depois expanda.</li>
-            <li><strong>Treine a equipe:</strong> quem atende precisa saber quando confiar na ferramenta e quando desconfiar.</li>
-        </ul>
-
-        <p class="mt-5">Usada com critério, a IA deixa o suporte mais rápido e mais consistente, e libera o técnico para resolver o que realmente precisa dele. Se quiser avaliar onde ela cabe na rotina da sua equipe, entre em contato.</p>
+        <p>A Inteligência Artificial (IA) deixou de ser um conceito de ficção científica para se tornar uma ferramenta poderosa no dia a dia das equipes de TI. No suporte técnico, em particular, a IA não está substituindo os humanos, mas sim os capacitando, automatizando tarefas repetitivas e permitindo que os analistas foquem em problemas de alta complexidade.</p>
+        
+        <h3>1. Chatbots Inteligentes para Triagem e Resoluções Simples</h3>
+        <p>A primeira linha de defesa do suporte moderno são os chatbots turbinados com IA. Eles são capazes de entender a linguagem natural do usuário, fazer a triagem inicial do problema e resolver as solicitações mais comuns, como redefinição de senhas ou configuração de e-mail. Isso libera a equipe de TI para lidar com questões que exigem raciocínio crítico, ao mesmo tempo que oferece uma resposta instantânea ao usuário para problemas simples.</p>
+        
+        <h3>2. Análise Preditiva para Prevenir Problemas</h3>
+        <p>Em vez de apenas apagar incêndios, a IA permite que o suporte de TI os previna. Ferramentas de monitoramento com IA podem analisar o desempenho de sistemas e redes em tempo real, identificando padrões que indicam uma falha iminente. Por exemplo, a IA pode detectar que um servidor está começando a superaquecer ou que o uso de disco está se aproximando de um nível crítico, alertando a equipe para agir proativamente antes que o problema afete os usuários.</p>
+        
+        <h3>3. Base de Conhecimento Dinâmica e Inteligente</h3>
+        <p>A IA pode analisar todos os chamados resolvidos e criar uma base de conhecimento que aprende sozinha. Quando um analista (ou até mesmo um chatbot) se depara com um novo problema, a IA pode sugerir a solução mais provável com base em incidentes passados. Isso acelera drasticamente o tempo de resolução e garante que o conhecimento adquirido por um membro da equipe seja facilmente compartilhado com todos.</p>
+        
+        <p class="mt-5">A adoção da IA no suporte de TI é um caminho sem volta. As empresas que abraçam essa revolução não apenas otimizam seus custos e aumentam a eficiência, mas também elevam a satisfação de seus usuários, oferecendo um suporte mais rápido, inteligente e proativo.</p>
       </div>
-      <div class="text-center mt-5">
-        <a href="index.html#blog" class="btn btn-outline-light">Voltar aos Artigos</a>
+      <div class="pg-end">
+        <a href="index.html#artigos" class="btn btn-outline-light">Voltar aos artigos</a>
+        <p>Quer algo assim na sua empresa? <a href="index.html#contato">Peça um orçamento</a></p>
       </div>
     </article>
   </main>
-  <footer class="text-center py-4 mt-5">
-    <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
+  <footer class="pg-foot">
+    <p>&copy; 2025 Willian Soares &middot; Itararé/SP</p>
   </footer>
 
   <script>
-    // IMPEDE O CLIQUE DIREITO DO MOUSE
-    document.addEventListener('contextmenu', event => event.preventDefault());
 
     // APLICA O TEMA SALVO NA PÁGINA PRINCIPAL
     document.addEventListener('DOMContentLoaded', () => {

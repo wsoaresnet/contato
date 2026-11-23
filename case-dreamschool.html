@@ -81,19 +81,24 @@
     }
   </style>
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
-  <header class="py-4 text-center">
-    <a href="index.html" class="text-decoration-none">
-      <h1 class="display-4 fw-bold text-cyan-400">Willian Soares</h1>
-      <p class="lead fs-5 text-light">Seu Próximo TI</p>
-    </a>
+  <header class="pg-nav">
+    <div class="pg-wrap">
+      <a class="logo" href="index.html" aria-label="Willian Soares, página inicial"><b>~/</b>willian</a>
+      <nav aria-label="Principal">
+        <a href="index.html#artigos">Artigos</a>
+        <a href="index.html#cases">Cases</a>
+        <a href="index.html#contato" class="pg-cta">Pedir orçamento</a>
+      </nav>
+    </div>
   </header>
-  <main class="container my-5">
-    <article class="glass-section p-4 p-md-5 rounded-4 shadow-lg">
+  <main class="pg-main" id="conteudo">
+    <article class="pg-article">
       <header class="text-center mb-5">
-        <h2 class="display-5 fw-bold text-cyan-400">Case: Capacitação Digital e Educacional - Dreamschool</h2>
-        <p class="text-muted">Formando a Próxima Geração de Talentos em Tecnologia</p>
+        <h1>Case: Capacitação Digital e Educacional - Dreamschool</h1>
+        <p class="pg-meta">Formando a Próxima Geração de Talentos em Tecnologia</p>
       </header>
       <div class="case-body">
         <h3>O Desafio</h3>
@@ -130,18 +135,17 @@
         
         <p class="mt-5">O maior resultado foi ver alunos que chegaram com conhecimento zero saírem dos cursos com confiança e as habilidades necessárias para ingressar no mercado de trabalho. A experiência solidificou minha paixão por compartilhar conhecimento e por usar a tecnologia como uma ferramenta de transformação.</p>
       </div>
-      <div class="text-center mt-5">
-        <a href="index.html#cases" class="btn btn-outline-light">Voltar ao Portfólio</a>
+      <div class="pg-end">
+        <a href="index.html#cases" class="btn btn-outline-light">Voltar aos cases</a>
+        <p>Quer algo assim na sua empresa? <a href="index.html#contato">Peça um orçamento</a></p>
       </div>
     </article>
   </main>
-  <footer class="text-center py-4 mt-5">
-    <p class="text-light">&copy; 2025 Willian Soares - Todos os direitos reservados.</p>
+  <footer class="pg-foot">
+    <p>&copy; 2025 Willian Soares &middot; Itararé/SP</p>
   </footer>
 
   <script>
-    // IMPEDE O CLIQUE DIREITO DO MOUSE
-    document.addEventListener('contextmenu', event => event.preventDefault());
 
     // APLICA O TEMA SALVO NA PÁGINA PRINCIPAL
     document.addEventListener('DOMContentLoaded', () => {
