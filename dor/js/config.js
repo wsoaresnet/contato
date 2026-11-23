@@ -1,13 +1,12 @@
 /* ==========================================================================
    CONFIGURAÇÃO DO BANCO DE DADOS (Supabase)
    --------------------------------------------------------------------------
-   O projeto Supabase antigo (wedtehhfjvykwyrxgtmj) foi APAGADO: o domínio
-   não existe mais. Para voltar a salvar na nuvem:
-     1. Crie um projeto em https://supabase.com
-     2. Rode o arquivo supabase-schema.sql no SQL Editor do projeto
-     3. Cole abaixo a "Project URL" e a chave "anon/publishable"
-   Enquanto SUPABASE_URL estiver vazio (ou inacessível) o app funciona em
-   MODO LOCAL: tudo é salvo no navegador (localStorage) e nada se perde.
+   Projeto no plano Free: o Supabase PAUSA o projeto após ~1 semana sem uso
+   (e o domínio deixa de resolver). Restaure em supabase.com/dashboard
+   (botão "Restore project"). Para evitar nova pausa, mantenha acessos
+   regulares ou use um ping agendado.
+   Se SUPABASE_URL ficar vazio/inacessível, o app usa MODO LOCAL
+   (localStorage) e nada se perde.
    ========================================================================== */
-const SUPABASE_URL = "";
-const SUPABASE_KEY = "";
+const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
