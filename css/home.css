@@ -36,6 +36,7 @@ body {
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 [hidden] { display: none !important; }
+svg { width: 1em; height: 1em; flex: none; }
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3, p, ul { margin: 0; }
@@ -130,6 +131,8 @@ section.block { padding: 96px 0; }
 .case p { color: var(--text-2); }
 .case a.more { margin-top: auto; font-weight: 500; display: inline-flex; gap: 8px; align-items: center; }
 .case a.more:hover { color: var(--accent); }
+.case a.more svg { width: 16px; height: 16px; flex: none; transition: transform 0.15s var(--ease); }
+.case a.more:hover svg { transform: translateX(3px); }
 
 /* resultados */
 .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
