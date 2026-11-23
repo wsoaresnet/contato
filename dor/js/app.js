@@ -3,9 +3,7 @@
    Willian Soares (williansoares.net.br/diario)
    ========================================================================== */
 
-// CONFIGURAÇÃO DO SUPABASE
-const SUPABASE_URL = "https://wedtehhfjvykwyrxgtmj.supabase.co";
-const SUPABASE_KEY = "sb_publishable_c6loFuQLy-JHAxcX9KSCRw_rL3AG_2K";
+// SUPABASE_URL / SUPABASE_KEY ficam em js/config.js
 
 // AI via proxy PHP (token fica no servidor, fora do JS)
 const CF_TOKEN    = '';
@@ -233,11 +231,9 @@ function selectMedication(medication, clickedEl) {
 }
 
 function initSupabase() {
-  if (window.supabase) {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  } else {
-    console.error("SDK do Supabase não foi carregado.");
-  }
+  // Cliente híbrido (js/db.js): nuvem quando acessível, senão salva localmente
+  supabaseClient = window.createDataClient(SUPABASE_URL, SUPABASE_KEY);
+  window.showLocalModeBanner(supabaseClient);
 }
 
 // SERVICE WORKER & STATUS DE CONEXÃO
@@ -357,7 +353,7 @@ async function handleLogin(event) {
     }
   } catch (err) {
     console.error("Erro no login:", err);
-    errorText.innerText = "Erro ao conectar com o banco. Verifique suas tabelas no Supabase.";
+    errorText.innerText = "Erro ao acessar o banco de dados: " + (err.message || err);
     errorEl.classList.remove("d-none");
   } finally {
     loginBtn.disabled = false;

@@ -1,8 +1,10 @@
-const CACHE_NAME = 'diario-enxaqueca-ws-v15';
+const CACHE_NAME = 'diario-enxaqueca-ws-v16';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './css/style.css',
+  './js/config.js',
+  './js/db.js',
   './js/app.js',
   './js/medical-tracking.js',
   './manifest.json',
@@ -40,6 +42,20 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  if (new URL(event.request.url).origin === self.location.origin) {
+    // arquivos do app: rede primeiro (evita servir JS antigo do cache)
+    event.respondWith(
+      fetch(event.request).then((res) => {
+        if (res && res.status === 200) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((c) => c.put(event.request, copy));
+        }
+        return res;
+      }).catch(() => caches.match(event.request).then((r) => r || caches.match('./index.html')))
+    );
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
