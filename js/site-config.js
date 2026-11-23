@@ -4,7 +4,7 @@
 window.SITE = {
   // WhatsApp com DDI+DDD+número, só dígitos. Ex.: "5515999999999".
   // Vazio = o botão flutuante e o envio por WhatsApp ficam escondidos.
-  whatsapp: "",
+  whatsapp: "5515991445741",
 
   email: "contato@williansoares.net.br",
   formspree: "https://formspree.io/f/xjkogvkn",
