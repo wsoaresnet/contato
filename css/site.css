@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap");
 
 /* ==========================================================================
    Tema compartilhado do site (unslop). Carregue DEPOIS do <style> da página.
@@ -6,44 +6,44 @@
    Direção: direto, técnico, próximo. Mundo: bancada de TI e LED de rede.
    ========================================================================== */
 :root {
-  --bg-gradient-start: #121416;
-  --bg-gradient-mid: #121416;
-  --bg-gradient-end: #121416;
-  --surface: #1a1d20;
-  --surface-2: #212529;
-  --text-primary: #e8eaec;
-  --text-secondary: #a3a9b0;
-  --text-muted: #7d848c;
-  --text-light: #e8eaec;
-  --text-cyan-400: #4cc9e0;          /* acento */
+  --bg-gradient-start: #0a0c0f;
+  --bg-gradient-mid: #0a0c0f;
+  --bg-gradient-end: #0a0c0f;
+  --surface: #11141a;
+  --surface-2: #171b22;
+  --text-primary: #eceef1;
+  --text-secondary: #a6adb8;
+  --text-muted: #7d8591;
+  --text-light: #eceef1;
+  --text-cyan-400: #5b95ff;          /* acento */
   --text-cyan-300: #e8eaec;          /* títulos secundários voltam ao texto */
   --border-cyan-700: rgba(255, 255, 255, 0.1);
-  --glass-bg: #1a1d20;
+  --glass-bg: #11141a;
   --glass-border: rgba(255, 255, 255, 0.09);
   --shadow-color: transparent;
   --progress-bar-bg: rgba(255, 255, 255, 0.08);
-  --form-control-bg: #121416;
+  --form-control-bg: #0a0c0f;
   --btn-outline-color: #e8eaec;
   --btn-outline-hover-bg: #e8eaec;
-  --btn-outline-hover-color: #121416;
-  --accent: #4cc9e0;
-  --on-accent: #0b1215;
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --btn-outline-hover-color: #0a0c0f;
+  --accent: #5b95ff;
+  --on-accent: #07101f;
+  --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   --ease: cubic-bezier(0.2, 0, 0, 1);
 }
 
 [data-theme="light"] {
-  --bg-gradient-start: #f6f7f8;
-  --bg-gradient-mid: #f6f7f8;
-  --bg-gradient-end: #f6f7f8;
+  --bg-gradient-start: #f5f6f8;
+  --bg-gradient-mid: #f5f6f8;
+  --bg-gradient-end: #f5f6f8;
   --surface: #ffffff;
   --surface-2: #eef0f2;
   --text-primary: #1c2024;
   --text-secondary: #4f565d;
   --text-muted: #6b727a;
   --text-light: #1c2024;
-  --text-cyan-400: #0b7285;
+  --text-cyan-400: #1f5fe0;
   --text-cyan-300: #1c2024;
   --border-cyan-700: rgba(0, 0, 0, 0.1);
   --glass-bg: #ffffff;
@@ -54,7 +54,7 @@
   --btn-outline-color: #1c2024;
   --btn-outline-hover-bg: #1c2024;
   --btn-outline-hover-color: #f6f7f8;
-  --accent: #0b7285;
+  --accent: #1f5fe0;
   --on-accent: #ffffff;
 }
 

@@ -4,8 +4,8 @@
   "description": "Portfólio profissional de Willian Soares, especialista em soluções de TI.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#121416",
-  "theme_color": "#121416",
+  "background_color": "#0a0c0f",
+  "theme_color": "#0a0c0f",
   "icons": [
     {
       "src": "img/icons/icon-192x192.png",
