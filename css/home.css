@@ -271,6 +271,10 @@ footer.foot { border-top: 1px solid var(--line); padding: 48px 0 40px; margin-to
   .gallery { columns: 2; }
   .row2 { grid-template-columns: 1fr; }
   .card { padding: 24px; }
+  .foot-grid a, .case a.more, .logo { min-height: 44px; display: inline-flex; align-items: center; }
+  .foot-grid nav { gap: 4px 20px; }
+  footer.foot { padding-bottom: 96px; }
+  .nav ul a { padding: 14px 12px; }
   .wa-float span { display: none; } .wa-float { width: 52px; padding: 0; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
