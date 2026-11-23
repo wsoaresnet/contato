@@ -28,12 +28,9 @@
     <!-- =================================================================== -->
     <!-- =================== CONFIGURAÇÕES DO PWA =================== -->
     <!-- =================================================================== -->
-    <meta name="theme-color" content="#082f49">
+    <meta name="theme-color" content="#121416">
     <link rel="manifest" href="manifest.json">
     <!-- =================================================================== -->
-
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -444,6 +441,7 @@
             transform: scale(1.1);
         }
     </style>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
 
@@ -452,8 +450,6 @@
     <div class="preloader-spinner"></div>
 </div>
 
-<!-- Fundo de partículas dinâmico -->
-<div id="particles-background" class="particles-container"></div>
 
 <!-- BARRA DE NAVEGAÇÃO FIXA -->
 <nav class="navbar navbar-expand-lg navbar-glass fixed-top" id="main-nav">
@@ -482,17 +478,19 @@
     </div>
 </nav>
 
-<header class="py-5 text-center hero-section">
+<header class="hero-section">
     <div class="container">
-        <h1 id="animated-title" class="display-3 fw-bold text-cyan-400 mb-3">Willian Soares</h1>
-        <p id="animated-subtitle" class="lead fs-3 text-light mb-4">Seu Próximo Profissional de TI</p>
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <a href="#contato" class="btn btn-cta btn-lg rounded-pill px-4">
-                <i class="bi bi-envelope-fill me-2"></i>Contato
-            </a>
-            <a href="#servicos" class="btn btn-cta btn-lg rounded-pill px-4">
-                <i class="bi bi-gear-fill me-2"></i>Serviços
-            </a>
+        <div class="hero-grid">
+            <div>
+                <p class="hero-eyebrow"><span class="status-dot" aria-hidden="true"></span>Analista de TI na Junitex</p>
+                <h1 id="animated-title" class="mb-3">Willian Soares</h1>
+                <p id="animated-subtitle" class="lead">Suporte, redes e consultoria em TI para empresas que precisam de tecnologia funcionando</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="#contato" class="btn btn-cta btn-lg px-4">Falar comigo</a>
+                    <a href="#servicos" class="btn btn-outline-light btn-lg px-4">Ver serviços</a>
+                </div>
+            </div>
+            <img src="img/foto-perfil.jpg" alt="Willian Soares, profissional de TI" class="hero-photo" width="800" height="1000" fetchpriority="high">
         </div>
     </div>
 </header>
@@ -502,19 +500,14 @@
     <section class="glass-section mb-5 p-4 p-md-5 rounded-4 shadow-lg text-center visible" aria-labelledby="destaque-heading">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 id="destaque-heading" class="h3 fw-bold text-cyan-300 mb-4">Transformando desafios tecnológicos em soluções eficientes</h2>
+                <h2 id="destaque-heading" class="h3 fw-bold text-cyan-300 mb-4">Soluções de TI sob medida, com atendimento próximo</h2>
                 <p class="fs-5 mb-4">Com mais de 3 anos de experiência em TI, ofereço soluções personalizadas que combinam conhecimento técnico com uma abordagem humana.</p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Suporte Especializado
-                    </div>
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Soluções em Rede
-                    </div>
-                    <div class="badge bg-cyan-900 text-cyan-300 py-2 px-3 rounded-pill">
-                        <i class="bi bi-check-circle-fill me-2"></i>Consultoria em TI
-                    </div>
-                </div>
+                <ul class="highlight-list">
+                    <li><i class="bi bi-check2" aria-hidden="true"></i>Suporte especializado</li>
+                    <li><i class="bi bi-check2" aria-hidden="true"></i>Soluções em rede</li>
+                    <li><i class="bi bi-check2" aria-hidden="true"></i>Consultoria em TI</li>
+                </ul>
+            
             </div>
         </div>
     </section>
@@ -1019,7 +1012,7 @@
 
                 const wordSpans = Array.from(titleElement.querySelectorAll('span'));
                 gsap.from(wordSpans, {
-                    y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', duration: 1.2
+                    y: 12, opacity: 0, stagger: 0.06, ease: 'power2.out', duration: 0.5
                 });
             }
         }
@@ -1027,7 +1020,7 @@
         // Função para animar o subtítulo
         function animateSubtitle() {
             const target = document.getElementById('animated-subtitle');
-            if(target && typeof gsap !== 'undefined') gsap.from(target, { y: 20, opacity: 0, delay: 0.2, duration: 1, ease: 'power3.out' });
+            if(target && typeof gsap !== 'undefined') gsap.from(target, { y: 8, opacity: 0, delay: 0.1, duration: 0.5, ease: 'power2.out' });
         }
 
         // Animação de partículas no fundo
@@ -1362,8 +1355,6 @@
             setupBackToTopButton();
             setupEasterEgg();
             setupThemeSwitcher();
-            setupParticles();
-            animateParticles();
             setupLightbox();
             setupChatbot();
             setupInfiniteCarousel('blog-carousel-container', 'blog-prev-btn', 'blog-next-btn');
